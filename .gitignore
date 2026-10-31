@@ -1,0 +1,40 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+.venv/
+.code-review-graph/
+
+# Configuracao local e segredos
+.env
+*.pem
+*.key
+
+# Dados clinicos e legado
+ABEL-BAK/
+backups/
+data/
+documents/
+*.DBF
+*.dbf
+*.CDX
+*.cdx
+*.FPT
+*.fpt
+*.rar
+
+# Bancos locais e temporarios
+*.sqlite
+*.sqlite3
+*.db
+*.tmp
+
+# IDE e sistema
+.idea/
+.vscode/
+Thumbs.db
+.DS_Store
+

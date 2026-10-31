@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "validated_at": "2026-10-31T11:52:00-03:00",
+  "backup": "backups/ABEL-BAK_20261031T115000-0300.zip",
+  "backup_sha256": "7ef9ca904f14264b8e739d4d2e501969afc244dfdb061f858d8d8771f36533e7",
+  "expected_files": 306,
+  "restored_files": 306,
+  "missing_files": [],
+  "extra_files": [],
+  "restore_hash_mismatches": [],
+  "source_changes_during_backup": [],
+  "restore_valid": true,
+  "source_unchanged": true
+}

@@ -1,0 +1,37 @@
+{
+  "fase": 0,
+  "nome": "Governanca e preservacao do legado",
+  "versao": "0.1.0+build.1",
+  "executada_em": "2026-10-31T11:52:00-03:00",
+  "status": "aprovada_com_limitacoes_nao_bloqueantes",
+  "fonte": {
+    "diretorio": "ABEL-BAK",
+    "arquivos": 306,
+    "bytes": 115574286,
+    "alterada_durante_backup": false
+  },
+  "backup": {
+    "arquivo": "backups/ABEL-BAK_20261031T115000-0300.zip",
+    "bytes": 57739002,
+    "sha256": "7ef9ca904f14264b8e739d4d2e501969afc244dfdb061f858d8d8771f36533e7",
+    "restauracao_testada": true,
+    "arquivos_restaurados": 306,
+    "hashes_divergentes": 0,
+    "arquivos_ausentes": 0,
+    "arquivos_extras": 0
+  },
+  "criterios": {
+    "backup_restaurado": true,
+    "hashes_conferidos": true,
+    "originais_intactos": true,
+    "banco_definido": "MySQL 8.4 LTS com InnoDB",
+    "maquina_inicial_definida": "Estacao Windows local"
+  },
+  "limitacoes": [
+    "O MySQL ainda nao esta instalado.",
+    "Os RAR historicos exigem senha para validacao interna.",
+    "O ZIP de validacao e local e nao criptografado; nao deve ser transferido.",
+    "A maquina definitiva de producao deve ser confirmada antes do uso em rede."
+  ],
+  "decisao": "GO para Fase 1"
+}

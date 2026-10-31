@@ -1,0 +1,654 @@
+{
+  "plano": {
+    "nome": "Modernizacao do Sistema ABEL - Clinica Medica DETRAN",
+    "estado_atual": {
+      "frontend": "Prototipo HTML monolitico, sem backend e sem persistencia",
+      "dados_legados": "DBF, CDX, FPT e copias historicas com extensoes alternativas",
+      "banco_destino_recomendado": "MySQL 8.4 LTS com InnoDB",
+      "alternativa_restrita": "SQLite somente para instalacao em um computador e baixa concorrencia",
+      "riscos_atuais": [
+        "Login sem autenticacao real",
+        "Permissoes apenas visuais",
+        "Dados desaparecem ao recarregar",
+        "Possibilidade de XSS",
+        "Laudos PDF nao sao persistidos",
+        "Indicadores financeiros nao sao calculados",
+        "Dados pessoais e medicos sem controle de acesso efetivo",
+        "Backups RAR antigos protegidos por senha e ainda nao validados"
+      ]
+    },
+    "politicas_obrigatorias": {
+      "dependencias_python": "Poetry",
+      "log": "Registrar toda alteracao no LOG.log do respectivo projeto, com timestamp, versao, build, arquivos afetados, motivo, validacoes e possibilidade de restauracao",
+      "build_txt": "Nao criar",
+      "versionamento": {
+        "formato": "MAJOR.MINOR.PATCH+build.N",
+        "correcao": "Incrementar PATCH e build",
+        "nova_fase": "Incrementar MINOR e build",
+        "build_final": "1.0.0",
+        "git": "Fazer commit e push a cada incremento de MINOR ou MAJOR, apos testes aprovados"
+      },
+      "seguranca_dados": "Nunca trabalhar diretamente sobre os DBFs originais",
+      "hardware": "Nao enviar codigo para Arduino ou ESP32 sem solicitacao explicita",
+      "concorrencia": "Paralelizar leitura, validacao e transformacao de tabelas independentes; manter migracoes e operacoes financeiras em transacoes controladas"
+    },
+    "arquitetura_alvo": {
+      "frontend": "HTML, CSS e JavaScript modularizados",
+      "api": "FastAPI",
+      "orm": "SQLAlchemy 2",
+      "migracoes": "Alembic",
+      "banco": "MySQL com InnoDB e utf8mb4",
+      "autenticacao": "Sessao segura com cookie HttpOnly, SameSite e senhas Argon2",
+      "documentos": "Arquivos fora da pasta publica, com metadados, hash e controle de acesso",
+      "fluxo": [
+        "Navegador",
+        "API FastAPI",
+        "Camada de servicos",
+        "SQLAlchemy",
+        "MySQL"
+      ]
+    },
+    "fases": [
+      {
+        "fase": 0,
+        "versao_planejada": "0.1.0+build.1",
+        "nome": "Governanca e preservacao do legado",
+        "objetivos": [
+          "Congelar uma copia verificavel dos arquivos originais",
+          "Evitar qualquer modificacao acidental dos DBFs",
+          "Definir a topologia local do sistema",
+          "Confirmar MySQL como banco definitivo"
+        ],
+        "acoes": [
+          "Criar inventario completo de arquivos por nome, tamanho, data e hash SHA-256",
+          "Criar backup integral restauravel da pasta ABEL-BAK",
+          "Separar original imutavel, copia de trabalho e area de importacao",
+          "Documentar computadores, usuarios simultaneos e rede da clinica",
+          "Obter a senha dos arquivos RAR, se disponivel",
+          "Definir politica de retencao e criptografia dos backups"
+        ],
+        "entregaveis": [
+          "Manifesto de arquivos e hashes",
+          "Backup integral validado",
+          "Documento de topologia",
+          "Registro inicial no LOG.log"
+        ],
+        "criterios_para_fase_seguinte": [
+          "Backup restaurado com sucesso em diretorio temporario",
+          "Hashes conferem com os arquivos de origem",
+          "Nenhuma escrita ocorreu nos DBFs originais",
+          "Banco de destino e maquina servidora definidos"
+        ],
+        "bloqueadores": [
+          "Ausencia de backup restauravel",
+          "Diretorio original ainda sendo alterado durante a captura",
+          "Topologia da clinica indefinida"
+        ]
+      },
+      {
+        "fase": 1,
+        "versao_planejada": "0.2.0+build.2",
+        "nome": "Inicializacao do projeto",
+        "objetivos": [
+          "Criar estrutura de desenvolvimento reproduzivel",
+          "Estabelecer versionamento, configuracao e testes basicos"
+        ],
+        "acoes": [
+          "Inicializar repositorio Git",
+          "Criar projeto Python com Poetry",
+          "Criar backend, frontend, migrations, tests e tools",
+          "Criar LOG.log",
+          "Criar configuracao por variaveis de ambiente",
+          "Criar exemplo de configuracao sem credenciais",
+          "Adicionar formatacao, lint e testes automatizados",
+          "Configurar execucao local do FastAPI"
+        ],
+        "entregaveis": [
+          "pyproject.toml",
+          "poetry.lock",
+          "Estrutura inicial do backend",
+          "Estrutura modular do frontend",
+          "API de health check",
+          "Suite inicial de testes"
+        ],
+        "criterios_para_fase_seguinte": [
+          "Poetry instala todas as dependencias do zero",
+          "API inicia localmente",
+          "Health check retorna sucesso",
+          "Testes, lint e verificacao de sintaxe passam",
+          "Commit e push da versao 0.2 concluidos"
+        ]
+      },
+      {
+        "fase": 2,
+        "versao_planejada": "0.3.0+build.3",
+        "nome": "Dicionario e mapeamento dos dados legados",
+        "objetivos": [
+          "Documentar o significado de cada tabela e campo",
+          "Confirmar chaves e relacionamentos",
+          "Separar dados operacionais, referencias, temporarios e historicos"
+        ],
+        "acoes": [
+          "Catalogar as 54 tabelas DBF ativas",
+          "Catalogar os 32 DBFs com extensoes alternativas",
+          "Identificar tipos, tamanhos, nulidade e cardinalidade",
+          "Mapear relacionamentos entre candidatos, pagamentos, usuarios e profissionais",
+          "Classificar campos sensiveis",
+          "Identificar datas impossiveis, duplicados e referencias orfas",
+          "Definir regras de limpeza sem alterar a fonte"
+        ],
+        "entregaveis": [
+          "Dicionario de dados",
+          "Mapa de relacionamentos",
+          "Matriz origem-destino",
+          "Relatorio de qualidade",
+          "Lista de regras de transformacao"
+        ],
+        "criterios_para_fase_seguinte": [
+          "Todos os campos utilizados possuem destino ou justificativa de descarte",
+          "CANDIDAT.CODIGO esta definido como identificador legado do atendimento",
+          "Regras para CPFs repetidos e ausentes estao aprovadas",
+          "Registros orfaos possuem estrategia documentada",
+          "Nenhuma informacao sensivel foi exposta em logs"
+        ]
+      },
+      {
+        "fase": 3,
+        "versao_planejada": "0.4.0+build.4",
+        "nome": "Modelo relacional e banco MySQL",
+        "objetivos": [
+          "Criar o esquema normalizado",
+          "Separar paciente, atendimento, financeiro e documentos"
+        ],
+        "acoes": [
+          "Criar tabelas de staging legacy_raw",
+          "Criar pacientes",
+          "Criar atendimentos",
+          "Criar profissionais",
+          "Criar usuarios, perfis e permissoes",
+          "Criar pagamentos e pagamento_itens",
+          "Criar movimentos_financeiros e recibos",
+          "Criar laudos e documentos",
+          "Criar auditoria",
+          "Criar legacy_import_map",
+          "Criar indices e restricoes",
+          "Gerar primeira migracao Alembic"
+        ],
+        "entregaveis": [
+          "Diagrama relacional",
+          "Modelos SQLAlchemy",
+          "Migracao Alembic inicial",
+          "Banco MySQL vazio reproduzivel"
+        ],
+        "criterios_para_fase_seguinte": [
+          "Banco pode ser criado do zero pela migracao",
+          "Rollback da migracao funciona",
+          "Chaves estrangeiras sao aplicadas",
+          "CPF, CRM, CRP e RENACH permanecem como texto",
+          "Valores financeiros usam DECIMAL",
+          "Datas usam tipos apropriados",
+          "Testes de integridade passam"
+        ]
+      },
+      {
+        "fase": 4,
+        "versao_planejada": "0.5.0+build.5",
+        "nome": "Importador DBF para staging",
+        "objetivos": [
+          "Importar o legado de forma repetivel",
+          "Preservar o valor original de cada campo"
+        ],
+        "acoes": [
+          "Implementar leitor de DBF e FPT",
+          "Detectar tabelas DBF independentemente da extensao",
+          "Ler tabelas independentes em paralelo",
+          "Gravar em lotes transacionais",
+          "Registrar hash de cada registro",
+          "Registrar origem, arquivo, posicao e data da importacao",
+          "Tratar encoding legado",
+          "Gerar relatorio de erros sem interromper tabelas saudaveis"
+        ],
+        "entregaveis": [
+          "Importador idempotente",
+          "Tabelas legacy_raw preenchidas",
+          "Relatorio por tabela",
+          "Testes com importacao repetida"
+        ],
+        "criterios_para_fase_seguinte": [
+          "Executar duas vezes nao cria duplicados",
+          "Contagens conferem com os DBFs",
+          "Valores numericos e datas validas conferem",
+          "Registros rejeitados possuem motivo rastreavel",
+          "Tempo de importacao esta dentro da janela operacional",
+          "Importacao nao modifica os arquivos de origem"
+        ]
+      },
+      {
+        "fase": 5,
+        "versao_planejada": "0.6.0+build.6",
+        "nome": "Normalizacao e reconciliacao",
+        "objetivos": [
+          "Converter staging em entidades do sistema novo",
+          "Preservar rastreabilidade completa"
+        ],
+        "acoes": [
+          "Consolidar pacientes por CPF quando permitido",
+          "Preservar candidatos sem CPF como entidades separadas",
+          "Converter CANDIDAT em pacientes e atendimentos",
+          "Relacionar PAGTOS, DEPOS, L_CARTAO e PROGCART",
+          "Relacionar profissionais por CRM e CRP",
+          "Converter recibos e movimentos financeiros",
+          "Registrar anomalias em fila de revisao",
+          "Conciliar totais por data e evento"
+        ],
+        "entregaveis": [
+          "Dados normalizados",
+          "Relatorio de conciliacao",
+          "Fila de registros para revisao humana",
+          "Mapa completo legado-novo"
+        ],
+        "criterios_para_fase_seguinte": [
+          "Todos os atendimentos possuem legacy_codigo",
+          "Relacionamentos financeiros mantem cobertura esperada",
+          "Totais financeiros conciliam com o legado",
+          "Duplicidades nao foram removidas sem regra aprovada",
+          "Registros problemáticos permanecem rastreaveis",
+          "Amostras manuais foram validadas"
+        ]
+      },
+      {
+        "fase": 6,
+        "versao_planejada": "0.7.0+build.7",
+        "nome": "Backend, autenticacao e permissoes",
+        "objetivos": [
+          "Criar API segura",
+          "Substituir o login simulado"
+        ],
+        "acoes": [
+          "Implementar login e logout",
+          "Usar Argon2 para novas senhas",
+          "Exigir redefinicao de senha dos usuarios legados",
+          "Implementar perfis gerente, atendente e medico",
+          "Validar permissoes em cada endpoint",
+          "Criar cookies de sessao seguros",
+          "Criar protecao contra CSRF",
+          "Criar rate limiting de login",
+          "Criar auditoria de acesso"
+        ],
+        "entregaveis": [
+          "API de autenticacao",
+          "RBAC no servidor",
+          "Testes de acesso permitido e negado",
+          "Auditoria de login"
+        ],
+        "criterios_para_fase_seguinte": [
+          "Login vazio e credenciais incorretas sao rejeitados",
+          "Alterar o HTML nao concede permissoes",
+          "Medico nao acessa dados financeiros",
+          "Atendente nao gerencia usuarios",
+          "Gerente possui acesso administrativo auditado",
+          "Senhas legadas nao foram reutilizadas"
+        ]
+      },
+      {
+        "fase": 7,
+        "versao_planejada": "0.8.0+build.8",
+        "nome": "API de pacientes e atendimentos",
+        "objetivos": [
+          "Disponibilizar operacoes clinicas essenciais",
+          "Separar paciente de atendimento"
+        ],
+        "acoes": [
+          "Criar busca e cadastro de pacientes",
+          "Validar CPF sem impedir casos legados documentados",
+          "Criar atendimento",
+          "Editar atendimento com controle de concorrencia",
+          "Associar medico ou psicologo",
+          "Registrar tipo, status e resultado",
+          "Implementar filtros combinados no servidor",
+          "Paginar resultados",
+          "Criar trilha de alteracoes"
+        ],
+        "entregaveis": [
+          "Endpoints de pacientes",
+          "Endpoints de atendimentos",
+          "Filtros seguros",
+          "Testes de concorrencia e autorizacao"
+        ],
+        "criterios_para_fase_seguinte": [
+          "Filtros de texto nunca anulam restricoes de perfil ou data",
+          "Dois usuarios nao sobrescrevem alteracoes silenciosamente",
+          "Cadastro e edicao permanecem apos reiniciar o sistema",
+          "Toda alteracao registra usuario, data e valores anteriores"
+        ]
+      },
+      {
+        "fase": 8,
+        "versao_planejada": "0.9.0+build.9",
+        "nome": "Financeiro, pagamentos e recibos",
+        "objetivos": [
+          "Implementar valores e indicadores confiaveis",
+          "Suportar pagamentos simples e hibridos"
+        ],
+        "acoes": [
+          "Criar pagamento vinculado ao atendimento",
+          "Criar itens PIX, dinheiro, cartao e cheque",
+          "Validar soma dos itens contra o total",
+          "Bloquear valores negativos",
+          "Implementar recibos",
+          "Criar resumo diario",
+          "Criar indicadores por periodo e forma de pagamento",
+          "Registrar estornos e correcoes sem apagar historico"
+        ],
+        "entregaveis": [
+          "API financeira",
+          "Calculo dos indicadores",
+          "Recibos rastreaveis",
+          "Testes de conciliacao"
+        ],
+        "criterios_para_fase_seguinte": [
+          "PIX mais dinheiro corresponde ao total",
+          "Indicadores conferem com consultas independentes",
+          "Edicoes financeiras sao auditadas",
+          "Estornos nao eliminam o registro original",
+          "Totais do legado e do novo sistema possuem reconciliacao documentada"
+        ]
+      },
+      {
+        "fase": 9,
+        "versao_planejada": "0.10.0+build.10",
+        "nome": "Laudos e documentos",
+        "objetivos": [
+          "Persistir PDFs com seguranca",
+          "Controlar consulta e download"
+        ],
+        "acoes": [
+          "Criar armazenamento privado",
+          "Validar assinatura real do PDF",
+          "Gerar SHA-256",
+          "Associar documento ao atendimento correto",
+          "Definir limite de tamanho",
+          "Registrar versoes e substituicoes",
+          "Auditar visualizacao e download",
+          "Bloquear acesso por perfil"
+        ],
+        "entregaveis": [
+          "Upload persistente",
+          "Download autenticado",
+          "Historico de versoes",
+          "Auditoria documental"
+        ],
+        "criterios_para_fase_seguinte": [
+          "PDF permanece disponivel apos reiniciar",
+          "Renomear arquivo nao e usado como validacao de paciente",
+          "Arquivo nao pode ser acessado por URL publica direta",
+          "Usuario sem permissao recebe acesso negado",
+          "Hash detecta alteracao do documento"
+        ]
+      },
+      {
+        "fase": 10,
+        "versao_planejada": "0.11.0+build.11",
+        "nome": "Integracao e modularizacao do frontend",
+        "objetivos": [
+          "Conectar o HTML a API",
+          "Remover simulacoes e dados mockados"
+        ],
+        "acoes": [
+          "Separar HTML, CSS e JavaScript",
+          "Criar cliente central de API",
+          "Substituir login simulado",
+          "Carregar atendimentos da API",
+          "Enviar cadastros e edicoes para a API",
+          "Carregar indicadores reais",
+          "Integrar upload de laudos",
+          "Escapar todo conteudo recebido",
+          "Remover innerHTML inseguro",
+          "Implementar mensagens de erro e estados de carregamento"
+        ],
+        "entregaveis": [
+          "Frontend conectado",
+          "Modulos JavaScript separados",
+          "Interface sem dados mockados",
+          "Testes de interface"
+        ],
+        "criterios_para_fase_seguinte": [
+          "Recarregar a pagina nao perde dados",
+          "Credenciais invalidas nao entram",
+          "Indicadores refletem o banco",
+          "Testes XSS nao executam codigo",
+          "Perfis exibem somente funcoes autorizadas",
+          "Fluxos principais funcionam em desktop e tablet"
+        ]
+      },
+      {
+        "fase": 11,
+        "versao_planejada": "0.12.0+build.12",
+        "nome": "Relatorios e operacao administrativa",
+        "objetivos": [
+          "Concluir os modulos ainda ausentes",
+          "Entregar relatorios verificaveis"
+        ],
+        "acoes": [
+          "Implementar gestao de usuarios",
+          "Implementar relatorios por periodo",
+          "Implementar filtros por profissional, exame e pagamento",
+          "Implementar exportacao autorizada",
+          "Criar fechamento diario",
+          "Criar painel de inconsistencias da migracao"
+        ],
+        "entregaveis": [
+          "Modulo de usuarios",
+          "Modulo de relatorios",
+          "Fechamento diario",
+          "Exportacoes auditadas"
+        ],
+        "criterios_para_fase_seguinte": [
+          "Relatorios conferem com consultas de controle",
+          "Exportacoes respeitam permissoes",
+          "Valores exibem periodo e filtros aplicados",
+          "Gestao de usuarios exige perfil de gerente"
+        ]
+      },
+      {
+        "fase": 12,
+        "versao_planejada": "0.13.0+build.13",
+        "nome": "Backup, restauracao e observabilidade",
+        "objetivos": [
+          "Garantir recuperacao do sistema",
+          "Detectar falhas operacionais"
+        ],
+        "acoes": [
+          "Criar backup automatizado do MySQL",
+          "Incluir documentos e configuracoes no backup",
+          "Criptografar backups",
+          "Testar restauracao completa",
+          "Criar logs estruturados sem dados sensiveis",
+          "Criar health checks de API, banco e armazenamento",
+          "Configurar rotacao de logs",
+          "Documentar recuperacao de desastre"
+        ],
+        "entregaveis": [
+          "Rotina automatizada de backup",
+          "Procedimento de restauracao",
+          "Monitoramento local",
+          "Manual operacional"
+        ],
+        "criterios_para_fase_seguinte": [
+          "Backup completo restaura banco e documentos",
+          "Restauracao foi testada em ambiente limpo",
+          "Falha de banco aparece no health check",
+          "Logs nao expoem CPF, senha ou conteudo medico"
+        ]
+      },
+      {
+        "fase": 13,
+        "versao_planejada": "0.14.0+build.14",
+        "nome": "Testes integrados e ensaio de migracao",
+        "objetivos": [
+          "Validar o sistema completo",
+          "Ensaiar a migracao antes do corte"
+        ],
+        "acoes": [
+          "Executar importacao completa em ambiente limpo",
+          "Executar testes unitarios, integrados e de interface",
+          "Testar concorrencia entre recepcao, gerente e medico",
+          "Testar permissoes negativas",
+          "Testar backup e restauracao",
+          "Comparar contagens e totais financeiros",
+          "Medir desempenho",
+          "Corrigir defeitos com incremento de PATCH e build"
+        ],
+        "entregaveis": [
+          "Relatorio de testes",
+          "Relatorio de reconciliacao",
+          "Lista de defeitos resolvidos",
+          "Release candidate"
+        ],
+        "criterios_para_fase_seguinte": [
+          "Nenhum defeito critico ou alto permanece aberto",
+          "Importacao e repeticao sao idempotentes",
+          "Totais financeiros estao conciliados",
+          "Permissoes foram testadas por perfil",
+          "Backup e restauracao foram aprovados",
+          "Tempo de resposta atende a operacao da clinica"
+        ]
+      },
+      {
+        "fase": 14,
+        "versao_planejada": "0.15.0+build.15",
+        "nome": "Homologacao com usuarios",
+        "objetivos": [
+          "Validar os fluxos reais da clinica",
+          "Obter aprovacao formal para o corte"
+        ],
+        "acoes": [
+          "Executar piloto com dados de teste controlados",
+          "Homologar atendimento",
+          "Homologar medico e laudos",
+          "Homologar financeiro",
+          "Homologar usuarios e relatorios",
+          "Treinar usuarios",
+          "Registrar ajustes solicitados"
+        ],
+        "entregaveis": [
+          "Termo de homologacao",
+          "Manual de usuario",
+          "Registro de treinamento",
+          "Lista final de ajustes"
+        ],
+        "criterios_para_fase_seguinte": [
+          "Gerente aprova os relatorios e controles",
+          "Atendimento aprova cadastro e recebimento",
+          "Medico aprova filtros e laudos",
+          "Usuarios conseguem operar sem acesso ao legado",
+          "Plano de corte e retorno esta aprovado"
+        ]
+      },
+      {
+        "fase": 15,
+        "versao_planejada": "0.16.0+build.16",
+        "nome": "Corte de producao",
+        "objetivos": [
+          "Migrar os dados finais",
+          "Ativar o novo sistema com possibilidade de retorno"
+        ],
+        "acoes": [
+          "Bloquear escrita no sistema legado",
+          "Criar backup final dos DBFs",
+          "Executar importacao final",
+          "Conciliar contagens e valores",
+          "Ativar API e frontend",
+          "Criar usuarios e exigir redefinicao de senha",
+          "Executar testes de fumaca",
+          "Manter legado somente leitura",
+          "Monitorar operacao inicial"
+        ],
+        "entregaveis": [
+          "Sistema novo ativo",
+          "Backup final do legado",
+          "Relatorio de corte",
+          "Plano de retorno validado"
+        ],
+        "criterios_para_fase_seguinte": [
+          "Login real funciona",
+          "Cadastros e pagamentos persistem",
+          "Laudos podem ser enviados e consultados",
+          "Indicadores e relatorios conferem",
+          "Nenhuma perda de dados foi detectada",
+          "Backup posterior ao corte foi criado"
+        ]
+      },
+      {
+        "fase": 16,
+        "versao_planejada": "1.0.0+build.17",
+        "nome": "Build final e encerramento",
+        "objetivos": [
+          "Declarar a primeira versao final estavel",
+          "Consolidar documentacao e recuperacao"
+        ],
+        "acoes": [
+          "Executar suite completa final",
+          "Revisar seguranca e LGPD",
+          "Revisar migracoes Alembic",
+          "Restaurar o backup final em ambiente isolado",
+          "Atualizar LOG.log",
+          "Criar tag Git 1.0.0",
+          "Fazer commit e push final",
+          "Arquivar manifestos, relatorios e checksums",
+          "Definir rotina de manutencao"
+        ],
+        "entregaveis": [
+          "Build 1.0.0",
+          "Tag Git assinada ou identificada",
+          "Codigo-fonte versionado",
+          "Banco migrado",
+          "Backups restauraveis",
+          "Documentacao tecnica e operacional",
+          "Relatorio final de validacao"
+        ],
+        "criterios_de_conclusao": [
+          "Todos os testes obrigatorios passam",
+          "Nenhum defeito critico ou alto permanece aberto",
+          "Backup e restauracao estao comprovados",
+          "Dados financeiros e clinicos estao conciliados",
+          "Permissoes sao aplicadas pelo servidor",
+          "Logs e documentos respeitam dados sensiveis",
+          "Usuarios homologaram a operacao",
+          "Sistema legado permanece preservado e somente leitura",
+          "Build 1.0.0 foi enviada ao Git"
+        ]
+      }
+    ],
+    "criterios_globais_de_go_no_go": {
+      "go": [
+        "Backup restauravel confirmado",
+        "Importacao idempotente",
+        "Reconciliacao aprovada",
+        "Seguranca testada",
+        "Homologacao assinada",
+        "Plano de retorno disponivel"
+      ],
+      "no_go": [
+        "Backup nao restauravel",
+        "Divergencia financeira sem explicacao",
+        "Perda de relacionamento entre paciente e atendimento",
+        "Acesso indevido entre perfis",
+        "Laudos publicamente acessiveis",
+        "Defeito critico ou alto aberto",
+        "Sistema legado ainda recebendo escritas durante a importacao final"
+      ]
+    },
+    "estimativa_em_blocos": {
+      "fundacao_e_dados": "Fases 0 a 5",
+      "backend_e_seguranca": "Fases 6 a 9",
+      "frontend_e_modulos": "Fases 10 e 11",
+      "operacao_e_qualidade": "Fases 12 a 14",
+      "producao": "Fases 15 e 16"
+    },
+    "proxima_acao_recomendada": {
+      "fase": 0,
+      "acao": "Criar e validar o backup integral, definir a maquina servidora e confirmar MySQL como banco definitivo antes de qualquer implementacao"
+    }
+  }
+}

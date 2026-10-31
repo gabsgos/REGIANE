@@ -1,0 +1,57 @@
+{
+  "fase": 1,
+  "nome": "Inicializacao do projeto",
+  "versao_final": "0.2.3+build.5",
+  "executada_em": "2026-10-31T12:03:00-03:00",
+  "status": "aprovada_localmente_bloqueada_para_push",
+  "poetry": {
+    "versao": "2.3.4",
+    "ambiente_local": ".venv",
+    "lock_criado": true,
+    "check": "aprovado"
+  },
+  "api": {
+    "framework": "FastAPI",
+    "endpoint": "/api/health",
+    "status_http": 200,
+    "resposta": {
+      "status": "ok",
+      "service": "ABEL Clinica",
+      "version": "0.2.3",
+      "environment": "development"
+    }
+  },
+  "qualidade": {
+    "ruff_lint": "aprovado",
+    "ruff_format": "aprovado",
+    "testes": 2,
+    "testes_aprovados": 2,
+    "cobertura_backend_percentual": 100,
+    "avisos": 0
+  },
+  "correcoes": [
+    {
+      "versao": "0.2.1+build.3",
+      "motivo": "Correcao da ordem de imports detectada pelo lint"
+    },
+    {
+      "versao": "0.2.2+build.4",
+      "motivo": "Aplicacao da formatacao padrao em onze arquivos"
+    },
+    {
+      "versao": "0.2.3+build.5",
+      "motivo": "Substituicao do cliente de testes depreciado por httpx2"
+    }
+  ],
+  "seguranca_git": {
+    "legado_ignorado": true,
+    "backups_ignorados": true,
+    "env_ignorado": true,
+    "bancos_locais_ignorados": true
+  },
+  "bloqueador": {
+    "tipo": "git_remote_ausente",
+    "descricao": "Nao existe repositorio remoto configurado para cumprir o push obrigatorio da versao 0.2.x."
+  },
+  "decisao": "NO-GO para Fase 2 ate configurar e validar o Git remoto"
+}

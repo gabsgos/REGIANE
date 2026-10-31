@@ -1,0 +1,1846 @@
+{
+  "schema_version": 1,
+  "source": "ABEL-BAK",
+  "created_at": "2026-10-31T11:50:00-03:00",
+  "algorithm": "SHA-256",
+  "file_count": 306,
+  "total_bytes": 115574286.0,
+  "files": [
+    {
+      "relative_path": "012026.TXT",
+      "length": 7,
+      "last_write_utc": "2026-01-30T12:11:12.0000000Z",
+      "sha256": "f92ecb841d1f930e0cf3f4b0da255f751a624e18578f0e928054d09bfda33adc"
+    },
+    {
+      "relative_path": "022026.TXT",
+      "length": 7,
+      "last_write_utc": "2026-02-07T11:18:46.0000000Z",
+      "sha256": "f92ecb841d1f930e0cf3f4b0da255f751a624e18578f0e928054d09bfda33adc"
+    },
+    {
+      "relative_path": "03111025.ER",
+      "length": 457,
+      "last_write_utc": "2025-11-01T16:41:26.0000000Z",
+      "sha256": "ad0d8b29dbe39265ab10fdfdc80c3f7983cdf6c811d3d7fdcd1368b4d6654f2c"
+    },
+    {
+      "relative_path": "032026.TXT",
+      "length": 7,
+      "last_write_utc": "2026-03-03T11:58:18.0000000Z",
+      "sha256": "f92ecb841d1f930e0cf3f4b0da255f751a624e18578f0e928054d09bfda33adc"
+    },
+    {
+      "relative_path": "042026.TXT",
+      "length": 7,
+      "last_write_utc": "2026-04-07T15:08:50.0000000Z",
+      "sha256": "f92ecb841d1f930e0cf3f4b0da255f751a624e18578f0e928054d09bfda33adc"
+    },
+    {
+      "relative_path": "062025.TXT",
+      "length": 7,
+      "last_write_utc": "2025-06-06T19:42:54.0000000Z",
+      "sha256": "f92ecb841d1f930e0cf3f4b0da255f751a624e18578f0e928054d09bfda33adc"
+    },
+    {
+      "relative_path": "062026.TXT",
+      "length": 7,
+      "last_write_utc": "2026-06-11T10:41:50.0000000Z",
+      "sha256": "f92ecb841d1f930e0cf3f4b0da255f751a624e18578f0e928054d09bfda33adc"
+    },
+    {
+      "relative_path": "07020818.ER",
+      "length": 502,
+      "last_write_utc": "2026-02-07T11:18:54.0000000Z",
+      "sha256": "9d2bc5dda725226b8021a5c185fc24f30c442f996656add7b63f288b83cd4185"
+    },
+    {
+      "relative_path": "072025.TXT",
+      "length": 7,
+      "last_write_utc": "2025-07-08T13:35:38.0000000Z",
+      "sha256": "f92ecb841d1f930e0cf3f4b0da255f751a624e18578f0e928054d09bfda33adc"
+    },
+    {
+      "relative_path": "072026.TXT",
+      "length": 7,
+      "last_write_utc": "2026-07-08T18:00:54.0000000Z",
+      "sha256": "f92ecb841d1f930e0cf3f4b0da255f751a624e18578f0e928054d09bfda33adc"
+    },
+    {
+      "relative_path": "08071500.ER",
+      "length": 511,
+      "last_write_utc": "2026-07-08T18:00:58.0000000Z",
+      "sha256": "c4fa8b8e8d84e10935595d0263a56804603be6a7566676c10554f28ad3f75f46"
+    },
+    {
+      "relative_path": "082025.TXT",
+      "length": 7,
+      "last_write_utc": "2025-08-02T14:38:40.0000000Z",
+      "sha256": "f92ecb841d1f930e0cf3f4b0da255f751a624e18578f0e928054d09bfda33adc"
+    },
+    {
+      "relative_path": "082026.TXT",
+      "length": 7,
+      "last_write_utc": "2026-08-06T12:21:14.0000000Z",
+      "sha256": "f92ecb841d1f930e0cf3f4b0da255f751a624e18578f0e928054d09bfda33adc"
+    },
+    {
+      "relative_path": "092025.TXT",
+      "length": 7,
+      "last_write_utc": "2025-09-08T08:51:26.0000000Z",
+      "sha256": "f92ecb841d1f930e0cf3f4b0da255f751a624e18578f0e928054d09bfda33adc"
+    },
+    {
+      "relative_path": "112025.TXT",
+      "length": 7,
+      "last_write_utc": "2025-11-04T12:29:48.0000000Z",
+      "sha256": "f92ecb841d1f930e0cf3f4b0da255f751a624e18578f0e928054d09bfda33adc"
+    },
+    {
+      "relative_path": "12102600.BOL",
+      "length": 0,
+      "last_write_utc": "2026-10-31T11:41:28.0000000Z",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "relative_path": "122025.TXT",
+      "length": 7,
+      "last_write_utc": "2025-12-04T11:40:26.0000000Z",
+      "sha256": "f92ecb841d1f930e0cf3f4b0da255f751a624e18578f0e928054d09bfda33adc"
+    },
+    {
+      "relative_path": "17071305.ER",
+      "length": 0,
+      "last_write_utc": "2026-07-17T16:06:22.0000000Z",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "relative_path": "30010915.ER",
+      "length": 511,
+      "last_write_utc": "2026-01-30T12:15:56.0000000Z",
+      "sha256": "b01bf6dfb21e0653a42828ee0bfa6ff5cf90baec7b544d77804b042151078eea"
+    },
+    {
+      "relative_path": "ABELCUCO.EXE",
+      "length": 249856,
+      "last_write_utc": "2025-05-21T16:53:14.0000000Z",
+      "sha256": "16366093d42cbfa35a5e6e86f88bd841173a113c83a5be5f1dcadb4904ab2225"
+    },
+    {
+      "relative_path": "ABELMAIL.EXE",
+      "length": 96256,
+      "last_write_utc": "2005-01-15T11:32:14.0000000Z",
+      "sha256": "7ed84b1168701311a984a7588883daa80c20ee646d0238a83be7cdda96aa1b46"
+    },
+    {
+      "relative_path": "ABELPDF.JPG",
+      "length": 8921,
+      "last_write_utc": "2011-03-29T23:37:24.0000000Z",
+      "sha256": "fcdc079fd2e267b2ddd5cdc621b7b9730ca7385166060027a2083703801034ae"
+    },
+    {
+      "relative_path": "ABELWAPI.EXE",
+      "length": 26112,
+      "last_write_utc": "2010-09-25T16:34:58.0000000Z",
+      "sha256": "8e8122da689083a95b527ccbd7358c1a630ad392315b809c73fe796be109df6c"
+    },
+    {
+      "relative_path": "AGPROCDX.cdx",
+      "length": 9216,
+      "last_write_utc": "2026-07-10T15:49:02.0000000Z",
+      "sha256": "3f4ed132995009d842a7ebadb964af7f16b6f25b9c74d5dfcb8a15c87655d3aa"
+    },
+    {
+      "relative_path": "AGPROVA.DBF",
+      "length": 386,
+      "last_write_utc": "2013-10-09T19:39:38.0000000Z",
+      "sha256": "4e8eef0f06a9274fe41f38d31dfa9be89751e6bcfcf16db99dd7c04a2bde63aa"
+    },
+    {
+      "relative_path": "AGPROVA.TXT",
+      "length": 512,
+      "last_write_utc": "2012-07-19T00:40:56.0000000Z",
+      "sha256": "f848b3d575a73ecbe95dac5173b8cdbdf822f373afb766eb0ef9e011631ab9c3"
+    },
+    {
+      "relative_path": "ANTIGO.OLD",
+      "length": 4262704,
+      "last_write_utc": "2026-01-27T03:55:34.0000000Z",
+      "sha256": "268f833515375e72dd0649835aea2d6f5600fb7e4f2c6c929e17f5033d62003a"
+    },
+    {
+      "relative_path": "arjbdamp.rar",
+      "length": 1377769,
+      "last_write_utc": "2025-03-05T17:42:30.0000000Z",
+      "sha256": "c5ab5bfe3c9465c0f170792544b3f6f599d65d1208450fc464adfc99a6423fb4"
+    },
+    {
+      "relative_path": "ARQCEP.DBF",
+      "length": 18061,
+      "last_write_utc": "2003-12-04T14:54:12.0000000Z",
+      "sha256": "146c8484a16e6e13da8f9be825470c2e48f6bae0dc6e51c2e1422d966bb65bf1"
+    },
+    {
+      "relative_path": "ARQOLD.fpt",
+      "length": 1024,
+      "last_write_utc": "2017-10-18T14:52:54.0000000Z",
+      "sha256": "422ee4037527bf0516f11550c6e70674315446a616eab3295d4b9108984f7ed5"
+    },
+    {
+      "relative_path": "ARQRAR",
+      "length": 59,
+      "last_write_utc": "2008-03-22T13:36:16.0000000Z",
+      "sha256": "a3f3dfe3ae0e0071d4bca77004846dfc5512e36668bda143bbd576987b3ebe03"
+    },
+    {
+      "relative_path": "ARQTXT.TXT",
+      "length": 277,
+      "last_write_utc": "2008-04-17T16:40:12.0000000Z",
+      "sha256": "0d518559c67204fe9584c749314691562c285061ce11df90856fee17ff0b1251"
+    },
+    {
+      "relative_path": "AUTOMATIC.AMS",
+      "length": 0,
+      "last_write_utc": "2026-10-22T11:11:26.0000000Z",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "relative_path": "bkpdbf.rar",
+      "length": 1718533,
+      "last_write_utc": "2026-10-22T11:11:14.0000000Z",
+      "sha256": "3cbaf248af48f8088c1d2d393c51921f64181fd075e895ca7d99cd681d123807"
+    },
+    {
+      "relative_path": "BKPRAR.TXT",
+      "length": 1021154,
+      "last_write_utc": "2025-03-05T17:39:58.0000000Z",
+      "sha256": "0369796073f0643746e71cfbc5efab6a2c84a4bc215fb4fb1593d32bb2d18952"
+    },
+    {
+      "relative_path": "CADG.DBF",
+      "length": 152686,
+      "last_write_utc": "2009-10-06T23:51:14.0000000Z",
+      "sha256": "dec10a944a7f88cbd2773c53e933095eb4dbb057c3d8801ba85d16ecfbe953a5"
+    },
+    {
+      "relative_path": "CADGCDX.cdx",
+      "length": 11264,
+      "last_write_utc": "2026-07-10T15:48:50.0000000Z",
+      "sha256": "042f0a3963fdb65f464c3ada949552377e5794311bd31e7a14b5f8a798ac779a"
+    },
+    {
+      "relative_path": "CANCCDX.cdx",
+      "length": 4608,
+      "last_write_utc": "2026-07-10T15:48:52.0000000Z",
+      "sha256": "0541e6a82bd9037c6e5e8ffe93798bdb83c08cfab71a8583777ff285b173c43f"
+    },
+    {
+      "relative_path": "CANCLAUD.DBF",
+      "length": 226,
+      "last_write_utc": "2013-10-09T19:39:36.0000000Z",
+      "sha256": "a2cd72d30263aafe500ccca05aacc5e52fd655448d12a39c31230bee3d025119"
+    },
+    {
+      "relative_path": "CANCLAUD.TXT",
+      "length": 512,
+      "last_write_utc": "2008-02-06T18:28:20.0000000Z",
+      "sha256": "081d676499e1d54fb4946b24694846d4326c297bea2803bb25c7f98c50cc48e2"
+    },
+    {
+      "relative_path": "CANCLCDX.cdx",
+      "length": 4608,
+      "last_write_utc": "2026-07-10T15:48:52.0000000Z",
+      "sha256": "0245402254f6563541e9b19a38e32189835881b55f18805ec2690dde78ed8760"
+    },
+    {
+      "relative_path": "CANCPLAN.DBF",
+      "length": 226,
+      "last_write_utc": "2013-10-09T19:39:36.0000000Z",
+      "sha256": "acdae14156539c899cc53f1f12a0c39fb8e7b0e0119cae9244a111c110e15f25"
+    },
+    {
+      "relative_path": "CANCPLAN.TXT",
+      "length": 512,
+      "last_write_utc": "2007-09-05T15:20:22.0000000Z",
+      "sha256": "50266324c9fee1e2ea2cb8edc3174ffc05f76566cc49cdb056f2aea4be434399"
+    },
+    {
+      "relative_path": "CANDCDX.cdx",
+      "length": 699904,
+      "last_write_utc": "2026-10-29T12:43:14.0000000Z",
+      "sha256": "c06e52f61c2a7e669fc14a2bce1b50dd4899f16280f7bd2692bd0f6eecdda726"
+    },
+    {
+      "relative_path": "CANDIDAT.DBF",
+      "length": 3057236,
+      "last_write_utc": "2026-10-29T12:43:14.0000000Z",
+      "sha256": "a2800ae61d563f582450ab257cadb853fe0a37183a7a39f107ed25369dd9cab3"
+    },
+    {
+      "relative_path": "CANDIDAT.fpt",
+      "length": 1024,
+      "last_write_utc": "2026-07-10T15:48:58.0000000Z",
+      "sha256": "422ee4037527bf0516f11550c6e70674315446a616eab3295d4b9108984f7ed5"
+    },
+    {
+      "relative_path": "CANDRES.DBF",
+      "length": 2560,
+      "last_write_utc": "2012-12-03T22:12:34.0000000Z",
+      "sha256": "fbf7b007feb8dbff2eb8c44ecc75bda6318086348d2d8a9a08413ee1cfdf66ab"
+    },
+    {
+      "relative_path": "CEP_SP.DBF",
+      "length": 43549811,
+      "last_write_utc": "2017-06-27T19:23:18.0000000Z",
+      "sha256": "b30ab0d654ed208cfd6bfc652914a1a09e565cacc2854d04d29b1948ba720189"
+    },
+    {
+      "relative_path": "CEPCDX.cdx",
+      "length": 5087744,
+      "last_write_utc": "2026-07-10T15:49:22.0000000Z",
+      "sha256": "95bfb4f262526622249621602cc75ba08ee8186187eae35de707c4fe2bd43a8d"
+    },
+    {
+      "relative_path": "CGARE.MEM",
+      "length": 121,
+      "last_write_utc": "2001-01-25T20:02:08.0000000Z",
+      "sha256": "6abcc37cb37a01ba7778697bf5989e952eac4458d18b6368509edb9477b0e5b9"
+    },
+    {
+      "relative_path": "CIRCDX.cdx",
+      "length": 15872,
+      "last_write_utc": "2026-07-10T15:48:54.0000000Z",
+      "sha256": "8901e54929471204c1f4cddfe7723688d107962ac5e7075f3f9589f4aa123e87"
+    },
+    {
+      "relative_path": "CIRETRAN.DBF",
+      "length": 14738,
+      "last_write_utc": "2014-10-23T15:24:54.0000000Z",
+      "sha256": "ba57c9cc94fcc0ee404b233938593ec699a12e44114d2577f300dbc5224b25c2"
+    },
+    {
+      "relative_path": "CLINICA.exe",
+      "length": 4289448,
+      "last_write_utc": "2026-10-20T23:22:32.0000000Z",
+      "sha256": "1d8210002bdea5514fb793eb68ad0d596b0919fce0376ac3283d0936f777f7a4"
+    },
+    {
+      "relative_path": "CLINICA.ICO",
+      "length": 89755,
+      "last_write_utc": "2014-02-11T03:34:06.0000000Z",
+      "sha256": "cc9e927643fd42d99eb9684334e59089f802e0ac080a241a66ec8bf47d4d71b1"
+    },
+    {
+      "relative_path": "CLINICA.MEM",
+      "length": 128612,
+      "last_write_utc": "2008-10-14T16:49:48.0000000Z",
+      "sha256": "a52a1a16a1ad9c90a956bd9101c9d53c962b5ccb81538bdc7f34e5696a3dad3a"
+    },
+    {
+      "relative_path": "COMANDO.TXT",
+      "length": 1169,
+      "last_write_utc": "2024-06-17T21:35:34.0000000Z",
+      "sha256": "dd7a3f164a8956ec59ba58001837fbf49e116faf5e376beefa8066bc5f20f84f"
+    },
+    {
+      "relative_path": "COMPRCDX.cdx",
+      "length": 3072,
+      "last_write_utc": "2026-07-10T15:49:22.0000000Z",
+      "sha256": "f4bb14b08ba85e8f2702ceb039d5c02cadb9b2bb85aff40660b7c6a69fd1e142"
+    },
+    {
+      "relative_path": "COMPROS.DBF",
+      "length": 373,
+      "last_write_utc": "2019-04-13T18:15:06.0000000Z",
+      "sha256": "4ea3789fd1c87e9f25ffe9fcc7bf54b8836155d7aa1407948d5a7ab21faa5d28"
+    },
+    {
+      "relative_path": "COMUNS.TXT",
+      "length": 8984,
+      "last_write_utc": "2001-12-21T14:49:46.0000000Z",
+      "sha256": "76138215a1ae2b074557876aca380dcb0d03497be96a8541c8f40a846c0d2d48"
+    },
+    {
+      "relative_path": "CONFLPTD.TXT",
+      "length": 1,
+      "last_write_utc": "2005-08-29T13:17:44.0000000Z",
+      "sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b"
+    },
+    {
+      "relative_path": "CONTATO.DBF",
+      "length": 739,
+      "last_write_utc": "2016-01-07T17:19:00.0000000Z",
+      "sha256": "26dd936c2016dbc5b79a3f67c79bf58454efe4a099cb7e9298072a37718b120b"
+    },
+    {
+      "relative_path": "CONTBAN.DBF",
+      "length": 365,
+      "last_write_utc": "2025-03-05T16:33:40.0000000Z",
+      "sha256": "a06eefd56c560434ded86d6f89dc2da3c71fb1b853d2820eaa08eeeb8e13a969"
+    },
+    {
+      "relative_path": "CONTBAN.TXT",
+      "length": 365,
+      "last_write_utc": "2004-10-23T21:49:46.0000000Z",
+      "sha256": "f1034ffeef6ce1ce3e09ad2c23e9aecd8c1bf8946b0866bf6b471635932fc20a"
+    },
+    {
+      "relative_path": "CONTBCDX.cdx",
+      "length": 4608,
+      "last_write_utc": "2026-07-10T15:49:24.0000000Z",
+      "sha256": "6a0ea56979484f46ef9af2a25c349c316ca9270fcb44fed8461303d650e7a54c"
+    },
+    {
+      "relative_path": "CONTCDX.cdx",
+      "length": 4608,
+      "last_write_utc": "2026-07-10T15:48:54.0000000Z",
+      "sha256": "11c9b5adf8d551aa132e6f7d73213c0f55787670c40f554d80edd7ad6cdb9744"
+    },
+    {
+      "relative_path": "CONTROLE.LJ",
+      "length": 117,
+      "last_write_utc": "2026-10-15T13:10:36.0000000Z",
+      "sha256": "26b54e026a4b929e1b7a4c8fa8e7b78b1a2d62243eb14fb3c5b564a37285dac0"
+    },
+    {
+      "relative_path": "DEFAULT.SFX",
+      "length": 55574,
+      "last_write_utc": "2004-01-13T20:11:08.0000000Z",
+      "sha256": "c55bd760fa62eb34309eb9b83da8f732496762c4d0e3ae0c08e03cbf6ba85b8b"
+    },
+    {
+      "relative_path": "DEPARA.DBF",
+      "length": 494,
+      "last_write_utc": "2011-11-19T01:40:40.0000000Z",
+      "sha256": "349b37ea4e2ec6c39f88807fc48f76378eb071e802fd163eea1455a9ee11b27c"
+    },
+    {
+      "relative_path": "DEPCDX.cdx",
+      "length": 142336,
+      "last_write_utc": "2026-10-29T12:04:14.0000000Z",
+      "sha256": "fd45b73300217addce7fbda0327626d0740ff545b23b41fede5c2e832e53ac95"
+    },
+    {
+      "relative_path": "DEPOS.DBF",
+      "length": 422225,
+      "last_write_utc": "2026-10-29T12:04:14.0000000Z",
+      "sha256": "6b86be701bc600f3398c35d2fdfd67a32440f8f43426c3abcfa1b2aeb66a6b97"
+    },
+    {
+      "relative_path": "DEPOS.TXT",
+      "length": 578,
+      "last_write_utc": "2021-09-03T21:40:48.0000000Z",
+      "sha256": "99606927775312fb7ada70964aa02fe8cfe834bbecef20bd5a1502c700fabf2f"
+    },
+    {
+      "relative_path": "detran.bmp",
+      "length": 481078,
+      "last_write_utc": "2011-11-19T03:25:50.0000000Z",
+      "sha256": "a7bca87573297ae3b2d1439d67fd1293b281c8a3d1a98d6d641eca1ac43b75fe"
+    },
+    {
+      "relative_path": "DINAMICA.TXT",
+      "length": 3,
+      "last_write_utc": "2004-08-16T20:34:42.0000000Z",
+      "sha256": "f7217e671e4f819bc69da9d1a2d3683c26a327473bc5623a81aaaf59362bcd6e"
+    },
+    {
+      "relative_path": "DOSP.EXE",
+      "length": 323584,
+      "last_write_utc": "2010-10-18T12:17:46.0000000Z",
+      "sha256": "dec1767e75af0fe0fdec15ff62c977c9cac1431c397519366443b0993909637b"
+    },
+    {
+      "relative_path": "DR_MED.DBF",
+      "length": 4027,
+      "last_write_utc": "2025-11-01T16:41:50.0000000Z",
+      "sha256": "deb34149cf64bbcb83c5dfd62348f112b4a4f999fcdd61eb57bf25c8f05eb7f9"
+    },
+    {
+      "relative_path": "DRCDX.cdx",
+      "length": 7680,
+      "last_write_utc": "2026-07-10T15:48:54.0000000Z",
+      "sha256": "2ff678f24a0f03c34ec386af7c8cdbe5eb015c6e4a8cf6552228e6003d05a36f"
+    },
+    {
+      "relative_path": "EMAIL.MEM",
+      "length": 374,
+      "last_write_utc": "2025-05-07T16:51:38.0000000Z",
+      "sha256": "512fbbcf86cd4752f26a563e37f5729ca9fd4e5490ff271b0dfff67eca616bb2"
+    },
+    {
+      "relative_path": "EMAILNIV.CON",
+      "length": 538,
+      "last_write_utc": "2011-04-11T23:03:08.0000000Z",
+      "sha256": "f90aa7288dd3ac8811923d6c077c3b23ad8f28f7abd4b73b6b57f38b63023306"
+    },
+    {
+      "relative_path": "EMAILREN.CON",
+      "length": 813,
+      "last_write_utc": "2011-04-11T23:03:02.0000000Z",
+      "sha256": "aa87a9e8cae5228632d8c0a7c35f5d3650a5057ab4c54e7341d192a6a7cf68fe"
+    },
+    {
+      "relative_path": "EMPR_NFS.DBF",
+      "length": 1123,
+      "last_write_utc": "2026-10-22T11:11:32.0000000Z",
+      "sha256": "ec00280b10501cb7a5a67d4bb49ba29a9fa5dfb777ca5986a8916f0dba8c18da"
+    },
+    {
+      "relative_path": "ENDTEL.MEM",
+      "length": 537,
+      "last_write_utc": "2025-05-07T16:51:38.0000000Z",
+      "sha256": "f2823f19da61b7da002788144f3185e6e34ceccbceef519db5ef6cd847acad9e"
+    },
+    {
+      "relative_path": "ETIQ.MEM",
+      "length": 161,
+      "last_write_utc": "2008-07-04T14:00:12.0000000Z",
+      "sha256": "6a35fa1d724689b28b081c9f469d4e834b4b22509bdbfaf7d633c442cea12ea8"
+    },
+    {
+      "relative_path": "EVENTCDX.cdx",
+      "length": 4608,
+      "last_write_utc": "2026-07-10T15:49:00.0000000Z",
+      "sha256": "12ed6f9ccc6b0ffa17dc7908c51248e1dec3cd3f3c85b64d9c59238e995ad0eb"
+    },
+    {
+      "relative_path": "EVENTOS.DBF",
+      "length": 547,
+      "last_write_utc": "2026-01-05T16:23:36.0000000Z",
+      "sha256": "c1e28ba7ba1fb3bce1455f7b0a315768e0ba323516b51bff3d59ca190c7cd83b"
+    },
+    {
+      "relative_path": "EVENTOS.TXT",
+      "length": 318,
+      "last_write_utc": "2004-08-16T19:22:12.0000000Z",
+      "sha256": "8d3d7740fc7f859768311c84ca04fed7572af0bcdbe123387bce4516c863b1fc"
+    },
+    {
+      "relative_path": "EXPED.TXT",
+      "length": 2,
+      "last_write_utc": "2005-05-23T14:20:10.0000000Z",
+      "sha256": "565339bc4d33d72817b583024112eb7f5cdf3e5eef0252d6ec1b9c9a94e12bb3"
+    },
+    {
+      "relative_path": "fala.wav",
+      "length": 45166,
+      "last_write_utc": "1998-01-02T15:24:42.0000000Z",
+      "sha256": "3bec0055ace3a32a5637cddbac7e3ff96c2e843ae472b3a616cf76a7988a6d81"
+    },
+    {
+      "relative_path": "FANLAN.DBF",
+      "length": 4059,
+      "last_write_utc": "2025-05-29T14:34:00.0000000Z",
+      "sha256": "6e9180f32e6756f8ed295f453e4abb542ddb47c37e68ff5a3b203fe67caa5e7f"
+    },
+    {
+      "relative_path": "FANLAN.TXT",
+      "length": 512,
+      "last_write_utc": "2004-10-23T22:02:38.0000000Z",
+      "sha256": "65fe7de91158bf073565ff4abe5fdddf128ce4815859cec8b5f8c9e84b6eb531"
+    },
+    {
+      "relative_path": "FAZENDA.bmp",
+      "length": 130798,
+      "last_write_utc": "2020-07-12T00:16:16.0000000Z",
+      "sha256": "aaefa2c070eaa4bdb1e985e0af7e1838172425c3280da7fd1c274590a40c7f33"
+    },
+    {
+      "relative_path": "FOCORCDX.cdx",
+      "length": 3072,
+      "last_write_utc": "2026-07-10T15:48:54.0000000Z",
+      "sha256": "69518d8bc6aaba943f3c7aef98b0fbafda009bc578fa21a18bfc830a21baa88c"
+    },
+    {
+      "relative_path": "FUNC.DBF",
+      "length": 802,
+      "last_write_utc": "2021-09-03T22:49:20.0000000Z",
+      "sha256": "04bf0f4a08185b8bf9ef4c708cdcb7909accc2f372ab7a5ce89f00577904a850"
+    },
+    {
+      "relative_path": "FUNC.TXT",
+      "length": 802,
+      "last_write_utc": "2021-09-03T22:49:20.0000000Z",
+      "sha256": "04bf0f4a08185b8bf9ef4c708cdcb7909accc2f372ab7a5ce89f00577904a850"
+    },
+    {
+      "relative_path": "FUNCCDX.cdx",
+      "length": 4608,
+      "last_write_utc": "2026-07-10T15:48:54.0000000Z",
+      "sha256": "420f0583f04ee3e2544c98473b68172cc89ecfb13aa82569ca534aa9de8f2e68"
+    },
+    {
+      "relative_path": "FUNOCOR.DBF",
+      "length": 291,
+      "last_write_utc": "2021-09-03T22:41:50.0000000Z",
+      "sha256": "3c232cf0ef4391e287bb94e3bff8cf893fcd01accd90ebc62f9f830054d244ef"
+    },
+    {
+      "relative_path": "FUNOCOR.TXT",
+      "length": 291,
+      "last_write_utc": "2021-09-03T22:41:50.0000000Z",
+      "sha256": "3c232cf0ef4391e287bb94e3bff8cf893fcd01accd90ebc62f9f830054d244ef"
+    },
+    {
+      "relative_path": "GEFOR.MEM",
+      "length": 663,
+      "last_write_utc": "2013-04-09T16:15:50.0000000Z",
+      "sha256": "311419985d006d820ec531342b63f1dc9e1e6ca60fc205f622be9537702b668b"
+    },
+    {
+      "relative_path": "GEFOR.TXT",
+      "length": 124,
+      "last_write_utc": "2004-10-23T22:37:56.0000000Z",
+      "sha256": "4ee8642419a9a153b4f70ff2c57f623fd18bc5d777aca5bf16335661991969ec"
+    },
+    {
+      "relative_path": "GERADOR.DBF",
+      "length": 3814,
+      "last_write_utc": "2026-10-31T11:41:22.0000000Z",
+      "sha256": "36ebdbe26cb7577141e61bcdae79b28caa105933693f8bf54ebb3578ed66ed07"
+    },
+    {
+      "relative_path": "GRAJAU.TXT",
+      "length": 0,
+      "last_write_utc": "2025-05-07T16:51:38.0000000Z",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "relative_path": "hb_out.log",
+      "length": 39650,
+      "last_write_utc": "2026-09-14T14:49:10.0000000Z",
+      "sha256": "6e946cf3a073dd5f2e219499f6969d89b33167597212face2c3e42a42a55c502"
+    },
+    {
+      "relative_path": "HISTCDX.cdx",
+      "length": 4608,
+      "last_write_utc": "2026-07-10T15:49:26.0000000Z",
+      "sha256": "8d5a7196140de4bb9129872f7df2a5ec7512202ca3fbe598bc588f78dac3f63b"
+    },
+    {
+      "relative_path": "HISTCXA.DBF",
+      "length": 439,
+      "last_write_utc": "2013-10-09T19:39:40.0000000Z",
+      "sha256": "27f4ed6775248583e137464e8f4552e1dc83cf2865adae5a29f3a05b8bdaffa5"
+    },
+    {
+      "relative_path": "HISTCXA.TXT",
+      "length": 439,
+      "last_write_utc": "2004-10-25T16:40:28.0000000Z",
+      "sha256": "0da69974bac9ac0f51dea5cd22bc4426a562ac1fb5378efc1ad7330e0bac1d15"
+    },
+    {
+      "relative_path": "HRBIO.DBF",
+      "length": 546,
+      "last_write_utc": "2013-10-09T19:39:36.0000000Z",
+      "sha256": "a34e1baaf7542a132788cc3d4628a577fb3dd82267ff151cbd45d09f9279cbc6"
+    },
+    {
+      "relative_path": "HRBIO.TXT",
+      "length": 1006,
+      "last_write_utc": "2008-04-18T06:33:12.0000000Z",
+      "sha256": "1561c6eb53f77ae35be93f6f186314ccce10cd80f964c6e6c9f59b235a41cccf"
+    },
+    {
+      "relative_path": "HRBIOCDX.cdx",
+      "length": 12288,
+      "last_write_utc": "2026-07-10T15:48:52.0000000Z",
+      "sha256": "1b84382c595c766a4752a25f2d777f0476b45135d6ac11dca42e8f8222cc29d2"
+    },
+    {
+      "relative_path": "KillCuco.exe",
+      "length": 428584,
+      "last_write_utc": "2024-07-11T03:14:30.0000000Z",
+      "sha256": "2cdb5925455f04121ba3d660ee9e52b54702f290f5ecfa54beb4807d06234d54"
+    },
+    {
+      "relative_path": "L_CARTAO.DBF",
+      "length": 29274,
+      "last_write_utc": "2026-01-10T13:17:58.0000000Z",
+      "sha256": "229bc3a1ebba42d24cc4ed8fdfb9b9f156b97e8ccef09fd495f1e06a1957110c"
+    },
+    {
+      "relative_path": "L_CARTAO.TXT",
+      "length": 547,
+      "last_write_utc": "2017-06-24T00:25:36.0000000Z",
+      "sha256": "3627bf0367ff54f87f0293cb882fad591459956f4819c01ccf713e5a2d73b29b"
+    },
+    {
+      "relative_path": "L_CHEQUE.DBF",
+      "length": 515,
+      "last_write_utc": "2013-10-09T19:39:40.0000000Z",
+      "sha256": "a5d20c1d5cfab5ed280ae4e8dfd62c560350d61f9e31fc488e3ae2f3724e9eda"
+    },
+    {
+      "relative_path": "L_CHEQUE.TXT",
+      "length": 1024,
+      "last_write_utc": "2005-12-19T00:15:06.0000000Z",
+      "sha256": "f06a095a9b12a23dfecfd84fb520133b4eb546c398a429a310a6d4f74d94816c"
+    },
+    {
+      "relative_path": "L_DEF.TXT",
+      "length": 0,
+      "last_write_utc": "2009-08-04T15:01:04.0000000Z",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "relative_path": "LANCHQ.DBF",
+      "length": 98,
+      "last_write_utc": "2004-05-20T17:57:06.0000000Z",
+      "sha256": "ae4d6b19612babfbfbca3d68d1b995407a1872fa0fc06ddc0dacafb4af409369"
+    },
+    {
+      "relative_path": "LANCTCDX.cdx",
+      "length": 192512,
+      "last_write_utc": "2026-10-29T12:43:14.0000000Z",
+      "sha256": "5c5f4bd61c7a7d6b65ae9612cb26c5dc39e848ed507f27047e14ace7f8491809"
+    },
+    {
+      "relative_path": "LANCTO.188",
+      "length": 569212,
+      "last_write_utc": "2026-10-22T11:11:30.0000000Z",
+      "sha256": "806c3323aec69c6f6085f9165d557489a463735d53aa2a0399fc2463d8f7da24"
+    },
+    {
+      "relative_path": "LANCTO.DBF",
+      "length": 769805,
+      "last_write_utc": "2026-10-29T12:43:14.0000000Z",
+      "sha256": "dc605889757cb465fd1eebf0440e5fbac1c2c90ea439c9f0b03b93dca4530d9b"
+    },
+    {
+      "relative_path": "LANCTO.TXT",
+      "length": 512,
+      "last_write_utc": "2004-10-23T20:49:02.0000000Z",
+      "sha256": "9755b6d6f54a311a40200b921e815a02a096474d83c7257d1de38ad354927136"
+    },
+    {
+      "relative_path": "LAUDOCDX.cdx",
+      "length": 6144,
+      "last_write_utc": "2026-07-10T15:48:54.0000000Z",
+      "sha256": "6a791014c60916e969dd963871c1ebc89fc6c1cf10493a90ce4f7d677ec64bd4"
+    },
+    {
+      "relative_path": "LAUDODEF.DBF",
+      "length": 2179,
+      "last_write_utc": "2020-10-02T13:20:32.0000000Z",
+      "sha256": "cefdc34cf97cb97ca4b67ec64bc17f228ebadee8e2e729c822a2b3a000939b00"
+    },
+    {
+      "relative_path": "LAUDODEF.TXT",
+      "length": 1024,
+      "last_write_utc": "2009-08-03T21:10:48.0000000Z",
+      "sha256": "7b0abdc7b45be7612cac655be91cc5d121aa3ea6bb82ddefb80f8adbf92e3407"
+    },
+    {
+      "relative_path": "LCARCDX.cdx",
+      "length": 10752,
+      "last_write_utc": "2026-07-10T15:49:26.0000000Z",
+      "sha256": "fb446e0fefe64380e2dd55cb48313797f5687a67233076a13b982b71cd5f0629"
+    },
+    {
+      "relative_path": "LCHQCDX.cdx",
+      "length": 13824,
+      "last_write_utc": "2026-07-10T15:49:26.0000000Z",
+      "sha256": "2b74844941fd2d341bf165f31a4881aeda708c8dd70c9b682c9fb246c4d04a7a"
+    },
+    {
+      "relative_path": "LEMBRETE.TXT",
+      "length": 3,
+      "last_write_utc": "2008-11-24T00:08:26.0000000Z",
+      "sha256": "6f864b1705ae269c03903f630181ca89b5372a25f0d17147bc9d98a5c84f72be"
+    },
+    {
+      "relative_path": "LIMITA.TXT",
+      "length": 0,
+      "last_write_utc": "2009-04-02T02:34:20.0000000Z",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "relative_path": "LOG/DESKTOP-EUF6TIM",
+      "length": 17,
+      "last_write_utc": "2026-10-22T12:57:46.0000000Z",
+      "sha256": "51d3204d778da1a18fc6b30b26615dbd9d8095ca633133f0333deb231908d4cf"
+    },
+    {
+      "relative_path": "LOG/DESKTOP-OETML3K",
+      "length": 17,
+      "last_write_utc": "2026-10-22T11:12:28.0000000Z",
+      "sha256": "51d3204d778da1a18fc6b30b26615dbd9d8095ca633133f0333deb231908d4cf"
+    },
+    {
+      "relative_path": "LPTD.prn",
+      "length": 1095,
+      "last_write_utc": "2026-10-26T12:35:06.0000000Z",
+      "sha256": "dac0cfd5e0af948e783c8db20668c6f06d8b1aabafd748bc7ca6501987686b59"
+    },
+    {
+      "relative_path": "LPTX.PRN",
+      "length": 69,
+      "last_write_utc": "2026-10-31T11:41:12.0000000Z",
+      "sha256": "34b81cbab21e55a0c9ebf1ccb1721e8be0283cc7092430f81f52752e73cb2092"
+    },
+    {
+      "relative_path": "MENSAGE.DBF",
+      "length": 2392,
+      "last_write_utc": "2007-01-19T14:52:12.0000000Z",
+      "sha256": "7af3db96568a240b67ec3f7773e77c2fa6e0d14801dca126c1d7a1fdbd437802"
+    },
+    {
+      "relative_path": "MODELO.TXT",
+      "length": 15124,
+      "last_write_utc": "2012-09-17T21:53:22.0000000Z",
+      "sha256": "c0e1e0c27c89ae649b9c0ad599841f87bd33c7eca52712f0d281b62647b1df67"
+    },
+    {
+      "relative_path": "MUNIC.DBF",
+      "length": 281522,
+      "last_write_utc": "2019-04-23T20:27:08.0000000Z",
+      "sha256": "d483dc55c160c9bf417803004118f28b7834dfc62916ad28501099cf89d06253"
+    },
+    {
+      "relative_path": "MUNIC.TXT",
+      "length": 65340,
+      "last_write_utc": "1999-04-15T02:20:34.0000000Z",
+      "sha256": "7c26e42e5973a410ec43bb80b44ae10d125328ccada6a9ed5c024054a4939af8"
+    },
+    {
+      "relative_path": "MUNICCDX.cdx",
+      "length": 173568,
+      "last_write_utc": "2026-07-10T15:49:32.0000000Z",
+      "sha256": "ccbcf4502609d81d68b0749cc96735d25432124cf8816317b679897c15d7894d"
+    },
+    {
+      "relative_path": "MYDEL.TXT",
+      "length": 92,
+      "last_write_utc": "2007-09-01T14:13:36.0000000Z",
+      "sha256": "2806504ad7dba084bf52fd78b91c3d28301a0ff6ec653dcf1cacfe82883cfa34"
+    },
+    {
+      "relative_path": "NCAND.DBF",
+      "length": 1091,
+      "last_write_utc": "2013-10-09T19:39:38.0000000Z",
+      "sha256": "cef54b23a45ccfe7a8c8d13ebfe313c76dea8333496e874bd648ba882e23a80b"
+    },
+    {
+      "relative_path": "NCAND.TXT",
+      "length": 1536,
+      "last_write_utc": "2012-07-19T00:40:44.0000000Z",
+      "sha256": "9935bc4f7881f9e8884d928ed1b24c767a5443e4d8940e7c52089fa46abbb0ea"
+    },
+    {
+      "relative_path": "NCANDCDX.cdx",
+      "length": 15360,
+      "last_write_utc": "2026-07-10T15:49:02.0000000Z",
+      "sha256": "f7f266f65f5369e8644cac6100d2322d777ca4caec6b836213bcb01335850ba6"
+    },
+    {
+      "relative_path": "network.ini",
+      "length": 50,
+      "last_write_utc": "2026-10-22T11:11:08.0000000Z",
+      "sha256": "ce6158fe5fb84d70e84894d32e034680b4365df01994fac781e8e741419761ed"
+    },
+    {
+      "relative_path": "NEURO.TXT",
+      "length": 4459,
+      "last_write_utc": "2011-04-26T14:35:48.0000000Z",
+      "sha256": "021631b17d72c4038b7a9e765decc1371ca77285981b62c5b23444cd9625ea6b"
+    },
+    {
+      "relative_path": "NOVAOCX.TXT",
+      "length": 1,
+      "last_write_utc": "2006-07-14T17:40:22.0000000Z",
+      "sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b"
+    },
+    {
+      "relative_path": "NOVIDADE.TXT",
+      "length": 10203,
+      "last_write_utc": "2026-10-17T18:14:16.0000000Z",
+      "sha256": "3090bac920c834b5d31ff5aa1fb627dafa3e9144523b0ae5aa722c076635068a"
+    },
+    {
+      "relative_path": "NOVOBB.TXT",
+      "length": 1,
+      "last_write_utc": "2017-10-18T14:52:56.0000000Z",
+      "sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b"
+    },
+    {
+      "relative_path": "NPAGTCDX.cdx",
+      "length": 12288,
+      "last_write_utc": "2026-07-10T15:49:02.0000000Z",
+      "sha256": "e42e968feda1e400b243d83695b80ea052ff8bd2ec09b98a29240838c1b13d8c"
+    },
+    {
+      "relative_path": "NPAGTOS.DBF",
+      "length": 643,
+      "last_write_utc": "2013-10-09T19:39:38.0000000Z",
+      "sha256": "533635347d6479ea1783eee818005b4cdcc3662408856c467ad29d14166b8874"
+    },
+    {
+      "relative_path": "NPAGTOS.TXT",
+      "length": 1024,
+      "last_write_utc": "2012-07-19T00:40:50.0000000Z",
+      "sha256": "5de271bc70797b3328d4181e4a82add3a900549c6067c41d54f4b72f65f1c804"
+    },
+    {
+      "relative_path": "OBSGCDX.cdx",
+      "length": 4608,
+      "last_write_utc": "2026-07-10T15:48:56.0000000Z",
+      "sha256": "e7b3e1d7a30b6d5ddcd12aeb9178ba6395d52275f3c7d61b6f42f52f4eecbac2"
+    },
+    {
+      "relative_path": "OBSGEFOR.DBF",
+      "length": 290,
+      "last_write_utc": "2013-10-09T19:39:38.0000000Z",
+      "sha256": "6bb5f9a1bd8218fb2b6f57f075c760a54b35a343d2ea22af0eb55dec8ccdf305"
+    },
+    {
+      "relative_path": "OBSGEFOR.TXT",
+      "length": 290,
+      "last_write_utc": "2004-10-23T21:58:58.0000000Z",
+      "sha256": "f00a4351cee21965ff97da8d1915fc68fc50bd54b80c6e556b1c7e576099e143"
+    },
+    {
+      "relative_path": "ORIGCDX.cdx",
+      "length": 4608,
+      "last_write_utc": "2026-07-10T15:49:02.0000000Z",
+      "sha256": "b1b3775b395467aa8c29b86e1c287b31b28719c66036a1cf1bea1207654da2b4"
+    },
+    {
+      "relative_path": "ORIGEM.DBF",
+      "length": 307,
+      "last_write_utc": "2024-01-29T11:19:38.0000000Z",
+      "sha256": "c7af921b19192074cb7be523c5d57bc56d3c98a8becdd2fc33a6a22605eccd7a"
+    },
+    {
+      "relative_path": "PAGTCDX.cdx",
+      "length": 223744,
+      "last_write_utc": "2026-10-29T12:43:20.0000000Z",
+      "sha256": "12fdbb889915e8c85d3de51f2488670a92dd60164c9e9d79f31cd80323020d70"
+    },
+    {
+      "relative_path": "PAGTOS.DBF",
+      "length": 373359,
+      "last_write_utc": "2026-10-29T12:43:20.0000000Z",
+      "sha256": "c45488a9a2a1113f0146774432a9a2de03f170b53f6b9c62704ea3eeafd0a579"
+    },
+    {
+      "relative_path": "PAGTOS.TXT",
+      "length": 1024,
+      "last_write_utc": "2004-08-16T19:11:36.0000000Z",
+      "sha256": "3a216892fa1c6a30e75ecd2745c06e84866d600a9944c89a653f87db5e34c90f"
+    },
+    {
+      "relative_path": "PAIS.DBF",
+      "length": 14142,
+      "last_write_utc": "2013-10-09T19:39:36.0000000Z",
+      "sha256": "f1dbda3354c0c97a93a7a5de96c74ab4e0edb2dd11ff5b821bedae771810662b"
+    },
+    {
+      "relative_path": "pais.txt",
+      "length": 14142,
+      "last_write_utc": "2008-03-22T18:06:54.0000000Z",
+      "sha256": "a57b02292b7945cb357e69e53cd9f13d580a490974ad95f3b2a87aa0a45bda3a"
+    },
+    {
+      "relative_path": "PAISCDX.cdx",
+      "length": 12800,
+      "last_write_utc": "2026-07-10T15:48:52.0000000Z",
+      "sha256": "fb4367fb9e23afc696c3a20d570020bdc19c98f36d7f37df0c383ba4a09d5c66"
+    },
+    {
+      "relative_path": "PLANILHA.DBF",
+      "length": 188,
+      "last_write_utc": "2003-10-17T02:10:42.0000000Z",
+      "sha256": "f31a4bf3a1cbdf8f51b1ee994cf0255339a42f1cdf1d1c721a1de35ebe0be5d9"
+    },
+    {
+      "relative_path": "POUPNEST.TXT",
+      "length": 1,
+      "last_write_utc": "2008-06-12T06:37:06.0000000Z",
+      "sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b"
+    },
+    {
+      "relative_path": "PRESSAO.TXT",
+      "length": 1892,
+      "last_write_utc": "2011-04-26T14:36:26.0000000Z",
+      "sha256": "2929fd14e8392b5328d160293113cd6e880969af53885c8f56a8050063a26a5e"
+    },
+    {
+      "relative_path": "PROGCART.DBF",
+      "length": 21755,
+      "last_write_utc": "2026-01-10T13:17:58.0000000Z",
+      "sha256": "8f4e7f410f018964450d37713e3f9f43467c23bf69eb31b7eb0c1d696adb33c0"
+    },
+    {
+      "relative_path": "PROGCART.TXT",
+      "length": 547,
+      "last_write_utc": "2017-06-24T00:25:38.0000000Z",
+      "sha256": "3bb2648c46ee848e005dc919f81eed8e9db400ecbfd05c8aacde3ad2e5693ad2"
+    },
+    {
+      "relative_path": "PROGCCDX.cdx",
+      "length": 6656,
+      "last_write_utc": "2026-07-10T15:49:28.0000000Z",
+      "sha256": "c5beada2de12ce3ea15b6da77cf22940b88a6539236ebe53f1742ef1859096ab"
+    },
+    {
+      "relative_path": "PULA.TXT",
+      "length": 0,
+      "last_write_utc": "2025-05-07T16:51:38.0000000Z",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "relative_path": "PULAX.TXT",
+      "length": 6,
+      "last_write_utc": "2012-04-19T22:56:00.0000000Z",
+      "sha256": "22a10c87d4cf72a101cb3c2e8b5ad96a752594206e9d6686debeddd3434caed7"
+    },
+    {
+      "relative_path": "QFUNCDX.cdx",
+      "length": 3072,
+      "last_write_utc": "2026-07-10T15:48:54.0000000Z",
+      "sha256": "555aa57cff9b552690faaabb0eb25376294c6528033b10e52c98e2db8adfec51"
+    },
+    {
+      "relative_path": "QUESTION.TXT",
+      "length": 1389,
+      "last_write_utc": "2008-10-26T22:26:08.0000000Z",
+      "sha256": "ce863c3f1e5c8bc7ea4878c38f7f13f18c7763f7e015916f85c43cd96138d71f"
+    },
+    {
+      "relative_path": "QUITFUN.DBF",
+      "length": 258,
+      "last_write_utc": "2021-09-03T22:42:12.0000000Z",
+      "sha256": "b486173714db5e6c1aca154393e0a3dfa331fbe2532b4e7cce95d3da866c5d2b"
+    },
+    {
+      "relative_path": "QUITFUN.TXT",
+      "length": 258,
+      "last_write_utc": "2021-09-03T22:42:12.0000000Z",
+      "sha256": "b486173714db5e6c1aca154393e0a3dfa331fbe2532b4e7cce95d3da866c5d2b"
+    },
+    {
+      "relative_path": "R27850.COM",
+      "length": 50,
+      "last_write_utc": "2026-05-14T10:44:20.0000000Z",
+      "sha256": "ef2a2922ffe855eb90141bfd64467b3d3e370f17a646e105aea5b5834b7cfc32"
+    },
+    {
+      "relative_path": "R46785.COM",
+      "length": 50,
+      "last_write_utc": "2025-04-19T15:59:46.0000000Z",
+      "sha256": "155a2123b59f92ac47885a7b96fecbb564484ac61d46a1a0740918b7951f9c2d"
+    },
+    {
+      "relative_path": "R82752.COM",
+      "length": 50,
+      "last_write_utc": "2026-05-14T10:40:12.0000000Z",
+      "sha256": "ef2a2922ffe855eb90141bfd64467b3d3e370f17a646e105aea5b5834b7cfc32"
+    },
+    {
+      "relative_path": "RAPIDO.TXT",
+      "length": 4,
+      "last_write_utc": "2024-01-08T14:59:44.0000000Z",
+      "sha256": "19d8c9921b99c82d78c985136a5e28f6382011641fb6160c0c1a7573a402ea66"
+    },
+    {
+      "relative_path": "RAR.EXE",
+      "length": 293376,
+      "last_write_utc": "2004-01-22T21:35:30.0000000Z",
+      "sha256": "0c230aae90bbb8756eb7b6aeb4a19d552e53d50f56b18cd386824f8827ac976b"
+    },
+    {
+      "relative_path": "RAR.HLP",
+      "length": 5366,
+      "last_write_utc": "2007-04-09T12:17:34.0000000Z",
+      "sha256": "0661fabbf1bc2640144015252b1701b4318a06f71e36c184c5adadeb6c392a93"
+    },
+    {
+      "relative_path": "RAR.LNG",
+      "length": 16938,
+      "last_write_utc": "2006-07-30T00:08:56.0000000Z",
+      "sha256": "60f491d9045f2dd7f5e21d7eaf75be1ea07d12c60418a4506a3418b61f6effdd"
+    },
+    {
+      "relative_path": "RECEITA.bmp",
+      "length": 110422,
+      "last_write_utc": "2020-07-12T00:15:52.0000000Z",
+      "sha256": "583af9d3e517b5c799fe9b224eb19d3678f07942e46ef671d37eb5b8d605c4f0"
+    },
+    {
+      "relative_path": "RECIBCDX.cdx",
+      "length": 165888,
+      "last_write_utc": "2026-10-29T12:43:16.0000000Z",
+      "sha256": "127cff6de28f5da35a6a833c0241c946daea30e502b42ccbcfd1b7b47633d359"
+    },
+    {
+      "relative_path": "RECIBO.DBF",
+      "length": 511847,
+      "last_write_utc": "2026-10-29T12:43:16.0000000Z",
+      "sha256": "c0adba62b9e1d522eb753a031416cb13bf001fe6cc94745c59a1d2bde591d139"
+    },
+    {
+      "relative_path": "RECIBO.TXT",
+      "length": 512,
+      "last_write_utc": "2005-12-05T00:18:36.0000000Z",
+      "sha256": "8a8b1d6829f0298fd90e9910ef39b25112e3b87ddadda26e7bfa71c5da5a7bf8"
+    },
+    {
+      "relative_path": "RELAT.DBF",
+      "length": 547,
+      "last_write_utc": "2026-10-29T12:43:16.0000000Z",
+      "sha256": "d4957de506b36aae8faeef736777f72cbb80c365ac6a17326dd645c2e0b9aa0d"
+    },
+    {
+      "relative_path": "RELATORIO DIA 6 E 7.pdf",
+      "length": 69269,
+      "last_write_utc": "2025-06-10T14:08:24.0000000Z",
+      "sha256": "6af99240d514c2e6a1600b466efe1d3141ecf5bafd408e876de7617d86fec9ee"
+    },
+    {
+      "relative_path": "RENACH.TXT",
+      "length": 4,
+      "last_write_utc": "2023-08-01T15:11:36.0000000Z",
+      "sha256": "19d8c9921b99c82d78c985136a5e28f6382011641fb6160c0c1a7573a402ea66"
+    },
+    {
+      "relative_path": "RENADAN.CON",
+      "length": 11,
+      "last_write_utc": "2003-08-11T14:24:38.0000000Z",
+      "sha256": "e50f34b87422b00cecd33cefc3324ed8cfb65a1b98a222cfe53d0187a9cf9ba8"
+    },
+    {
+      "relative_path": "REPUB.BMP",
+      "length": 169182,
+      "last_write_utc": "2015-06-02T21:01:08.0000000Z",
+      "sha256": "7421433644b7452488fcd97cee2b03abb6ba193d17f0d1949e670006828a4de3"
+    },
+    {
+      "relative_path": "RPS/NF120625.E01",
+      "length": 27486,
+      "last_write_utc": "2025-06-12T16:22:30.0000000Z",
+      "sha256": "93fb4a2c4114ade6a2ce46bd8063163ee475b2ac0916f02f07f1082bf04f73a8"
+    },
+    {
+      "relative_path": "RPS/NF211025.E01",
+      "length": 37266,
+      "last_write_utc": "2025-10-21T13:50:00.0000000Z",
+      "sha256": "8209dcedce61719bbd3a0b169f74cf91d89fcea2d58de7375926ade71f6c1fde"
+    },
+    {
+      "relative_path": "RPS/NF211125.001",
+      "length": 39460,
+      "last_write_utc": "2025-11-21T14:06:36.0000000Z",
+      "sha256": "ba701b2c1ebaf9a83406c5d64f66e91d1b2a312a7f712f0418392b93a77b1a39"
+    },
+    {
+      "relative_path": "RPS/NF231225.E01",
+      "length": 34401,
+      "last_write_utc": "2025-12-23T13:33:50.0000000Z",
+      "sha256": "d3c291d943168a7ab7c391356ed34ce0ffe366e545234c0e5b40ad2bab1ef8d6"
+    },
+    {
+      "relative_path": "RPS/NF300825.E01",
+      "length": 19137,
+      "last_write_utc": "2025-08-30T12:53:58.0000000Z",
+      "sha256": "1ab179cf06b21d257f980fd0e2b3d1eeb3d7903b1b3b00c692a91a6b7efc2496"
+    },
+    {
+      "relative_path": "RPS/NF310725.E01",
+      "length": 74880,
+      "last_write_utc": "2025-07-31T15:33:34.0000000Z",
+      "sha256": "4ae19cfe992ba467c7931feb873b632e3d30ec36625bb090215010a347f7731a"
+    },
+    {
+      "relative_path": "RPSHOJE.TXT",
+      "length": 0,
+      "last_write_utc": "2025-05-29T14:16:36.0000000Z",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "relative_path": "SALDOBAN.DBF",
+      "length": 9569,
+      "last_write_utc": "2025-03-05T16:33:40.0000000Z",
+      "sha256": "b4c55548e6223a77e7628cdeadb88a32caf08c9c234a7891cc805f51516c4a6a"
+    },
+    {
+      "relative_path": "SALDOBAN.TXT",
+      "length": 512,
+      "last_write_utc": "2004-10-23T20:49:58.0000000Z",
+      "sha256": "64ae4ce78726e290ab95b3603beba5e9efb340a5bcacaa7bb2083c0133ac5afa"
+    },
+    {
+      "relative_path": "SALDOCDX.cdx",
+      "length": 13824,
+      "last_write_utc": "2026-07-10T15:49:26.0000000Z",
+      "sha256": "a29cde2e18bb71a7b44fe2895e983a910c46c279327d8712e6bb6aa6277de98e"
+    },
+    {
+      "relative_path": "SMTPABEL.EXE",
+      "length": 1833984,
+      "last_write_utc": "2010-01-07T12:48:24.0000000Z",
+      "sha256": "e6b2fa87659b6dfed18700573f1c13a3707e6676618fe28c8782e59b66616402"
+    },
+    {
+      "relative_path": "sp.bmp",
+      "length": 59454,
+      "last_write_utc": "2009-02-02T21:47:46.0000000Z",
+      "sha256": "7a4456917ae625535e18a1dd1ecdfee67c2751e59cac2c7350714d29aa97b3d9"
+    },
+    {
+      "relative_path": "SPGRANDE.BMP",
+      "length": 176526,
+      "last_write_utc": "2015-06-02T18:57:18.0000000Z",
+      "sha256": "90fc649ff1570a6bee4760164f81d61246fc13136acb385266d8ec613590d1be"
+    },
+    {
+      "relative_path": "T_238.TXT",
+      "length": 322,
+      "last_write_utc": "2008-03-20T19:19:52.0000000Z",
+      "sha256": "13a14e0cff9dc4e6fa406aff83e26e1fcb782a4f629030677b95aa8e03bab12e"
+    },
+    {
+      "relative_path": "T1400.TXT",
+      "length": 512,
+      "last_write_utc": "2008-03-20T19:19:56.0000000Z",
+      "sha256": "b5c42f5638c9b40bead47a9b2699489254254dfb259c65944947a77a983b5853"
+    },
+    {
+      "relative_path": "TAB_PROV.DBF",
+      "length": 707,
+      "last_write_utc": "2013-10-09T19:39:38.0000000Z",
+      "sha256": "665d8a680a3622aed642d58da9ccf4340f102f882c7189bf6477470efcf72f9e"
+    },
+    {
+      "relative_path": "TAB_PROV.TXT",
+      "length": 917,
+      "last_write_utc": "2012-07-19T00:41:06.0000000Z",
+      "sha256": "7ce92dbd24be0007d04512f8e69af196015d87ba3c9c324ae15cb5a597216227"
+    },
+    {
+      "relative_path": "TABMED.TXT",
+      "length": 686572,
+      "last_write_utc": "2007-09-03T05:35:36.0000000Z",
+      "sha256": "a80ee5429ce7a45d9286a645eced5e602cf61d03c1474aab302d35607eb0ebd0"
+    },
+    {
+      "relative_path": "TABMP.DBF",
+      "length": 412051,
+      "last_write_utc": "2010-02-02T22:47:30.0000000Z",
+      "sha256": "bb38b5fcf57608a5f8906772e7f1173e235484f7a335618376a1bdf794ba55da"
+    },
+    {
+      "relative_path": "TABMPCDX.cdx",
+      "length": 34304,
+      "last_write_utc": "2026-07-10T15:48:52.0000000Z",
+      "sha256": "6fe7046eca28b7512992bbb3c9a942f11b7b981e08afccc5e50f3e0a907b7a84"
+    },
+    {
+      "relative_path": "TABPCDX.cdx",
+      "length": 4608,
+      "last_write_utc": "2026-07-10T15:49:02.0000000Z",
+      "sha256": "1dc281bb74b732c02116ef42c0cf4497f514e932a75f870e41796ce8a1083d0b"
+    },
+    {
+      "relative_path": "TEAM_ABEL.COP",
+      "length": 19228400,
+      "last_write_utc": "2026-08-06T11:15:14.0000000Z",
+      "sha256": "e73d331df25dcce88511e82f81d6ccc18b41e0cba59f06ca7480bc0bdd6c0ec7"
+    },
+    {
+      "relative_path": "team_abel.exe",
+      "length": 19228400,
+      "last_write_utc": "2021-02-22T22:10:30.0000000Z",
+      "sha256": "e73d331df25dcce88511e82f81d6ccc18b41e0cba59f06ca7480bc0bdd6c0ec7"
+    },
+    {
+      "relative_path": "TICKCDX.cdx",
+      "length": 4608,
+      "last_write_utc": "2026-07-10T15:49:22.0000000Z",
+      "sha256": "33d6597eab49d6a15ff0820e61f3985f8a8b9d68df2c0e4d564d9b0771e5e98d"
+    },
+    {
+      "relative_path": "TICKETS.DBF",
+      "length": 322,
+      "last_write_utc": "2018-09-21T04:31:16.0000000Z",
+      "sha256": "32850014b835e57ddafe07c01d806954281665c133ac81a01bf9ee0acfdf1df6"
+    },
+    {
+      "relative_path": "TICKETS.TXT",
+      "length": 322,
+      "last_write_utc": "2018-09-21T03:31:16.0000000Z",
+      "sha256": "32850014b835e57ddafe07c01d806954281665c133ac81a01bf9ee0acfdf1df6"
+    },
+    {
+      "relative_path": "TIPOIMP.DBF",
+      "length": 1462,
+      "last_write_utc": "2006-07-12T23:20:14.0000000Z",
+      "sha256": "16a54bd489208e77b5dddbae95e938b2dc261078489d5b1b1abe01e5fc18f008"
+    },
+    {
+      "relative_path": "TMP_ASS.188",
+      "length": 959,
+      "last_write_utc": "2026-10-22T11:11:30.0000000Z",
+      "sha256": "645c00992d5b21d5645afbbd0b010abb81cf79f8f67ebbd9ce70bbd8eb7b7b08"
+    },
+    {
+      "relative_path": "TMP_ASS.DBF",
+      "length": 1153,
+      "last_write_utc": "2026-10-22T11:11:32.0000000Z",
+      "sha256": "64ac5f2a715fe031186a199b90abd6f277adde349e4d0814c7ffbf721b6528f2"
+    },
+    {
+      "relative_path": "TMP_EST.DBF",
+      "length": 258,
+      "last_write_utc": "2026-07-10T15:49:22.0000000Z",
+      "sha256": "7a5ddbe3477ed03f66d531f1f159eba90d2e80ed497b889a4338c43b1bc8b4ea"
+    },
+    {
+      "relative_path": "TMP_EVE.DBF",
+      "length": 258,
+      "last_write_utc": "2026-07-10T15:49:24.0000000Z",
+      "sha256": "273ff1a8730d3e5698d9d3788d85b36ab9ee8b42428b5485c59aa1c680542d25"
+    },
+    {
+      "relative_path": "TMP_MP.DBF",
+      "length": 450,
+      "last_write_utc": "2026-07-10T15:49:22.0000000Z",
+      "sha256": "73acf296547ccfabe9eaf330b1b66e302b41d63e650865b813577ed9d213d132"
+    },
+    {
+      "relative_path": "TMP_REN.DBF",
+      "length": 610,
+      "last_write_utc": "2026-07-10T15:49:24.0000000Z",
+      "sha256": "65d2660ad7cf07e924466cd40e166d9f9d592b6adab724b755bddee40eb13862"
+    },
+    {
+      "relative_path": "TMPASCDX.cdx",
+      "length": 7680,
+      "last_write_utc": "2026-07-10T15:49:22.0000000Z",
+      "sha256": "3a8939c3031daa9e71265d8d64e6b72a66db631e5513f112f09be5569d096668"
+    },
+    {
+      "relative_path": "TMPESCDX.cdx",
+      "length": 3072,
+      "last_write_utc": "2026-07-10T15:49:22.0000000Z",
+      "sha256": "cfa3f51033b8ea8de0ab6e3185f81b977b6449cbdf04286f5856645d36ee1d8a"
+    },
+    {
+      "relative_path": "TMPEVCDX.cdx",
+      "length": 3072,
+      "last_write_utc": "2026-07-10T15:49:24.0000000Z",
+      "sha256": "3ab0e36eeeaa34e32dae643202a958593907ab87623fac306fc131c249dbbf62"
+    },
+    {
+      "relative_path": "TMPMPCDX.cdx",
+      "length": 4608,
+      "last_write_utc": "2026-07-10T15:49:24.0000000Z",
+      "sha256": "a7e85a7962045cc752be23f3e80800ec18cd08b7bdbd2106d191856d0a2117ce"
+    },
+    {
+      "relative_path": "TMPRECDX.cdx",
+      "length": 4608,
+      "last_write_utc": "2026-07-10T15:49:24.0000000Z",
+      "sha256": "10323d4539010f278f1f34bb8ef858d7023d7b935732e23dab4a38c7f543f74b"
+    },
+    {
+      "relative_path": "TROCADIG.TXT",
+      "length": 1,
+      "last_write_utc": "2006-10-19T18:14:58.0000000Z",
+      "sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b"
+    },
+    {
+      "relative_path": "TXCARCDX.cdx",
+      "length": 3072,
+      "last_write_utc": "2026-07-10T15:49:28.0000000Z",
+      "sha256": "a640d568609411b3953c7181a25a374618384815b8cdf9e52707564d8ad210fe"
+    },
+    {
+      "relative_path": "TXCARTAO.DBF",
+      "length": 739,
+      "last_write_utc": "2017-06-24T00:26:40.0000000Z",
+      "sha256": "c42ebfd728662127f29f97b00ef3341163d96c3bb7f209159cc4e4734ff37a70"
+    },
+    {
+      "relative_path": "TXCARTAO.TXT",
+      "length": 739,
+      "last_write_utc": "2017-06-24T00:26:40.0000000Z",
+      "sha256": "c42ebfd728662127f29f97b00ef3341163d96c3bb7f209159cc4e4734ff37a70"
+    },
+    {
+      "relative_path": "TXT.HJ",
+      "length": 56,
+      "last_write_utc": "2025-05-07T18:02:50.0000000Z",
+      "sha256": "5d5c96101dba2361cfe74cacfbbf0e69e1d1b66b18178056833ec92d7f724c85"
+    },
+    {
+      "relative_path": "TXT1.prn",
+      "length": 1090,
+      "last_write_utc": "2026-10-29T12:04:22.0000000Z",
+      "sha256": "9a5f2875fbea79a2ec15d0c65cd08efa8e941cfe67d3139e6c67a1c20764becd"
+    },
+    {
+      "relative_path": "TXT1.prn.PDF",
+      "length": 12021,
+      "last_write_utc": "2025-05-29T19:47:38.0000000Z",
+      "sha256": "e97dbc844ed0803831e663ab4513d22ed529874babd84d5ff013ab326b52106a"
+    },
+    {
+      "relative_path": "TXT2.prn",
+      "length": 1090,
+      "last_write_utc": "2026-10-29T12:43:20.0000000Z",
+      "sha256": "dcf8dd9e50fc40e9e73bb864ad89ffe061565784123c1754234fd3f817976659"
+    },
+    {
+      "relative_path": "TXT2.prn.PDF",
+      "length": 33959,
+      "last_write_utc": "2025-07-31T15:41:22.0000000Z",
+      "sha256": "c3171a79af471c766530e9c0d042917590ee1d93ed10bf306fb8524d0746074a"
+    },
+    {
+      "relative_path": "TXT3.prn",
+      "length": 1090,
+      "last_write_utc": "2026-10-29T12:01:58.0000000Z",
+      "sha256": "30ed48e80c2ada72730e2c7f01a7c2e6c7de7ef8f236daf7f10c2c45a4bdfe13"
+    },
+    {
+      "relative_path": "TXT3.prn.PDF",
+      "length": 13524,
+      "last_write_utc": "2026-04-11T15:11:48.0000000Z",
+      "sha256": "2f11cb2d8e7278e7299501df5522e416357e0f2c886545d9f13d8824bc282e0a"
+    },
+    {
+      "relative_path": "ULTBACK1.TXT",
+      "length": 0,
+      "last_write_utc": "2025-03-05T17:09:34.0000000Z",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "relative_path": "ultclin.rar",
+      "length": 1266615,
+      "last_write_utc": "2026-10-22T11:11:16.0000000Z",
+      "sha256": "175b5d54b86fe2fbf01b53ff35f829ea4e4e667b09260e3533dfe308f9255af7"
+    },
+    {
+      "relative_path": "ULTIMO24.TXT",
+      "length": 24,
+      "last_write_utc": "2008-04-17T23:00:50.0000000Z",
+      "sha256": "d36a3699e7d3f48e82d20f4a2cd0b54b6faf4d04bf9c025a240a21db5529ae9d"
+    },
+    {
+      "relative_path": "UMAFOLHA.TXT",
+      "length": 5,
+      "last_write_utc": "2006-06-24T16:30:08.0000000Z",
+      "sha256": "420229be5a6d6808b34d93c13a82cdfc15927f754fd2b5899e4836211d545a14"
+    },
+    {
+      "relative_path": "UNID.mem",
+      "length": 366,
+      "last_write_utc": "2016-01-07T17:19:02.0000000Z",
+      "sha256": "6e70ea126c85697d3a6b73856d0e06a5d9728612133c81cd0fdb1c20dc6b8bae"
+    },
+    {
+      "relative_path": "USUARIOS.DBF",
+      "length": 1338,
+      "last_write_utc": "2026-10-30T19:50:30.0000000Z",
+      "sha256": "0e5e3733eebece4fee0765e51a300598d01f1c71fca3a4eb4ef94c1a02accada"
+    },
+    {
+      "relative_path": "USUCDX.cdx",
+      "length": 4608,
+      "last_write_utc": "2026-07-10T15:49:22.0000000Z",
+      "sha256": "d66c08024313c181d4966b3fa688085295d6716d00853ef38af830498037cc50"
+    },
+    {
+      "relative_path": "VAL_FUNC.DBF",
+      "length": 451,
+      "last_write_utc": "2021-09-03T22:41:58.0000000Z",
+      "sha256": "59f3c3729a8258aea71369e0b3d1a33a6516d0a75f5b77cd53698fe2bd39e876"
+    },
+    {
+      "relative_path": "VAL_FUNC.TXT",
+      "length": 451,
+      "last_write_utc": "2021-09-03T22:41:58.0000000Z",
+      "sha256": "59f3c3729a8258aea71369e0b3d1a33a6516d0a75f5b77cd53698fe2bd39e876"
+    },
+    {
+      "relative_path": "VENCTO2.TXT",
+      "length": 0,
+      "last_write_utc": "2005-03-05T22:12:58.0000000Z",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "relative_path": "VENCTO3.TXT",
+      "length": 0,
+      "last_write_utc": "2005-05-22T19:00:30.0000000Z",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "relative_path": "VENCTOOK.TXT",
+      "length": 0,
+      "last_write_utc": "2004-10-24T00:01:00.0000000Z",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "relative_path": "VERS_125.TXT",
+      "length": 1,
+      "last_write_utc": "2012-07-19T01:48:08.0000000Z",
+      "sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b"
+    },
+    {
+      "relative_path": "VERS_126.TXT",
+      "length": 1,
+      "last_write_utc": "2014-02-12T05:00:10.0000000Z",
+      "sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b"
+    },
+    {
+      "relative_path": "VERS_127.TXT",
+      "length": 1,
+      "last_write_utc": "2015-05-12T16:35:02.0000000Z",
+      "sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b"
+    },
+    {
+      "relative_path": "VERS_133.TXT",
+      "length": 1,
+      "last_write_utc": "2015-05-12T16:35:02.0000000Z",
+      "sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b"
+    },
+    {
+      "relative_path": "VERS_134.TXT",
+      "length": 1,
+      "last_write_utc": "2015-05-12T16:35:02.0000000Z",
+      "sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b"
+    },
+    {
+      "relative_path": "VERS_135.TXT",
+      "length": 1,
+      "last_write_utc": "2016-01-07T17:19:00.0000000Z",
+      "sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b"
+    },
+    {
+      "relative_path": "VERS_136.TXT",
+      "length": 1,
+      "last_write_utc": "2016-01-07T17:19:00.0000000Z",
+      "sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b"
+    },
+    {
+      "relative_path": "VERS_137.TXT",
+      "length": 1,
+      "last_write_utc": "2016-01-07T17:19:02.0000000Z",
+      "sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b"
+    },
+    {
+      "relative_path": "VERS_138.TXT",
+      "length": 1,
+      "last_write_utc": "2016-01-07T17:19:04.0000000Z",
+      "sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b"
+    },
+    {
+      "relative_path": "VERS_139.TXT",
+      "length": 1,
+      "last_write_utc": "2016-01-07T17:19:04.0000000Z",
+      "sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b"
+    },
+    {
+      "relative_path": "VERS_140.TXT",
+      "length": 1,
+      "last_write_utc": "2016-01-07T17:20:56.0000000Z",
+      "sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b"
+    },
+    {
+      "relative_path": "VERS_141.TXT",
+      "length": 1,
+      "last_write_utc": "2016-01-07T17:20:56.0000000Z",
+      "sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b"
+    },
+    {
+      "relative_path": "VERS_142.TXT",
+      "length": 1,
+      "last_write_utc": "2017-10-18T14:52:50.0000000Z",
+      "sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b"
+    },
+    {
+      "relative_path": "VERS_143.TXT",
+      "length": 1,
+      "last_write_utc": "2017-10-18T14:52:52.0000000Z",
+      "sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b"
+    },
+    {
+      "relative_path": "VERS_147.TXT",
+      "length": 1,
+      "last_write_utc": "2017-10-18T14:52:56.0000000Z",
+      "sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b"
+    },
+    {
+      "relative_path": "VERS_148.TXT",
+      "length": 1,
+      "last_write_utc": "2017-10-18T14:52:56.0000000Z",
+      "sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b"
+    },
+    {
+      "relative_path": "VERS_149.TXT",
+      "length": 1,
+      "last_write_utc": "2017-10-18T14:52:56.0000000Z",
+      "sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b"
+    },
+    {
+      "relative_path": "VERS_150.TXT",
+      "length": 1,
+      "last_write_utc": "2017-10-18T14:52:56.0000000Z",
+      "sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b"
+    },
+    {
+      "relative_path": "VERS_151.TXT",
+      "length": 1,
+      "last_write_utc": "2017-10-18T14:52:56.0000000Z",
+      "sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b"
+    },
+    {
+      "relative_path": "VERS_152.TXT",
+      "length": 1,
+      "last_write_utc": "2017-10-18T14:52:56.0000000Z",
+      "sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b"
+    },
+    {
+      "relative_path": "VERS_153.TXT",
+      "length": 1,
+      "last_write_utc": "2017-10-18T14:57:10.0000000Z",
+      "sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b"
+    },
+    {
+      "relative_path": "VERS_154.TXT",
+      "length": 1,
+      "last_write_utc": "2017-10-18T14:57:10.0000000Z",
+      "sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b"
+    },
+    {
+      "relative_path": "VERS_155.TXT",
+      "length": 1,
+      "last_write_utc": "2017-10-18T14:57:12.0000000Z",
+      "sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b"
+    },
+    {
+      "relative_path": "VERS_156.TXT",
+      "length": 1,
+      "last_write_utc": "2019-04-12T21:09:32.0000000Z",
+      "sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b"
+    },
+    {
+      "relative_path": "VERS_157.TXT",
+      "length": 1,
+      "last_write_utc": "2019-04-12T21:09:32.0000000Z",
+      "sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b"
+    },
+    {
+      "relative_path": "VERS_158.TXT",
+      "length": 1,
+      "last_write_utc": "2019-04-13T17:25:26.0000000Z",
+      "sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b"
+    },
+    {
+      "relative_path": "VERS_159.TXT",
+      "length": 1,
+      "last_write_utc": "2019-11-29T11:02:54.0000000Z",
+      "sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b"
+    },
+    {
+      "relative_path": "VERS_160.TXT",
+      "length": 1,
+      "last_write_utc": "2019-11-29T11:02:54.0000000Z",
+      "sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b"
+    },
+    {
+      "relative_path": "VERS_161.TXT",
+      "length": 1,
+      "last_write_utc": "2020-10-02T13:20:32.0000000Z",
+      "sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b"
+    },
+    {
+      "relative_path": "VERS_162.TXT",
+      "length": 1,
+      "last_write_utc": "2023-08-01T14:39:22.0000000Z",
+      "sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b"
+    },
+    {
+      "relative_path": "VERS_163.TXT",
+      "length": 1,
+      "last_write_utc": "2023-08-01T14:39:22.0000000Z",
+      "sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b"
+    },
+    {
+      "relative_path": "VERS_164.TXT",
+      "length": 1,
+      "last_write_utc": "2023-08-01T14:39:22.0000000Z",
+      "sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b"
+    },
+    {
+      "relative_path": "VERS_165.TXT",
+      "length": 1,
+      "last_write_utc": "2023-08-01T14:39:22.0000000Z",
+      "sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b"
+    },
+    {
+      "relative_path": "VERS_166.TXT",
+      "length": 1,
+      "last_write_utc": "2023-08-01T14:39:22.0000000Z",
+      "sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b"
+    },
+    {
+      "relative_path": "VERS_167.TXT",
+      "length": 1,
+      "last_write_utc": "2023-08-01T14:39:22.0000000Z",
+      "sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b"
+    },
+    {
+      "relative_path": "VERS_168.TXT",
+      "length": 1,
+      "last_write_utc": "2023-08-01T14:39:22.0000000Z",
+      "sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b"
+    },
+    {
+      "relative_path": "VERS_169.TXT",
+      "length": 1,
+      "last_write_utc": "2023-08-01T14:39:22.0000000Z",
+      "sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b"
+    },
+    {
+      "relative_path": "VERS_170.TXT",
+      "length": 1,
+      "last_write_utc": "2023-08-01T14:39:22.0000000Z",
+      "sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b"
+    },
+    {
+      "relative_path": "VERS_171.TXT",
+      "length": 1,
+      "last_write_utc": "2023-08-01T14:39:22.0000000Z",
+      "sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b"
+    },
+    {
+      "relative_path": "VERS_172.TXT",
+      "length": 1,
+      "last_write_utc": "2023-08-01T14:39:22.0000000Z",
+      "sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b"
+    },
+    {
+      "relative_path": "VERS_173.TXT",
+      "length": 1,
+      "last_write_utc": "2023-08-01T14:39:22.0000000Z",
+      "sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b"
+    },
+    {
+      "relative_path": "VERS_174.TXT",
+      "length": 1,
+      "last_write_utc": "2023-08-01T14:39:22.0000000Z",
+      "sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b"
+    },
+    {
+      "relative_path": "VERS_175.TXT",
+      "length": 1,
+      "last_write_utc": "2023-08-01T14:39:22.0000000Z",
+      "sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b"
+    },
+    {
+      "relative_path": "VERS_176.TXT",
+      "length": 1,
+      "last_write_utc": "2023-08-01T14:39:22.0000000Z",
+      "sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b"
+    },
+    {
+      "relative_path": "VERS_177.TXT",
+      "length": 1,
+      "last_write_utc": "2023-08-01T14:39:22.0000000Z",
+      "sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b"
+    },
+    {
+      "relative_path": "VERS_178.TXT",
+      "length": 1,
+      "last_write_utc": "2024-01-08T14:31:34.0000000Z",
+      "sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b"
+    },
+    {
+      "relative_path": "VERS_179.TXT",
+      "length": 1,
+      "last_write_utc": "2024-01-08T14:31:34.0000000Z",
+      "sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b"
+    },
+    {
+      "relative_path": "VERS_180.TXT",
+      "length": 1,
+      "last_write_utc": "2024-09-11T14:51:30.0000000Z",
+      "sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b"
+    },
+    {
+      "relative_path": "VERS_181.TXT",
+      "length": 1,
+      "last_write_utc": "2024-09-11T14:51:30.0000000Z",
+      "sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b"
+    },
+    {
+      "relative_path": "VERS_182.TXT",
+      "length": 1,
+      "last_write_utc": "2024-09-11T14:51:30.0000000Z",
+      "sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b"
+    },
+    {
+      "relative_path": "VERS_183.TXT",
+      "length": 1,
+      "last_write_utc": "2025-03-05T16:04:26.0000000Z",
+      "sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b"
+    },
+    {
+      "relative_path": "VERS_184.TXT",
+      "length": 1,
+      "last_write_utc": "2025-03-05T16:04:28.0000000Z",
+      "sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b"
+    },
+    {
+      "relative_path": "VERS_185.TXT",
+      "length": 1,
+      "last_write_utc": "2026-01-05T16:23:36.0000000Z",
+      "sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b"
+    },
+    {
+      "relative_path": "VERS_186.TXT",
+      "length": 1,
+      "last_write_utc": "2026-01-05T16:23:36.0000000Z",
+      "sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b"
+    },
+    {
+      "relative_path": "VERS_187.TXT",
+      "length": 1,
+      "last_write_utc": "2026-01-30T11:53:18.0000000Z",
+      "sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b"
+    },
+    {
+      "relative_path": "VERS_188.TXT",
+      "length": 1,
+      "last_write_utc": "2026-10-22T11:11:32.0000000Z",
+      "sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b"
+    },
+    {
+      "relative_path": "VERS_189.TXT",
+      "length": 1,
+      "last_write_utc": "2026-10-22T11:11:32.0000000Z",
+      "sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b"
+    },
+    {
+      "relative_path": "VERS_190.TXT",
+      "length": 1,
+      "last_write_utc": "2026-10-22T11:11:32.0000000Z",
+      "sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b"
+    },
+    {
+      "relative_path": "VFUNCCDX.cdx",
+      "length": 6144,
+      "last_write_utc": "2026-07-10T15:48:54.0000000Z",
+      "sha256": "310a9d08eea77f5878b63ca87da401d84aa307efa56b2ffafa16bb3fb860cac6"
+    },
+    {
+      "relative_path": "x",
+      "length": 0,
+      "last_write_utc": "2025-12-23T13:33:56.0000000Z",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
+}

@@ -1,0 +1,77 @@
+[2026-10-31 11:47:27 -03:00]
+Tipo: Documentacao de planejamento
+Versao/build: inalterada; nenhuma alteracao de codigo
+Arquivos criados:
+- PLANO_DE_ACAO.json
+- LOG.log
+Alteracoes:
+- Registrado plano estrutural completo do estado atual ate a build final 1.0.0.
+- Incluidos objetivos, acoes, entregaveis, bloqueadores e criterios de passagem por fase.
+- Incluidas politicas de Poetry, versionamento, Git, backup, seguranca, auditoria e processamento paralelo.
+Validacao planejada:
+- Validar sintaxe JSON e quantidade/ordem das fases.
+Restauracao:
+- Os dois arquivos podem ser removidos sem afetar o HTML ou os bancos legados.
+
+[2026-10-31 11:52:00 -03:00]
+Tipo: Execucao da Fase 0 - governanca e preservacao
+Versao/build: 0.1.0+build.1
+Arquivos criados:
+- backups/ABEL-BAK_20261031T115000-0300.zip
+- docs/fase_0_manifesto_sha256.json
+- docs/fase_0_validacao_backup.json
+- docs/fase_0_topologia_e_politica.md
+- docs/fase_0_resultado.json
+Alteracoes:
+- Inventariados 306 arquivos da pasta ABEL-BAK, totalizando 115574286 bytes.
+- Gerados hashes SHA-256 em processamento paralelo com oito tarefas.
+- Criado backup integral compactado com SHA-256 7ef9ca904f14264b8e739d4d2e501969afc244dfdb061f858d8d8771f36533e7.
+- Restaurado o backup em diretorio temporario e comparados nomes, tamanhos e hashes.
+- Confirmado que os 306 arquivos foram restaurados sem ausencias, extras ou divergencias.
+- Confirmado que nenhum arquivo original mudou durante o backup.
+- Definidos MySQL local e a estacao Windows como topologia inicial.
+Limitacoes:
+- Os RAR historicos permanecem sem validacao interna porque exigem senha.
+- O ZIP local de validacao nao e criptografado e nao deve ser transferido.
+Validacao:
+- Fase 0 aprovada; decisao GO para a Fase 1.
+Restauracao:
+- O ZIP foi comprovadamente restauravel e o diretorio temporario foi removido apos validacao.
+
+[2026-10-31 12:03:00 -03:00]
+Tipo: Execucao da Fase 1 - inicializacao do projeto
+Versao/build final do bloco: 0.2.3+build.5
+Arquivos e estruturas principais:
+- pyproject.toml e poetry.lock
+- poetry.toml com ambiente virtual dentro do projeto
+- backend/app com configuracao, roteador e health check
+- tests/test_health.py
+- alembic.ini e migrations/
+- frontend/ e tools/
+- .env.example, .gitignore e README.md
+- docs/fase_1_resultado.json
+Alteracoes:
+- Criado projeto Python gerenciado pelo Poetry 2.3.4.
+- Instalados FastAPI, Uvicorn, SQLAlchemy, Alembic, PyMySQL, Pydantic Settings, Argon2 e dependencias de teste.
+- Criada API inicial com endpoint GET /api/health.
+- Criados testes automatizados e configuracoes de lint e formatacao Ruff.
+- Protegidos legado, backups, bancos locais, documentos, ambiente virtual e segredos contra inclusao no Git.
+Correcoes e builds:
+- 0.2.1+build.3: ordem de imports corrigida.
+- 0.2.2+build.4: onze arquivos formatados pelo Ruff.
+- 0.2.3+build.5: cliente httpx depreciado substituido por httpx2.
+Validacao:
+- poetry check aprovado.
+- ruff check aprovado.
+- ruff format --check aprovado.
+- 2 de 2 testes aprovados, sem avisos.
+- Cobertura do backend: 100%.
+- Servidor Uvicorn iniciado e encerrado de forma controlada.
+- GET http://127.0.0.1:8000/api/health retornou HTTP 200 e versao 0.2.3.
+Bloqueador:
+- Repositorio Git remoto ainda nao configurado; push obrigatorio nao pode ser executado.
+Decisao:
+- Fase 1 aprovada localmente, mas Fase 2 permanece em NO-GO ate configurar o remoto.
+Restauracao:
+- O commit local da Fase 1 permite restaurar os arquivos versionados; dados legados e backups permanecem fora do Git.
+
