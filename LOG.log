@@ -75,3 +75,1535 @@ Decisao:
 Restauracao:
 - O commit local da Fase 1 permite restaurar os arquivos versionados; dados legados e backups permanecem fora do Git.
 
+[2026-10-31 12:08:00 -03:00]
+Tipo: Alteracao de diretriz operacional
+Versao/build: inalterada; nenhuma correcao de codigo
+Alteracoes:
+- Suspensas todas as operacoes Git ate nova autorizacao explicita do usuario.
+- Removido o Git remoto como bloqueador da Fase 1.
+- Atualizados PLANO_DE_ACAO.json, README.md e docs/fase_1_resultado.json.
+- Fase 1 marcada como aprovada e decisao alterada para GO para a Fase 2.
+Diretriz vigente:
+- Nao executar git status, add, commit, push, pull, tag, remote ou qualquer outra operacao Git.
+Validacao:
+- Alteracoes limitadas a documentacao e governanca; build mantida.
+Restauracao:
+- Reverter este bloco documental e restaurar a politica anterior somente mediante nova ordem do usuario.
+
+[2026-10-31 12:20:00 -03:00]
+Tipo: Execucao da Fase 2 - dicionario e mapeamento do legado
+Versao/build final do bloco: 0.3.2+build.9
+Arquivos criados:
+- tools/legacy_inventory.py
+- tests/test_legacy_inventory.py
+- docs/fase_2_dicionario_dados.json
+- docs/fase_2_qualidade_dados.json
+- docs/fase_2_relacionamentos.json
+- docs/fase_2_matriz_origem_destino.json
+- docs/fase_2_regras_transformacao.json
+- docs/fase_2_relatorio.md
+- docs/fase_2_resultado.json
+Alteracoes:
+- Criado inventariador DBF reproduzivel, somente leitura e sem exportacao de valores pessoais.
+- Implementado processamento paralelo com oito workers para descoberta e perfil das tabelas.
+- Catalogados 54 DBFs ativos, 86 arquivos em formato DBF e 32 arquivos com extensoes alternativas.
+- Mapeadas todas as 54 tabelas ativas para staging e dominios normalizados.
+- Definidas 15 regras de transformacao, preservacao, credenciais, datas e auditoria.
+- Confirmados 292699 registros ativos, 121 duplicados exatos e 11 referencias orfas.
+- Identificadas 3381 datas implausiveis em CANDIDAT.DT_VALID e 8 em CANDIDAT.DT_NASC.
+- Confirmada integridade integral dos relacionamentos financeiros testados, exceto CANDIDAT.ORIGEM.
+Correcoes e builds:
+- 0.3.1+build.7: formatacao e estrategia de cobertura corrigidas.
+- 0.3.2+build.8: detector DBF endurecido para rejeitar falsos positivos fiscais e textuais.
+- build.9: qualidade de datas detalhada por campo.
+Validacao:
+- poetry check aprovado.
+- ruff check e ruff format --check aprovados.
+- 4 de 4 testes aprovados.
+- Cobertura do backend: 100%.
+- Execucao integral do inventariador aprovada sobre os bancos reais.
+- Matriz cobre 54 de 54 tabelas, sem ausencias, extras ou duplicacoes.
+- Nenhum build.txt foi criado.
+- Nenhuma operacao Git foi executada, conforme diretriz vigente.
+Decisao:
+- Fase 2 aprovada; GO para Fase 3.
+Restauracao:
+- Remover os artefatos fase_2 e reverter tools/legacy_inventory.py se for necessario retornar ao estado anterior; os DBFs originais permanecem intactos.
+
+[2026-10-31 12:08:34 -03:00]
+Tipo: Execucao da Fase 3 - modelo relacional e banco MySQL
+Versao/build final do bloco: 0.4.4+build.14
+Arquivos criados:
+- config/mysql/my.ini
+- backend/app/db/base.py
+- backend/app/db/session.py
+- backend/app/db/models.py
+- migrations/versions/52f8e516cc0a_create_normalized_schema.py
+- tools/validate_schema.py
+- docs/fase_3_modelo_relacional.md
+- docs/fase_3_validacao_schema.json
+- docs/fase_3_resultado.json
+Alteracoes:
+- Instalado MySQL Community Server 8.4.9 e inicializado banco local na porta 3307.
+- Criados banco abel_clinica e usuario de aplicacao com credenciais locais protegidas.
+- Criadas 18 tabelas normalizadas para pacientes, atendimentos, profissionais, usuarios, financeiro, documentos, auditoria e rastreabilidade legada.
+- Configurados SQLAlchemy 2, Alembic, InnoDB, utf8mb4, 18 chaves estrangeiras e 6 constraints de checagem.
+- Criado validador reproduzivel de schema sem exposicao de credenciais.
+Correcoes e builds:
+- 0.4.1+build.11: removida resolucao reversa incompatível do MySQL local.
+- 0.4.2+build.12: enums atualizados para StrEnum e formatacao corrigida.
+- 0.4.3+build.13: downgrade Alembic corrigido para respeitar indices exigidos por FKs no MySQL.
+- 0.4.4+build.14: validador alterado para comparar dinamicamente com o metadata.
+Validacao:
+- Ruff e formatacao aprovados.
+- 4 de 4 testes aprovados.
+- Alembic check sem divergencias.
+- Ciclo upgrade, downgrade base e upgrade head aprovado no MySQL real.
+- 18 de 18 tabelas, 18 de 18 FKs e 6 de 6 constraints conferem.
+- Todas as tabelas usam InnoDB e utf8mb4; valores financeiros usam DECIMAL(12,2).
+- Nenhum build.txt foi criado e nenhuma operacao Git foi executada.
+Decisao:
+- Fase 3 aprovada; GO para Fase 4.
+Restauracao:
+- Executar `poetry run alembic downgrade base` para remover o schema vazio; credenciais e dados locais permanecem fora dos arquivos versionaveis.
+
+[2026-10-31 12:11:47 -03:00]
+Tipo: Execucao da Fase 4 - importador DBF para staging
+Versao/build final do bloco: 0.5.0+build.15
+Arquivos criados:
+- tools/import_legacy.py
+- tests/test_import_legacy.py
+- docs/fase_4_importacao.json
+- docs/fase_4_importacao_repetida.json
+- docs/fase_4_relatorio.md
+- docs/fase_4_resultado.json
+Alteracoes:
+- Implementado leitor DBF/FPT com CP1252, hash por registro e preservacao do payload original.
+- Implementada descoberta por assinatura, inclusive para 32 DBFs com extensoes alternativas.
+- Implementada leitura paralela com oito workers e gravacao transacional em lotes de 1000.
+- Implementado upsert idempotente por arquivo e posicao fisica.
+Validacao:
+- Ruff aprovado e 6 de 6 testes aprovados.
+- 86 de 86 arquivos e 296775 de 296775 registros importados, sem erros.
+- Segunda carga manteve exatamente 296775 registros.
+- 86 de 86 hashes conferem com o manifesto imutavel da Fase 0.
+- Primeira carga concluida em 34,566 segundos e repeticao em 69,061 segundos.
+- Nenhum build.txt e nenhuma operacao Git.
+Decisao:
+- Fase 4 aprovada; GO para Fase 5.
+Restauracao:
+- Limpar somente legacy_raw_records e executar novamente o importador; os arquivos de origem permanecem imutaveis.
+
+[2026-10-31 12:20:40 -03:00]
+Tipo: Execucao da Fase 5 - normalizacao e reconciliacao
+Versao/build final do bloco: 0.6.1+build.17
+Arquivos criados:
+- migrations/versions/7970388c4969_add_appointment_renach.py
+- tools/normalize_legacy.py
+- tools/validate_normalization.py
+- tests/test_normalize_legacy.py
+- docs/fase_5_reconciliacao.json
+- docs/fase_5_reconciliacao_primeira.json
+- docs/fase_5_validacao.json
+- docs/fase_5_relatorio.md
+- docs/fase_5_resultado.json
+Alteracoes:
+- Adicionado RENACH textual aos atendimentos e criada migracao Alembic incremental.
+- Consolidados pacientes somente por CPF valido; ausentes permanecem separados.
+- Convertidos candidatos, profissionais, usuarios, pagamentos, recibos e movimentos financeiros.
+- Senhas legadas nao foram copiadas; usuarios exigem definicao de nova senha.
+- Criados 22339 vinculos de rastreabilidade legado-novo e fila de 510 ocorrencias.
+- Implementada normalizacao reproduzivel e validador independente.
+Correcoes e builds:
+- 0.5.1+build.16: lacuna de persistencia textual do RENACH corrigida.
+- 0.6.1+build.17: relacionamento de recibos corrigido para nome normalizado e data.
+Validacao:
+- Ruff aprovado e 7 de 7 testes aprovados.
+- Duas normalizacoes produziram contagens identicas.
+- 3867 de 3867 atendimentos possuem codigo legado unico.
+- Total PAGTOS reconciliado em 40982941,00 em ambas as fontes.
+- Cobertura de 2774 depositos, 171 cartoes e 167 programacoes.
+- 3723 recibos vinculados; 11 casos sem correspondencia mantidos para revisao.
+- Amostra deterministica: 25 de 25 nomes e datas conferem.
+- Nenhum build.txt e nenhuma operacao Git.
+Decisao:
+- Fase 5 aprovada com fila de revisao; GO para Fase 6.
+Restauracao:
+- A rotina limpa somente tabelas normalizadas e reconstrói tudo a partir de legacy_raw_records; staging e fontes permanecem preservadas.
+
+[2026-10-31 12:23:06 -03:00]
+Tipo: Execucao da Fase 6 - backend, autenticacao e permissoes
+Versao/build final do bloco: 0.7.0+build.18
+Arquivos criados:
+- backend/app/core/security.py
+- backend/app/core/rate_limit.py
+- backend/app/api/dependencies.py
+- backend/app/api/routes/auth.py
+- migrations/versions/5d94ff7b780c_add_server_auth_sessions.py
+- tools/create_admin.py
+- tools/validate_auth.py
+- tests/test_security.py
+- docs/fase_6_validacao_auth.json
+- docs/fase_6_seguranca.md
+- docs/fase_6_resultado.json
+Alteracoes:
+- Implementadas senhas Argon2id e sessao opaca persistida no MySQL.
+- Implementados cookies HttpOnly/SameSite Strict, CSRF, expiracao e revogacao.
+- Implementado rate limiting de login com estrutura sincronizada para multithread.
+- Implementado RBAC no servidor para gerente, atendente e medico.
+- Implementadas auditorias sem dados sensiveis.
+- Criado administrador inicial com segredo aleatorio somente em arquivo ignorado.
+- Senhas legadas continuam descartadas e todos os usuarios importados exigem nova senha.
+Validacao:
+- Ruff aprovado, Alembic check sem divergencias e 11 de 11 testes aprovados.
+- Login incorreto e vazio rejeitados; limite real retorna HTTP 429.
+- Login valido, /me, cookies, CSRF, logout e revogacao validados ponta a ponta.
+- Testes RBAC aprovam perfil autorizado e negam perfil ausente.
+- 12 eventos de autenticacao auditados sem credenciais.
+- Nenhum build.txt e nenhuma operacao Git.
+Decisao:
+- Fase 6 aprovada; GO para Fase 7.
+Restauracao:
+- Rebaixar a migracao 5d94ff7b780c para remover auth_sessions; o segredo inicial pode ser revogado gerando outro com tools/create_admin.py.
+
+[2026-10-31 12:25:15 -03:00]
+Tipo: Execucao da Fase 7 - API de pacientes e atendimentos
+Versao/build final do bloco: 0.8.0+build.19
+Arquivos criados:
+- backend/app/api/routes/clinical.py
+- migrations/versions/ad5188972991_add_clinical_concurrency_controls.py
+- tests/test_clinical.py
+- tools/validate_clinical_api.py
+- docs/fase_7_validacao_api.json
+- docs/fase_7_api.md
+- docs/fase_7_resultado.json
+Alteracoes:
+- Implementados endpoints paginados de pacientes e atendimentos.
+- Implementada validacao de CPF para novos cadastros sem bloquear legado documentado.
+- Adicionados vinculo usuario-profissional e escopo clinico por medico/psicologo.
+- Adicionado row_version e bloqueio otimista para impedir sobrescrita silenciosa.
+- Implementados filtros combinados que preservam restricoes RBAC.
+- Implementada auditoria de valores anteriores e posteriores.
+Validacao:
+- Ruff e formatacao aprovados; 13 de 13 testes aprovados.
+- Alembic check sem divergencias.
+- Cadastro e dois atendimentos persistiram em MySQL e em nova instancia da aplicacao.
+- Primeira edicao aprovada; repeticao com versao antiga rejeitada por HTTP 409.
+- Medico visualizou somente 1 de 2 atendimentos e nao conseguiu cadastrar paciente.
+- Quatro eventos de criacao/edicao auditados; dados de ensaio removidos ao final.
+- Nenhum build.txt e nenhuma operacao Git.
+Decisao:
+- Fase 7 aprovada; GO para Fase 8.
+Restauracao:
+- Rebaixar ad5188972991 para remover row_version e o vinculo profissional; dados legados normalizados permanecem preservados.
+
+[2026-10-31 12:27:23 -03:00]
+Tipo: Correcao critica de normalizacao financeira
+Versao/build: 0.8.1+build.20
+Alteracoes:
+- Corrigido parser monetario para manter ponto decimal de campos numericos DBF.
+- Mantido suporte a formato brasileiro com virgula e ponto de milhar.
+- Reconstruidas duas vezes todas as tabelas normalizadas a partir da staging.
+- Atualizados relatorio e validador da Fase 5 com o total correto.
+- Recriado administrador inicial e revalidada autenticacao apos a reconstrucao.
+Motivo:
+- O total anterior estava inflado em 100 vezes porque 100.00 era interpretado como 10000.
+Validacao:
+- Total independente dos 3923 PAGTOS: 409829,41.
+- Total normalizado: 409829,41; igualdade exata com DECIMAL.
+- Duas normalizacoes produziram as mesmas contagens e total.
+- Amostra 25 de 25 e todos os criterios de autenticacao permanecem aprovados.
+- 13 de 13 testes e Ruff aprovados.
+Restauracao:
+- A staging preserva os valores brutos; a rotina corrigida reconstrói os dados normalizados sem tocar a fonte.
+
+[2026-10-31 12:28:57 -03:00]
+Tipo: Execucao da Fase 8 - financeiro, pagamentos e recibos
+Versao/build final do bloco: 0.9.0+build.21
+Arquivos criados:
+- backend/app/api/routes/finance.py
+- migrations/versions/0f9d08a36d33_add_payment_reversal_controls.py
+- tests/test_finance.py
+- tools/validate_finance_api.py
+- docs/fase_8_validacao_financeira.json
+- docs/fase_8_financeiro.md
+- docs/fase_8_resultado.json
+Alteracoes:
+- Implementados pagamentos com itens PIX, dinheiro, cartao e cheque.
+- Implementadas igualdade obrigatoria dos itens com total e rejeicao de negativos.
+- Implementados recibos rastreaveis e resumo por periodo/forma.
+- Implementado estorno sem exclusao, com motivo, autor, data e row_version.
+- Financeiro protegido para gerente e atendente; medico explicitamente negado.
+Validacao:
+- Ruff e formatacao aprovados; 15 de 15 testes aprovados.
+- Alembic check sem divergencias.
+- Pagamento hibrido 60 PIX + 40 dinheiro = 100 aprovado.
+- Soma divergente e valores negativos rejeitados por HTTP 422.
+- Indicadores aumentaram exatamente 100, 60 e 40 em consultas independentes.
+- Estorno retornou os totais a linha de base e preservou pagamento e dois itens.
+- Medico recebeu HTTP 403; tres eventos financeiros auditados.
+- Dados de ensaio removidos; nenhum build.txt e nenhuma operacao Git.
+Decisao:
+- Fase 8 aprovada; GO para Fase 9.
+Restauracao:
+- Rebaixar 0f9d08a36d33 para remover metadados de estorno; pagamentos legados permanecem preservados.
+
+[2026-10-31 12:30:50 -03:00]
+Tipo: Execucao da Fase 9 - laudos e documentos
+Versao/build final do bloco: 0.10.0+build.22
+Arquivos criados:
+- backend/app/api/routes/documents.py
+- migrations/versions/7c901694e248_add_document_version_uniqueness.py
+- tests/test_documents.py
+- tools/validate_documents_api.py
+- docs/fase_9_validacao_documentos.json
+- docs/fase_9_documentos.md
+- docs/fase_9_resultado.json
+Alteracoes:
+- Adicionado pypdf 6.21.4 via Poetry.
+- Implementados armazenamento privado, upload e download autenticados.
+- Implementados parser PDF real, limite de 10 MiB, SHA-256 e caminho aleatorio.
+- Implementados historico de versoes, versao ativa e unicidade por atendimento/tipo/versao.
+- Implementados escopo por profissional e auditoria de upload/download.
+Validacao:
+- Ruff e formatacao aprovados; 17 de 17 testes aprovados.
+- Alembic check sem divergencias.
+- Arquivo renomeado rejeitado, limite retornou HTTP 413 e PDF real foi aceito.
+- Duas versoes preservadas com somente a mais nova ativa.
+- Medico vinculado acessou; atendente recebeu HTTP 403; URL publica retornou 404.
+- Alteracao de bytes detectada pelo hash com HTTP 409.
+- Documento persistiu em nova instancia; quatro eventos auditados.
+- Arquivos e dados de ensaio removidos; nenhum build.txt e nenhuma operacao Git.
+Decisao:
+- Fase 9 aprovada; GO para Fase 10.
+Restauracao:
+- Rebaixar 7c901694e248 para remover a unicidade de versao; arquivos privados permanecem recuperaveis pelo hash e metadados.
+
+[2026-10-31 12:34:15 -03:00]
+Tipo: Execucao da Fase 10 - integracao e modularizacao do frontend
+Versao/build final do bloco: 0.11.1+build.24
+Arquivos criados:
+- frontend/index.html
+- frontend/css/app.css
+- frontend/css/visibility.css
+- frontend/js/api.js
+- frontend/js/app.js
+- tests/test_frontend.py
+- tools/validate_frontend.py
+- docs/fase_10_validacao_frontend.json
+- docs/fase_10_frontend.md
+- docs/fase_10_resultado.json
+Alteracoes:
+- Sincronizada a pagina raiz projeto_clinica_hrp.html com o frontend modular.
+- Removidos login simulado, credenciais de exemplo, mocks e manipulacao innerHTML.
+- Conectados login, senha, pacientes, atendimentos, financeiro, indicadores e documentos.
+- Implementados cliente central, CSRF, estados de erro/carregamento e visibilidade por perfil.
+- FastAPI passou a servir pagina e assets; layout responsivo para desktop/tablet.
+Correcoes e builds:
+- 0.11.1+build.24: atributo hidden protegido contra sobrescrita da classe de layout.
+Validacao:
+- Node confirmou sintaxe dos dois modulos JavaScript.
+- Ruff aprovado e 19 de 19 testes aprovados.
+- Validador confirmou todos os endpoints, ausencia de innerHTML, mocks e armazenamento local.
+- QA visual real em 1366x768 e 768x1024 aprovada apos correcao.
+- Nenhum build.txt e nenhuma operacao Git.
+Decisao:
+- Fase 10 aprovada; GO para Fase 11.
+Restauracao:
+- O frontend e independente dos dados; restaurar arquivos frontend e a pagina raiz nao altera MySQL nem documentos.
+
+[2026-10-31 12:37:02 -03:00]
+Tipo: Execucao da Fase 11 - relatorios e operacao administrativa
+Versao/build final do bloco: 0.12.0+build.25
+Arquivos criados:
+- backend/app/api/routes/admin_reports.py
+- migrations/versions/2e32865e3947_add_user_concurrency_control.py
+- tests/test_admin_reports.py
+- tools/validate_admin_reports.py
+- docs/fase_11_validacao_admin_relatorios.json
+- docs/fase_11_administracao.md
+- docs/fase_11_resultado.json
+Alteracoes:
+- Implementadas gestao de usuarios, senha temporaria Argon2 e redefinicao obrigatoria.
+- Implementados relatorio por periodo/profissional/evento/pagamento e fechamento diario.
+- Implementados painel de inconsistencias e exportacao CSV auditada.
+- Neutralizada injecao de formulas em CSV.
+- Adicionados modulos de usuarios e relatorios ao frontend com RBAC visual e servidor.
+Validacao:
+- Node, Ruff, Alembic check e 21 de 21 testes aprovados.
+- Gerente criou/listou/redefiniu usuario; atendente recebeu HTTP 403.
+- Relatorio e fechamento conferiram com consultas SQL independentes.
+- CSV autorizado, auditado e formula maliciosa neutralizada.
+- Painel retornou as 510 ocorrencias de migracao rastreaveis.
+- Frontend permaneceu sem innerHTML, mocks ou armazenamento local.
+- Dados de ensaio removidos; nenhum build.txt e nenhuma operacao Git.
+Decisao:
+- Fase 11 aprovada; GO para Fase 12.
+Restauracao:
+- Rebaixar 2e32865e3947 para remover row_version de usuarios; relatorios nao alteram os dados operacionais.
+
+[2026-10-31 13:13:52 -03:00]
+Tipo: Execucao da Fase 12 - backup, restauracao e observabilidade
+Versao/build final do bloco: 0.13.0+build.26
+Arquivos criados:
+- backend/app/core/logging_config.py
+- tools/backup_system.py
+- tools/restore_backup_test.py
+- tools/run_backup.ps1
+- tools/validate_observability.py
+- tests/test_observability.py
+- docs/fase_12_backup.json
+- docs/fase_12_restauracao.json
+- docs/fase_12_validacao_observabilidade.json
+- docs/fase_12_agendamento.json
+- docs/manual_operacional.md
+- docs/recuperacao_desastre.md
+- docs/fase_12_resultado.json
+Alteracoes:
+- Adicionado cryptography 46.0.7 via Poetry.
+- Implementado backup de MySQL, documentos e configuracao, AES-256-GCM e scrypt.
+- Implementada retencao de 14 backups e tarefa diaria as 22:00.
+- Implementada restauracao isolada com comparacao de todas as tabelas e hashes.
+- Implementados health checks de API, banco e armazenamento.
+- Implementados logs JSON com request ID e rotacao de 5 x 5 MiB, sem query/body/header.
+- Restringidas ACLs de .env e segredos a gabri, SYSTEM e Administradores.
+Validacao:
+- Backup de 20938133 bytes gerado, SHA-256 registrado e autenticado.
+- Restauradas 20 tabelas e 342739 linhas; contagens 100% iguais.
+- Dump e todos os hashes de documentos conferiram; banco de ensaio removido.
+- Health degrada para HTTP 503 quando banco falha em teste controlado.
+- 11 registros de log JSON inspecionados sem usuario/senha, query, corpo ou headers.
+- Tarefa ABEL Backup Diario em estado Ready.
+- Ruff e 23 de 23 testes aprovados.
+- Nenhum build.txt e nenhuma operacao Git.
+Decisao:
+- Fase 12 aprovada; GO para Fase 13.
+Restauracao:
+- O procedimento completo esta em docs/recuperacao_desastre.md; nenhuma restauracao deve sobrescrever producao sem ensaio isolado aprovado.
+
+[2026-10-31 13:18:20 -03:00]
+Tipo: Execucao da Fase 13 - testes integrados e ensaio de migracao
+Versao/build final do bloco: 0.14.0+build.27
+Arquivos criados:
+- tools/rehearse_release.py
+- tools/validate_concurrency_performance.py
+- docs/fase_13_importacao_primeira.json
+- docs/fase_13_importacao_repetida.json
+- docs/fase_13_concorrencia_desempenho.json
+- docs/fase_13_ensaio_completo.json
+- docs/fase_13_relatorio_testes.md
+- docs/fase_13_resultado.json
+Alteracoes:
+- Criado ensaio automatizado integral em banco MySQL descartavel.
+- Atualizado validador de schema para descobrir dinamicamente o head Alembic.
+- Implementado teste simultaneo de concorrencia e carga paralela com oito workers.
+- Consolidado release candidate local sem operacoes Git.
+Validacao:
+- 14 de 14 gates aprovados em 162,147 segundos.
+- Migrations do zero, duas importacoes e duas normalizacoes aprovadas.
+- 296775 registros de staging e 3867 atendimentos no ambiente limpo.
+- APIs clinica, financeira, documental, administrativa e frontend aprovadas.
+- Duas escritas simultaneas retornaram 200 e 409, sem sobrescrita.
+- 40 consultas: media 132,753 ms, p95 232,576 ms, maximo 234,823 ms.
+- Banco de producao manteve contagens identicas; banco de ensaio removido.
+- Zero defeitos criticos ou altos conhecidos; nenhum build.txt e nenhuma operacao Git.
+Decisao:
+- Fase 13 aprovada; GO tecnico para Fase 14, dependente de homologacao humana.
+Restauracao:
+- O ensaio nunca alterou producao; todos os dados temporarios foram eliminados junto com abel_rehearsal_test.
+
+[2026-10-31 13:19:36 -03:00]
+Tipo: Execucao tecnica da Fase 14 - homologacao com usuarios
+Versao/build do bloco: 0.15.0+build.28
+Arquivos criados:
+- tools/run_homologation_pilot.py
+- docs/fase_14_piloto_tecnico.json
+- docs/manual_usuario.md
+- docs/roteiro_treinamento.md
+- docs/termo_homologacao.md
+- docs/fase_14_resultado.json
+Alteracoes:
+- Criado piloto tecnico controlado com fluxos de atendimento, medico, financeiro, laudos, usuarios, relatorios e frontend.
+- Criados manual de usuario, roteiro de treinamento e termo formal de homologacao.
+- Mantido bloqueio explicito de corte sem aprovacao humana.
+Validacao:
+- Cinco de cinco fluxos tecnicos aprovados.
+- Contagens de producao identicas antes e depois; dados de teste removidos.
+- 23 de 23 testes aprovados e Ruff corrigido.
+- Nenhum build.txt e nenhuma operacao Git.
+Decisao:
+- Piloto tecnico PASS, mas Fase 14 permanece PENDENTE.
+- NO-GO para Fase 15 ate gerente, atendimento e medico/psicologo aprovarem e assinarem o termo, incluindo plano de corte e retorno.
+Restauracao:
+- O piloto nao deixou dados operacionais; os documentos de treinamento podem ser revisados sem efeito no sistema.
+
+[2026-10-31 13:20:00 -03:00]
+Tipo: Preparacao nao destrutiva da Fase 15
+Versao/build: mantida em 0.15.0+build.28; Fase 14 ainda pendente
+Arquivos criados:
+- tools/smoke_test.py
+- tools/run_server.ps1
+- tools/register_api_task.ps1
+- docs/plano_corte_retorno.md
+- docs/fase_15_checklist.md
+Alteracoes:
+- Preparados smoke test somente leitura, inicializador da API, registro de tarefa e plano de corte/retorno.
+- Nenhum script de ativacao foi executado e nenhuma escrita no legado foi bloqueada.
+Validacao:
+- Preparacao documental e scripts locais; execucao condicionada a homologacao humana.
+Decisao:
+- Fase 15 nao iniciada; NO-GO preservado.
+Restauracao:
+- Remover os arquivos de preparacao nao altera banco, legado, tarefas ou servicos.
+
+[2026-10-31 13:21:00 -03:00]
+Tipo: Correcao de qualidade da preparacao da Fase 15
+Versao/build do bloco: 0.15.0+build.29
+Arquivos alterados:
+- tools/smoke_test.py
+- docs/fase_14_resultado.json
+Alteracoes:
+- Corrigida a ordem de imports do smoke test conforme Ruff.
+- Mantida a versao funcional 0.15.0 e incrementada somente a build de correcao para 29.
+Validacao:
+- Suite existente: 23 de 23 testes aprovados antes da correcao.
+- Scripts PowerShell de inicializacao e registro: zero erros de parse.
+- Nenhuma ativacao, corte, escrita no legado, build.txt ou operacao Git.
+Decisao:
+- Fase 14 permanece PENDENTE e Fase 15 permanece NO-GO ate homologacao humana.
+Restauracao:
+- Reverter somente a ordem dos imports e o identificador documental da build, sem efeito em dados.
+
+[2026-10-31 13:22:03 -03:00]
+Tipo: Gate consolidado de integridade entre Fases 14 e 15
+Versao/build do bloco: 0.15.0+build.29
+Arquivos criados:
+- docs/gate_fase_14_para_15.json
+Alteracoes:
+- Consolidado o estado tecnico e as evidencias humanas ainda obrigatorias para retomada.
+Validacao:
+- Ruff PASS; 23 de 23 testes PASS; Poetry PASS.
+- MySQL 8.4.9 ouvindo na porta 3307; schema PASS; Alembic 2e32865e3947 em head.
+- Tarefa ABEL Backup Diario Ready; tarefa ABEL API ausente e nao ativada.
+- Bancos temporarios abel_rehearsal_test e abel_restore_test ausentes.
+- build.txt ausente em toda a arvore; nenhuma operacao Git executada.
+Decisao:
+- NO-GO preservado: Fase 14 pendente, Fase 15 nao iniciada e Fase 16 nao iniciada.
+- Necessarias aprovacoes reais de gerencia, atendimento e medico/psicologo, plano aprovado e janela definida.
+Restauracao:
+- O relatorio pode ser removido sem alterar dados, servicos, tarefas ou legado.
+
+[2026-11-01 15:30:02 -03:00]
+Tipo: Preparacao verificavel das Fases 14 e 16
+Versao/build do bloco: 0.15.0+build.34
+Arquivos criados:
+- tools/validate_homologation.py
+- tests/test_validate_homologation.py
+- config/homologation_approval.example.json
+- docs/homologacao_formato.md
+- docs/homologation_validation.json
+- docs/revisao_seguranca_lgpd_preliminar.md
+- docs/rotina_manutencao.md
+- docs/fase_16_checklist.md
+Arquivos alterados:
+- docs/manual_operacional.md
+- docs/fase_14_resultado.json
+- docs/gate_fase_14_para_15.json
+Alteracoes:
+- Criado validador fail-closed para homologacao humana, vinculado aos hashes do piloto e do plano de corte.
+- Criado modelo local de aprovacao com tres perfis, janela, responsaveis e confirmacao operacional.
+- Corrigida a afirmacao do manual sobre modo somente leitura do legado, condicionando-a ao corte homologado.
+- Registradas revisao preliminar de seguranca/LGPD, rotina de manutencao e checklist da build final.
+Validacao:
+- Ruff PASS; 25 de 25 testes PASS; Poetry PASS.
+- Alembic 2e32865e3947 em head; MySQL ativo na porta 3307.
+- Validador retornou NO-GO esperado porque data/homologation_approval.json nao existe.
+- JSONs estruturais validos; tarefa de backup Ready; tarefa ABEL API ausente.
+- build.txt ausente; nenhuma operacao Git executada.
+Decisao:
+- Fase 14 continua pendente; Fases 15 e 16 nao iniciadas.
+- Build 1.0.0 continua bloqueada por homologacao humana e corte real.
+Restauracao:
+- Os artefatos preparatorios podem ser removidos sem alterar banco, legado, tarefas ou servicos.
+
+[2026-11-01 15:44:48 -03:00]
+Tipo: Instalacao auditada de skills, CLIs e MCPs para o projeto ABEL
+Versao/build da aplicacao: mantida em 0.15.0+build.34; nenhuma alteracao funcional no sistema clinico
+Arquivos criados no projeto:
+- .serena/project.yml
+- .serena/project.local.yml
+- .serena/.gitignore
+- .serena/context-abel-readonly.yml
+- config/taskmaster_mcp_quarantine.toml
+- docs/ferramentas_agentes_instalacao.json
+Artefatos locais ignorados:
+- data/tool-install-backup/codex-config-before-20261101T1535-0300.toml
+- data/tool-audit/taskmaster-0.43.1/package-lock.json
+- data/tool-audit/taskmaster-0.29.0/package-lock.json
+- data/tool-audit/spec-kit-sandbox/
+Instalacoes globais:
+- 20 skills Codex fixadas por commit, via download direto, sem fallback Git e sem hooks.
+- serena-agent 2.1.0, specify-cli 1.2.5 e strix-agent 1.7.0 via uv tool isolado.
+- task-master-ai 0.43.1 via npm global com scripts de instalacao desativados.
+Configuracao:
+- Serena registrada como MCP global apontando para o projeto detectado pelo cwd.
+- Serena limitada a 12 ferramentas somente leitura, Python e TypeScript; shell, escrita e dashboard ausentes.
+- Taskmaster removido da configuracao MCP e mantido em quarentena.
+Validacao:
+- Serena iniciou e encerrou corretamente; superficie MCP confirmou exatamente 12 ferramentas de consulta.
+- uv pip check PASS em 77 pacotes Serena, 43 Spec Kit e 92 Strix.
+- Spec Kit inicializou com sucesso somente em sandbox ignorado; nao foi aplicado ao ABEL.
+- 20 de 20 skills possuem SKILL.md; nenhum hook de plugin foi instalado.
+- Auditoria Taskmaster 0.43.1: 66 achados, sendo 2 criticos e 11 altos; downgrade 0.29.0 rejeitado com 67 achados.
+- Strix nao foi executado; Docker ausente e nenhuma chave/modelo foi configurada.
+- Backup Codex antes da alteracao preservado com SHA-256 789E9EEDC6B5DCB0BF7A8A081CC63D240CF1D1BA23C519004544F3CAB7007024.
+Git:
+- Usuario liberou Git em 2026-11-01; usado apenas git status --short nesta instalacao.
+- Nenhum clone, commit, tag, push ou upload executado.
+Decisao:
+- Serena habilitada em modo somente leitura.
+- Skills e CLIs instaladas; nova sessao Codex necessaria para descoberta.
+- Taskmaster instalado, mas NO-GO para ativacao ate upstream corrigir vulnerabilidades criticas/altas.
+Restauracao:
+- Remover Serena com codex mcp remove serena e restaurar a configuracao do backup restrito, se necessario.
+- Desinstalar ferramentas com uv tool uninstall ou npm uninstall --global e remover apenas skills listadas no relatorio.
+
+[2026-11-01 15:46:31 -03:00]
+Tipo: Fechamento de integridade da instalacao de ferramentas
+Versao/build da aplicacao: mantida em 0.15.0+build.34
+Arquivos alterados:
+- docs/ferramentas_agentes_instalacao.json
+Estado operacional:
+- MySQL havia parado entre sessoes; reiniciado de forma oculta com config/mysql/my.ini e confirmado em 127.0.0.1:3307.
+Validacao final:
+- 25 de 25 testes ABEL PASS; Ruff PASS; Poetry PASS.
+- Schema PASS, MySQL 8.4.9 e Alembic 2e32865e3947 em head.
+- 20 de 20 SKILL.md conferem byte a byte pelo Git blob SHA dos commits fixados.
+- JSON, TOML e YAML criados foram parseados com sucesso.
+- Serena MCP smoke PASS com 12 ferramentas exclusivamente de consulta.
+- Taskmaster instalado 0.43.1, mas ausente da lista MCP por quarentena de seguranca.
+- build.txt ausente; nenhum commit, push, tag ou upload Git.
+Observacoes:
+- Uma tentativa de health via HTTP na porta binaria MySQL retornou status invalido esperado; a checagem correta por socket e consulta de schema passou.
+- As novas skills e o MCP Serena ficam disponiveis em uma nova sessao Codex.
+Restauracao:
+- Seguir os comandos de rollback documentados no bloco anterior e no relatorio de instalacao.
+
+[2026-11-01 16:01:40 -03:00]
+Tipo: Correcao de seguranca e validacao da build 35
+Versao/build do bloco: 0.15.0+build.35
+Arquivos criados:
+- docs/auditoria_seguranca_build35.json
+Arquivos alterados:
+- tools/backup_system.py
+- tools/rehearse_release.py
+- tools/run_homologation_pilot.py
+- pyproject.toml
+- poetry.lock
+- docs/fase_14_resultado.json
+- docs/gate_fase_14_para_15.json
+- docs/revisao_seguranca_lgpd_preliminar.md
+- docs/fase_16_checklist.md
+- docs/fase_12_backup.json
+- docs/fase_12_restauracao.json
+- docs/fase_13_ensaio_completo.json
+- docs/fase_14_piloto_tecnico.json
+Alteracoes:
+- Removidos tres usos de SQL textual dinamico, substituidos por Table/select/func.count do SQLAlchemy.
+- cryptography atualizado de 46.0.7 para 50.0.2; pip do venv atualizado de 26.0.1 para 26.2.
+- Atualizados artefatos de backup, restauracao, ensaio, piloto e preflight de seguranca.
+Validacao:
+- Semgrep 1.183.0: 226 regras, 93 arquivos, zero achados e zero erros.
+- pip-audit 2.10.1: 45 dependencias, zero vulnerabilidades conhecidas.
+- Ruff PASS; Poetry PASS; 25 de 25 testes PASS.
+- Backup AES-256-GCM PASS: 20 tabelas, 342750 linhas, SHA-256 fc1b2d286a4529e2c97ce2b3089a7710144e758f46971e15b65d4c772fe50f36.
+- Restauracao isolada PASS; contagens e hashes coincidentes; banco de teste removido.
+- Ensaio completo PASS; producao inalterada; banco de ensaio removido.
+- Piloto tecnico 5 de 5 PASS; contagens de producao inalteradas; human_approval=false.
+- Tarefa ABEL Backup Diario Ready; nenhum banco temporario residual.
+Decisao:
+- Preflight tecnico de seguranca aprovado para build 35.
+- Fase 14 continua PENDENTE; Fases 15 e 16 permanecem NO-GO ate homologacao humana e corte real.
+Git:
+- Politica Git liberada pelo usuario; nenhum commit, tag, push ou upload realizado neste bloco.
+Restauracao:
+- Reverter os tres arquivos de contagem e restaurar pyproject/poetry.lock anteriores; backup anterior permanece preservado.
+
+[2026-11-01 20:43:26 -03:00]
+Tipo: Gate fail-closed e consolidacao tecnica da build 36
+Versao/build do bloco: 0.15.0+build.36
+Arquivos criados:
+- tools/final_release_gate.py
+- tests/test_final_release_gate.py
+- docs/gate_build_final.md
+- docs/auditoria_seguranca_resultado.json
+- docs/final_release_gate.json
+- data/tool-audit/semgrep-abel-build36.json
+- data/tool-audit/abel-pip-audit-build36.json
+Arquivos alterados:
+- docs/fase_14_resultado.json
+- docs/gate_fase_14_para_15.json
+- docs/fase_16_checklist.md
+Alteracoes:
+- Criado gate final automatizado que exige homologacao humana, corte integro, legado somente leitura, ausencia de perda, smoke e backup/restauracao pos-corte, seguranca da versao atual, validacao final, manifesto, versao 1.0.0 e ausencia de build.txt.
+- O gate falha fechado quando qualquer evidencia obrigatoria esta ausente ou invalida e nao executa corte, migracao, backup ou promocao de versao.
+- Criados dois testes do gate: conjunto completo produz GO; ausencia de homologacao/corte produz NO-GO.
+- Relatorio canonico de seguranca passou a vincular a auditoria ao project_version atual.
+- Atualizado o gate entre Fases 14 e 15 para os resultados da build 36 e para 27 testes.
+Estado operacional:
+- MySQL havia parado entre sessoes; reiniciado de forma oculta com config/mysql/my.ini e confirmado em 127.0.0.1:3307, processo servidor 26260.
+- A primeira execucao da suite detectou corretamente o banco indisponivel com health 503; apos o reinicio, a suite completa passou.
+Validacao:
+- Ruff PASS; Poetry/lock PASS; 27 de 27 testes PASS.
+- Schema PASS: MySQL 8.4.9, 19 tabelas de dominio, 21 FKs, 6 checks e Alembic 2e32865e3947 em head.
+- Semgrep 1.183.0: 226 regras, 96 alvos do projeto, zero achados e zero erros; SHA-256 2cc0769f114ecc78b18c8cff787cd0d052e828c60b8f0ab77ab81b03a7480150.
+- pip-audit 2.10.1: 45 dependencias, zero vulnerabilidades conhecidas; SHA-256 2254f94a705e41da68ef4a8704a305da57f0049489d3252de046d73df3aa8af1.
+- Gate final retornou NO-GO e codigo 2 esperado; security_preflight, security_current_version e no_build_txt passaram.
+- Tarefa ABEL Backup Diario Ready; tarefa ABEL API ausente; build.txt ausente.
+Decisao:
+- Build 36 tecnicamente integra e preparada para avaliacao final.
+- Fase 14 continua pendente de aprovacao humana; Fase 15 nao iniciada; Fase 16 nao pode ser concluida antes do corte e das evidencias pos-corte.
+- Versao funcional permanece 0.15.0; promocao para 1.0.0 proibida enquanto o gate estiver NO-GO.
+Git:
+- Git permitido pelo usuario; nenhum commit, tag, push ou upload executado neste bloco.
+Restauracao:
+- Remover os artefatos da build 36 e restaurar os tres documentos alterados; nenhuma alteracao de banco, tarefa agendada ou legado foi realizada pelo gate.
+
+[2026-11-01 20:54:29 -03:00]
+Tipo: Auditoria operacional pre-corte e preparacao da homologacao
+Versao/build do bloco: 0.15.0+build.37
+Arquivos criados:
+- data/homologation_approval.json
+- docs/auditoria_operacional_pre_corte.json
+Arquivos alterados:
+- config/homologation_approval.example.json
+- docs/homologation_validation.json
+- docs/fase_14_resultado.json
+- docs/gate_fase_14_para_15.json
+Alteracoes:
+- Registrada a permissao do usuario para prosseguir com a auditoria pre-corte, sem converte-la em autorizacao de corte ou aceite dos perfis obrigatorios.
+- Criado rascunho local de homologacao com campos pendentes, aprovacoes false e bloqueio explicito de corte.
+- Corrigido o SHA-256 do piloto tecnico no modelo e no rascunho para a evidencia atual.
+- Atualizado o relatorio de homologacao para refletir a existencia do rascunho e os bloqueios reais.
+- Incrementada a identificacao documental para build 37; versao funcional permanece 0.15.0.
+Validacao:
+- Cinco JSONs do bloco parseados com sucesso.
+- Hash do piloto confere: 66544f52fdb9ccdc07d004eb6d7de7dcdd48d9bf82f113a4a99bc3eb2c2ee76e.
+- Hash do plano de corte confere: a88530e81b1f985d06061b36ab0b26433c6da8d3a9e11715566bfcf1b6896573.
+- Zero perfis aprovados; plano de corte false; gate permanece NO-GO.
+- Auditoria dinamica do codigo-alvo nao foi repetida porque o workflow security-audit exige sandbox operacional indisponivel nesta sessao; foram usadas inspecao somente leitura e evidencias tecnicas existentes.
+Decisao:
+- Permissao para auditoria registrada e preparacao concluida.
+- Fase 14 continua bloqueada ate nomes, aceites, horarios, identificador de mudanca e responsaveis reais serem fornecidos.
+- Fase 15 nao autorizada e nenhuma operacao de corte executada.
+Git:
+- Git permitido pelo usuario; nenhum commit, tag, push ou upload executado neste bloco.
+Restauracao:
+- Remover o rascunho e o relatorio de auditoria pre-corte; restaurar o hash anterior apenas se o piloto tecnico correspondente tambem for restaurado.
+
+[2026-11-01 20:57:55 -03:00]
+Tipo: Registro dos aceites humanos e validacao parcial da homologacao
+Versao/build do bloco: 0.15.0+build.38
+Arquivos alterados:
+- data/homologation_approval.json
+- docs/homologation_validation.json
+- docs/fase_14_resultado.json
+- docs/gate_fase_14_para_15.json
+- docs/auditoria_operacional_pre_corte.json
+- docs/final_release_gate.json
+Alteracoes:
+- Registradas aprovacoes de Regiane pela gerencia, Alice pelo atendimento e Regiane pelo perfil medico/psicologo, todas em 2026-11-01T20:54:00-03:00.
+- Registrada Regiane como responsavel tecnica da clinica.
+- Registrado aceite dos fluxos e do plano de corte.
+- Atribuido o identificador interno ABEL-CHG-20261101-001 porque o campo foi enviado vazio.
+- Registrados Gabriel Gosmano como responsavel operacional e Gabriel Gosmaano como responsavel pelo rollback, preservando literalmente as grafias fornecidas.
+- Inicio e fim da janela foram preservados como INDEFINIDO_CONFORME_NECESSARIO e continuam bloqueando o corte.
+Validacao:
+- Validador reconheceu os tres perfis, hashes das duas evidencias, plano aprovado e confirmacao operacional.
+- Unicos erros de homologacao: cutover.window_start e cutover.window_end nao sao datas ISO 8601.
+- Validador retornou NO_GO e codigo 2 esperado.
+- Gate final retornou NO_GO e codigo 2 esperado; seguranca atual e ausencia de build.txt permanecem PASS.
+Decisao:
+- Aprovacoes humanas e responsaveis registrados, mas Fase 14 ainda nao aprovada por falta de janela determinada.
+- Fase 15 nao iniciada; nenhuma operacao de corte, banco, tarefa ou legado executada.
+- Versao funcional permanece 0.15.0; build final 1.0.0 continua proibida.
+Git:
+- Git permitido pelo usuario; nenhum commit, tag, push ou upload executado neste bloco.
+Restauracao:
+- Restaurar os cinco documentos e o rascunho ao estado da build 37; nenhum dado clinico foi alterado.
+
+[2026-11-01 20:59:07 -03:00]
+Tipo: Correcao de responsavel e autorizacao administrativa do escopo de corte
+Versao/build do bloco: 0.15.0+build.39
+Arquivos alterados:
+- data/homologation_approval.json
+- docs/homologation_validation.json
+- docs/fase_14_resultado.json
+- docs/gate_fase_14_para_15.json
+- docs/auditoria_operacional_pre_corte.json
+- docs/final_release_gate.json
+Alteracoes:
+- Corrigida a grafia do responsavel pelo rollback para Gabriel Gosmano.
+- Registrada autorizacao administrativa de corte para todos os registros, desde o primeiro existente ate o ultimo confirmado no instante de congelamento.
+- Separados o escopo de dados autorizado e a prontidao de execucao: autorizacao administrativa true, execucao ainda dependente de janela definida.
+- Incrementada a identificacao documental para build 39; versao funcional permanece 0.15.0.
+Validacao:
+- Tres perfis presentes e aprovados; hashes das evidencias, plano e confirmacao operacional PASS.
+- Validador retornou NO_GO e codigo 2 apenas para window_start e window_end sem datas ISO 8601.
+- Gate final retornou NO_GO e codigo 2 esperado; seguranca atual e ausencia de build.txt permanecem PASS.
+Decisao:
+- Escopo integral de dados autorizado pelos administradores.
+- Nenhum congelamento, corte, alteracao de banco ou mudanca do legado executado sem horario de inicio e fim.
+- Fase 14 permanece pendente da janela operacional; Fase 15 nao iniciada.
+Git:
+- Git permitido pelo usuario; nenhum commit, tag, push ou upload executado neste bloco.
+Restauracao:
+- Restaurar os documentos e o rascunho ao estado da build 38; nenhum dado clinico foi alterado.
+
+[2026-11-01 21:01:00 -03:00]
+Tipo: Fixacao e auditoria do cutoff do legado
+Versao/build do bloco: 0.15.0+build.40
+Arquivos criados:
+- docs/fase_14_cutoff_legado.json
+Arquivos alterados:
+- data/homologation_approval.json
+- docs/fase_14_resultado.json
+- docs/gate_fase_14_para_15.json
+- docs/auditoria_operacional_pre_corte.json
+Alteracoes:
+- Fixado o escopo da migracao desde o primeiro registro disponivel ate 2026-10-31T12:00:00-03:00, inclusive.
+- Registrado o encerramento administrativo do legado no cutoff e a ausencia declarada de novas adicoes.
+- Substituido o limite dinamico pelo cutoff fixo e auditavel.
+- Incrementada a identificacao documental para build 40; versao funcional permanece 0.15.0.
+Validacao:
+- 306 arquivos do legado inspecionados; zero arquivos modificados apos o cutoff.
+- Ultima modificacao observada: 2026-10-31T08:41:28-03:00, anterior ao cutoff em 3 horas, 18 minutos e 32 segundos.
+- 306 de 306 hashes SHA-256 conferem com docs/fase_0_manifesto_sha256.json; zero ausencias e zero divergencias.
+- Snapshot legado classificado como congelado e integro no cutoff.
+- JSONs do bloco validos; build.txt ausente.
+Decisao:
+- Escopo e cutoff da migracao aprovados e tecnicamente comprovados no snapshot local.
+- Fase 14 continua pendente apenas da janela operacional de execucao; Fase 15 nao iniciada.
+- Nenhum dado clinico, banco ou arquivo legado foi modificado.
+Git:
+- Git permitido pelo usuario; nenhum commit, tag, push ou upload executado neste bloco.
+Restauracao:
+- Remover o relatorio de cutoff e restaurar os quatro documentos ao estado da build 39; o legado permanece inalterado.
+
+[2026-11-01 21:02:03 -03:00]
+Tipo: Abertura da janela e aprovacao final da Fase 14
+Versao/build do bloco: 0.15.0+build.41
+Arquivos alterados:
+- data/homologation_approval.json
+- docs/homologation_validation.json
+- docs/fase_14_resultado.json
+- docs/gate_fase_14_para_15.json
+- docs/auditoria_operacional_pre_corte.json
+- docs/plano_corte_retorno.md
+- docs/fase_15_checklist.md
+Alteracoes:
+- Janela operacional fixada de 2026-11-01T21:01:54-03:00 a 2026-11-01T23:01:54-03:00.
+- Homologacao promovida para APROVADA e gate entre Fases 14 e 15 promovido para GO_FASE_15.
+- Plano de corte marcado como aprovado e em execucao; cinco precondicoes humanas marcadas como concluidas.
+Validacao:
+- Validador de homologacao retornou APPROVED, codigo 0, tres perfis presentes, hashes conferentes, plano aprovado, confirmacao operacional e zero erros.
+Decisao:
+- Fase 14 concluida; Fase 15 iniciada dentro da janela aprovada.
+- Nenhuma importacao, ativacao de servico ou alteracao do legado ocorreu neste bloco.
+Git:
+- Git permitido pelo usuario; nenhum commit, tag, push ou upload executado neste bloco.
+Restauracao:
+- Restaurar os documentos ao estado da build 40 e voltar a janela para indefinida; nenhum dado clinico foi alterado neste bloco.
+
+[2026-11-01 21:03:08 -03:00]
+Tipo: Backup final restaurado e bloqueio de escrita do legado
+Versao/build do bloco: 0.15.0+build.42
+Arquivos criados:
+- backups/ABEL-BAK_FINAL_20261101T2103-0300.zip
+- docs/fase_15_backup_legado.json
+Arquivos alterados:
+- 306 arquivos em ABEL-BAK tiveram o atributo somente leitura ativado.
+- docs/fase_15_checklist.md
+Alteracoes:
+- Criado backup final do snapshot legado apos o cutoff aprovado.
+- Restaurado o ZIP em diretorio temporario, comparado ao manifesto e removido o teste temporario.
+- Bloqueada escrita nos 306 arquivos legados por atributo somente leitura do Windows.
+Validacao:
+- ZIP com 57733494 bytes e SHA-256 4e973b83001b3c4b6ed1e4db90f488713d3f710a5cb186b836a127f99003e2cc.
+- 306 arquivos esperados e restaurados; zero ausencias, divergencias ou extras.
+- 306 arquivos somente leitura; zero arquivos gravaveis.
+Decisao:
+- Backup final e bloqueio do legado PASS; prosseguir com backup do sistema novo e importacao final.
+Git:
+- Nenhum commit, tag, push ou upload executado.
+Restauracao:
+- Remover o ZIP final somente se outro backup validado permanecer preservado; para rollback autorizado, remover o atributo somente leitura dos 306 arquivos.
+
+[2026-11-01 21:04:11 -03:00]
+Tipo: Backup criptografado pre-corte e restauracao isolada
+Versao/build do bloco: 0.15.0+build.43
+Arquivos criados:
+- backups/system/ABEL_full_20261102T000349Z.abelbak
+- docs/fase_15_backup_pre_corte.json
+Arquivos alterados:
+- docs/fase_12_backup.json
+- docs/fase_12_restauracao.json
+Validacao:
+- Backup AES-256-GCM com scrypt PASS; 20 tabelas, 342750 linhas e zero documentos.
+- SHA-256 59661a67e363cf6dfc42f3866bac9ad1bd4209c2d380373dd7341d8461874685.
+- Restauracao isolada PASS: autenticacao, hash do dump, contagens e hashes de documentos conferentes.
+- Banco temporario de restauracao removido.
+Decisao:
+- Ponto de retorno do sistema novo preservado; importacao final autorizada.
+Git:
+- Nenhuma operacao Git executada.
+Restauracao:
+- Usar tools/restore_backup_test.py para validar e o dump autenticado contido no .abelbak conforme plano de retorno.
+
+[2026-11-01 21:07:32 -03:00]
+Tipo: Importacao, normalizacao e conciliacao finais
+Versao/build do bloco: 0.15.0+build.44
+Arquivos criados:
+- docs/fase_15_importacao_final.json
+- docs/fase_15_importacao_repetida.json
+- docs/fase_15_normalizacao_final.json
+- docs/fase_15_normalizacao_repetida.json
+- docs/fase_15_migracao_final.json
+Arquivos alterados:
+- docs/fase_5_reconciliacao.json
+- docs/fase_5_validacao.json
+- docs/fase_3_validacao_schema.json
+- docs/fase_15_checklist.md
+Alteracoes:
+- Importacao final executada duas vezes com oito workers e lote de 1000.
+- Normalizacao final executada duas vezes para comprovar determinismo e idempotencia.
+- Schema e drift Alembic validados apos a migracao.
+Validacao:
+- Duas importacoes PASS: 86 de 86 arquivos, 296775 de 296775 registros e zero erros.
+- Duas normalizacoes com metricas identicas: 3808 pacientes, 3867 atendimentos, 3923 pagamentos, 3723 recibos e 3827 movimentos.
+- Total financeiro de origem e banco: 409829.41; zero orfaos financeiros.
+- 22339 mapas legados, 510 ocorrencias para revisao e amostra deterministica 25 de 25.
+- Schema PASS; Alembic 2e32865e3947 em head e sem drift.
+Decisao:
+- Migracao final integra e conciliada; prosseguir para administrador, servico e smoke test.
+Git:
+- Nenhuma operacao Git executada.
+Restauracao:
+- Restaurar backups/system/ABEL_full_20261102T000349Z.abelbak conforme plano de retorno se qualquer etapa posterior exigir rollback.
+
+[2026-11-01 21:08:30 -03:00]
+Tipo: Administrador de producao, inicializacao automatica e smoke test
+Versao/build do bloco: 0.15.0+build.45
+Arquivos criados:
+- data/admin-production.secret
+- docs/fase_15_servico.json
+- C:/Users/gabri/AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup/ABEL API.lnk
+Arquivos alterados:
+- data/initial-admin.secret foi invalidado apos a rotacao.
+- docs/smoke_test_result.json
+- docs/fase_15_checklist.md
+Alteracoes:
+- Recriado abel-admin apos a normalizacao final e rotacionada imediatamente a senha inicial.
+- Credencial final preservada somente em arquivo local ignorado, sem segredo em log ou relatorio.
+- Tentativa de criar tarefa ABEL API falhou por acesso negado e nao deixou tarefa parcial.
+- Aplicado fallback de inicializacao automatica no usuario atual com janela oculta.
+- API iniciada em 127.0.0.1:8000.
+Validacao:
+- Smoke PASS: health, frontend, login, sessao e leitura de atendimentos.
+- Health status ok e frontend HTTP 200.
+- Servidor escutando na porta 8000, PID 17460 no instante da validacao.
+Decisao:
+- Servico local ativo e funcional; prosseguir para validacao integral e backup pos-corte.
+Git:
+- Nenhuma operacao Git executada.
+Restauracao:
+- Parar o processo da API e remover apenas o atalho ABEL API.lnk; restaurar o backup pre-corte se houver criterio de retorno.
+
+[2026-11-01 21:12:26 -03:00]
+Tipo: Correcao pos-corte, gate tecnico e encerramento da Fase 15
+Versao/build do bloco: 0.15.0+build.46
+Arquivos criados:
+- docs/fase_15_backup_pos_corte.json
+- docs/fase_15_resultado.json
+- data/tool-audit/semgrep-abel-build46.json
+- data/tool-audit/abel-pip-audit-build46.json
+Arquivos alterados:
+- tools/validate_auth.py
+- tests/test_security.py
+- backend/app/core/config.py
+- backend/app/api/routes/finance.py
+- tests/test_finance.py
+- .env.example
+- pyproject.toml
+- poetry.lock
+- docs/fase_6_validacao_auth.json
+- docs/fase_8_validacao_financeira.json
+- docs/fase_9_validacao_documentos.json
+- docs/fase_11_validacao_admin_relatorios.json
+- docs/fase_13_concorrencia_desempenho.json
+- docs/fase_10_validacao_frontend.json
+- docs/fase_12_validacao_observabilidade.json
+- docs/fase_12_backup.json
+- docs/fase_12_restauracao.json
+- docs/fase_15_checklist.md
+- docs/gate_fase_14_para_15.json
+- docs/auditoria_seguranca_resultado.json
+- docs/fase_16_checklist.md
+- docs/plano_corte_retorno.md
+Correcoes:
+- Validador de autenticacao passou a preferir a credencial de producao rotacionada e comparar o estado de redefinicao esperado.
+- Corrigida a fronteira diaria financeira: datas de negocio America/Sao_Paulo agora sao convertidas para intervalos UTC antes da consulta.
+- Adicionado tzdata 2026.6 via Poetry para suporte IANA portavel no Windows.
+- Adicionados testes para selecao da credencial e virada do dia entre Sao Paulo e UTC.
+Validacao:
+- Autenticacao, clinica, financeiro, documentos, administracao, concorrencia, frontend e observabilidade PASS.
+- Concorrencia: 40 consultas, HTTP 200, p95 181.774 ms; um update 200 e o concorrente 409.
+- Ruff PASS; Poetry PASS; 29 de 29 testes PASS.
+- Semgrep: 226 regras, 97 alvos, zero achados e zero erros; SHA-256 fbe92c106de1f10428ec95512270cea7c7336fcbdf23909bee70afe52b4e455e.
+- pip-audit: 46 pacotes, zero vulnerabilidades conhecidas; SHA-256 b5e0e060c73d0b393032f3f93755201dc1bff98d17dd0dad5296c92cb9bbba43.
+- Backup pos-corte AES-256-GCM PASS: 20 tabelas, 342742 linhas, SHA-256 1447f71a4a28701f712441a405fd3bf5d1d7728770d4be701b5addb226c96a0f.
+- Restauracao isolada pos-corte PASS; banco temporario removido.
+- Producao ativa; 296775 registros de staging, 3867 atendimentos, total financeiro 409829.41, administrador ativo e zero bancos temporarios.
+Decisao:
+- Fase 15 concluida com PASS e sem criterio de rollback.
+- Fase 16 iniciada; faltam versao 1.0.0, validacao final e manifesto.
+Git:
+- Nenhuma operacao Git executada.
+Restauracao:
+- Em caso de criterio de retorno, parar a API, preservar logs e restaurar o backup pre-corte conforme docs/plano_corte_retorno.md.
+
+[2026-11-01 21:15:02 -03:00]
+Tipo: Promocao tecnica para 1.0.0 e gate operacional final
+Versao/build do bloco: 1.0.0+build.47
+Arquivos criados:
+- data/tool-audit/semgrep-abel-1.0.0.json
+- data/tool-audit/abel-pip-audit-1.0.0.json
+- backups/system/ABEL_full_20261102T001407Z.abelbak
+- docs/fase_16_backup_final.json
+- docs/fase_16_validacao_final.json
+Arquivos alterados:
+- pyproject.toml
+- poetry.lock
+- backend/app/core/config.py
+- .env
+- .env.example
+- tests/test_health.py
+- docs/auditoria_seguranca_resultado.json
+- docs/fase_16_checklist.md
+- docs/revisao_seguranca_lgpd_preliminar.md
+- docs/gate_fase_14_para_15.json
+- docs/final_release_gate.json
+- docs/smoke_test_result.json
+Alteracoes:
+- Versao funcional promovida de 0.15.0 para 1.0.0 em projeto, configuracao, ambiente e teste de health.
+- Servico reiniciado de forma controlada e confirmado reportando version 1.0.0.
+- Auditoria de seguranca vinculada explicitamente ao project_version 1.0.0.
+- Validacao final mantida fail-closed para aceite operacional de seguranca/LGPD.
+Validacao:
+- Poetry/lock PASS; Ruff PASS; 29 de 29 testes PASS.
+- Semgrep: 226 regras, 97 alvos, zero achados e zero erros; SHA-256 684447fed4f99845ecdee30fc28e4b337a1f0e1b507cfa16e31c021759add169.
+- pip-audit: 46 pacotes e zero vulnerabilidades conhecidas.
+- Health da API ativa: status ok, version 1.0.0; smoke completo PASS.
+- Backup final 1.0.0 AES-256-GCM: 20 tabelas, 342744 linhas, SHA-256 2d9ce46af6c7416ede9f832a1d48f80723ac1a6109a6e98425faaeb618453ca5.
+- Restauracao isolada final PASS e banco temporario removido.
+- Gate final: todos os criterios tecnicos, de corte, backup, seguranca e versao PASS; somente final_tests e final_manifest permanecem false por aceite operacional pendente.
+Decisao:
+- Versao 1.0.0 tecnicamente pronta e ativa, mas manifesto final nao emitido.
+- Pendente aceite de seguranca/LGPD, politica de retencao/descarte, responsavel por direitos do titular e canal/responsavel de incidente.
+Git:
+- Upload Git ainda nao executado porque o gate final permanece NO-GO.
+Restauracao:
+- Reverter versao para 0.15.0 e reiniciar o servico apenas se a promocao tecnica precisar ser desfeita; backups pre e pos-corte permanecem preservados.
+
+[2026-11-01 21:16:00 -03:00]
+Tipo: Politica de retencao e LGPD preparada para aceite
+Versao/build do bloco: 1.0.0+build.48
+Arquivos criados:
+- docs/politica_retencao_lgpd.md
+Arquivos alterados:
+- docs/fase_16_validacao_final.json
+Alteracoes:
+- Definido rascunho conservador de retencao: prontuarios por no minimo 20 anos do ultimo registro e documentos psicologicos por no minimo 5 anos, prevalecendo o prazo maior quando integrados ao prontuario.
+- Descarte automatico desabilitado; eliminacao exige revisao, registro e metodo irrecuperavel.
+- Regiane proposta para direitos do titular; Gabriel Gosmano e Regiane propostos para incidentes e recuperacao.
+- Mantido gate fechado ate aceite da responsavel tecnica e confirmacao do canal interno.
+Fontes:
+- Lei 13.787/2018, Conselho Federal de Psicologia e orientacoes oficiais da ANPD.
+Decisao:
+- Politica pronta para aprovacao; nenhuma exclusao, descarte ou alteracao de dado executada.
+Git:
+- Upload ainda nao executado porque o gate final permanece NO-GO.
+
+[2026-11-01 21:17:00 -03:00]
+Tipo: Auditoria de conclusao e manifesto final em rascunho
+Versao/build do bloco: 1.0.0+build.49
+Arquivos criados:
+- docs/release_manifest_draft.json
+- docs/auditoria_conclusao_fases_3_16.json
+Alteracoes:
+- Auditadas individualmente as Fases 3 a 16 contra o plano estrutural.
+- Confirmadas Fases 3 a 15 aprovadas; Fase 16 tecnicamente aprovada e operacionalmente pendente.
+- Preparado manifesto com hashes de projeto, lock, migracao head, manifesto legado, corte, seguranca, backup final e politica LGPD.
+- Manifesto mantido como DRAFT e fora do caminho consumido pelo gate final.
+Validacao:
+- Nenhum artefato listado esta ausente; checksums SHA-256 registrados.
+- Runtime 1.0.0 ativo, 29 de 29 testes PASS, zero defeitos criticos/altos e backup final restauravel.
+- Gate final continua NO-GO apenas por final_tests operacional e ausencia deliberada do manifesto final.
+Decisao:
+- Nenhuma promocao artificial do manifesto; aguardar aceite e canal de incidente.
+Git:
+- Nenhuma operacao Git executada, conforme objetivo persistente.
+
+[2026-11-01 21:17:42 -03:00]
+Tipo: Aceite operacional de seguranca, LGPD e retencao
+Versao/build do bloco: 1.0.0+build.50
+Arquivos alterados:
+- docs/politica_retencao_lgpd.md
+- docs/fase_16_validacao_final.json
+- docs/revisao_seguranca_lgpd_preliminar.md
+- docs/fase_16_checklist.md
+Alteracoes:
+- Politica de retencao e descarte aprovada.
+- Regiane confirmada como responsavel pelos direitos dos titulares.
+- Gabriel Gosmano e Regiane confirmados como responsaveis por incidentes.
+- Telefone interno do gestor dos dados registrado como 1194395970.
+- Validacao operacional promovida para PASS e decisao GO_FINAL_MANIFEST.
+Validacao:
+- Zero defeitos criticos e altos permanecem registrados.
+- Criterios tecnicos da versao 1.0.0 permanecem PASS; apenas o manifesto final ainda precisa ser recalculado e emitido.
+Git:
+- Nenhuma operacao Git executada.
+Restauracao:
+- Restaurar os quatro documentos ao estado da build 49 para revogar formalmente o aceite, sem alterar dados ou servicos.
+
+[2026-11-01 21:18:15 -03:00]
+Tipo: Manifesto, gate final e encerramento da Fase 16
+Versao/build do bloco: 1.0.0+build.51
+Arquivos criados:
+- docs/release_manifest_final.json
+- docs/fase_16_resultado.json
+Arquivos alterados:
+- docs/final_release_gate.json
+- docs/fase_16_checklist.md
+- docs/gate_fase_14_para_15.json
+- docs/auditoria_conclusao_fases_3_16.json
+- docs/release_manifest_draft.json
+Alteracoes:
+- Emitido manifesto final da versao 1.0.0 com dez artefatos e backup restaurado.
+- Rascunho marcado como substituido pelo manifesto final.
+- Fase 16 promovida para APROVADA e objetivo estrutural promovido para completo.
+Validacao:
+- Dez de dez artefatos existem e conferem por SHA-256; zero divergencias.
+- Backup final confere por SHA-256 e possui restauracao isolada PASS.
+- Gate final retornou GO_FINAL_1_0_0, codigo 0 e zero criterios falhos.
+- Todos os 17 criterios do gate sao true: homologacao, corte, producao, legado, dados, smoke, backups, seguranca, testes, defeitos, manifesto, versao e ausencia de build.txt.
+Decisao:
+- Fases 3 a 16 concluidas; release 1.0.0 aprovada.
+- Nenhuma operacao Git executada, conforme objetivo persistente.
+Restauracao:
+- O rollback operacional permanece documentado em docs/plano_corte_retorno.md; backups pre-corte, pos-corte e final permanecem preservados.
+
+[2026-11-01 21:20:09 -03:00]
+Tipo: Documentacao estrutural dos relatorios financeiros
+Versao/build do bloco: 1.0.0+build.51 (documentacao, sem incremento)
+Arquivos criados:
+- ESTRUTURA_RELATORIOS_FINANCEIROS.json
+Arquivos alterados:
+- LOG.log
+Alteracoes:
+- Registrado o fluxo atual dos relatorios financeiros global e individual do FISIA por pagina, funcao e URL.
+- Separadas as capacidades reais do financeiro classico e as telas mock do Financeiro V3.
+- Mapeados os endpoints financeiros e de relatorios ja existentes no ABEL.
+- Definida a estrutura recomendada para relatorios diario, mensal, anual, personalizado e individual no ABEL.
+- Registradas lacunas, perfis de acesso e criterios de implementacao.
+Validacao:
+- JSON analisado com ConvertFrom-Json sem erros.
+- Blocos fisia_atual, abel_atual e estrutura_recomendada_para_abel confirmados.
+- Oito criterios de implementacao registrados; arquivo final com 13.478 bytes.
+Git:
+- Nenhuma operacao Git executada.
+Restauracao:
+- Remover ESTRUTURA_RELATORIOS_FINANCEIROS.json e este bloco do LOG.log.
+
+[2026-11-02 11:59:12 -03:00]
+Tipo: Implementacao dos relatorios financeiros global e individual
+Versao/build do bloco: 1.0.0+build.52
+Arquivos alterados:
+- backend/app/api/routes/finance.py
+- backend/app/api/routes/admin_reports.py
+- frontend/index.html
+- projeto_clinica_hrp.html
+- frontend/js/app.js
+- frontend/css/app.css
+- frontend/README.md
+- tests/test_finance.py
+- tests/test_frontend.py
+- LOG.log
+Alteracoes:
+- Implementado relatorio financeiro global com periodos diario, mensal, anual e personalizado.
+- Adicionados filtros por usuario responsavel, indicadores de total recebido, quantidade, ticket medio e estornos.
+- Adicionadas distribuicao por forma de pagamento, serie temporal, comparacao entre pagamentos e recibos e movimentacoes paginadas.
+- Implementada exportacao CSV global auditada, com neutralizacao de formulas.
+- Implementado relatorio individual por paciente com busca por nome ou CPF, resumo, evolucao mensal, pagamentos, atendimentos vinculados, recibos, estornos e exportacao auditada.
+- Implementada busca administrativa de usuarios por nome ou identificador de acesso, filtrada no servidor.
+- Mantidos calculos financeiros, autorizacao, paginacao e auditoria no backend; nenhuma leitura direta do banco pelo navegador.
+- Sincronizada a pagina raiz projeto_clinica_hrp.html com frontend/index.html.
+- API local reiniciada para carregar a build 52.
+Validacao:
+- Poetry 2.3.4 e lock consistentes; nenhum build.txt criado.
+- Ruff PASS; compileall PASS; JavaScript node --check PASS.
+- 32 de 32 testes pytest PASS.
+- Validacao estrutural do frontend PASS em todos os 11 criterios.
+- Smoke real no MySQL PASS: relatorio global com 169 pagamentos, 14 pontos de serie e pagina com 10 itens; relatorio individual e busca de usuario responderam corretamente.
+- Pagina inicial renderizada no navegador local sem erros de console; tela autenticada validada por API e estrutura automatizada.
+- API http://127.0.0.1:8000 ativa, health ok e database ok.
+- HTML raiz e modular conferem pelo SHA-256 D7E4E881912678A5FDC5752132F207DD8C558288EB21BAC60377ED8AFD4CE034.
+Git:
+- Nenhuma operacao de commit, push ou alteracao de branch executada; somente git status/diff de leitura para preservar o worktree existente.
+Restauracao:
+- Reverter somente os nove arquivos funcionais/testes listados acima ao estado da build 51 e reiniciar a API; dados financeiros e legado nao foram alterados.
+
+[2026-11-02 12:50:07 -03:00]
+Tipo: Arquitetura de seguranca e gestao de usuarios
+Versao/build do bloco: 1.0.0+build.52 (documentacao, sem incremento)
+Arquivos criados:
+- docs/modelo_gestao_usuarios_abel.md
+- docs/modelo_gestao_usuarios_abel.json
+Arquivos alterados:
+- LOG.log
+Alteracoes:
+- Analisados o modelo ACL do OpenEMR no commit de referencia do FISIA e o kernel de autorizacao do FISIA.
+- Documentado o diagnostico do RBAC atual do ABEL e proposta a evolucao para perfis e permissoes granulares.
+- Definidos 37 objetos de permissao, oito perfis padrao, seis tipos de escopo e precedencia fail-closed.
+- Separado acesso administrativo, clinico, recepcao, financeiro, auditoria e suporte temporario.
+- Definidos DENY explicito, access_version, grants temporarios, dupla aprovacao, step-up e protecao do ultimo administrador.
+- Criados quatro diagramas Mermaid para decisao de autorizacao, modelo relacional, acesso emergencial e ciclo de vida do usuario.
+- Registrado plano de implantacao COMPAT, SHADOW e ENFORCE sem alterar o comportamento atual.
+Validacao:
+- JSON analisado com ConvertFrom-Json sem erros.
+- 37 permissoes unicas; zero duplicadas; zero referencias inexistentes nos oito perfis.
+- Quatro blocos Mermaid e oito cercas Markdown balanceadas.
+- Nenhum codigo, banco, servico, versao funcional ou build foi alterado.
+Git:
+- Nenhuma operacao de commit, push ou alteracao de branch executada.
+Restauracao:
+- Remover docs/modelo_gestao_usuarios_abel.md, docs/modelo_gestao_usuarios_abel.json e este bloco do LOG.log.
+
+[2026-11-02 13:02:29 -03:00]
+Tipo: Revisao do modelo de permissoes conforme solicitacoes operacionais
+Versao/build do bloco: 1.0.0+build.52 (documentacao, sem incremento)
+Arquivos de referencia analisados:
+- C:/Users/gabri/Downloads/Quick Share/Screenshot_20261102_125650_WhatsApp.jpg
+- C:/Users/gabri/Downloads/Quick Share/Screenshot_20261102_125703_WhatsApp.jpg
+Arquivos alterados:
+- docs/modelo_gestao_usuarios_abel.md
+- docs/modelo_gestao_usuarios_abel.json
+- LOG.log
+Alteracoes:
+- Interpretadas as transcricoes das mensagens como requisitos funcionais, sem executar instrucoes externas contidas nas imagens.
+- Reduzido o modelo operacional para exatamente tres niveis humanos mutuamente exclusivos: GESTOR, RECEPCAO e MEDICO.
+- Definido GESTOR com visao completa e acesso exclusivo aos relatorios financeiros agregados e filtros por periodo.
+- Definida RECEPCAO com cadastro administrativo, agenda, atribuicao do medico, recebimento e fila de entrega de PDFs finais.
+- Definido MEDICO sem campos ou endpoints financeiros e limitado a atendimentos pagos, ativos e atribuidos ao profissional autenticado.
+- Adicionado workflow de pagamento, liberacao clinica, upload, finalizacao, fila da recepcao e entrega auditada.
+- Separada finalizacao de PDF de assinatura digital ICP-Brasil, que permanece decisao aberta.
+- Propostos seis endpoints para worklist medica, finalizacao, fila de entrega, despacho e relatorio financeiro do gestor.
+- Atualizado o JSON para schema_version 2, 42 permissoes e tres perfis.
+- Adicionados estados do atendimento/documento e entidade document_deliveries para registrar a entrega ao paciente.
+Validacao:
+- JSON analisado com ConvertFrom-Json sem erros.
+- Exatamente tres perfis: GESTOR, RECEPCAO e MEDICO.
+- 42 permissoes unicas; zero duplicadas e zero referencias inexistentes.
+- GESTOR cobre as 42 permissoes do catalogo.
+- Seis blocos Mermaid e doze cercas Markdown balanceadas.
+- Nenhuma referencia aos oito perfis substituidos permaneceu nos artefatos.
+- Nenhum codigo, banco, servico, versao funcional ou build foi alterado.
+Git:
+- Nenhuma operacao de commit, push ou alteracao de branch executada.
+Restauracao:
+- Restaurar docs/modelo_gestao_usuarios_abel.md e docs/modelo_gestao_usuarios_abel.json ao estado do bloco anterior e remover este bloco do LOG.log.
+
+[2026-11-02 13:17:57 -03:00]
+Tipo: Plano de desenvolvimento e implementacao do novo modelo de permissoes
+Versao/build do bloco: 1.0.0+build.52 (documentacao, sem incremento)
+Arquivos analisados:
+- docs/modelo_gestao_usuarios_abel.json
+- docs/modelo_gestao_usuarios_abel.md
+- backend/app/db/models.py
+- backend/app/api/dependencies.py
+- modelo de autorizacao FISIA e referencia OpenEMR ja levantados com MCPs de codigo
+Arquivos criados:
+- docs/plano_implementacao_permissoes_abel.json
+Arquivos alterados:
+- LOG.log
+Alteracoes:
+- Comparado o modelo FISIA com o estado atual e o modelo-alvo do ABEL em nove eixos.
+- Selecionadas para adaptacao as primitivas default deny, DENY explicito, catalogo atomico, escopos, grants temporarios, access_version, decisao auditavel e rollout COMPAT/SHADOW/ENFORCE.
+- Excluida desta implementacao inicial a complexidade integral de multi-workspace, multiunidade e sete perfis do FISIA.
+- Definido plano de E00 a E11 com objetivo, pre-requisitos, mudancas, entregaveis, verificacao, criterios de conclusao e rollback por etapa.
+- Registradas seis decisoes que devem ser resolvidas antes dos respectivos blocos de codigo.
+- Registradas quatorze limitacoes e riscos com prioridade, mitigacao e condicao de aceite.
+- Definida Definition of Done global com dez criterios.
+- Registrada politica de Poetry, paralelismo seguro, LOG, build, versao, Git, proibicao de build.txt e ausencia de operacao em Arduino/ESP32.
+Validacao:
+- JSON analisado com ConvertFrom-Json sem erros.
+- Doze etapas com IDs e ordens unicos; todas possuem verificacao, criterios de conclusao e rollback.
+- Seis decisoes e quatorze riscos com IDs unicos.
+- Nove eixos comparativos, tres perfis-alvo, 42 permissoes de origem e dez criterios globais de conclusao.
+- Zero erro encontrado nas validacoes estruturais executadas.
+- Nenhum codigo, banco, servico, versao funcional ou build foi alterado.
+Git:
+- Nenhuma operacao de commit, push ou alteracao de branch executada.
+Restauracao:
+- Remover docs/plano_implementacao_permissoes_abel.json e este bloco do LOG.log; nenhum rollback de codigo ou banco e necessario.
+
+[2026-11-02 13:43:30 -03:00]
+Tipo: Consolidacao das orientacoes operacionais no modelo de permissoes
+Versao/build do bloco: 1.0.0+build.52 (documentacao, sem incremento)
+Arquivos alterados:
+- docs/modelo_gestao_usuarios_abel.json
+- docs/modelo_gestao_usuarios_abel.md
+- docs/plano_implementacao_permissoes_abel.json
+- LOG.log
+Alteracoes:
+- Elevado o modelo documental para schema_version 3, sem alterar codigo ou banco.
+- Reservada exclusivamente ao GESTOR a criacao de usuarios e o estorno de pagamentos.
+- Definidos como obrigatorios no cadastro nome completo, CPF, data de nascimento, telefone, email e endereco.
+- Definidos CRM ou CRP e respectivo registro como obrigatorios para usuario profissional.
+- Substituida a permissao user.invite por user.create, privilegiada e nao delegavel.
+- Substituida document.finalize por document.authenticate; o upload aceito agora autentica e publica atomicamente o PDF com hash, ator, horario, atendimento e versao.
+- Fixada a regra de pagamento confirmado como requisito absoluto, sem convenio, urgencia excepcional, cortesia, parcial, liberacao sem pagamento ou pagamento posterior.
+- Registrada analise futura e separada do banco antes de remover campos legados relacionados a modalidades nao suportadas.
+- Definida falta do profissional como cancelamento sem reatribuicao, reagendamento para outro profissional ou substituicao.
+- Mantida a preservacao permanente do PDF autenticado ou entregue apos estorno.
+- Adicionados checkbox Reanalise e observacao operacional obrigatoria quando a analise termina sem PDF; RECEPCAO pode visualizar esses dados para contato, mas nao rascunho clinico.
+- Definido contato e eventual envio por WhatsApp como processo manual da RECEPCAO, sem integracao direta no ABEL.
+- Registrado que somente as primitivas necessarias do FISIA serao adaptadas.
+- Atualizados fluxo Mermaid, matriz de perfis, API proposta, etapas, riscos, criterios de conclusao e Definition of Done.
+Validacao:
+- Ambos os JSONs analisados com ConvertFrom-Json sem erros.
+- Mantidos tres perfis, 42 permissoes unicas e doze estados de workflow.
+- Todas as permissoes referenciadas pelos perfis existem no catalogo.
+- user.create e finance.reverse pertencem somente ao GESTOR.
+- MEDICO possui document.authenticate dentro do proprio atendimento atribuido.
+- Seis campos cadastrais obrigatorios e conselhos CRM/CRP conferidos.
+- Pagamento PAGO obrigatorio, reatribuicao desabilitada, integracao WhatsApp desabilitada e observacao de Reanalise obrigatoria conferidos.
+- Doze etapas do plano mantidas com verificacao, criterio de conclusao e rollback.
+- Cercas Markdown balanceadas.
+- Nenhum codigo, banco, servico, versao funcional ou build foi alterado.
+Git:
+- Nenhuma operacao de commit, push ou alteracao de branch executada.
+Restauracao:
+- Restaurar os tres artefatos de docs ao bloco anterior e remover este bloco do LOG.log; nenhum rollback de codigo ou banco e necessario.
+
+[2026-11-02 13:51:17 -03:00]
+Tipo: Implementacao local do schema multiusuario e catalogo de permissoes
+Versao/build do bloco: 1.0.0+build.53
+Arquivos criados:
+- migrations/versions/b7c3e1a9f240_add_multiuser_permission_schema.py
+- tests/test_multiuser_schema.py
+Arquivos alterados:
+- backend/app/db/models.py
+- backend/app/api/routes/admin_reports.py
+- backend/app/api/routes/auth.py
+- backend/app/api/dependencies.py
+- frontend/index.html
+- frontend/js/app.js
+- tests/test_admin_reports.py
+- tests/test_frontend.py
+- docs/modelo_gestao_usuarios_abel.json
+- docs/modelo_gestao_usuarios_abel.md
+- docs/plano_implementacao_permissoes_abel.json
+- LOG.log
+Alteracoes:
+- Reutilizada a tabela roles como perfis operacionais para evitar um segundo modelo paralelo.
+- Adicionadas as tabelas permissions, role_permissions, user_permission_overrides, access_grants e authorization_decisions.
+- Adicionados 42 itens ao catalogo e vinculos para gerente, atendente e medico.
+- Garantido no schema um unico perfil por usuario por restricao unica em user_roles.user_id.
+- Adicionados users.access_version e auth_sessions.access_version para invalidacao imediata de sessao apos mudanca de acesso.
+- Adicionados data de nascimento, email e endereco ao usuario; CPF existente passou a ter indice unico.
+- Mantido display_name como armazenamento do nome completo para evitar duplicacao do mesmo dado.
+- Adicionada validacao de conselho profissional CRM ou CRP.
+- Cadastro e alteracao de usuario continuam exclusivos do gerente e agora exigem nome completo, CPF, nascimento, telefone, email e endereco.
+- Perfil medico exige profissional ativo com CRM ou CRP; outros perfis podem vincular profissional valido quando necessario.
+- Protegidos autoajuste de acesso e ultimo gerente ativo.
+- Mudanca de perfil, profissional ou status incrementa access_version e revoga sessoes do usuario.
+- Reset ou troca de senha incrementam access_version e revogam sessoes.
+- CPF, telefone e email sao mascarados e nascimento/endereco sao omitidos da auditoria de usuario.
+- Atualizado formulario frontend de criacao de usuario com todos os campos obrigatorios.
+- Migration possui preflight fail-closed para CPF duplicado, usuario com mais de um perfil e conselho diferente de CRM/CRP.
+- Migration permanece nao aplicada; nenhum banco ou servico foi modificado.
+Validacao:
+- Poetry 2.3.4 confirmado.
+- Ruff passou nos arquivos Python alterados.
+- py_compile passou nos arquivos Python alterados.
+- JSON do modelo e do plano analisados sem erro.
+- Seed contem 42 permissoes unicas, sem ausencia ou excesso em relacao ao modelo aprovado.
+- b7c3e1a9f240 confirmada como unica cabeca da cadeia Alembic por analise estatica.
+- Testes para schema, perfil unico, catalogo e campos frontend foram criados.
+- Testes de execucao e migration up/down nao foram rodados porque nao havia sandbox isolado com os controles exigidos; validacao runtime permanece pendente.
+- Migration nao foi executada no banco operacional.
+Git:
+- Nenhuma operacao de commit, push ou alteracao de branch executada.
+- Versao x.x permaneceu 1.0.0; portanto nao houve gatilho de upload por incremento de versao.
+Restauracao:
+- Remover a migration b7c3e1a9f240 e o teste test_multiuser_schema.py; restaurar os arquivos alterados ao bloco anterior e remover este bloco do LOG.log.
+- Como a migration nao foi aplicada, nao e necessario executar downgrade de banco.
+
+[2026-11-02 13:50:00 -03:00]
+Tipo: Registro da aprovacao da auditoria humana do banco
+Versao/build do bloco: 1.0.0+build.52 (documentacao, sem incremento)
+Arquivos criados:
+- docs/auditoria_humana_banco_20261102.json
+- docs/auditoria_humana_banco_20261102.md
+Arquivos alterados:
+- LOG.log
+Alteracoes:
+- Registrada auditoria humana completa e aprovada do banco ABEL pos-migracao.
+- Registrada a classificacao da amostra como grande amostra, sem inventar quantidade numerica nao fornecida.
+- Regiane registrada como responsavel tecnica e auditora humana, com aprovacao em 02/11/2026 as 13:50.
+- Leandro registrado como auditor humano, com aprovacao em 02/11/2026 as 13:50.
+- Mantido o universo desde o primeiro registro disponivel ate 31/10/2026 as 12:00, inclusive.
+- Preservados sem alteracao os artefatos historicos de homologacao e o manifesto final da release.
+Validacao:
+- Aprovacao estruturada com status APPROVED e decisao AUDITORIA_HUMANA_COMPLETA_E_APROVADA.
+- Dois aprovadores identificados com data, hora e fuso America/Sao_Paulo.
+- Zero achado critico ou alto em aberto comunicado no aceite.
+- Nenhum codigo, banco, servico ou dado clinico/financeiro foi alterado.
+Git:
+- Nenhuma operacao de commit, push ou alteracao de branch executada.
+Restauracao:
+- Remover os dois documentos de auditoria humana e este bloco do LOG.log; nenhum rollback de banco e necessario.
+
+[2026-11-02 17:34:00 -03:00]
+Tipo: Implementacao completa do novo modelo de permissoes E00-E11
+Versao/build do bloco: 1.0.0+build.54
+Arquivos principais criados:
+- backend/app/core/authorization.py
+- migrations/versions/b7c3e1a9f240_add_multiuser_permission_schema.py
+- migrations/versions/c4a0f6b2d901_add_clinical_delivery_workflow.py
+- tools/validate_permission_migration.py
+- tools/validate_permission_runtime.py
+- docs/permissoes_e00_resultado.json ate docs/permissoes_e11_resultado.json
+Arquivos principais alterados:
+- backend/app/api/dependencies.py
+- backend/app/api/routes/admin_reports.py
+- backend/app/api/routes/clinical.py
+- backend/app/api/routes/documents.py
+- backend/app/api/routes/finance.py
+- backend/app/core/config.py
+- backend/app/db/models.py
+- frontend/index.html
+- frontend/js/app.js
+- frontend/css/app.css
+- projeto_clinica_hrp.html
+- tests/test_authorization.py
+- tests/test_clinical.py
+- tests/test_documents.py
+- tests/test_frontend.py
+- tests/test_security.py
+- docs/plano_implementacao_permissoes_abel.json
+Alteracoes:
+- Aplicado catalogo de 42 permissoes, tres perfis, overrides, grants e auditoria de decisoes.
+- Ativado ENFORCE global e por dominio com default deny e retorno por flag para SHADOW.
+- Implementada gestao de usuarios, revogacao por access_version e step-up de 15 minutos.
+- Implementado workflow clinico pago e atribuido, falta profissional, reanalise e fila medica sem valores financeiros.
+- Definido que todo PDF aceito e final e autenticado; versoes anteriores ficam inativas no historico.
+- Implementada fila de entrega manual auditada, sem integracao automatica com WhatsApp ou email.
+- Restringidos relatorios agregados, exportacoes e estornos financeiros conforme matriz aprovada.
+- Sincronizada a pagina raiz com frontend/index.html.
+Validacao:
+- Poetry 2.3.4 e lock validos.
+- Alembic em c4a0f6b2d901 head; ensaio upgrade/downgrade/upgrade aprovado.
+- Ruff aprovado e 54 testes pytest aprovados.
+- Frontend aprovado em todos os criterios automatizados.
+- Matriz runtime aprovada; perfil MEDICO validado na configuracao porque nao ha usuario medico ativo.
+- API, banco e armazenamento de documentos saudaveis em runtime.
+- Backup AES-256-GCM com 26 tabelas e 342869 linhas aprovado e restaurado isoladamente.
+- Auditoria focada de autorizacao sem achados altos ou criticos confirmados.
+- Nenhum build.txt criado.
+Git:
+- Nenhum commit, push ou alteracao de branch executado.
+- Versao x.x permaneceu 1.0.0; portanto nao houve gatilho de upload por incremento x.x.
+Restauracao:
+- Para retorno de politica, alterar o dominio afetado para SHADOW e reiniciar a API.
+- Para retorno de schema, executar downgrade Alembic somente em janela controlada apos backup.
+- Backup final recuperavel: backups/system/ABEL_full_20261102T203215Z.abelbak.
+
+[2026-11-02 17:35:00 -03:00]
+Tipo: Correcao do gate final E11 apos verificacao de integridade
+Versao/build do bloco: 1.0.0+build.54 (documentacao, sem incremento)
+Arquivos alterados:
+- docs/permissoes_e11_resultado.json
+- docs/plano_implementacao_permissoes_abel.json
+- LOG.log
+Alteracoes:
+- E11 registrada como TECHNICAL_PASS_HUMAN_HOLD, sem declarar aceite humano inexistente.
+- E00-E10 permanecem concluidas e todos os checks tecnicos da E11 permanecem aprovados.
+- Release final mantida nao autorizada ate usuario MEDICO real concluir o roteiro humano.
+Validacao:
+- Confirmado que nao existe usuario MEDICO ativo no banco operacional.
+- Perfil MEDICO e suas negacoes foram validados na configuracao persistida, sem criar identidade ficticia.
+Git:
+- Nenhuma operacao Git executada; versao x.x permaneceu 1.0.0.
+Restauracao:
+- Reverter apenas este bloco documental caso um aceite humano medico real seja posteriormente registrado.
+
+[2026-11-02 17:43:00 -03:00]
+Tipo: Cadastro e homologacao do perfil MEDICO e liberacao do gate E11
+Versao/build do bloco: 1.0.0+build.55
+Arquivos criados:
+- tools/register_homologation_doctor.py
+- tools/homologate_doctor_access.py
+- docs/permissoes_e11_medico_homologacao.json
+- data/homologation-doctor.secret (credencial local, nao versionar)
+Arquivos alterados:
+- docs/permissoes_e10_runtime.json
+- docs/permissoes_e11_resultado.json
+- docs/plano_implementacao_permissoes_abel.json
+- LOG.log
+Dados operacionais:
+- Criado usuario de homologacao com perfil MEDICO e troca de senha concluida.
+- Criado vinculo local com profissional CRM ativo para permitir validacao integral do perfil.
+- Dados pessoais nao foram copiados para LOG ou artefatos de auditoria.
+- Deploy final deve confirmar ou recadastrar o profissional no ambiente de destino.
+Validacao:
+- Login inicial, troca obrigatoria de senha e novo login aprovados.
+- Perfil MEDICO reconhecido pelo backend em ENFORCE.
+- Fila clinica permitida e sem campos financeiros; resumo financeiro negado com HTTP 403.
+- Matriz runtime validou PROFILE_ALLOW para clinical_queue.read e document.authenticate.
+- Poetry lock, Ruff e 54 testes pytest aprovados.
+- Backup final criptografado com 26 tabelas e 342888 linhas aprovado.
+- Restauracao isolada do backup aprovada e banco temporario removido.
+- E11 alterada para APPROVED e release 1.0.0+build.55 autorizada.
+Git:
+- Nenhuma operacao Git executada; versao x.x permaneceu 1.0.0.
+Restauracao:
+- Desativar o usuario e o profissional de homologacao, revogar suas sessoes e registrar a operacao.
+- Backup recuperavel: backups/system/ABEL_full_20261102T204206Z.abelbak.
+
+[2026-11-02 18:17:16 -03:00] Preparacao do tablet para auditoria online; deploy pausado no gate SSH.
+- Criado o usuario mock `leandro.martins` com perfil GERENTE por `tools/register_audit_manager.py`; segredo mantido somente em `data/leandro-manager.secret`, fora do pacote e do Git.
+- Adicionado prefixo publico `/abel`: pagina em `/abel.html` e `/abel/`, assets em `/abel/assets` e API em `/abel/api`, preservando as rotas locais existentes.
+- Criados `tools/tablet_abel_probe.py`, `tools/tablet_abel_backup.py` e `tools/tablet_abel_deploy.py` para inventario, backup integral e instalacao isolada no tablet.
+- Backup integral pre-deploy aprovado em `/data/data/com.termux/files/home/backups/fisia_full_pre_abel_build55_20261102_180258.tar`: 2.296.729.600 bytes, 29.719 entradas e SHA-256 `767c7bdd103003f16dca25f68a1d6fd61988bd9c74adae65ee661c6c385e5094`.
+- Artefato seletivo ABEL criado com SHA-256 `6B2F9C58796D481F767068A2C5E05219354DF0AAD7B5A39502DD5BFD1C332427`; credenciais e diretorios de dados locais foram excluidos.
+- Dependencias Debian instaladas/confirmadas: MariaDB server/client, Python 3.13 venv/dev, build-essential e curl; Poetry 2.3.4 preparado em ambiente isolado.
+- Corrigido o instalador para forcar `/usr/bin/python3` do Debian e evitar o Python Android 3.14 do Termux; ambiente virtual incompleto do ABEL pode ser recriado sem afetar FISIA.
+- Checks locais aprovados: Ruff, 54 testes pytest, validador frontend e 5 testes direcionados do proxy FISIA.
+- Estado: NO-GO temporario. O tablet responde ao ping em `192.168.0.15`, mas o SSH em `8022` parou antes da criacao dos servicos ABEL; proxy publico e runtime FISIA nao foram alterados.
+- Retomada: executar `sshd` no Termux e repetir somente a etapa idempotente de runtime; depois validar banco, API, proxy e URL publica.
+
+[2026-11-02 18:27:48 -03:00]
+Tipo: Commit consolidado solicitado pelo usuario
+Versao/build do bloco: 1.0.0+build.55 (sem incremento; operacao Git)
+Escopo:
+- Consolidar o estado atual do projeto, incluindo implementacao multiusuario E00-E11, API, frontend, migrations, testes, ferramentas e evidencias documentais.
+- Preservar fora do commit metadados locais `.serena`, ambientes, segredos, dados clinicos e backups ignorados.
+Validacao pre-commit:
+- Nenhum arquivo nao ignorado apresentou CPF de 11 digitos ou endereco de email na varredura documental por padrao.
+- `.env`, chaves, bancos, dados, documentos e backups permanecem cobertos pelo `.gitignore`.
+- O commit sera criado localmente sem push, pois a versao x.x permanece 1.0.0.
+Restauracao:
+- Reverter o commit consolidado com uma operacao Git nao destrutiva ou restaurar os arquivos a partir do commit anterior `fab6a28`.
+

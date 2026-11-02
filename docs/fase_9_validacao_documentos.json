@@ -1,0 +1,22 @@
+{
+  "generated_at": "2026-11-02T00:10:56.961347+00:00",
+  "criteria": {
+    "renamed_non_pdf_rejected": true,
+    "size_limit_enforced": true,
+    "first_version_uploaded": true,
+    "doctor_assigned_can_upload": true,
+    "version_history_preserved": true,
+    "authenticated_download": true,
+    "no_public_direct_url": true,
+    "unauthorized_profile_denied": true,
+    "hash_detects_tamper": true,
+    "persists_after_new_app_instance": true,
+    "document_actions_audited": true
+  },
+  "versions": [
+    1,
+    2
+  ],
+  "audit_events": 4,
+  "integrity": "PASS"
+}

@@ -1,0 +1,37 @@
+{
+  "generated_at": "2026-11-01T21:17:00-03:00",
+  "objective": "Executar as Fases 3 a 16 com checks de integridade, logs e build final 1.0.0",
+  "phase_status": {
+    "3": "APROVADA",
+    "4": "APROVADA",
+    "5": "APROVADA_COM_FILA_DE_REVISAO_RASTREAVEL",
+    "6": "APROVADA",
+    "7": "APROVADA",
+    "8": "APROVADA",
+    "9": "APROVADA",
+    "10": "APROVADA",
+    "11": "APROVADA",
+    "12": "APROVADA",
+    "13": "APROVADA",
+    "14": "APROVADA",
+    "15": "PASS",
+    "16": "APROVADA"
+  },
+  "completion_evidence": {
+    "runtime_version": "1.0.0",
+    "tests": "29/29 PASS",
+    "critical_defects": 0,
+    "high_defects": 0,
+    "migration": "296775/296775 ROWS",
+    "appointments": 3867,
+    "financial_total": "409829.41",
+    "legacy_read_only": "306/306",
+    "security": "0 SEMGREP FINDINGS; 0 DEPENDENCY VULNERABILITIES",
+    "final_backup_restore": "PASS",
+    "api_health": "PASS_VERSION_1.0.0",
+    "build_txt": "ABSENT",
+    "git_operations": "NONE"
+  },
+  "missing_evidence": [],
+  "decision": "OBJECTIVE_COMPLETE"
+}

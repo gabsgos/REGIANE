@@ -1,0 +1,17 @@
+{
+  "generated_at": "2026-11-02T21:05:27.772941+00:00",
+  "criteria": {
+    "index_served": true,
+    "assets_served": true,
+    "javascript_syntax": true,
+    "api_flows_connected": true,
+    "no_inner_html": true,
+    "no_mock_login": true,
+    "no_local_storage_auth": true,
+    "responsive_tablet_css": true,
+    "role_visibility": true,
+    "loading_and_errors": true,
+    "hidden_views_are_not_rendered": true
+  },
+  "integrity": "PASS"
+}

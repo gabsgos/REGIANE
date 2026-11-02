@@ -1,0 +1,23 @@
+{
+  "fase": 12,
+  "nome": "Backup, restauracao e observabilidade",
+  "versao": "0.13.0+build.26",
+  "status": "APROVADA",
+  "decisao": "GO_FASE_13",
+  "backup": {
+    "encrypted": true,
+    "algorithm": "AES-256-GCM + scrypt",
+    "size_bytes": 20938133,
+    "table_count": 20,
+    "row_count": 342739
+  },
+  "criterios": {
+    "backup_completo": "PASS",
+    "restauracao_isolada": "PASS",
+    "health_banco": "PASS",
+    "logs_sem_dados_sensiveis": "PASS",
+    "rotacao": "PASS",
+    "agendamento": "PASS",
+    "acl_segredos": "PASS"
+  }
+}

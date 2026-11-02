@@ -1,0 +1,25 @@
+{
+  "stage": "E04",
+  "name": "Comparacao SHADOW",
+  "status": "APPROVED",
+  "mode": "SHADOW",
+  "criteria": {
+    "all_28_authenticated_routes_classified": true,
+    "zero_unexplained_divergences": true,
+    "intentional_divergences_linked_to_requirements": true,
+    "sanitized_shadow_logs": true,
+    "legacy_policy_remains_authoritative": true,
+    "runtime_shadow_decisions_verified": true
+  },
+  "intentional_divergence_groups": [
+    "RECEPCAO loses aggregate and historical finance reads/exports",
+    "RECEPCAO document access waits for authenticated delivery queue in E06"
+  ],
+  "runtime_permissions_checked": [
+    "user.read",
+    "finance.report",
+    "migration_issue.read"
+  ],
+  "evidence": ["docs/permissoes_e04_shadow.json"],
+  "decision": "GO_E05"
+}

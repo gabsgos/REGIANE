@@ -1,0 +1,15 @@
+{
+  "generated_at": "2026-11-02T00:09:47.541144+00:00",
+  "criteria": {
+    "patient_created": true,
+    "appointments_created": true,
+    "optimistic_update_succeeds": true,
+    "stale_update_rejected": true,
+    "persistence_after_new_app_instance": true,
+    "doctor_scope_composed_with_search": true,
+    "doctor_cannot_create_patient": true,
+    "changes_audited": true
+  },
+  "audit_events": 4,
+  "integrity": "PASS"
+}

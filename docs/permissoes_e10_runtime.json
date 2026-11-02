@@ -1,0 +1,82 @@
+{
+  "generated_at": "2026-11-02T20:42:04.063058+00:00",
+  "checks": [
+    {
+      "role": "gerente",
+      "permission": "user.read",
+      "expected": true,
+      "actual": true,
+      "decision": "PROFILE_ALLOW",
+      "pass": true
+    },
+    {
+      "role": "gerente",
+      "permission": "finance.report",
+      "expected": true,
+      "actual": true,
+      "decision": "PROFILE_ALLOW",
+      "pass": true
+    },
+    {
+      "role": "gerente",
+      "permission": "document.delivery_queue",
+      "expected": true,
+      "actual": true,
+      "decision": "PROFILE_ALLOW",
+      "pass": true
+    },
+    {
+      "role": "atendente",
+      "permission": "finance.read",
+      "expected": false,
+      "actual": false,
+      "decision": "NOT_GRANTED",
+      "pass": true
+    },
+    {
+      "role": "atendente",
+      "permission": "document.delivery_queue",
+      "expected": true,
+      "actual": true,
+      "decision": "PROFILE_ALLOW",
+      "pass": true
+    },
+    {
+      "role": "atendente",
+      "permission": "document.authenticate",
+      "expected": false,
+      "actual": false,
+      "decision": "NOT_GRANTED",
+      "pass": true
+    },
+    {
+      "role": "medico",
+      "permission": "clinical_queue.read",
+      "expected": true,
+      "actual": true,
+      "decision": "PROFILE_ALLOW",
+      "pass": true
+    },
+    {
+      "role": "medico",
+      "permission": "document.authenticate",
+      "expected": true,
+      "actual": true,
+      "decision": "PROFILE_ALLOW",
+      "pass": true
+    },
+    {
+      "role": "medico",
+      "permission": "finance.read",
+      "expected": false,
+      "actual": false,
+      "decision": "NOT_GRANTED",
+      "pass": true
+    }
+  ],
+  "criteria": {
+    "matrix_matches": true,
+    "all_domains_enforced": true
+  },
+  "integrity": "PASS"
+}

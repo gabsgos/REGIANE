@@ -1,0 +1,32 @@
+{
+  "fase": 15,
+  "nome": "Corte de producao",
+  "version": "0.15.0+build.46",
+  "window_start": "2026-11-01T21:01:54-03:00",
+  "completed_at": "2026-11-01T21:12:26-03:00",
+  "window_end_limit": "2026-11-01T23:01:54-03:00",
+  "production_active": true,
+  "legacy_read_only": true,
+  "data_loss_detected": false,
+  "criteria": {
+    "human_homologation": "PASS",
+    "legacy_backup_and_restore": "PASS",
+    "legacy_files_read_only": "306/306",
+    "pre_cut_backup_and_restore": "PASS",
+    "final_import": "86/86 FILES; 296775/296775 ROWS",
+    "idempotent_import_and_normalization": "PASS",
+    "appointments": 3867,
+    "financial_total": "409829.41",
+    "orphan_financial_rows": 0,
+    "schema_and_alembic": "PASS",
+    "administrator_password_rotated": true,
+    "api_and_frontend": "ACTIVE_127.0.0.1:8000",
+    "autostart": "CURRENT_USER_STARTUP_SHORTCUT",
+    "smoke_test": "PASS",
+    "post_cut_backup_and_restore": "PASS",
+    "critical_defects": 0,
+    "high_defects": 0
+  },
+  "integrity": "PASS",
+  "decision": "GO_FASE_16"
+}

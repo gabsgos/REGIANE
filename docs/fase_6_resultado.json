@@ -1,0 +1,26 @@
+{
+  "fase": 6,
+  "nome": "Backend, autenticacao e permissoes",
+  "versao": "0.7.0+build.18",
+  "status": "APROVADA",
+  "decisao": "GO_FASE_7",
+  "controles": [
+    "Argon2id",
+    "sessao opaca persistida no servidor",
+    "cookie HttpOnly e SameSite Strict",
+    "CSRF double-submit vinculado a sessao",
+    "rate limit por origem e usuario",
+    "RBAC no servidor",
+    "auditoria de login, logout e senha",
+    "redefinicao obrigatoria para legado"
+  ],
+  "criterios": {
+    "credenciais_invalidas": "PASS",
+    "login_vazio": "PASS",
+    "rbac_servidor": "PASS",
+    "rate_limit": "PASS",
+    "csrf": "PASS",
+    "auditoria": "PASS",
+    "senhas_legadas": "PASS"
+  }
+}

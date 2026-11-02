@@ -1,0 +1,52 @@
+{
+  "fase": 2,
+  "politica_geral": {
+    "preservacao": "Todos os campos de cada DBF ativo serao preservados primeiro em legacy_raw_<tabela>.",
+    "descarte": "Nenhum campo original sera descartado durante staging.",
+    "normalizacao": "Somente campos aprovados serao copiados para o modelo operacional normalizado."
+  },
+  "grupos": [
+    {
+      "dominio": "pacientes_e_atendimentos",
+      "origens": ["CANDIDAT.DBF", "CANDRES.DBF", "NCAND.DBF", "DEPARA.DBF"],
+      "destinos": ["pacientes", "atendimentos", "legacy_import_map"],
+      "regra": "CANDIDAT.CODIGO identifica o atendimento legado; CPF pode consolidar paciente quando valido."
+    },
+    {
+      "dominio": "profissionais_e_usuarios",
+      "origens": ["DR_MED.DBF", "USUARIOS.DBF", "FUNC.DBF", "FUNOCOR.DBF", "QUITFUN.DBF", "VAL_FUNC.DBF"],
+      "destinos": ["profissionais", "usuarios", "perfis", "auditoria"],
+      "regra": "Credenciais antigas nao serao migradas; usuarios exigem nova senha."
+    },
+    {
+      "dominio": "financeiro",
+      "origens": ["PAGTOS.DBF", "NPAGTOS.DBF", "DEPOS.DBF", "L_CARTAO.DBF", "L_CHEQUE.DBF", "PROGCART.DBF", "TXCARTAO.DBF", "LANCHQ.DBF", "LANCTO.DBF", "CONTBAN.DBF", "SALDOBAN.DBF", "RECIBO.DBF", "EVENTOS.DBF", "HISTCXA.DBF", "COMPROS.DBF"],
+      "destinos": ["pagamentos", "pagamento_itens", "movimentos_financeiros", "contas_financeiras", "recibos", "eventos_financeiros"],
+      "regra": "Valores usam DECIMAL; pagamentos compostos sao separados em itens."
+    },
+    {
+      "dominio": "clinico_e_laudos",
+      "origens": ["LAUDODEF.DBF", "HRBIO.DBF", "OBSGEFOR.DBF", "FANLAN.DBF", "CANCLAUD.DBF", "CANCPLAN.DBF", "AGPROVA.DBF"],
+      "destinos": ["laudos", "avaliacoes", "observacoes_clinicas", "ocorrencias_clinicas"],
+      "regra": "Conteudo clinico permanece restrito e auditado; tabelas vazias preservam apenas esquema em staging."
+    },
+    {
+      "dominio": "referencias_detran_e_geograficas",
+      "origens": ["ARQCEP.DBF", "CEP_SP.DBF", "MUNIC.DBF", "PAIS.DBF", "CIRETRAN.DBF", "CADG.DBF", "TABMP.DBF", "TAB_PROV.DBF", "ORIGEM.DBF"],
+      "destinos": ["enderecos_referencia", "municipios", "paises", "ciretrans", "credenciados", "tabelas_referencia", "origens_atendimento"],
+      "regra": "Codigos com zeros a esquerda permanecem texto."
+    },
+    {
+      "dominio": "configuracao_e_sistema_legado",
+      "origens": ["GERADOR.DBF", "EMPR_NFS.DBF", "RELAT.DBF", "PLANILHA.DBF", "MENSAGE.DBF", "TIPOIMP.DBF", "CONTATO.DBF", "TICKETS.DBF"],
+      "destinos": ["legacy_config_raw", "configuracoes_aprovadas"],
+      "regra": "Somente configuracoes revisadas sao promovidas; senhas, tokens e caminhos locais sao excluidos do modelo novo."
+    },
+    {
+      "dominio": "temporarios",
+      "origens": ["TMP_ASS.DBF", "TMP_EST.DBF", "TMP_EVE.DBF", "TMP_MP.DBF", "TMP_REN.DBF"],
+      "destinos": ["legacy_raw_temporarios"],
+      "regra": "Nao alimentar operacao nova automaticamente; usar apenas para reconciliacao e evidencia historica."
+    }
+  ]
+}

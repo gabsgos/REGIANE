@@ -1,0 +1,22 @@
+{
+  "fase": 5,
+  "nome": "Normalizacao e reconciliacao",
+  "versao": "0.6.1+build.17",
+  "status": "APROVADA_COM_FILA_DE_REVISAO",
+  "decisao": "GO_FASE_6",
+  "pacientes": 3808,
+  "atendimentos": 3867,
+  "pagamentos": 3923,
+  "recibos": 3723,
+  "movimentos_financeiros": 3827,
+  "mapas_legado_novo": 22339,
+  "issues_revisao": 510,
+  "criterios": {
+    "legacy_codigo": "PASS",
+    "cobertura_financeira": "PASS",
+    "totais_financeiros": "PASS",
+    "duplicidades_controladas": "PASS",
+    "rastreabilidade": "PASS",
+    "amostra_25_de_25": "PASS"
+  }
+}

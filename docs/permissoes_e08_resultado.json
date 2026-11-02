@@ -1,0 +1,17 @@
+{
+  "stage": "E08",
+  "status": "APPROVED",
+  "criteria": {
+    "aggregate_finance_manager_only": true,
+    "financial_export_manager_only": true,
+    "payment_reversal_manager_only": true,
+    "privileged_actions_require_recent_login": true,
+    "step_up_window_minutes": 15,
+    "csrf_required_for_financial_writes": true
+  },
+  "evidence": [
+    "backend/app/api/dependencies.py",
+    "backend/app/api/routes/finance.py",
+    "tests/test_security.py"
+  ]
+}

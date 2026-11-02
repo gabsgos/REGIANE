@@ -1,0 +1,22 @@
+{
+  "generated_at": "2026-11-01T21:03:08-03:00",
+  "version": "0.15.0+build.42",
+  "source": "ABEL-BAK",
+  "backup_file": "backups/ABEL-BAK_FINAL_20261101T2103-0300.zip",
+  "size_bytes": 57733494,
+  "sha256": "4e973b83001b3c4b6ed1e4db90f488713d3f710a5cb186b836a127f99003e2cc",
+  "restore_test": {
+    "expected_files": 306,
+    "restored_files": 306,
+    "missing_or_hash_mismatches": 0,
+    "extra_files": 0,
+    "temporary_restore_removed": true
+  },
+  "legacy_read_only": {
+    "files": 306,
+    "read_only_files": 306,
+    "writable_files": 0,
+    "method": "WINDOWS_FILE_READ_ONLY_ATTRIBUTE"
+  },
+  "integrity": "PASS"
+}

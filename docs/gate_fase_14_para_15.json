@@ -1,0 +1,26 @@
+{
+  "generated_at": "2026-11-01T20:42:58-03:00",
+  "current_version": "1.0.0",
+  "phase_14": "APPROVED",
+  "phase_15": "APPROVED",
+  "phase_16": "APPROVED",
+  "technical_integrity": {
+    "ruff": "PASS",
+    "tests": "29/29 PASS",
+    "poetry": "PASS",
+    "mysql": "8.4.9 LISTENING 127.0.0.1:3307",
+    "schema": "PASS",
+    "alembic": "2e32865e3947 HEAD",
+    "backup_task": "READY",
+    "api_task": "ACCESS_DENIED_FALLBACK_STARTUP_SHORTCUT_ACTIVE",
+    "temporary_databases": [],
+    "build_txt": "ABSENT",
+    "security_preflight": "PASS_BUILD_46",
+    "known_dependency_vulnerabilities": 0,
+    "semgrep_findings": 0,
+    "git_operations": "STATUS_ONLY_AFTER_USER_AUTHORIZATION"
+  },
+  "required_human_evidence": [],
+  "decision": "GO_FINAL_1_0_0",
+  "reason": "Fases 14, 15 e 16 concluidas; manifesto e gate final aprovados"
+}

@@ -1,0 +1,10 @@
+{
+  "task_name": "ABEL Backup Diario",
+  "state": "Ready",
+  "schedule": "daily 22:00 America/Sao_Paulo",
+  "start_when_available": true,
+  "execution_time_limit_hours": 2,
+  "script": "tools/run_backup.ps1",
+  "retention_count": 14,
+  "status": "PASS"
+}

@@ -1,0 +1,22 @@
+{
+  "stage": "E01",
+  "normalized_schema": {
+    "convenio": "NOT_PRESENT",
+    "urgencia_excepcional": "NOT_PRESENT",
+    "cortesia": "NOT_PRESENT",
+    "pagamento_posterior": "NOT_PRESENT"
+  },
+  "legacy_raw_payment_related_fields": {
+    "PAGTOS": ["DT_PAGTO"],
+    "PROGCART": ["TPPAGTO"],
+    "TMP_ASS": ["PAGTO"],
+    "GERADOR": ["SEN_APAGA", "TOPO_PAG"]
+  },
+  "dependencies": [
+    "legacy_raw_records is retained as immutable migration evidence",
+    "normalized payments and payment_items are the operational source",
+    "no legacy field is read by the authorization kernel"
+  ],
+  "migration_plan": "Do not remove raw fields. Preserve legacy payloads; any future removal requires a separate approved data analysis.",
+  "decision": "PRESERVE_NO_REMOVAL"
+}

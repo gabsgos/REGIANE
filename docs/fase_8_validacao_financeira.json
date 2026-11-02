@@ -1,0 +1,18 @@
+{
+  "generated_at": "2026-11-02T00:10:49.752792+00:00",
+  "criteria": {
+    "mismatched_sum_rejected": true,
+    "negative_value_rejected": true,
+    "hybrid_payment_created": true,
+    "summary_total_increment": true,
+    "summary_methods_increment": true,
+    "receipt_created": true,
+    "doctor_finance_denied": true,
+    "reversal_succeeds": true,
+    "reversal_removes_from_paid_totals": true,
+    "original_payment_preserved": true,
+    "financial_changes_audited": true
+  },
+  "audit_events": 3,
+  "integrity": "PASS"
+}

@@ -1,0 +1,32 @@
+{
+  "generated_at": "2026-11-02T20:26:19.831298+00:00",
+  "source_database": "abel_clinica",
+  "test_database": "abel_permissions_test",
+  "baseline_counts": {
+    "users": 5,
+    "roles": 3,
+    "patients": 3808,
+    "appointments": 3867,
+    "payments": 3923,
+    "receipts": 3723,
+    "clinical_documents": 0,
+    "audit_logs": 22
+  },
+  "catalog": {
+    "permissions": 42,
+    "unique_permissions": 42,
+    "profiles": 3,
+    "profile_permission_assignments": 64
+  },
+  "criteria": {
+    "baseline_preserved_first_upgrade": true,
+    "downgrade_preserved_data": true,
+    "new_tables_removed_on_downgrade": true,
+    "baseline_preserved_second_upgrade": true,
+    "exactly_42_unique_permissions": true,
+    "exactly_three_profiles": true,
+    "repeatable_catalog": true
+  },
+  "isolated_database_removed": true,
+  "integrity": "PASS"
+}

@@ -1,0 +1,434 @@
+{
+  "schema_version": 3,
+  "model_id": "abel-user-access-v2-three-levels",
+  "status": "SCHEMA_MULTIUSUARIO_STATIC_READY_MIGRATION_NAO_APLICADA",
+  "generated_on": "2026-11-02",
+  "application": {
+    "name": "ABEL Clinica",
+    "version": "1.0.0",
+    "build_reference": 53,
+    "deployment_scope": "single_clinic_with_future_unit_scope"
+  },
+  "stakeholder_requirements": {
+    "evidence": [
+      "Screenshot_20261102_125650_WhatsApp.jpg",
+      "Screenshot_20261102_125703_WhatsApp.jpg"
+    ],
+    "human_access_levels": ["GESTOR", "RECEPCAO", "MEDICO"],
+    "statements": [
+      "GESTOR has complete operational visibility and exclusive aggregate financial reports with period filters.",
+      "Only GESTOR creates users; full name, CPF, date of birth, phone, email and address are mandatory.",
+      "A professional user also requires an active CRM or CRP council registration.",
+      "RECEPCAO registers patients, maintains administrative data, assigns the doctor and records payment.",
+      "MEDICO sees no payment data and only receives paid appointments assigned to that doctor.",
+      "Payment is mandatory before medical release; there is no insurance, urgency exception or post-payment flow.",
+      "Only GESTOR reverses a payment.",
+      "If the assigned professional is absent, there is no attendance, reassignment or substitute professional.",
+      "MEDICO uploads the patient PDF from a simple worklist and the accepted upload is already authenticated.",
+      "When no PDF can be attached, MEDICO marks Reanalise and provides an operational observation visible to RECEPCAO.",
+      "An authenticated PDF enters the reception delivery queue.",
+      "RECEPCAO downloads the PDF, manually contacts the patient and records delivery; ABEL does not integrate directly with WhatsApp."
+    ],
+    "interpretation_notes": [
+      "PDF authentication is an atomic result of accepted upload, recording document hash, actor and timestamp; there is no separate finalization step in the user flow.",
+      "Reception-created patients are clinic operational records, not records owned by one receptionist.",
+      "Reanalysis observation is an operational message for patient contact and must not expose unrestricted clinical notes.",
+      "Legacy database fields for insurance, urgency and post-payment will be assessed in a separate database analysis before removal."
+    ]
+  },
+  "derived_from": {
+    "openemr": {
+      "commit": "89465dfb3a14cd58a0191e95a1f1ea7bb62d8332",
+      "concepts": [
+        "default_deny",
+        "access_control_objects",
+        "multi_group_user_membership",
+        "need_to_know",
+        "separate_admin_clinical_front_office_accounting",
+        "information_sensitivity",
+        "emergency_access"
+      ],
+      "adaptation": "Emergency Login is replaced by approved, scoped and expiring grants."
+    },
+    "fisia": {
+      "backend_commit": "04a371f31f457716b334ec3516033c7e14c202e5",
+      "concepts": [
+        "permission_catalog",
+        "versioned_role_profiles",
+        "profile_permission_catalog",
+        "explicit_deny_precedence",
+        "scoped_overrides",
+        "temporary_grants",
+        "access_version",
+        "separation_of_duties",
+        "compat_shadow_enforce_rollout",
+        "explainable_authorization_decisions"
+      ]
+    }
+  },
+  "principles": [
+    "default_deny",
+    "server_side_authority",
+    "least_privilege",
+    "separate_identity_profession_access_level_permission",
+    "one_active_human_access_level_per_user",
+    "only_manager_creates_users",
+    "user_personal_data_is_manager_only_and_never_logged_in_full",
+    "mandatory_payment_before_medical_release",
+    "no_professional_substitution",
+    "manager_clinical_signature_requires_professional_credential",
+    "explicit_deny_wins",
+    "scoped_clinical_access",
+    "no_self_elevation",
+    "logical_revocation_and_full_audit"
+  ],
+  "authorization": {
+    "rollout_modes": ["COMPAT", "SHADOW", "ENFORCE"],
+    "default_effect": "DENY",
+    "precedence": [
+      "invalid_session_or_context",
+      "inactive_user_or_incomplete_provisioning",
+      "stale_access_version",
+      "invalid_scope",
+      "active_explicit_deny",
+      "active_explicit_allow",
+      "approved_temporary_grant",
+      "active_profile_allow",
+      "not_granted",
+      "action_obligations"
+    ],
+    "session_invalidation": {
+      "strategy": "access_version",
+      "increment_on": [
+        "profile_assignment_change",
+        "permission_override_change",
+        "user_suspend_or_reactivate",
+        "credential_change",
+        "professional_credential_status_change",
+        "temporary_grant_activation_or_revocation"
+      ]
+    },
+    "decision_audit_fields": [
+      "actor_user_id",
+      "permission_key",
+      "allowed",
+      "decision_code",
+      "source_ids",
+      "scope_type",
+      "scope_hash",
+      "access_version",
+      "request_id",
+      "created_at"
+    ]
+  },
+  "scope_types": {
+    "SELF": "Own account and sessions.",
+    "CLINIC": "Entire clinic operation.",
+    "UNIT": "Future physical unit.",
+    "ASSIGNED": "Patients and appointments assigned to the professional.",
+    "PROFESSIONAL": "One professional schedule or production.",
+    "RESOURCE": "One explicitly identified record."
+  },
+  "sensitivity_levels": ["NORMAL", "SENSITIVE", "PRIVILEGED", "HIGH_CLINICAL"],
+  "permission_catalog": [
+    {"key": "clinic.read", "resource": "clinic", "action": "read", "sensitivity": "NORMAL", "delegable": true},
+    {"key": "clinic.manage", "resource": "clinic", "action": "manage", "sensitivity": "PRIVILEGED", "delegable": false},
+    {"key": "unit.read", "resource": "unit", "action": "read", "sensitivity": "NORMAL", "delegable": true},
+    {"key": "unit.manage", "resource": "unit", "action": "manage", "sensitivity": "PRIVILEGED", "delegable": false},
+    {"key": "user.read", "resource": "user", "action": "read", "sensitivity": "SENSITIVE", "delegable": true},
+    {"key": "user.create", "resource": "user", "action": "create", "sensitivity": "PRIVILEGED", "delegable": false},
+    {"key": "user.manage", "resource": "user", "action": "manage", "sensitivity": "PRIVILEGED", "delegable": false},
+    {"key": "user.suspend", "resource": "user", "action": "suspend", "sensitivity": "PRIVILEGED", "delegable": false},
+    {"key": "user.reset_password", "resource": "user", "action": "reset_password", "sensitivity": "PRIVILEGED", "delegable": false},
+    {"key": "access.read", "resource": "access", "action": "read", "sensitivity": "SENSITIVE", "delegable": true},
+    {"key": "access.inspect", "resource": "access", "action": "inspect", "sensitivity": "SENSITIVE", "delegable": true},
+    {"key": "access.manage", "resource": "access", "action": "manage", "sensitivity": "PRIVILEGED", "delegable": false},
+    {"key": "access.audit", "resource": "access", "action": "audit", "sensitivity": "PRIVILEGED", "delegable": false},
+    {"key": "demographic.read", "resource": "patient_demographic", "action": "read", "sensitivity": "SENSITIVE", "delegable": true},
+    {"key": "demographic.create", "resource": "patient_demographic", "action": "create", "sensitivity": "SENSITIVE", "delegable": true},
+    {"key": "demographic.write", "resource": "patient_demographic", "action": "write", "sensitivity": "SENSITIVE", "delegable": true},
+    {"key": "schedule.read", "resource": "schedule", "action": "read", "sensitivity": "NORMAL", "delegable": true},
+    {"key": "schedule.write", "resource": "schedule", "action": "write", "sensitivity": "SENSITIVE", "delegable": true},
+    {"key": "schedule.cancel", "resource": "schedule", "action": "cancel", "sensitivity": "SENSITIVE", "delegable": true},
+    {"key": "schedule.manage_availability", "resource": "schedule", "action": "manage_availability", "sensitivity": "SENSITIVE", "delegable": true},
+    {"key": "clinical_queue.read", "resource": "clinical_worklist", "action": "read", "sensitivity": "HIGH_CLINICAL", "delegable": true},
+    {"key": "clinical.read", "resource": "clinical_record", "action": "read", "sensitivity": "HIGH_CLINICAL", "delegable": true},
+    {"key": "clinical.write", "resource": "clinical_record", "action": "write", "sensitivity": "HIGH_CLINICAL", "delegable": true},
+    {"key": "clinical.sign", "resource": "clinical_record", "action": "sign", "sensitivity": "PRIVILEGED", "delegable": false},
+    {"key": "clinical.amend", "resource": "clinical_record", "action": "amend", "sensitivity": "PRIVILEGED", "delegable": false},
+    {"key": "document.read", "resource": "clinical_document", "action": "read", "sensitivity": "HIGH_CLINICAL", "delegable": true},
+    {"key": "document.upload", "resource": "clinical_document", "action": "upload", "sensitivity": "HIGH_CLINICAL", "delegable": true},
+    {"key": "document.download", "resource": "clinical_document", "action": "download", "sensitivity": "HIGH_CLINICAL", "delegable": true},
+    {"key": "document.authenticate", "resource": "clinical_document", "action": "authenticate", "sensitivity": "PRIVILEGED", "delegable": false},
+    {"key": "document.delivery_queue", "resource": "clinical_document", "action": "delivery_queue", "sensitivity": "HIGH_CLINICAL", "delegable": true},
+    {"key": "document.dispatch", "resource": "clinical_document", "action": "dispatch", "sensitivity": "HIGH_CLINICAL", "delegable": true},
+    {"key": "finance.read", "resource": "finance", "action": "read", "sensitivity": "SENSITIVE", "delegable": true},
+    {"key": "finance.receive", "resource": "finance", "action": "receive", "sensitivity": "SENSITIVE", "delegable": true},
+    {"key": "finance.reverse", "resource": "finance", "action": "reverse", "sensitivity": "PRIVILEGED", "delegable": false},
+    {"key": "finance.reconcile", "resource": "finance", "action": "reconcile", "sensitivity": "PRIVILEGED", "delegable": false},
+    {"key": "finance.report", "resource": "finance", "action": "report", "sensitivity": "SENSITIVE", "delegable": true},
+    {"key": "finance.export", "resource": "finance", "action": "export", "sensitivity": "PRIVILEGED", "delegable": false},
+    {"key": "report.operational", "resource": "report", "action": "operational", "sensitivity": "SENSITIVE", "delegable": true},
+    {"key": "report.clinical", "resource": "report", "action": "clinical", "sensitivity": "HIGH_CLINICAL", "delegable": false},
+    {"key": "backup.run", "resource": "backup", "action": "run", "sensitivity": "PRIVILEGED", "delegable": false},
+    {"key": "backup.restore", "resource": "backup", "action": "restore", "sensitivity": "PRIVILEGED", "delegable": false},
+    {"key": "migration_issue.read", "resource": "migration_issue", "action": "read", "sensitivity": "SENSITIVE", "delegable": true}
+  ],
+  "profiles": [
+    {
+      "key": "GESTOR",
+      "name": "Gestor",
+      "permissions": [
+        "clinic.read", "clinic.manage", "unit.read", "unit.manage",
+        "user.read", "user.create", "user.manage", "user.suspend", "user.reset_password",
+        "access.read", "access.inspect", "access.manage", "access.audit",
+        "demographic.read", "demographic.create", "demographic.write",
+        "schedule.read", "schedule.write", "schedule.cancel", "schedule.manage_availability",
+        "clinical_queue.read", "clinical.read", "clinical.write", "clinical.sign", "clinical.amend",
+        "document.read", "document.upload", "document.download", "document.authenticate",
+        "document.delivery_queue", "document.dispatch",
+        "finance.read", "finance.receive", "finance.reverse", "finance.reconcile",
+        "finance.report", "finance.export", "report.operational", "report.clinical",
+        "backup.run", "backup.restore", "migration_issue.read"
+      ],
+      "constraints": [
+        "last_active_manager_protected",
+        "cannot_approve_own_access_change",
+        "only_profile_allowed_to_create_users",
+        "only_profile_allowed_to_reverse_payment",
+        "clinical_sign_and_document_authenticate_require_active_professional_credential"
+      ]
+    },
+    {
+      "key": "RECEPCAO",
+      "name": "Recepcao",
+      "permissions": [
+        "clinic.read", "unit.read", "demographic.read", "demographic.create", "demographic.write",
+        "schedule.read", "schedule.write", "schedule.cancel", "finance.receive",
+        "document.read", "document.download", "document.delivery_queue", "document.dispatch"
+      ],
+      "constraints": [
+        "clinic_wide_administrative_records",
+        "finance_only_during_own_operational_transaction",
+        "no_aggregate_financial_reports",
+        "no_clinical_draft_or_notes",
+        "may_read_reanalysis_flag_and_operational_observation",
+        "manual_patient_contact_only_no_direct_whatsapp_integration",
+        "documents_must_be_FINAL_for_read_download_or_dispatch"
+      ]
+    },
+    {
+      "key": "MEDICO",
+      "name": "Medico",
+      "permissions": [
+        "clinic.read", "unit.read", "demographic.read", "schedule.read", "clinical_queue.read",
+        "document.read", "document.upload", "document.download", "document.authenticate"
+      ],
+      "constraints": [
+        "scope_assigned_professional",
+        "appointment_must_be_active",
+        "payment_must_be_confirmed_server_side",
+        "active_professional_council_registration_CRM_or_CRP_required",
+        "minimum_patient_fields",
+        "no_financial_fields_or_endpoints",
+        "may_mark_reanalysis_with_required_operational_observation_when_no_PDF_is_uploaded",
+        "accepted_PDF_upload_is_immediately_authenticated",
+        "document_authenticate_only_for_own_assigned_appointment"
+      ]
+    }
+  ],
+  "profile_assignment_policy": {
+    "human_profiles_are_mutually_exclusive": true,
+    "maximum_active_human_profiles_per_user": 1,
+    "professional_credential_is_separate_from_access_level": true,
+    "professional_operational_profile_key": "MEDICO",
+    "professional_profile_accepts_councils": ["CRM", "CRP"],
+    "user_creation_allowed_profiles": ["GESTOR"],
+    "required_user_fields": [
+      "full_name",
+      "cpf",
+      "date_of_birth",
+      "phone",
+      "email",
+      "address"
+    ],
+    "required_professional_fields": [
+      "council_type",
+      "council_registration"
+    ],
+    "allowed_council_types": ["CRM", "CRP"]
+  },
+  "entities": [
+    "users",
+    "professional_profiles",
+    "permissions",
+    "role_profiles",
+    "profile_permissions",
+    "user_profile_assignments",
+    "user_scope_assignments",
+    "user_permission_overrides",
+    "access_requests",
+    "access_grants",
+    "auth_sessions",
+    "authorization_decisions",
+    "audit_events",
+    "document_deliveries"
+  ],
+  "governance": {
+    "forbidden": [
+      "self_elevation",
+      "manage_peer_or_superior",
+      "delegate_permission_actor_does_not_have",
+      "delegate_non_delegable_permission",
+      "non_GESTOR_user_creation",
+      "non_GESTOR_payment_reversal",
+      "medical_release_without_confirmed_payment",
+      "doctor_reassignment_or_substitution_after_absence",
+      "disable_last_active_manager",
+      "clinical_signature_without_active_professional_credential",
+      "expose_full_CPF_birth_phone_email_or_address_in_logs",
+      "physical_delete_of_access_history"
+    ],
+    "dual_approval_required": [
+      "assign_GESTOR",
+      "backup.restore",
+      "break_glass_activation",
+      "grant_PRIVILEGED_permission"
+    ],
+    "step_up_required": [
+      "access.manage",
+      "user.reset_password",
+      "clinical.sign",
+      "finance.reconcile",
+      "finance.export",
+      "backup.restore"
+    ],
+    "optimistic_concurrency": {
+      "field": "access_version",
+      "conflict_status": 409
+    }
+  },
+  "break_glass": {
+    "implemented_as": "approved_temporary_grant",
+    "default_minutes": 30,
+    "maximum_minutes": 60,
+    "minimum_reason_length": 20,
+    "requester_must_differ_from_approver": true,
+    "step_up_required": true,
+    "forbidden_permissions": [
+      "access.manage",
+      "clinical.sign",
+      "finance.reconcile",
+      "backup.restore"
+    ],
+    "audit_all_access": true
+  },
+  "user_lifecycle": {
+    "states": ["INVITED", "PENDING", "ACTIVE", "SUSPENDED", "LOCKED", "DISABLED", "EXPIRED"],
+    "terminal_states": ["DISABLED", "EXPIRED"],
+    "logical_revocation_only": true
+  },
+  "business_workflow": {
+    "name": "paid_appointment_to_document_delivery",
+    "states": [
+      "CADASTRADO",
+      "PAGAMENTO_PENDENTE",
+      "LIBERADO_PARA_MEDICO",
+      "ATENDIMENTO_EM_ANALISE",
+      "PDF_AUTENTICADO",
+      "REANALISE_PENDENTE",
+      "DISPONIVEL_RECEPCAO",
+      "ENTREGUE",
+      "BLOQUEADO",
+      "CANCELADO",
+      "CANCELADO_FALTA_PROFISSIONAL",
+      "EMENDADO"
+    ],
+    "clinical_release_rule": {
+      "all_of": [
+        "appointment.active",
+        "appointment.professional_id == authenticated_doctor.professional_id",
+        "payment.status == PAGO"
+      ],
+      "payment_policy": {
+        "mandatory_before_release": true,
+        "accepted_release_status": "PAGO",
+        "insurance_supported": false,
+        "urgency_exception_supported": false,
+        "post_payment_supported": false,
+        "courtesy_or_unpaid_release_supported": false,
+        "reversal_allowed_profiles": ["GESTOR"]
+      },
+      "professional_absence_policy": {
+        "attendance_occurs": false,
+        "reassignment_allowed": false,
+        "substitution_allowed": false,
+        "target_state": "CANCELADO_FALTA_PROFISSIONAL",
+        "financial_resolution_owner": "GESTOR"
+      },
+      "doctor_visible_result": "LIBERADO_PARA_ATENDIMENTO",
+      "doctor_hidden_fields": [
+        "payment_id",
+        "payment_amount",
+        "payment_method",
+        "receipt_number",
+        "financial_movements"
+      ]
+    },
+    "document_rules": {
+      "separate_user_finalization_step": false,
+      "accepted_upload_target_state": "PDF_AUTENTICADO",
+      "authentication_evidence": ["sha256", "uploaded_by", "authenticated_at", "appointment_id", "document_version"],
+      "authenticated_visible_to": ["GESTOR", "RECEPCAO", "MEDICO_assigned"],
+      "silent_overwrite_forbidden": true,
+      "correction_strategy": "new_version_or_audited_amendment",
+      "payment_reversal_never_deletes_original_document": true,
+      "delivery_requires_audit_record": true,
+      "delivery_channel": "MANUAL_BY_RECEPCAO",
+      "direct_whatsapp_integration": false
+    },
+    "reanalysis_rules": {
+      "trigger": "medical_analysis_completed_without_PDF",
+      "required_fields": ["reanalysis_required", "operational_observation"],
+      "reanalysis_required_value": true,
+      "operational_observation_required": true,
+      "visible_to": ["GESTOR", "RECEPCAO", "MEDICO_assigned"],
+      "reception_purpose": "contact_patient_about_missing_documents_or_failed_criteria",
+      "clinical_draft_access_granted_to_reception": false
+    }
+  },
+  "api_adaptation": [
+    {"method": "POST", "path": "/api/admin/users", "profile": "GESTOR", "purpose": "Create a user with mandatory identity, contact and address fields; require CRM or CRP for professionals."},
+    {"method": "GET", "path": "/api/clinical/worklist", "profile": "MEDICO", "purpose": "Paid and assigned appointment queue without financial fields."},
+    {"method": "POST", "path": "/api/documents/appointments/{appointment_id}", "profile": "MEDICO", "purpose": "Validate, authenticate and publish the uploaded PDF atomically."},
+    {"method": "POST", "path": "/api/clinical/appointments/{appointment_id}/reanalysis", "profile": "MEDICO", "purpose": "Mark completed analysis without PDF and provide required operational observation to reception."},
+    {"method": "GET", "path": "/api/documents/delivery-queue", "profile": "RECEPCAO", "purpose": "Authenticated documents and reanalysis contact items pending reception action."},
+    {"method": "POST", "path": "/api/documents/{document_id}/dispatch", "profile": "RECEPCAO", "purpose": "Record manual download, patient contact or delivery; no direct WhatsApp integration."},
+    {"method": "POST", "path": "/api/finance/payments/{payment_id}/reverse", "profile": "GESTOR", "purpose": "Reverse payment without deleting any authenticated or delivered document."},
+    {"method": "GET", "path": "/api/finance/report", "profile": "GESTOR", "purpose": "Financial movements and aggregate reports filtered by period."}
+  ],
+  "implementation_phases": [
+    {"order": 1, "name": "catalog", "mode": "COMPAT", "behavior_change": false},
+    {"order": 2, "name": "shadow_decisions", "mode": "SHADOW", "behavior_change": false},
+    {"order": 3, "name": "administrative_enforcement", "mode": "ENFORCE", "behavior_change": true},
+    {"order": 4, "name": "financial_enforcement", "mode": "ENFORCE", "behavior_change": true},
+    {"order": 5, "name": "clinical_scope_enforcement", "mode": "ENFORCE", "behavior_change": true},
+    {"order": 6, "name": "temporary_grants_and_reviews", "mode": "ENFORCE", "behavior_change": true}
+  ],
+  "resolved_decisions": [
+    "Only GESTOR creates users and all required identity/contact/address fields must be present.",
+    "Professional registration accepts CRM or CRP and is mandatory for professional users.",
+    "Payment is mandatory before medical release; insurance, urgency exception, courtesy/unpaid release and post-payment are not supported.",
+    "Only GESTOR reverses payments.",
+    "Professional absence means no attendance, reassignment or substitution.",
+    "Accepted PDF upload is already authenticated and immediately enters the reception queue.",
+    "Payment reversal preserves every authenticated or delivered document and its audit history.",
+    "Without PDF, MEDICO marks Reanalise and writes a required operational observation visible to RECEPCAO.",
+    "Patient contact and WhatsApp sending are manual reception activities; ABEL has no direct WhatsApp integration.",
+    "Only the necessary FISIA authorization primitives will be adapted."
+  ],
+  "deferred_database_analysis": [
+    "Inventory fields related to insurance, urgency, courtesy/unpaid release and post-payment.",
+    "Confirm usage, migration impact and retention requirements before removing any legacy field."
+  ]
+}

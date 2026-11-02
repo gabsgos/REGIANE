@@ -1,0 +1,25 @@
+{
+  "stage": "E10",
+  "status": "APPROVED",
+  "rollout": {
+    "admin": "ENFORCE",
+    "finance": "ENFORCE",
+    "clinical": "ENFORCE",
+    "documents": "ENFORCE",
+    "reports": "ENFORCE",
+    "global_fallback": "ENFORCE"
+  },
+  "criteria": {
+    "per_domain_switch_available": true,
+    "rollback_to_shadow_available": true,
+    "all_33_authenticated_routes_classified": true,
+    "zero_unexplained_policy_divergences": true,
+    "global_default_deny_active": true
+  },
+  "rollback": "Set the affected ABEL_AUTHORIZATION_<DOMAIN>_MODE to SHADOW and restart the API.",
+  "evidence": [
+    "docs/permissoes_e04_shadow.json",
+    "backend/app/api/dependencies.py",
+    ".env"
+  ]
+}

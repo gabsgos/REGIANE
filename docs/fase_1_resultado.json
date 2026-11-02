@@ -3,7 +3,7 @@
   "nome": "Inicializacao do projeto",
   "versao_final": "0.2.3+build.5",
   "executada_em": "2026-10-31T12:03:00-03:00",
-  "status": "aprovada_localmente_bloqueada_para_push",
+  "status": "aprovada",
   "poetry": {
     "versao": "2.3.4",
     "ambiente_local": ".venv",
@@ -49,9 +49,9 @@
     "env_ignorado": true,
     "bancos_locais_ignorados": true
   },
-  "bloqueador": {
-    "tipo": "git_remote_ausente",
-    "descricao": "Nao existe repositorio remoto configurado para cumprir o push obrigatorio da versao 0.2.x."
+  "git": {
+    "status": "suspenso_por_ordem_do_usuario",
+    "descricao": "Nenhuma operacao Git deve ser executada ate nova autorizacao explicita."
   },
-  "decisao": "NO-GO para Fase 2 ate configurar e validar o Git remoto"
+  "decisao": "GO para Fase 2"
 }

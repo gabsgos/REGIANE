@@ -1,0 +1,12 @@
+[hidden] {
+  display: none !important;
+}
+
+select {
+  width: 100%;
+  padding: .68rem;
+  border: 1px solid #b9c7cd;
+  border-radius: 7px;
+  background: #fff;
+  font: inherit;
+}

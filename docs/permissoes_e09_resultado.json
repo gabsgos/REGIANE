@@ -1,0 +1,25 @@
+{
+  "stage": "E09",
+  "status": "APPROVED",
+  "review_scope": "Focused authorization security review",
+  "criteria": {
+    "default_deny": true,
+    "explicit_deny_precedence": true,
+    "expired_grant_denied": true,
+    "invalid_scope_denied": true,
+    "idor_assigned_professional_tested": true,
+    "csrf_mismatch_denied": true,
+    "audit_scope_identifier_hashed": true,
+    "delivery_destination_masked": true,
+    "confirmed_security_findings": 0
+  },
+  "limitations": [
+    "Focused source review and local regression tests; no live penetration test was performed."
+  ],
+  "evidence": [
+    "tests/test_authorization.py",
+    "tests/test_documents.py",
+    "tests/test_security.py",
+    "backend/app/core/authorization.py"
+  ]
+}

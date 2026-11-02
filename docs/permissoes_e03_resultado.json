@@ -1,0 +1,26 @@
+{
+  "stage": "E03",
+  "name": "Kernel de autorizacao em COMPAT",
+  "status": "APPROVED",
+  "mode": "COMPAT",
+  "criteria": {
+    "central_evaluator_implemented": true,
+    "default_deny": true,
+    "explicit_deny_precedence_tested": true,
+    "explicit_allow_tested": true,
+    "temporary_grant_tested": true,
+    "profile_allow_tested": true,
+    "invalid_scope_fails_closed": true,
+    "unknown_permission_fails_closed": true,
+    "sanitized_decision_audit": true,
+    "deterministic_tests": true
+  },
+  "tests": "41/41 PASS; 11 authorization/security tests PASS",
+  "runtime_evidence": {
+    "permission": "user.read",
+    "decision": "PROFILE_ALLOW",
+    "mode": "COMPAT",
+    "sensitive_resource_id_stored": false
+  },
+  "decision": "GO_E04"
+}

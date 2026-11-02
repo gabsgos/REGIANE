@@ -1,0 +1,19 @@
+{
+  "generated_at": "2026-11-02T00:09:38.427322+00:00",
+  "criteria": {
+    "wrong_credentials_rejected": true,
+    "blank_credentials_rejected": true,
+    "login_rate_limit_enforced": true,
+    "valid_login": true,
+    "session_cookie_httponly": true,
+    "cookies_samesite_strict": true,
+    "me_authenticated": true,
+    "invalid_csrf_rejected": true,
+    "logout_succeeds": true,
+    "revoked_session_rejected": true,
+    "auth_events_audited": true,
+    "password_reset_state_matches_expected": true
+  },
+  "audit_event_count": 12,
+  "integrity": "PASS"
+}

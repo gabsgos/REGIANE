@@ -1,0 +1,45 @@
+{
+  "generated_at": "2026-11-01T20:54:29-03:00",
+  "version": "0.15.0+build.41",
+  "scope": "AUDITORIA_DOCUMENTAL_E_CODIGO_PRE_CORTE",
+  "execution": {
+    "dynamic_target_execution": false,
+    "reason": "Ausencia de sandbox operacional com isolamento exigido pelo workflow security-audit",
+    "evidence_basis": "Evidencias tecnicas previamente produzidas e inspecao somente leitura"
+  },
+  "user_permission": {
+    "received": true,
+    "scope": "PROSSEGUIR_COM_AUDITORIA_PRE_CORTE",
+    "cutover_authorized": true,
+    "cutover_execution_ready": true,
+    "authorization_scope": "PRIMEIRO_REGISTRO_ATE_2026-10-31T12:00:00-03:00_INCLUSIVE",
+    "role_approvals_replaced": false
+  },
+  "evidence": {
+    "technical_security_report": "docs/auditoria_seguranca_resultado.json",
+    "final_gate_report": "docs/final_release_gate.json",
+    "technical_pilot": "docs/fase_14_piloto_tecnico.json",
+    "cutover_plan": "docs/plano_corte_retorno.md",
+    "legacy_cutoff_audit": "docs/fase_14_cutoff_legado.json",
+    "pilot_sha256": "66544f52fdb9ccdc07d004eb6d7de7dcdd48d9bf82f113a4a99bc3eb2c2ee76e",
+    "cut_plan_sha256": "a88530e81b1f985d06061b36ab0b26433c6da8d3a9e11715566bfcf1b6896573"
+  },
+  "criteria": {
+    "technical_preflight": "PASS_BUILD_36",
+    "approval_draft_created": "PASS",
+    "evidence_hashes_current": "PASS",
+    "gerencia_approval": "PASS",
+    "atendimento_approval": "PASS",
+    "medico_psicologo_approval": "PASS",
+    "cutover_plan_approval": "PASS",
+    "administrative_cutover_authorization": "PASS",
+    "data_scope_all_records_until_fixed_cutoff": "PASS",
+    "fixed_cutoff": "2026-10-31T12:00:00-03:00",
+    "legacy_snapshot_frozen": "PASS_306_OF_306_HASHES",
+    "cutover_window": "PASS_2026-11-01T21:01:54-03:00_TO_2026-11-01T23:01:54-03:00",
+    "operational_responsible": "PASS",
+    "rollback_responsible": "PASS"
+  },
+  "decision": "GO_FASE_15",
+  "blocking_reason": null
+}

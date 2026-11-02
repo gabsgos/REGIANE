@@ -1,0 +1,18 @@
+{
+  "generated_at": "2026-11-02T00:11:03.973129+00:00",
+  "database": "abel_clinica",
+  "update_statuses": [
+    200,
+    409
+  ],
+  "request_count": 40,
+  "mean_ms": 103.271,
+  "p95_ms": 181.774,
+  "max_ms": 207.252,
+  "criteria": {
+    "one_update_wins_one_conflicts": true,
+    "forty_concurrent_queries_succeed": true,
+    "p95_under_1000ms": true
+  },
+  "integrity": "PASS"
+}

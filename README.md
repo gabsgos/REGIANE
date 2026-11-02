@@ -6,7 +6,7 @@ Modernizacao do sistema local de gestao da clinica medica credenciada pelo DETRA
 
 - Fase 0 concluida: legado inventariado, copiado e restaurado com hashes conferidos.
 - Fase 1 concluida localmente: fundacao FastAPI, Poetry, testes e versionamento.
-- O envio ao Git remoto depende da configuracao do repositorio remoto.
+- Operacoes Git estao suspensas por ordem do usuario ate nova autorizacao explicita.
 - Os dados em `ABEL-BAK` sao fonte legada e nao devem ser editados.
 
 ## Desenvolvimento

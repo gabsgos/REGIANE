@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>ABEL Clínica</title>
+  <link rel="stylesheet" href="/abel/assets/css/app.css">
+  <link rel="stylesheet" href="/abel/assets/css/visibility.css">
+</head>
+<body>
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+
+  <main id="login-view" class="login-shell">
+    <form id="login-form" class="card login-card">
+      <div class="brand-mark" aria-hidden="true">A</div>
+      <h1>ABEL Clínica</h1>
+      <p>Gestão clínica credenciada DETRAN</p>
+      <label>Usuário<input id="login-user" autocomplete="username" required></label>
+      <label>Senha<input id="login-password" type="password" autocomplete="current-password" required></label>
+      <button type="submit">Entrar</button>
+      <p id="login-error" class="error" role="alert"></p>
+    </form>
+  </main>
+
+  <main id="password-view" class="login-shell" hidden>
+    <form id="password-form" class="card login-card">
+      <h1>Defina uma nova senha</h1>
+      <p>A credencial inicial não pode ser mantida.</p>
+      <label>Senha atual<input id="current-password" type="password" required></label>
+      <label>Nova senha<input id="new-password" type="password" minlength="12" required></label>
+      <button type="submit">Salvar e entrar novamente</button>
+    </form>
+  </main>
+
+  <div id="app-view" hidden>
+    <header class="app-header">
+      <div><strong>ABEL</strong><span>Clínica Médica</span></div>
+      <div class="header-user"><span id="user-label"></span><button id="logout-button" class="secondary">Sair</button></div>
+    </header>
+    <nav class="tabs" aria-label="Módulos">
+      <button data-panel="panel-dashboard" class="active">Painel</button>
+      <button data-panel="panel-clinical">Atendimentos</button>
+      <button data-panel="panel-finance" data-roles="gerente,atendente">Financeiro</button>
+      <button data-panel="panel-documents" data-roles="gerente,atendente,medico">Laudos</button>
+      <button data-panel="panel-reports" data-roles="gerente">Relatórios</button>
+      <button data-panel="panel-users" data-roles="gerente">Usuários</button>
+    </nav>
+
+    <section id="panel-dashboard" class="panel">
+      <div class="page-title"><div><h1>Visão geral</h1><p id="today-label"></p></div><button id="refresh-button" class="secondary">Atualizar</button></div>
+      <div class="metrics">
+        <article class="metric"><span>Atendimentos localizados</span><strong id="metric-appointments">—</strong></article>
+        <article class="metric finance-only"><span>Recebido hoje</span><strong id="metric-paid">—</strong></article>
+        <article class="metric finance-only"><span>Pagamentos hoje</span><strong id="metric-payments">—</strong></article>
+      </div>
+    </section>
+
+    <section id="panel-clinical" class="panel" hidden>
+      <div class="page-title"><div><h1>Pacientes e atendimentos</h1><p>Dados persistidos no MySQL</p></div></div>
+      <div class="two-columns">
+        <form id="patient-form" class="card restricted-write">
+          <h2>Novo paciente</h2>
+          <label>Nome<input id="patient-name" required minlength="2"></label>
+          <label>CPF<input id="patient-cpf" inputmode="numeric" placeholder="Opcional"></label>
+          <label>Telefone<input id="patient-phone"></label>
+          <button type="submit">Cadastrar paciente</button>
+          <output id="patient-result"></output>
+        </form>
+        <form id="appointment-form" class="card restricted-write">
+          <h2>Novo atendimento</h2>
+          <label>ID do paciente<input id="appointment-patient" type="number" min="1" required></label>
+          <label>Data do exame<input id="appointment-date" type="date" required></label>
+          <label>RENACH<input id="appointment-renach" maxlength="20"></label>
+          <button type="submit">Criar atendimento</button>
+        </form>
+      </div>
+      <div class="card table-card">
+        <div class="filters">
+          <label>Busca<input id="appointment-search" placeholder="Nome, CPF ou RENACH"></label>
+          <label>De<input id="filter-date-from" type="date"></label>
+          <label>Até<input id="filter-date-to" type="date"></label>
+          <button id="search-button" type="button">Buscar</button>
+        </div>
+        <div id="appointments-loading" class="loading" hidden>Carregando…</div>
+        <div class="table-scroll"><table><thead><tr><th>ID</th><th>Data</th><th>Paciente</th><th>Status</th><th>RENACH</th><th>Ações</th></tr></thead><tbody id="appointments-body"></tbody></table></div>
+      </div>
+    </section>
+
+    <section id="panel-finance" class="panel" hidden>
+      <div class="page-title"><div><h1>Financeiro</h1><p>Pagamentos e relatórios calculados no servidor</p></div></div>
+      <div class="two-columns">
+        <form id="payment-form" class="card">
+          <h2>Novo pagamento</h2>
+          <label>ID do atendimento<input id="payment-appointment" type="number" min="1" required></label>
+          <label>PIX<input id="payment-pix" type="number" min="0" step="0.01" value="0"></label>
+          <label>Dinheiro<input id="payment-cash" type="number" min="0" step="0.01" value="0"></label>
+          <label>Cartão<input id="payment-card" type="number" min="0" step="0.01" value="0"></label>
+          <label>Cheque<input id="payment-check" type="number" min="0" step="0.01" value="0"></label>
+          <button type="submit">Registrar pagamento</button>
+        </form>
+        <article class="card"><h2>Resumo de hoje</h2><dl id="finance-summary"></dl></article>
+      </div>
+      <section class="patient-finance" aria-labelledby="patient-finance-title">
+        <div class="section-heading"><div><h2 id="patient-finance-title">Financeiro por paciente</h2><p>Busque por nome ou CPF para abrir o histórico individual</p></div></div>
+        <form id="patient-finance-search-form" class="card user-search" role="search">
+          <label>Paciente<input id="patient-finance-search" type="search" placeholder="Nome ou CPF" autocomplete="off" required></label>
+          <button type="submit">Buscar paciente</button>
+        </form>
+        <div id="patient-finance-results" class="search-results" aria-live="polite"></div>
+        <div id="patient-finance-report" hidden>
+          <div class="section-heading">
+            <div><h3 id="patient-finance-name">Paciente</h3><p id="patient-finance-identification"></p></div>
+            <button id="patient-finance-export" type="button" class="secondary">Exportar histórico</button>
+          </div>
+          <div class="metrics finance-metrics">
+            <article class="metric"><span>Cobrado</span><strong id="patient-charged">—</strong></article>
+            <article class="metric"><span>Recebido</span><strong id="patient-received">—</strong></article>
+            <article class="metric"><span>Pendente</span><strong id="patient-pending">—</strong></article>
+            <article class="metric"><span>Estornado</span><strong id="patient-reversed">—</strong></article>
+          </div>
+          <article class="card table-card finance-series-card">
+            <h3>Evolução mensal</h3>
+            <div class="table-scroll"><table><thead><tr><th>Mês</th><th>Pagamentos</th><th>Atendimentos</th><th>Saldo acumulado</th></tr></thead><tbody id="patient-monthly-body"></tbody></table></div>
+          </article>
+          <div class="finance-patient-details">
+            <article class="card table-card"><h3>Pagamentos e estornos</h3><div class="table-scroll"><table><thead><tr><th>Data</th><th>Atendimento</th><th>Forma</th><th>Status</th><th>Valor</th></tr></thead><tbody id="patient-payments-body"></tbody></table></div></article>
+            <article class="card table-card"><h3>Atendimentos vinculados</h3><div class="table-scroll"><table><thead><tr><th>ID</th><th>Data</th><th>Status</th></tr></thead><tbody id="patient-appointments-body"></tbody></table></div></article>
+            <article class="card table-card"><h3>Recibos</h3><div class="table-scroll"><table><thead><tr><th>Número</th><th>Data</th><th>Valor</th></tr></thead><tbody id="patient-receipts-body"></tbody></table></div></article>
+          </div>
+        </div>
+      </section>
+      <section class="finance-report" data-roles="gerente" aria-labelledby="finance-report-title">
+        <div class="section-heading">
+          <div><h2 id="finance-report-title">Relatório financeiro</h2><p>Visão diária, mensal, anual ou personalizada</p></div>
+          <button id="finance-export" type="button" class="secondary">Exportar CSV auditado</button>
+        </div>
+        <form id="finance-report-form" class="card report-filters">
+          <label>Período<select id="finance-period"><option value="daily">Diário</option><option value="monthly">Mensal</option><option value="annual">Anual</option><option value="custom">Personalizado</option></select></label>
+          <label>De<input id="finance-date-from" type="date" required></label>
+          <label>Até<input id="finance-date-to" type="date" required></label>
+          <label>Usuário<select id="finance-user"><option value="">Todos os usuários</option></select></label>
+          <button type="submit">Aplicar filtros</button>
+        </form>
+        <div id="finance-report-loading" class="loading card" role="status" aria-live="polite" hidden>Carregando relatório…</div>
+        <div class="metrics finance-metrics">
+          <article class="metric"><span>Total recebido</span><strong id="finance-total">—</strong></article>
+          <article class="metric"><span>Pagamentos</span><strong id="finance-count">—</strong></article>
+          <article class="metric"><span>Ticket médio</span><strong id="finance-average">—</strong></article>
+          <article class="metric"><span>Estornos</span><strong id="finance-reversals">—</strong></article>
+        </div>
+        <div class="two-columns finance-details">
+          <article class="card"><h3>Formas de pagamento</h3><dl id="finance-methods"></dl></article>
+          <article class="card"><h3>Pagamentos × recibos</h3><dl id="finance-comparison"></dl></article>
+        </div>
+        <article class="card table-card finance-series-card">
+          <h3>Evolução no período</h3>
+          <div class="table-scroll"><table><thead><tr><th>Data</th><th>Pagamentos</th><th>Total</th><th>Participação</th></tr></thead><tbody id="finance-series-body"></tbody></table></div>
+        </article>
+        <article class="card table-card">
+          <div class="section-heading table-heading"><div><h3>Movimentações</h3><p id="finance-movements-total">—</p></div><div class="pagination"><button id="finance-prev" type="button" class="secondary">Anterior</button><span id="finance-page">—</span><button id="finance-next" type="button" class="secondary">Próxima</button></div></div>
+          <div class="table-scroll"><table><thead><tr><th>Data</th><th>Paciente</th><th>Usuário</th><th>Forma</th><th>Status</th><th>Valor</th></tr></thead><tbody id="finance-movements-body"></tbody></table></div>
+        </article>
+      </section>
+    </section>
+
+    <section id="panel-documents" class="panel" hidden>
+      <div class="page-title"><div><h1>Laudos</h1><p>PDF privado, versionado e verificado por hash</p></div></div>
+      <section data-roles="gerente,medico" aria-labelledby="clinical-worklist-title">
+        <div class="section-heading"><div><h2 id="clinical-worklist-title">Fila clínica</h2><p>Somente atendimentos pagos vinculados ao profissional</p></div><button id="clinical-worklist-refresh" type="button" class="secondary">Atualizar fila</button></div>
+        <div id="clinical-worklist-loading" class="loading card" role="status" aria-live="polite" hidden>Carregando fila clínica…</div>
+        <div class="card table-card workflow-card"><div class="table-scroll"><table><thead><tr><th>Atendimento</th><th>Paciente</th><th>Data</th><th>Status</th><th>Ações</th></tr></thead><tbody id="clinical-worklist-body"></tbody></table></div></div>
+      </section>
+      <form id="document-form" class="card document-form" data-roles="gerente,medico">
+        <label>ID do atendimento<input id="document-appointment" type="number" min="1" required></label>
+        <label>Tipo<input id="document-type" value="laudo" required></label>
+        <label>Arquivo PDF<input id="document-file" type="file" accept="application/pdf,.pdf" required></label>
+        <button type="submit">Enviar nova versão</button>
+      </form>
+      <div class="card"><h2>Histórico</h2><div id="document-list" class="document-list"></div></div>
+      <section data-roles="gerente,atendente" aria-labelledby="delivery-queue-title" class="delivery-section">
+        <div class="section-heading"><div><h2 id="delivery-queue-title">Fila de entrega</h2><p>Registro manual, sem envio automático por WhatsApp ou e-mail</p></div><button id="delivery-queue-refresh" type="button" class="secondary">Atualizar fila</button></div>
+        <div id="delivery-queue-loading" class="loading card" role="status" aria-live="polite" hidden>Carregando fila de entrega…</div>
+        <div class="card table-card"><div class="table-scroll"><table><thead><tr><th>Atendimento</th><th>Paciente</th><th>Pendência</th><th>Destino</th><th>Ação</th></tr></thead><tbody id="delivery-queue-body"></tbody></table></div></div>
+      </section>
+    </section>
+
+    <section id="panel-reports" class="panel" hidden>
+      <div class="page-title"><div><h1>Relatórios</h1><p>Período e filtros sempre identificados</p></div></div>
+      <form id="report-form" class="card document-form">
+        <label>De<input id="report-date-from" type="date" required></label>
+        <label>Até<input id="report-date-to" type="date" required></label>
+        <label>Forma de pagamento<select id="report-method"><option value="">Todas</option><option value="pix">PIX</option><option value="dinheiro">Dinheiro</option><option value="cartao">Cartão</option><option value="cheque">Cheque</option></select></label>
+        <button type="submit">Calcular</button>
+      </form>
+      <div class="two-columns"><article class="card"><h2>Resultado</h2><dl id="report-result"></dl><button id="export-report" type="button">Exportar CSV auditado</button></article><article class="card"><h2>Inconsistências da migração</h2><div id="migration-issues"></div></article></div>
+    </section>
+
+    <section id="panel-users" class="panel" hidden>
+      <div class="page-title"><div><h1>Usuários</h1><p>Gestão exclusiva do gerente</p></div></div>
+      <form id="user-form" class="card document-form">
+        <label>Usuário<input id="new-username" required pattern="[A-Za-z0-9._-]+"></label>
+        <label>Nome completo<input id="new-display-name" required minlength="2" maxlength="120"></label>
+        <label>CPF<input id="new-cpf" required inputmode="numeric" pattern="[0-9]{11}" maxlength="11"></label>
+        <label>Data de nascimento<input id="new-birth-date" type="date" required></label>
+        <label>Telefone<input id="new-phone" required minlength="8" maxlength="20"></label>
+        <label>E-mail<input id="new-email" type="email" required maxlength="254"></label>
+        <label>Endereço<textarea id="new-address" required minlength="5" maxlength="500"></textarea></label>
+        <label>Perfil<select id="new-role"><option value="atendente">Atendente</option><option value="medico">Médico</option><option value="gerente">Gerente</option></select></label>
+        <label>ID profissional (obrigatório para médico)<input id="new-professional-id" type="number" min="1"></label>
+        <label id="edit-active-label" class="checkbox" hidden><input id="edit-active" type="checkbox" checked> Usuário ativo</label>
+        <button id="user-submit" type="submit">Criar usuário</button>
+        <button id="user-cancel-edit" type="button" class="secondary" hidden>Cancelar edição</button>
+      </form>
+      <output id="admin-result"></output>
+      <form id="user-search-form" class="card user-search" role="search">
+        <label>Buscar usuário<input id="user-search" type="search" placeholder="Nome ou usuário" autocomplete="off"></label>
+        <button type="submit">Buscar</button>
+        <button id="user-search-clear" type="button" class="secondary">Limpar</button>
+      </form>
+      <div class="card table-card"><div class="table-scroll"><table><thead><tr><th>Usuário</th><th>Nome</th><th>Perfil</th><th>Ativo</th><th>Redefinição</th><th>Ações</th></tr></thead><tbody id="users-body"></tbody></table></div></div>
+    </section>
+  </div>
+  <script type="module" src="/abel/assets/js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+{
+  "fase": 9,
+  "nome": "Laudos e documentos",
+  "versao": "0.10.0+build.22",
+  "status": "APROVADA",
+  "decisao": "GO_FASE_10",
+  "criterios": {
+    "persistencia": "PASS",
+    "validacao_pdf_real": "PASS",
+    "armazenamento_privado": "PASS",
+    "rbac": "PASS",
+    "hash_integridade": "PASS",
+    "versionamento": "PASS",
+    "auditoria": "PASS"
+  }
+}

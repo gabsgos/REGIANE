@@ -26,7 +26,7 @@
         "correcao": "Incrementar PATCH e build",
         "nova_fase": "Incrementar MINOR e build",
         "build_final": "1.0.0",
-        "git": "Fazer commit e push a cada incremento de MINOR ou MAJOR, apos testes aprovados"
+        "git": "Operacoes Git suspensas por ordem do usuario ate nova autorizacao explicita"
       },
       "seguranca_dados": "Nunca trabalhar diretamente sobre os DBFs originais",
       "hardware": "Nao enviar codigo para Arduino ou ESP32 sem solicitacao explicita",
@@ -116,7 +116,7 @@
           "API inicia localmente",
           "Health check retorna sucesso",
           "Testes, lint e verificacao de sintaxe passam",
-          "Commit e push da versao 0.2 concluidos"
+          "Validacoes locais concluidas; operacoes Git dispensadas enquanto a suspensao estiver vigente"
         ]
       },
       {
@@ -593,8 +593,8 @@
           "Revisar migracoes Alembic",
           "Restaurar o backup final em ambiente isolado",
           "Atualizar LOG.log",
-          "Criar tag Git 1.0.0",
-          "Fazer commit e push final",
+          "Criar tag Git 1.0.0 somente apos nova autorizacao explicita",
+          "Fazer commit e push final somente apos nova autorizacao explicita",
           "Arquivar manifestos, relatorios e checksums",
           "Definir rotina de manutencao"
         ],
@@ -616,7 +616,7 @@
           "Logs e documentos respeitam dados sensiveis",
           "Usuarios homologaram a operacao",
           "Sistema legado permanece preservado e somente leitura",
-          "Build 1.0.0 foi enviada ao Git"
+          "Politica Git vigente foi respeitada; qualquer envio depende de autorizacao explicita"
         ]
       }
     ],

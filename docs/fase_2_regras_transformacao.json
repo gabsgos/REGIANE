@@ -1,0 +1,80 @@
+{
+  "fase": 2,
+  "regras": [
+    {
+      "id": "R001",
+      "escopo": "todos_os_arquivos",
+      "regra": "Importar primeiro para staging imutavel com arquivo, numero do registro e SHA-256."
+    },
+    {
+      "id": "R002",
+      "escopo": "identificadores",
+      "regra": "CPF, CRM, CRP, RENACH, PGU, RG, CEP e codigos com zeros a esquerda devem permanecer texto."
+    },
+    {
+      "id": "R003",
+      "escopo": "CANDIDAT.CODIGO",
+      "regra": "Usar como identificador legado unico do atendimento, nunca como chave definitiva do paciente."
+    },
+    {
+      "id": "R004",
+      "escopo": "CANDIDAT.CPF",
+      "regra": "Normalizar apenas caracteres numericos; validar digitos; CPF vazio ou invalido nao consolida pacientes automaticamente."
+    },
+    {
+      "id": "R005",
+      "escopo": "datas",
+      "regra": "Converter YYYYMMDD para DATE; vazio vira NULL; formato invalido ou data implausivel vai para fila de revisao sem perder o valor original."
+    },
+    {
+      "id": "R006",
+      "escopo": "CANDIDAT.DT_VALID",
+      "regra": "As 3381 datas com ano anterior a 1900 nao devem ser promovidas automaticamente."
+    },
+    {
+      "id": "R007",
+      "escopo": "CANDIDAT.DT_NASC",
+      "regra": "As 8 datas de nascimento anteriores a 1900 exigem revisao humana."
+    },
+    {
+      "id": "R008",
+      "escopo": "numericos_financeiros",
+      "regra": "Converter para DECIMAL com escala original; proibir FLOAT no banco de destino."
+    },
+    {
+      "id": "R009",
+      "escopo": "duplicados",
+      "regra": "Nao excluir automaticamente os 121 registros duplicados; classificar duplicidade por dominio antes de consolidar."
+    },
+    {
+      "id": "R010",
+      "escopo": "relacionamentos_orfaos",
+      "regra": "Os 11 CANDIDAT.ORIGEM orfaos permanecem com origem NULL e referencia legada registrada para revisao."
+    },
+    {
+      "id": "R011",
+      "escopo": "credenciais",
+      "regra": "Nao migrar USUARIOS.SENHA nem campos SEN_* ou tokens de configuracao; exigir redefinicao."
+    },
+    {
+      "id": "R012",
+      "escopo": "memos",
+      "regra": "Resolver campos M pelo FPT correspondente; ponteiro ausente ou memo orfao gera alerta e preserva metadados."
+    },
+    {
+      "id": "R013",
+      "escopo": "indices_cdx",
+      "regra": "Nao importar CDX; reconstruir indices e restricoes no MySQL."
+    },
+    {
+      "id": "R014",
+      "escopo": "extensoes_alternativas",
+      "regra": "Arquivos TXT e 188 em formato DBF sao snapshots ou modelos; nao sobrepor automaticamente a tabela DBF ativa."
+    },
+    {
+      "id": "R015",
+      "escopo": "auditoria",
+      "regra": "Preservar USUARIO, DT_USUARIO e HR_USUARIO quando existentes e registrar a linhagem da transformacao."
+    }
+  ]
+}

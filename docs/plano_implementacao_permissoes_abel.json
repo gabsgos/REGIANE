@@ -1,0 +1,537 @@
+{
+  "schema_version": 1,
+  "plan_id": "abel-permissions-implementation-v1",
+  "status": "IMPLEMENTACAO_E00_E11_CONCLUIDA",
+  "generated_on": "2026-11-02",
+  "language": "pt-BR",
+  "application": {
+    "name": "ABEL",
+    "current_version_reference": "1.0.0+build.55",
+    "target_access_model": "abel-user-access-v2-three-levels",
+    "human_profiles": [
+      "GESTOR",
+      "RECEPCAO",
+      "MEDICO"
+    ],
+    "implementation_not_started": false
+  },
+  "implementation_progress": {
+    "build": "1.0.0+build.55",
+    "local_ready": [
+      "schema aditivo de permissoes, perfis e workflow aplicado",
+      "migrations b7c3e1a9f240 e c4a0f6b2d901 aplicadas",
+      "seed de tres perfis e 42 permissoes",
+      "cadastro de usuario com campos obrigatorios",
+      "CRM ou CRP obrigatorio para perfil profissional",
+      "perfil humano unico por usuario",
+      "revogacao de sessao por access_version",
+      "kernel de autorizacao em ENFORCE",
+      "workflow de PDF final autenticado, reanalise e entrega manual",
+      "backup e restauracao final verificados"
+    ],
+    "not_yet_implemented": [],
+    "database_migrated": true,
+    "service_restarted": true,
+    "runtime_verified": true,
+    "release_authorized": true,
+    "release_blocker": null
+  },
+  "scope": {
+    "objective": "Substituir gradualmente a autorizacao baseada apenas em papeis por decisoes de permissao, escopo, estado do atendimento e contexto, preservando a operacao durante a transicao.",
+    "included": [
+      "backend, banco, frontend administrativo e testes",
+      "cadastro e ciclo de vida de usuarios",
+      "cadastro, agenda, pagamento, atendimento, PDF e entrega",
+      "relatorios financeiros, auditoria e revogacao de acesso"
+    ],
+    "excluded_until_explicit_decision": [
+      "assinatura digital externa ou ICP-Brasil; o upload aceito ja e autenticado pelo ABEL",
+      "integracao automatica com WhatsApp ou email; o contato sera manual pela RECEPCAO",
+      "modelo multi-workspace e multiunidade completo do FISIA",
+      "remocao de campos legados de convenio, urgencia, cortesia ou pagamento posterior antes de analise especifica do banco",
+      "alteracao funcional nesta etapa de planejamento"
+    ]
+  },
+  "reference_models": {
+    "fisia": {
+      "model": "RBAC com catalogo resource.action, escopos, ALLOW/DENY, grants temporarios, solicitacao/aprovacao, access_version, auditoria de decisoes, RLS e rollout COMPAT/SHADOW/ENFORCE",
+      "strengths_to_adapt": [
+        "default deny e DENY explicito com precedencia",
+        "permissoes atomicas separadas dos perfis",
+        "escopo de recurso e contexto de unidade/profissional",
+        "revogacao imediata por access_version",
+        "concessoes temporarias com expiracao e justificativa",
+        "decisao de autorizacao auditavel e explicavel",
+        "implantacao progressiva com modo sombra"
+      ],
+      "complexity_not_to_copy_now": [
+        "multi-workspace e multiunidade generalizados",
+        "sete perfis operacionais",
+        "delegacao administrativa ampla",
+        "todo o fluxo corporativo de solicitacao e aprovacao"
+      ]
+    },
+    "openemr": {
+      "role": "Referencia conceitual usada pelo FISIA",
+      "strengths_to_adapt": [
+        "objetos protegidos e categorias de acesso",
+        "default deny",
+        "separacao entre grupos, objetos e niveis de acesso",
+        "protecoes administrativas"
+      ],
+      "adaptation": "Substituir grupo permanente e amplo de emergencia por concessao excepcional, restrita, justificada, aprovada, auditada e com expiracao."
+    },
+    "abel_current": {
+      "strengths": [
+        "sessao mantida no servidor e token armazenado por hash",
+        "protecao CSRF",
+        "auditoria operacional existente",
+        "escopo de medico por professional_id em fluxos clinicos",
+        "controle de concorrencia por row_version",
+        "validacao e integridade de PDF"
+      ],
+      "gaps": [
+        "autorizacao concentrada em listas de papeis nas rotas",
+        "ausencia de catalogo atomico de permissoes",
+        "ausencia de ALLOW/DENY por usuario e grants temporarios",
+        "ausencia de access_version para revogacao imediata de sessoes",
+        "auditoria nao registra de forma uniforme a decisao e a regra aplicada",
+        "fluxo de entrega de documento ainda precisa de ciclo de vida dedicado"
+      ]
+    }
+  },
+  "comparison": [
+    {
+      "axis": "tenancy",
+      "fisia": "multi-workspace e multiunidade",
+      "abel_current": "clinica unica, sem contexto corporativo generalizado",
+      "abel_target": "escopo simples por clinica, usuario, profissional, paciente e atendimento; sem multi-workspace prematuro"
+    },
+    {
+      "axis": "profiles",
+      "fisia": "multiplos perfis por membership e sete perfis de referencia",
+      "abel_current": "banco aceita muitos papeis, API administrativa opera gerente, atendente e medico de forma essencialmente exclusiva",
+      "abel_target": "exatamente um perfil humano ativo: GESTOR, RECEPCAO ou MEDICO"
+    },
+    {
+      "axis": "permissions",
+      "fisia": "catalogo resource.action desacoplado dos perfis",
+      "abel_current": "listas de papeis em dependencias e rotas",
+      "abel_target": "catalogo de 42 permissoes, perfis como pacotes e politica default deny"
+    },
+    {
+      "axis": "scope_and_context",
+      "fisia": "workspace, unidade, recurso e contexto",
+      "abel_current": "filtros pontuais, principalmente professional_id",
+      "abel_target": "escopo validado no servidor e condicoes de pagamento, atividade, atribuicao e estado do documento"
+    },
+    {
+      "axis": "exceptions",
+      "fisia": "overrides ALLOW/DENY e grants temporarios",
+      "abel_current": "nao ha mecanismo uniforme",
+      "abel_target": "DENY explicito e grant temporario apenas quando houver caso aprovado; ALLOW nao ultrapassa regra clinica indelegavel"
+    },
+    {
+      "axis": "revocation",
+      "fisia": "access_version invalida contexto antigo",
+      "abel_current": "revogacao depende do ciclo atual da sessao",
+      "abel_target": "alteracao de perfil, status ou permissao incrementa access_version e invalida sessoes antigas"
+    },
+    {
+      "axis": "audit",
+      "fisia": "decisao de acesso explicavel e auditada",
+      "abel_current": "auditoria de eventos de negocio",
+      "abel_target": "auditoria de eventos e decisoes, sem dados clinicos ou segredos no log"
+    },
+    {
+      "axis": "database_enforcement",
+      "fisia": "RLS PostgreSQL",
+      "abel_current": "enforcement principal na aplicacao",
+      "abel_target": "primeira fase na aplicacao com consultas escopadas; avaliar controles no banco antes de acessos externos ou analiticos"
+    },
+    {
+      "axis": "rollout",
+      "fisia": "COMPAT, SHADOW e ENFORCE",
+      "abel_current": "trocas funcionais por build",
+      "abel_target": "adotar os tres modos por dominio, com chave de retorno testada"
+    }
+  ],
+  "target_rules": {
+    "decision_precedence": [
+      "usuario inativo, sessao revogada ou contexto invalido resulta em DENY",
+      "DENY explicito e valido prevalece",
+      "restricoes indelegaveis de profissao, atribuicao, pagamento e estado prevalecem",
+      "grant temporario valido pode conceder somente permissao delegavel e dentro do escopo",
+      "permissao do perfil concede somente dentro do escopo e contexto",
+      "qualquer caso nao contemplado resulta em DENY"
+    ],
+    "profile_summary": {
+      "GESTOR": "unico perfil que cria usuarios e estorna pagamentos; administra operacao e visualiza financeiro agregado; ato clinico exige credencial profissional CRM ou CRP ativa",
+      "RECEPCAO": "cadastra paciente, agenda e atribui profissional, registra pagamento, recebe PDF autenticado ou pendencia de reanalise e realiza contato/entrega manual; nao visualiza rascunho clinico nem relatorio financeiro agregado",
+      "MEDICO": "visualiza somente atendimentos ativos, pagos e atribuidos; upload aceito autentica o PDF ou registra reanalise com observacao; nao recebe campos nem endpoints financeiros"
+    },
+    "user_registration": {
+      "allowed_profiles": ["GESTOR"],
+      "required_fields": ["full_name", "cpf", "date_of_birth", "phone", "email", "address"],
+      "professional_required_fields": ["council_type", "council_registration"],
+      "allowed_council_types": ["CRM", "CRP"]
+    },
+    "fixed_business_rules": [
+      "pagamento confirmado e obrigatorio antes da liberacao ao MEDICO",
+      "nao existe convenio, urgencia excepcional, cortesia, liberacao sem pagamento ou pagamento posterior",
+      "somente GESTOR realiza estorno",
+      "falta do profissional encerra o atendimento sem reagendamento para outro profissional ou substituicao",
+      "upload aceito do PDF ja produz documento autenticado",
+      "estorno nunca apaga PDF autenticado ou entregue",
+      "sem PDF, MEDICO marca Reanalise e informa observacao operacional visivel a RECEPCAO",
+      "contato e envio por WhatsApp sao manuais pela RECEPCAO, sem integracao direta"
+    ],
+    "non_negotiable_security": [
+      "default deny",
+      "validacao de objeto e escopo no servidor",
+      "campos financeiros removidos na consulta ou serializacao destinada ao medico",
+      "separacao entre ocultar interface e autorizar no backend",
+      "protecao do ultimo GESTOR ativo",
+      "nenhuma autoelevacao",
+      "auditoria imutavel do ator, acao, alvo, resultado, motivo e correlation_id",
+      "CPF, nascimento, telefone, email e endereco de usuarios acessiveis somente ao GESTOR e mascarados em logs"
+    ]
+  },
+  "decisions_resolved": [
+    {
+      "id": "D01",
+      "status": "RESOLVIDA",
+      "decision": "O upload de PDF aceito ja autentica o documento no ABEL, sem etapa separada de finalizacao e sem integracao ICP-Brasil neste escopo.",
+      "evidence_required": ["hash do documento", "ator", "data/hora", "atendimento", "versao"]
+    },
+    {
+      "id": "D02",
+      "status": "RESOLVIDA",
+      "decision": "RECEPCAO realiza manualmente o contato e eventual envio por WhatsApp; ABEL apenas disponibiliza o arquivo e registra a acao.",
+      "direct_integration": false
+    },
+    {
+      "id": "D03",
+      "status": "RESOLVIDA",
+      "decision": "Somente GESTOR pode realizar estorno.",
+      "allowed_profiles": ["GESTOR"]
+    },
+    {
+      "id": "D04",
+      "status": "RESOLVIDA",
+      "decision": "Na falta do profissional nao ha atendimento, reatribuicao, reagendamento para outro profissional ou substituicao.",
+      "target_state": "CANCELADO_FALTA_PROFISSIONAL"
+    },
+    {
+      "id": "D05",
+      "status": "RESOLVIDA",
+      "decision": "Estorno preserva o PDF autenticado ou entregue e toda a cadeia de auditoria.",
+      "document_deletion_allowed": false
+    },
+    {
+      "id": "D06",
+      "status": "RESOLVIDA",
+      "decision": "Pagamento integral confirmado e obrigatorio; nao ha convenio, urgencia excepcional, cortesia, parcial, liberacao sem pagamento ou pagamento posterior.",
+      "accepted_release_status": "PAGO"
+    }
+  ],
+  "limitations_and_risks": [
+    {
+      "id": "R01",
+      "priority": "ALTA",
+      "limitation": "GESTOR com todas as permissoes possui grande raio de impacto.",
+      "mitigation": "step-up para acoes criticas, conta nominal, sessao curta, auditoria, protecao do ultimo gestor e dupla aprovacao quando houver dois gestores.",
+      "acceptance_condition": "acoes criticas nao podem ser executadas por sessao sem autenticacao recente e ficam integralmente auditadas."
+    },
+    {
+      "id": "R02",
+      "priority": "MEDIA",
+      "limitation": "Tres perfis podem ser insuficientes para futuro financeiro, auditor, suporte ou psicologia.",
+      "mitigation": "adaptar somente os recursos necessarios do FISIA; qualquer novo perfil ou usuario exige requisito aprovado, e somente GESTOR pode cadastrar usuarios.",
+      "acceptance_condition": "o modelo permanece extensivel sem expor criacao de usuario a RECEPCAO ou MEDICO e sem criar perfis nao solicitados."
+    },
+    {
+      "id": "R03",
+      "priority": "ALTA",
+      "limitation": "Campos legados de convenio, urgencia, cortesia ou pagamento posterior podem contradizer a regra obrigatoria de pagamento.",
+      "mitigation": "manter liberacao exclusivamente com status PAGO e realizar analise separada do banco antes de remover campos legados.",
+      "acceptance_condition": "nenhum atendimento e liberado sem pagamento confirmado e a futura remocao de campo ocorre somente com inventario, migracao e teste aprovados."
+    },
+    {
+      "id": "R04",
+      "priority": "ALTA",
+      "limitation": "A falta do profissional encerra o atendimento e pode gerar contato operacional e pendencia financeira.",
+      "mitigation": "usar estado CANCELADO_FALTA_PROFISSIONAL, impedir reatribuicao/substituicao, notificar a RECEPCAO e encaminhar eventual estorno exclusivamente ao GESTOR.",
+      "acceptance_condition": "nenhum outro profissional recebe o atendimento; cancelamento, contato e decisao financeira ficam auditados."
+    },
+    {
+      "id": "R05",
+      "priority": "ALTA",
+      "limitation": "Estorno apos autenticacao ou entrega cria conflito entre financeiro, documento e historico clinico.",
+      "mitigation": "politica de bloqueio, emenda e preservacao do artefato original; nunca apagar documento final entregue.",
+      "acceptance_condition": "estorno preserva cadeia de auditoria e produz estado de negocio definido sem reescrever historico."
+    },
+    {
+      "id": "R06",
+      "priority": "ALTA",
+      "limitation": "A autenticacao ocorre automaticamente no upload e precisa de evidencia tecnica consistente para evitar documento sem autoria ou integridade verificavel.",
+      "mitigation": "tornar upload e autenticacao atomicos e registrar hash, ator, horario, atendimento e versao.",
+      "acceptance_condition": "todo PDF aceito nasce em PDF_AUTENTICADO com evidencias completas; falha parcial nao publica documento."
+    },
+    {
+      "id": "R07",
+      "priority": "ALTA",
+      "limitation": "RECEPCAO precisa entregar o PDF, mas isso amplia exposicao de dado clinico sensivel.",
+      "mitigation": "fila somente de PDFs autenticados e itens de Reanalise; a observacao deve ser operacional, minima e voltada ao contato, sem liberar rascunho clinico.",
+      "acceptance_condition": "RECEPCAO ve o checkbox Reanalise e sua observacao operacional, nao acessa rascunhos ou busca clinica ampla e cada acesso fica rastreavel."
+    },
+    {
+      "id": "R08",
+      "priority": "ALTA",
+      "limitation": "O envio manual por WhatsApp ocorre fora do ABEL e o sistema nao consegue comprovar tecnicamente a entrega no canal.",
+      "mitigation": "nao integrar diretamente; RECEPCAO confirma destinatario, executa o contato manual e registra no ABEL apenas canal, horario, responsavel e resultado.",
+      "acceptance_condition": "ABEL nao envia mensagem automaticamente e toda baixa/entrega manual exige registro auditavel sem armazenar conversa do WhatsApp."
+    },
+    {
+      "id": "R09",
+      "priority": "MEDIA",
+      "limitation": "Com apenas um GESTOR, dupla aprovacao e recuperacao de emergencia podem ser inviaveis.",
+      "mitigation": "exigir segundo gestor nominal ou procedimento externo de recuperacao com custodia e auditoria.",
+      "acceptance_condition": "perda da unica conta gestora possui recuperacao testada sem criar conta administrativa compartilhada."
+    },
+    {
+      "id": "R10",
+      "priority": "ALTA",
+      "limitation": "Enforcement somente na aplicacao nao protege contra credencial direta de banco ou consulta analitica mal configurada.",
+      "mitigation": "principio de menor privilegio no banco, credenciais separadas, consultas escopadas e avaliacao de controles equivalentes a RLS.",
+      "acceptance_condition": "nenhuma credencial usada por usuario ou relatorio permite leitura irrestrita fora da aplicacao."
+    },
+    {
+      "id": "R11",
+      "priority": "MEDIA",
+      "limitation": "Introduzir access_version pode invalidar sessoes durante migracao ou deixar sessoes antigas ativas.",
+      "mitigation": "valor inicial transacional, compatibilidade temporaria, telemetria e teste de revogacao.",
+      "acceptance_condition": "sessao criada com versao antiga e rejeitada imediatamente apos mudanca de acesso."
+    },
+    {
+      "id": "R12",
+      "priority": "MEDIA",
+      "limitation": "Modo SHADOW pode gerar alto volume e registrar informacao sensivel.",
+      "mitigation": "registrar metadados minimos, amostragem controlada, retencao definida e nunca payload clinico, token ou PDF.",
+      "acceptance_condition": "amostra de logs passa por revisao de privacidade e permite explicar divergencias sem expor conteudo."
+    },
+    {
+      "id": "R13",
+      "priority": "ALTA",
+      "limitation": "Durante a transicao, menu do frontend e autorizacao do backend podem divergir.",
+      "mitigation": "backend como fonte de verdade, endpoint de capacidades e testes ponta a ponta por perfil.",
+      "acceptance_condition": "toda acao escondida ou exibida no frontend possui resultado coerente no backend, inclusive requisicao manual."
+    },
+    {
+      "id": "R14",
+      "priority": "MEDIA",
+      "limitation": "Copiar integralmente o modelo FISIA aumentaria custo, superficie de erro e operacao do ABEL.",
+      "mitigation": "implementar somente primitivas necessarias e manter multi-workspace, delegacao ampla e novos perfis fora do escopo.",
+      "acceptance_condition": "cada tabela, regra e endpoint novo esta ligado a um requisito ABEL e possui teste."
+    }
+  ],
+  "stages": [
+    {
+      "id": "E00",
+      "order": 0,
+      "name": "Decisoes e congelamento funcional",
+      "objective": "Eliminar ambiguidades antes de modelar banco ou API.",
+      "prerequisites": [],
+      "changes": ["formalizar como fechadas as decisoes D01 a D06", "aprovar matriz dos tres perfis e 42 permissoes", "aprovar cadastro de usuario e regra de reanalise", "definir responsaveis pela homologacao"],
+      "deliverables": ["registro de decisoes resolvidas", "matriz assinada", "dicionario dos campos de usuario e reanalise"],
+      "verification": ["revisao conjunta de gestor, recepcao e medico", "checagem de contradicoes entre regras"],
+      "completion_criteria": ["D01 a D06 estao registradas como RESOLVIDA com responsavel e data", "100% das permissoes possuem perfil, escopo, sensibilidade e regra de delegacao", "cadastro exige nome completo, CPF, nascimento, telefone, email e endereco; profissional exige CRM ou CRP", "nao existe regra de pagamento, falta profissional, autenticacao, reanalise ou entrega marcada como indefinida"],
+      "rollback": "Reabrir a decisao; nenhum codigo ou dado foi alterado.",
+      "effort": "M"
+    },
+    {
+      "id": "E01",
+      "order": 1,
+      "name": "Baseline, inventario e recuperacao",
+      "objective": "Mapear o comportamento atual e garantir retorno seguro.",
+      "prerequisites": ["E00"],
+      "changes": ["inventariar rotas, telas, jobs e consultas por perfil", "inventariar no banco campos e dependencias de convenio, urgencia, cortesia e pagamento posterior sem remove-los nesta etapa", "registrar matriz atual versus alvo", "preparar backup e restauracao em ambiente de teste"],
+      "deliverables": ["inventario de pontos de autorizacao", "suite baseline", "procedimento de backup e restauracao"],
+      "verification": ["testes positivos e negativos atuais", "restauracao em copia isolada", "reconciliacao de usuarios, papeis, sessoes e documentos"],
+      "completion_criteria": ["100% das rotas autenticadas classificadas por recurso e acao", "todas as telas e endpoints financeiros e clinicos possuem dono e perfil esperado", "campos legados de convenio, urgencia, cortesia e pagamento posterior possuem inventario de uso, dados, dependencias e plano de migracao antes de qualquer remocao", "backup restaura com contagens e hashes reconciliados", "baseline de testes termina sem falha nao explicada"],
+      "rollback": "Descartar somente artefatos de teste; producao permanece inalterada.",
+      "effort": "M"
+    },
+    {
+      "id": "E02",
+      "order": 2,
+      "name": "Schema aditivo e catalogos",
+      "objective": "Criar estruturas do novo modelo sem mudar a autorizacao vigente.",
+      "prerequisites": ["E01"],
+      "changes": ["adicionar catalogo de permissoes, vinculo perfil-permissao, overrides, grants, access_version e decision_audit", "semear tres perfis e 42 permissoes", "adicionar constraints e indices"],
+      "deliverables": ["migracoes reversiveis", "seeds idempotentes", "modelo de dados documentado"],
+      "verification": ["migracao up/down em copia MySQL", "execucao repetida de seed", "testes de unicidade, FK, expiracao e exatamente um perfil ativo"],
+      "completion_criteria": ["migracao up/down passa em copia representativa", "seed repetido mantem exatamente tres perfis e 42 permissoes unicas", "dados legados permanecem reconciliados", "comportamento funcional e respostas da API permanecem iguais em COMPAT"],
+      "rollback": "Desativar leitura das novas tabelas e executar down migration somente apos confirmar ausencia de escrita necessaria.",
+      "effort": "L"
+    },
+    {
+      "id": "E03",
+      "order": 3,
+      "name": "Kernel de autorizacao em COMPAT",
+      "objective": "Centralizar decisoes sem ainda bloquear por elas.",
+      "prerequisites": ["E02"],
+      "changes": ["implementar authorize(subject, permission, resource, context)", "aplicar precedencia default deny/DENY/restricoes/grant/perfil", "registrar motivo e correlation_id"],
+      "deliverables": ["servico unico de autorizacao", "adaptadores para dependencias atuais", "auditoria de decisao sanitizada"],
+      "verification": ["testes de tabela de decisao", "testes de escopo e objeto", "testes de concorrencia e cache se houver"],
+      "completion_criteria": ["100% das regras de precedencia possuem teste positivo e negativo", "mesma entrada produz decisao deterministica", "nenhum log contem token, senha, PDF ou conteudo clinico", "kernel nao concede acesso quando recurso ou contexto nao pode ser resolvido"],
+      "rollback": "Manter autorizacao antiga como fonte de verdade e desligar avaliacao do kernel por flag.",
+      "effort": "L"
+    },
+    {
+      "id": "E04",
+      "order": 4,
+      "name": "Comparacao SHADOW",
+      "objective": "Comparar modelo antigo e novo sem alterar a resposta ao usuario.",
+      "prerequisites": ["E03"],
+      "changes": ["avaliar as duas politicas em paralelo", "classificar divergencias por rota, perfil e causa", "corrigir regra ou teste antes de enforcement"],
+      "deliverables": ["painel/relatorio de divergencias", "lista de excecoes aprovadas", "evidencias de privacidade dos logs"],
+      "verification": ["fixtures dos tres perfis", "fluxos completos de cadastro a entrega", "requisicoes manuais negativas"],
+      "completion_criteria": ["zero divergencia inexplicada nos cenarios de homologacao", "toda divergencia intencional esta vinculada a requisito aprovado", "logs SHADOW permitem diagnostico sem dados sensiveis", "politica antiga continua sendo a unica fonte de bloqueio nesta etapa"],
+      "rollback": "Desligar SHADOW e preservar relatorio; comportamento do usuario nao muda.",
+      "effort": "M"
+    },
+    {
+      "id": "E05",
+      "order": 5,
+      "name": "Gestao de usuarios e revogacao",
+      "objective": "Aplicar perfil exclusivo e revogacao imediata de acesso.",
+      "prerequisites": ["E04"],
+      "changes": ["tela/API de usuario acessivel somente ao GESTOR", "exigir nome completo, CPF, nascimento, telefone, email e endereco", "exigir CRM ou CRP para profissional", "incrementar access_version em mudanca relevante", "proteger ultimo GESTOR", "rotacionar ou invalidar sessoes"],
+      "deliverables": ["API e interface de gestao", "politica de ciclo de vida", "auditoria de alteracoes"],
+      "verification": ["criar, desativar, reativar e trocar perfil", "tentativa de autoelevacao", "remocao do ultimo gestor", "sessao antiga apos alteracao"],
+      "completion_criteria": ["somente GESTOR cria usuario", "campos obrigatorios ausentes impedem o cadastro", "CPF e registro CRM/CRP seguem validacao e unicidade definidas", "usuario nao pode ter mais de um perfil humano ativo", "mudanca de perfil/status incrementa access_version atomicamente", "sessao com versao anterior e rejeitada na requisicao seguinte", "ultimo GESTOR ativo nao pode ser removido ou desativado", "nenhum usuario altera o proprio privilegio"],
+      "rollback": "Voltar UI/API para leitura e reativar adaptador de papeis antigo; preservar trilha e nao reduzir access_version.",
+      "effort": "L"
+    },
+    {
+      "id": "E06",
+      "order": 6,
+      "name": "Fluxo da RECEPCAO",
+      "objective": "Implementar cadastro, agenda, atribuicao, pagamento e fila de entrega com minimo acesso clinico.",
+      "prerequisites": ["E05"],
+      "changes": ["endpoints e telas de cadastro e agenda", "registro obrigatorio de pagamento antes da liberacao", "bloqueio de estorno para RECEPCAO", "cancelamento sem substituicao por falta do profissional", "fila de PDFs autenticados e reanalises", "contato e entrega manuais"],
+      "deliverables": ["workflow administrativo", "fila de entrega", "historico de transicoes"],
+      "verification": ["paciente novo e existente", "tentativa de liberar sem pagamento", "tentativa de estorno pela RECEPCAO", "falta do profissional sem reatribuicao", "item de reanalise", "tentativa de abrir rascunho e relatorio agregado"],
+      "completion_criteria": ["RECEPCAO cadastra paciente, agenda, atribui e registra pagamento", "nenhum atendimento e liberado antes de PAGO", "RECEPCAO nao estorna pagamento", "falta profissional cancela sem reatribuicao ou substituicao", "RECEPCAO ve PDF autenticado ou checkbox Reanalise com observacao operacional", "RECEPCAO nao acessa rascunho clinico nem relatorio financeiro agregado", "contato e entrega manuais registram ator, horario, canal, destinatario mascarado e resultado", "transicao invalida falha fechada"],
+      "rollback": "Desativar novos endpoints por dominio e retornar ao fluxo administrativo anterior sem apagar estados ou auditoria.",
+      "effort": "L"
+    },
+    {
+      "id": "E07",
+      "order": 7,
+      "name": "Worklist MEDICO e ciclo do PDF",
+      "objective": "Expor ao medico apenas trabalho elegivel e atribuido, sem informacao financeira.",
+      "prerequisites": ["E06"],
+      "changes": ["worklist paga, ativa e atribuida", "upload atomico que valida, versiona, autentica e publica o PDF", "alternativa Reanalise com observacao obrigatoria quando nao houver PDF", "projecao de resposta sem campos financeiros"],
+      "deliverables": ["worklist medica", "ciclo documental", "testes de isolamento entre medicos"],
+      "verification": ["profissionais A e B", "nao pago, cancelado e nao atribuido", "PDF invalido e concorrencia de versao", "reanalise sem observacao", "inspecao de payload e consulta"],
+      "completion_criteria": ["MEDICO ve somente atendimento ativo, pago e atribuido ao proprio professional_id", "nenhum campo financeiro aparece em payload, exportacao, log ou endpoint medico", "PDF invalido e rejeitado sem publicacao parcial", "upload aceito cria PDF_AUTENTICADO com hash, ator, horario, atendimento e versao", "Reanalise exige observacao e nao cria PDF", "duas gravacoes concorrentes nao recebem a mesma versao", "documento autenticado e imutavel; correcao gera emenda/versionamento", "ato clinico exige CRM ou CRP ativo inclusive para GESTOR profissional"],
+      "rollback": "Desativar worklist/ciclo novo por flag e manter documentos criados acessiveis somente por caminho administrativo controlado.",
+      "effort": "L"
+    },
+    {
+      "id": "E08",
+      "order": 8,
+      "name": "GESTOR, relatorios e administracao",
+      "objective": "Aplicar privilegios amplos com controles reforcados e segregacao clinica.",
+      "prerequisites": ["E07"],
+      "changes": ["enforcement de relatorios agregados", "filtros por periodo e profissional", "exportacao auditada", "step-up em acoes criticas"],
+      "deliverables": ["painel gestor", "relatorios reconciliados", "controles de administracao"],
+      "verification": ["comparacao de totais com banco", "periodos limite", "exportacao", "tentativa de estorno por outro perfil", "GESTOR sem credencial profissional tentando autenticar PDF clinico"],
+      "completion_criteria": ["somente GESTOR acessa relatorio financeiro agregado, gestao de acesso e estorno", "totais e filtros reconciliam com a fonte transacional", "exportacao registra filtros, ator e hash/identificador do arquivo", "acao critica exige autenticacao recente", "GESTOR sem credencial profissional nao pratica ato clinico nem autentica PDF clinico"],
+      "rollback": "Retornar relatorios ao controle antigo e desativar novas operacoes administrativas; preservar exports e auditoria.",
+      "effort": "M"
+    },
+    {
+      "id": "E09",
+      "order": 9,
+      "name": "Privacidade, entrega e endurecimento",
+      "objective": "Fechar riscos de sessao, documento, canal e dados sensiveis.",
+      "prerequisites": ["E08"],
+      "changes": ["step-up, rotacao de sessao, CSRF e limites distribuidos quando aplicavel", "URLs/links de entrega com expiracao", "retencao e mascaramento", "grants temporarios se aprovados"],
+      "deliverables": ["checklist de seguranca e LGPD", "modelo de ameacas atualizado", "testes de abuso"],
+      "verification": ["IDOR/BOLA entre pacientes e medicos", "replay de link", "CSRF", "sessao revogada", "grant expirado", "destinatario incorreto"],
+      "completion_criteria": ["testes negativos de objeto e funcao falham fechados", "link interno expirado ou usado nao pode ser repetido", "grant expirado nao concede acesso", "logs nao contem segredo nem conteudo clinico", "ABEL nao possui envio automatico por WhatsApp", "registro manual de contato nao armazena a conversa externa", "achado ALTO ou CRITICO impede avancar"],
+      "rollback": "Desativar canal/integracao ou grants novos; manter entrega manual controlada e auditoria.",
+      "effort": "L"
+    },
+    {
+      "id": "E10",
+      "order": 10,
+      "name": "ENFORCE progressivo e ensaio de retorno",
+      "objective": "Tornar o novo kernel autoritativo por dominio com retorno comprovado.",
+      "prerequisites": ["E09"],
+      "changes": ["promover COMPAT para SHADOW e ENFORCE por dominio", "monitorar negacoes e erros", "ensaiar retorno sem reescrever dados"],
+      "deliverables": ["matriz de flags", "runbook de rollout/rollback", "evidencia do ensaio"],
+      "verification": ["ativacao por cadastro, agenda, financeiro, clinico, documentos e administracao", "rollback por flag", "sessao em andamento durante troca"],
+      "completion_criteria": ["cada dominio passa por COMPAT, SHADOW e ENFORCE separadamente", "zero divergencia inexplicada antes do ENFORCE", "rollback retorna a politica anterior dentro do objetivo operacional definido sem perda de dados", "metricas e alertas distinguem DENY esperado de falha tecnica", "nenhuma etapa exige editar dados manualmente para retornar"],
+      "rollback": "Mudar o dominio para SHADOW/COMPAT pela flag validada; manter schema e auditoria aditivos.",
+      "effort": "M"
+    },
+    {
+      "id": "E11",
+      "order": 11,
+      "name": "Homologacao, corte e aceite final",
+      "objective": "Comprovar seguranca e operacao antes da liberacao geral.",
+      "prerequisites": ["E10"],
+      "changes": ["executar suite completa e homologacao humana", "treinar usuarios", "realizar backup final e corte controlado"],
+      "deliverables": ["termo de aceite", "evidencias de teste", "manual e matriz final", "manifesto de release"],
+      "verification": ["testes unitarios, integracao MySQL, E2E, concorrencia e seguranca", "roteiro humano dos tres perfis", "restauracao final", "observacao pos-corte"],
+      "completion_criteria": ["100% dos criterios E00-E10 possuem evidencia", "suite automatizada termina sem falha", "GESTOR, RECEPCAO e MEDICO concluem seus roteiros e falham nos acessos proibidos", "backup e restauracao final sao verificados", "nenhum risco ALTO ou CRITICO permanece sem tratamento e aceite formal", "responsaveis assinam o termo de homologacao e o plano de retorno esta disponivel"],
+      "rollback": "Executar runbook aprovado, voltar dominios a COMPAT e restaurar apenas se a integridade dos dados exigir; comunicar e auditar o incidente.",
+      "effort": "M"
+    }
+  ],
+  "global_definition_of_done": [
+    "Todos os acessos sao decididos no backend por permissao, objeto, escopo e contexto.",
+    "Cada usuario humano possui exatamente um perfil ativo e o ultimo GESTOR esta protegido.",
+    "MEDICO nao recebe dados financeiros e nao acessa paciente nao atribuido ou inelegivel.",
+    "Somente GESTOR cria usuarios e estorna pagamentos; cadastros incompletos sao rejeitados.",
+    "Profissional possui CRM ou CRP ativo para praticar ato clinico.",
+    "Pagamento confirmado e obrigatorio e nao existe liberacao por convenio, urgencia, cortesia ou pagamento posterior.",
+    "Falta do profissional cancela o atendimento sem reatribuicao ou substituicao.",
+    "RECEPCAO nao acessa rascunho clinico nem relatorio agregado e recebe somente PDF autenticado ou item de Reanalise com observacao operacional.",
+    "Upload aceito autentica atomicamente o PDF; estorno nunca apaga documento ou auditoria.",
+    "Contato por WhatsApp e manual e nao existe integracao direta no ABEL.",
+    "Ato clinico final exige profissional ativo, independentemente do perfil administrativo.",
+    "Mudanca de acesso revoga contexto antigo por access_version.",
+    "Decisoes, alteracoes, exports e entregas sao auditaveis sem expor dados sensiveis.",
+    "Migracoes, concorrencia, integracao MySQL, testes negativos e restauracao foram comprovados.",
+    "Rollout e rollback por dominio foram ensaiados.",
+    "Documentacao, matriz, treinamento, LOG.log e evidencias correspondem ao comportamento liberado."
+  ],
+  "implementation_policy": {
+    "dependency_management": "Poetry ja esta presente e deve continuar como gerenciador das dependencias Python.",
+    "parallelism": "Paralelizar apenas tarefas independentes, como testes e analises; serializar migracoes, seeds, transicoes de estado e operacoes que disputem o mesmo recurso.",
+    "logging": "Atualizar LOG.log ao final de cada bloco com timestamp, arquivos, validacao e restauracao.",
+    "build": "O primeiro bloco funcional local foi registrado como 1.0.0+build.53; novos blocos funcionais devem progredir a build e atualizar o LOG.log.",
+    "versioning": "Nao incrementar x.x durante o planejamento. Incremento de versao funcional exige os gates de release e upload ao Git conforme instrucao do projeto.",
+    "forbidden_artifact": "Nao criar build.txt.",
+    "hardware": "Nenhuma operacao em Arduino ou ESP32 faz parte deste plano."
+  },
+  "recommended_execution_order": [
+    "E00",
+    "E01",
+    "E02",
+    "E03",
+    "E04",
+    "E05",
+    "E06",
+    "E07",
+    "E08",
+    "E09",
+    "E10",
+    "E11"
+  ]
+}

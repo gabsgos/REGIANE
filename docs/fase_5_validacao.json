@@ -1,0 +1,26 @@
+{
+  "generated_at": "2026-11-02T00:07:32.455181+00:00",
+  "candidate_rows": 3867,
+  "patients": 3808,
+  "appointments": 3867,
+  "appointment_maps": 3867,
+  "payment_total": "409829.41",
+  "receipts": 3723,
+  "issue_counts": {
+    "ATENDIMENTO_RECIBO_NAO_ENCONTRADO": 11,
+    "CPF_AUSENTE_OU_INVALIDO": 13,
+    "DATA_EXAME_SUBSTITUIDA": 486
+  },
+  "sample_size": 25,
+  "sample_matches": 25,
+  "criteria": {
+    "all_candidates_became_appointments": true,
+    "all_appointments_have_unique_legacy_code": true,
+    "candidate_appointment_map_complete": true,
+    "patient_consolidation_controlled": true,
+    "financial_total_reconciled": true,
+    "receipt_mapping_or_review_complete": true,
+    "deterministic_sample_matches": true
+  },
+  "integrity": "PASS"
+}

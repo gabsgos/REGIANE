@@ -1,0 +1,12 @@
+{
+  "generated_at": "2026-11-02T20:42:18.172844+00:00",
+  "backup_file": "C:\\Users\\gabri\\Documents\\ABEL\\backups\\system\\ABEL_full_20261102T204206Z.abelbak",
+  "encrypted": true,
+  "algorithm": "AES-256-GCM + scrypt",
+  "size_bytes": 20942890,
+  "sha256": "238cdca0080c7425cb2efc92d39124904495c08118bfa69495723dcddbda3314",
+  "table_count": 26,
+  "row_count": 342888,
+  "document_count": 0,
+  "integrity": "PASS"
+}

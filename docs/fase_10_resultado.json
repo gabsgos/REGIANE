@@ -1,0 +1,16 @@
+{
+  "fase": 10,
+  "nome": "Integracao e modularizacao do frontend",
+  "versao": "0.11.1+build.24",
+  "status": "APROVADA",
+  "decisao": "GO_FASE_11",
+  "criterios": {
+    "persistencia": "PASS",
+    "login_real": "PASS",
+    "indicadores_reais": "PASS",
+    "xss_sem_innerhtml": "PASS",
+    "visibilidade_por_perfil": "PASS",
+    "desktop_e_tablet": "PASS",
+    "qa_visual": "PASS"
+  }
+}

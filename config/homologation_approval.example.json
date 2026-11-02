@@ -1,0 +1,38 @@
+{
+  "change_control_id": "PREENCHER",
+  "operator_confirmation": false,
+  "approvals": [
+    {
+      "role": "gerencia",
+      "responsible_name": "PREENCHER",
+      "approved": false,
+      "approved_at": "2026-11-01T09:00:00-03:00",
+      "workflows_validated": ["relatorios", "permissoes", "fechamento"]
+    },
+    {
+      "role": "atendimento",
+      "responsible_name": "PREENCHER",
+      "approved": false,
+      "approved_at": "2026-11-01T09:00:00-03:00",
+      "workflows_validated": ["cadastro", "agendamento", "recebimento"]
+    },
+    {
+      "role": "medico_psicologo",
+      "responsible_name": "PREENCHER",
+      "approved": false,
+      "approved_at": "2026-11-01T09:00:00-03:00",
+      "workflows_validated": ["agenda", "filtros", "laudos"]
+    }
+  ],
+  "cutover": {
+    "plan_approved": false,
+    "window_start": "2026-11-01T20:00:00-03:00",
+    "window_end": "2026-11-01T22:00:00-03:00",
+    "operational_responsible": "PREENCHER",
+    "rollback_responsible": "PREENCHER"
+  },
+  "evidence": {
+    "pilot_sha256": "66544f52fdb9ccdc07d004eb6d7de7dcdd48d9bf82f113a4a99bc3eb2c2ee76e",
+    "cut_plan_sha256": "a88530e81b1f985d06061b36ab0b26433c6da8d3a9e11715566bfcf1b6896573"
+  }
+}

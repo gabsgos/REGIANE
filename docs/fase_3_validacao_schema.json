@@ -1,0 +1,31 @@
+{
+  "generated_at": "2026-11-02T00:07:32.664007+00:00",
+  "database": "abel_clinica",
+  "mysql_version": "8.4.9",
+  "alembic_revision": "2e32865e3947",
+  "expected_alembic_revision": "2e32865e3947",
+  "expected_table_count": 19,
+  "actual_domain_table_count": 19,
+  "foreign_key_count": 21,
+  "expected_foreign_key_count": 21,
+  "check_constraint_count": 6,
+  "expected_check_constraint_count": 6,
+  "numeric_columns": {
+    "payments.total_amount": "DECIMAL(12, 2)",
+    "payment_items.amount": "DECIMAL(12, 2)",
+    "financial_movements.debit_amount": "DECIMAL(12, 2)",
+    "financial_movements.credit_amount": "DECIMAL(12, 2)",
+    "receipts.amount": "DECIMAL(12, 2)"
+  },
+  "criteria": {
+    "expected_tables_match": true,
+    "no_unexpected_tables": true,
+    "foreign_keys_match_model": true,
+    "check_constraints_match_model": true,
+    "all_tables_innodb": true,
+    "all_tables_utf8mb4": true,
+    "financial_columns_decimal_12_2": true,
+    "alembic_revision_at_head": true
+  },
+  "integrity": "PASS"
+}

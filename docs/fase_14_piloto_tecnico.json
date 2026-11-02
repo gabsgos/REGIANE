@@ -1,0 +1,37 @@
+{
+  "generated_at": "2026-11-01T19:01:26.825279+00:00",
+  "workflows": [
+    {
+      "workflow": "atendimento_e_medico",
+      "status": "PASS",
+      "duration_seconds": 3.759
+    },
+    {
+      "workflow": "financeiro",
+      "status": "PASS",
+      "duration_seconds": 3.733
+    },
+    {
+      "workflow": "laudos",
+      "status": "PASS",
+      "duration_seconds": 3.846
+    },
+    {
+      "workflow": "usuarios_e_relatorios",
+      "status": "PASS",
+      "duration_seconds": 3.712
+    },
+    {
+      "workflow": "frontend",
+      "status": "PASS",
+      "duration_seconds": 3.013
+    }
+  ],
+  "criteria": {
+    "all_controlled_workflows_pass": true,
+    "production_counts_unchanged": true,
+    "human_approval": false
+  },
+  "technical_integrity": "PASS",
+  "homologation_status": "PENDING_HUMAN_APPROVAL"
+}

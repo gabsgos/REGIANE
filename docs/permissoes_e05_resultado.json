@@ -1,0 +1,27 @@
+{
+  "stage": "E05",
+  "name": "Gestao de usuarios e revogacao",
+  "status": "APPROVED",
+  "domain_mode": "ENFORCE",
+  "criteria": {
+    "only_gestor_creates_users": true,
+    "required_fields_enforced": true,
+    "cpf_checksum_and_uniqueness": true,
+    "crm_or_crp_required_for_medico": true,
+    "single_human_profile_per_user": true,
+    "access_version_increments_atomically": true,
+    "stale_sessions_revoked": true,
+    "last_active_gestor_protected": true,
+    "self_privilege_change_blocked": true,
+    "create_edit_activate_suspend_and_reset_ui": true,
+    "runtime_enforce_verified": true
+  },
+  "tests": "46/46 PASS",
+  "runtime": {
+    "permission": "user.read",
+    "decision": "PROFILE_ALLOW",
+    "mode": "ENFORCE",
+    "users_visible": 5
+  },
+  "decision": "GO_E06"
+}

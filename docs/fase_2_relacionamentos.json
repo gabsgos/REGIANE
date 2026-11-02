@@ -1,0 +1,86 @@
+{
+  "gerado_em": "2026-10-31T12:00:10.777636-03:00",
+  "relacionamentos_inferidos": [
+    {
+      "filho": "PAGTOS.DBF.ALUNO",
+      "pai": "CANDIDAT.DBF.CODIGO",
+      "linhas_filhas_preenchidas": 3923,
+      "linhas_correspondentes": 3923,
+      "linhas_orfas": 0,
+      "chaves_orfas_distintas": 0
+    },
+    {
+      "filho": "DEPOS.DBF.ALUNO",
+      "pai": "CANDIDAT.DBF.CODIGO",
+      "linhas_filhas_preenchidas": 2774,
+      "linhas_correspondentes": 2774,
+      "linhas_orfas": 0,
+      "chaves_orfas_distintas": 0
+    },
+    {
+      "filho": "L_CARTAO.DBF.ALUNO",
+      "pai": "CANDIDAT.DBF.CODIGO",
+      "linhas_filhas_preenchidas": 171,
+      "linhas_correspondentes": 171,
+      "linhas_orfas": 0,
+      "chaves_orfas_distintas": 0
+    },
+    {
+      "filho": "PROGCART.DBF.ALUNO",
+      "pai": "CANDIDAT.DBF.CODIGO",
+      "linhas_filhas_preenchidas": 167,
+      "linhas_correspondentes": 167,
+      "linhas_orfas": 0,
+      "chaves_orfas_distintas": 0
+    },
+    {
+      "filho": "TMP_ASS.DBF.ALUNO",
+      "pai": "CANDIDAT.DBF.CODIGO",
+      "linhas_filhas_preenchidas": 2,
+      "linhas_correspondentes": 2,
+      "linhas_orfas": 0,
+      "chaves_orfas_distintas": 0
+    },
+    {
+      "filho": "PAGTOS.DBF.EVENTO",
+      "pai": "EVENTOS.DBF.CODIGO",
+      "linhas_filhas_preenchidas": 3923,
+      "linhas_correspondentes": 3923,
+      "linhas_orfas": 0,
+      "chaves_orfas_distintas": 0
+    },
+    {
+      "filho": "LANCTO.DBF.CONTA",
+      "pai": "CONTBAN.DBF.CONTA",
+      "linhas_filhas_preenchidas": 3827,
+      "linhas_correspondentes": 3827,
+      "linhas_orfas": 0,
+      "chaves_orfas_distintas": 0
+    },
+    {
+      "filho": "SALDOBAN.DBF.CONTA",
+      "pai": "CONTBAN.DBF.CONTA",
+      "linhas_filhas_preenchidas": 144,
+      "linhas_correspondentes": 144,
+      "linhas_orfas": 0,
+      "chaves_orfas_distintas": 0
+    },
+    {
+      "filho": "CANDIDAT.DBF.ORIGEM",
+      "pai": "ORIGEM.DBF.CODIGO",
+      "linhas_filhas_preenchidas": 3854,
+      "linhas_correspondentes": 3843,
+      "linhas_orfas": 11,
+      "chaves_orfas_distintas": 1
+    },
+    {
+      "filho": "CANDIDAT.DBF.COD_NAT",
+      "pai": "MUNIC.DBF.CODIGO",
+      "linhas_filhas_preenchidas": 1,
+      "linhas_correspondentes": 1,
+      "linhas_orfas": 0,
+      "chaves_orfas_distintas": 0
+    }
+  ],
+  "observacao": "Relacionamentos inferidos; DBF nao declara chaves estrangeiras."
+}

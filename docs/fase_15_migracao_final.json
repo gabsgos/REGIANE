@@ -1,0 +1,38 @@
+{
+  "generated_at": "2026-11-01T21:07:32-03:00",
+  "version": "0.15.0+build.44",
+  "source": "ABEL-BAK",
+  "cutoff_inclusive": "2026-10-31T12:00:00-03:00",
+  "import": {
+    "first_report": "docs/fase_15_importacao_final.json",
+    "repeat_report": "docs/fase_15_importacao_repetida.json",
+    "files": 86,
+    "rows": 296775,
+    "errors": 0,
+    "idempotent": true
+  },
+  "normalization": {
+    "first_report": "docs/fase_15_normalizacao_final.json",
+    "repeat_report": "docs/fase_15_normalizacao_repetida.json",
+    "patients": 3808,
+    "appointments": 3867,
+    "professionals": 8,
+    "legacy_users": 4,
+    "payments": 3923,
+    "receipts": 3723,
+    "financial_movements": 3827,
+    "legacy_maps": 22339,
+    "migration_issues": 510,
+    "payment_total": "409829.41",
+    "orphan_financial_rows": 0,
+    "idempotent": true
+  },
+  "validation": {
+    "normalization": "PASS",
+    "deterministic_sample": "25/25",
+    "schema": "PASS",
+    "alembic_revision": "2e32865e3947",
+    "alembic_drift": false
+  },
+  "integrity": "PASS"
+}

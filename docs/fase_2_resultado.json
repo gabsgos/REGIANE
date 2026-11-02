@@ -1,0 +1,64 @@
+{
+  "fase": 2,
+  "nome": "Dicionario e mapeamento dos dados legados",
+  "versao_final": "0.3.2+build.9",
+  "executada_em": "2026-10-31T12:20:00-03:00",
+  "status": "aprovada",
+  "execucao": {
+    "ferramenta": "tools/legacy_inventory.py",
+    "workers": 8,
+    "somente_leitura": true,
+    "dados_pessoais_exportados": false
+  },
+  "inventario": {
+    "dbfs_ativos": 54,
+    "arquivos_em_formato_dbf": 86,
+    "extensoes_alternativas": 32,
+    "registros_ativos": 292699,
+    "tabelas_mapeadas": 54,
+    "tabelas_sem_destino": 0
+  },
+  "qualidade": {
+    "duplicados_exatos": 121,
+    "datas_invalidas": 0,
+    "datas_implausiveis": 3389,
+    "datas_implausiveis_dt_valid": 3381,
+    "datas_implausiveis_dt_nasc": 8,
+    "numericos_invalidos": 0,
+    "referencias_orfas": 11,
+    "relacionamentos_testados": 10
+  },
+  "validacao": {
+    "poetry_check": "aprovado",
+    "ruff_lint": "aprovado",
+    "ruff_format": "aprovado",
+    "testes": 4,
+    "testes_aprovados": 4,
+    "cobertura_backend_percentual": 100,
+    "matriz_cobre_todas_as_tabelas": true,
+    "build_txt_criado": false,
+    "operacoes_git_executadas": false
+  },
+  "correcoes": [
+    {
+      "versao": "0.3.1+build.7",
+      "motivo": "Formatacao do inventariador e separacao entre cobertura unitaria e validacao integral real"
+    },
+    {
+      "versao": "0.3.2+build.8",
+      "motivo": "Eliminacao de falsos positivos na deteccao de arquivos DBF"
+    },
+    {
+      "build": 9,
+      "motivo": "Detalhamento de datas invalidas e implausiveis por campo"
+    }
+  ],
+  "criterios_para_fase_seguinte": {
+    "todos_os_campos_preservados_em_staging": true,
+    "candidat_codigo_definido_como_atendimento_legado": true,
+    "cpf_repetido_e_ausente_com_regras_definidas": true,
+    "orfaos_com_estrategia_definida": true,
+    "dados_sensiveis_ausentes_dos_artefatos": true
+  },
+  "decisao": "GO para Fase 3"
+}

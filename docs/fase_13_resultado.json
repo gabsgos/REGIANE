@@ -1,0 +1,21 @@
+{
+  "fase": 13,
+  "nome": "Testes integrados e ensaio de migracao",
+  "versao": "0.14.0+build.27",
+  "status": "APROVADA",
+  "decisao": "GO_FASE_14_CONDICIONAL_USUARIOS",
+  "release_candidate": true,
+  "steps_passed": 14,
+  "duration_seconds": 162.147,
+  "performance_p95_ms": 232.576,
+  "critical_defects_open": 0,
+  "high_defects_open": 0,
+  "criteria": {
+    "idempotencia": "PASS",
+    "financeiro": "PASS",
+    "permissoes": "PASS",
+    "backup_restauracao": "PASS",
+    "desempenho": "PASS",
+    "producao_intocada": "PASS"
+  }
+}

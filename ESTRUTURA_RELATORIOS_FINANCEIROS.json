@@ -1,0 +1,446 @@
+{
+  "documento": {
+    "titulo": "Estrutura de relatórios financeiros para adaptação do FISIA ao ABEL",
+    "versao": "1.0",
+    "data": "2026-11-01",
+    "objetivo": "Mapear páginas, funções, URLs, dados exibidos e lacunas para reproduzir no ABEL a estrutura visual dos relatórios financeiros do FISIA com dados reais do backend ABEL."
+  },
+  "principio_de_adaptacao": {
+    "copiar_do_fisia": [
+      "organização visual",
+      "navegação por seções",
+      "cards de indicadores",
+      "agrupamentos por período e paciente",
+      "painéis de detalhes"
+    ],
+    "manter_do_abel": [
+      "backend",
+      "modelo de dados",
+      "autenticação e autorização",
+      "auditoria",
+      "cálculos financeiros no servidor",
+      "exportação auditada"
+    ],
+    "nao_copiar_do_fisia": [
+      "dados mock",
+      "localStorage como fonte financeira",
+      "datas fixas",
+      "agregações limitadas aos últimos 500 registros",
+      "fechamento e exportação simulados"
+    ]
+  },
+  "fisia_atual": {
+    "relatorio_financeiro_global": {
+      "pagina": "/financeiro",
+      "fluxo": [
+        {
+          "ordem": 1,
+          "funcao": "loadFinanceiro()",
+          "acao": "Carrega lançamentos financeiros e pacientes em paralelo."
+        },
+        {
+          "ordem": 2,
+          "urls": [
+            "/api/web/financeiro?limit=500",
+            "/api/web/pacientes?limit=500"
+          ],
+          "acao": "Obtém os dados usados pela tela."
+        },
+        {
+          "ordem": 3,
+          "funcao": "financeTotals()",
+          "acao": "Calcula os indicadores diário e mensal no navegador."
+        },
+        {
+          "ordem": 4,
+          "funcao": "renderFinanceiro()",
+          "acao": "Monta cards, caixa diário, formas de pagamento e lançamentos."
+        }
+      ],
+      "periodos": {
+        "diario": {
+          "disponivel": true,
+          "parametrizavel": false,
+          "referencia": "dia atual do navegador",
+          "exibicao": [
+            "recebido hoje",
+            "quantidade de recebimentos",
+            "ticket médio diário",
+            "caixa diário"
+          ]
+        },
+        "mensal": {
+          "disponivel": true,
+          "parametrizavel": false,
+          "referencia": "mês atual do navegador",
+          "exibicao": [
+            "recebido no mês",
+            "quantidade de pagamentos",
+            "ticket médio mensal",
+            "totais por forma de pagamento"
+          ]
+        },
+        "anual": {
+          "disponivel": false,
+          "observacao": "Não há relatório financeiro anual consolidado no FISIA atual."
+        }
+      },
+      "exportacao": {
+        "funcao": "exportFinanceCsv()",
+        "formato": "CSV",
+        "execucao": "navegador",
+        "campos": [
+          "data",
+          "paciente",
+          "tipo",
+          "status",
+          "valor"
+        ]
+      },
+      "limitacoes": [
+        "Máximo de 500 lançamentos retornados pela API.",
+        "Cálculos realizados no navegador.",
+        "Sem seleção de dia, mês ou ano.",
+        "Sem paginação do extrato financeiro."
+      ]
+    },
+    "pagina_geral_de_relatorios": {
+      "pagina": "/relatorios",
+      "funcao_de_carga": "loadRelatorios()",
+      "urls": [
+        "/api/web/pacientes?limit=500",
+        "/api/web/agenda?limit=500",
+        "/api/web/financeiro?limit=500"
+      ],
+      "funcao_de_agregacao": "buildReportData()",
+      "abas": {
+        "atendimentos": [
+          "total de atendimentos",
+          "dias com agenda",
+          "atendimentos por dia",
+          "atendimentos por serviço"
+        ],
+        "financeiro": [
+          "total recebido",
+          "total pendente",
+          "total previsto",
+          "comparação recebido versus pendente"
+        ],
+        "pacientes": [
+          "atendimentos por paciente",
+          "total pago por paciente",
+          "total pendente por paciente"
+        ]
+      },
+      "observacao": "As abas não possuem URLs próprias; são controladas pelo estado reportTab."
+    },
+    "financeiro_v3": {
+      "pagina_base": "/financeiro?finance_v3=1",
+      "fonte_de_dados": "localStorage e fixtures mock",
+      "chave_local": "fisia:finance-v3:mock:v1",
+      "secoes": [
+        {
+          "nome": "visao_geral",
+          "url": "/financeiro?finance_v3=1&financeView=overview",
+          "exibicao": [
+            "recebido no período",
+            "a receber",
+            "despesas pagas",
+            "saldo operacional",
+            "fluxo do período",
+            "movimentações agrupadas por semana",
+            "pendências e conflitos"
+          ]
+        },
+        {
+          "nome": "recebimentos",
+          "url": "/financeiro?finance_v3=1&financeView=receipts",
+          "exibicao": [
+            "total recebido",
+            "ticket médio",
+            "crédito gerado",
+            "sincronizações pendentes",
+            "recebimentos agrupados por paciente e data"
+          ]
+        },
+        {
+          "nome": "cobrancas",
+          "url": "/financeiro?finance_v3=1&financeView=charges",
+          "exibicao": [
+            "em aberto",
+            "vencidas",
+            "parciais",
+            "quitadas",
+            "cobranças agrupadas por paciente"
+          ]
+        },
+        {
+          "nome": "pacotes_e_creditos",
+          "url": "/financeiro?finance_v3=1&financeView=packages",
+          "exibicao": [
+            "pacotes de sessões",
+            "sessões utilizadas e disponíveis",
+            "validade",
+            "crédito monetário do paciente"
+          ]
+        },
+        {
+          "nome": "despesas",
+          "url": "/financeiro?finance_v3=1&financeView=expenses",
+          "exibicao": [
+            "despesas pagas",
+            "despesas em aberto",
+            "recorrências",
+            "categorias e fornecedores"
+          ]
+        }
+      ],
+      "acoes_simuladas": [
+        "fechamento do dia",
+        "exportação CSV",
+        "emissão de recibo",
+        "demonstrativo"
+      ],
+      "uso_recomendado": "Referência visual, não fonte de lógica financeira de produção."
+    },
+    "relatorio_financeiro_individual": {
+      "pagina": "/pacientes",
+      "entrada": "seleção de um paciente e abertura do painel financeiro",
+      "fluxo": [
+        {
+          "ordem": 1,
+          "funcao": "loadSelectedPatientDetails()",
+          "acao": "Carrega os dados do paciente selecionado."
+        },
+        {
+          "ordem": 2,
+          "url": "/api/web/pacientes/:id/financeiro",
+          "acao": "Retorna o histórico financeiro individual."
+        },
+        {
+          "ordem": 3,
+          "funcao": "patientFinancePanel()",
+          "acao": "Monta os indicadores e o histórico individual."
+        },
+        {
+          "ordem": 4,
+          "funcao": "monthlyFinanceDistribution()",
+          "acao": "Agrupa os valores por mês para exibição."
+        }
+      ],
+      "secoes": {
+        "resumo_consolidado": [
+          "total recebido",
+          "pagamentos parciais",
+          "total em aberto",
+          "crédito disponível"
+        ],
+        "distribuicao_mensal": [
+          "valor total por mês",
+          "comparação visual entre meses"
+        ],
+        "historico_detalhado": [
+          "data",
+          "valor",
+          "forma de pagamento",
+          "status"
+        ]
+      },
+      "endpoint_de_resumo_disponivel": {
+        "url": "/api/web/pacientes/:id/financeiro/resumo",
+        "retorno": [
+          "total cobrado",
+          "total recebido",
+          "total pendente",
+          "contas abertas",
+          "contas pagas",
+          "contas parciais",
+          "contas isentas",
+          "crédito disponível",
+          "distribuição mensal",
+          "últimos 50 lançamentos"
+        ]
+      }
+    }
+  },
+  "abel_atual": {
+    "paginas": {
+      "financeiro": {
+        "painel": "panel-finance",
+        "exibicao": [
+          "registro de pagamento híbrido",
+          "resumo financeiro diário"
+        ]
+      },
+      "relatorios": {
+        "painel": "panel-reports",
+        "exibicao": [
+          "filtro de data inicial e final",
+          "filtro de forma de pagamento",
+          "resultado consolidado",
+          "inconsistências da migração",
+          "exportação CSV auditada"
+        ]
+      }
+    },
+    "endpoints_existentes": [
+      {
+        "url": "/api/finance/summary",
+        "periodos": [
+          "diário",
+          "mensal",
+          "anual",
+          "personalizado"
+        ],
+        "parametros": [
+          "date_from",
+          "date_to"
+        ],
+        "retorno": [
+          "paid_count",
+          "paid_total",
+          "by_method",
+          "reversal_count"
+        ]
+      },
+      {
+        "url": "/api/reports/daily-closing",
+        "parametros": [
+          "closing_date"
+        ],
+        "retorno": [
+          "paid_total",
+          "receipt_total",
+          "difference"
+        ]
+      },
+      {
+        "url": "/api/reports/appointments",
+        "parametros": [
+          "date_from",
+          "date_to",
+          "professional_id",
+          "event_type_id",
+          "payment_method"
+        ],
+        "retorno": [
+          "appointment_count",
+          "patient_count",
+          "paid_total"
+        ]
+      },
+      {
+        "url": "/api/reports/appointments.csv",
+        "funcao": "Exportação auditada de atendimentos."
+      },
+      {
+        "url": "/api/reports/migration-issues",
+        "funcao": "Resumo das inconsistências rastreáveis da migração."
+      }
+    ],
+    "lacunas": [
+      "extrato financeiro global paginado",
+      "série financeira agregada por dia e mês",
+      "página de relatório financeiro individual",
+      "endpoint de resumo financeiro individual",
+      "vinculação visual entre pagamento, atendimento e recibo",
+      "exibição do fechamento diário já disponível no backend"
+    ]
+  },
+  "estrutura_recomendada_para_abel": {
+    "relatorio_global": {
+      "pagina": "/relatorios/financeiro",
+      "periodos": [
+        {
+          "nome": "diario",
+          "exemplo_url": "/relatorios/financeiro?periodo=diario&data=2026-10-31"
+        },
+        {
+          "nome": "mensal",
+          "exemplo_url": "/relatorios/financeiro?periodo=mensal&mes=2026-10"
+        },
+        {
+          "nome": "anual",
+          "exemplo_url": "/relatorios/financeiro?periodo=anual&ano=2026"
+        },
+        {
+          "nome": "personalizado",
+          "exemplo_url": "/relatorios/financeiro?inicio=2026-01-01&fim=2026-10-31"
+        }
+      ],
+      "ordem_de_exibicao": [
+        "seletor de período",
+        "filtros complementares",
+        "cards de total recebido, quantidade, ticket médio e estornos",
+        "distribuição por forma de pagamento",
+        "série temporal diária ou mensal",
+        "comparação entre pagamentos e recibos",
+        "movimentações agrupadas por dia, semana ou mês",
+        "inconsistências",
+        "exportação auditada"
+      ]
+    },
+    "relatorio_individual": {
+      "pagina": "/pacientes/:id/financeiro",
+      "ordem_de_exibicao": [
+        "identificação do paciente",
+        "resumo de cobrado, recebido, pendente, crédito e estornos",
+        "evolução mensal",
+        "extrato cronológico",
+        "atendimentos vinculados aos pagamentos",
+        "recibos emitidos",
+        "estornos e justificativas",
+        "exportação do histórico"
+      ],
+      "subrelatorios": [
+        {
+          "nome": "resumo_consolidado",
+          "finalidade": "Apresentar a posição financeira atual do paciente."
+        },
+        {
+          "nome": "distribuicao_por_periodo",
+          "finalidade": "Comparar pagamentos, atendimentos e saldo ao longo dos meses."
+        },
+        {
+          "nome": "historico_detalhado",
+          "finalidade": "Rastrear cada pagamento, atendimento, recibo e estorno."
+        }
+      ]
+    },
+    "fluxo_de_dados": [
+      "usuário seleciona período ou paciente",
+      "frontend envia filtros para a API ABEL",
+      "backend valida perfil e período",
+      "banco executa agregações e paginação",
+      "API retorna resumo, série temporal e lançamentos",
+      "frontend exibe a estrutura visual adaptada do FISIA",
+      "exportações e ações sensíveis são registradas na auditoria"
+    ],
+    "perfis": {
+      "gerente": [
+        "acesso aos relatórios globais",
+        "fechamento diário",
+        "exportação",
+        "relatórios individuais"
+      ],
+      "atendente": [
+        "resumo operacional",
+        "registro de pagamentos",
+        "consulta individual conforme regra definida"
+      ],
+      "medico_psicologo": [
+        "sem acesso financeiro por padrão"
+      ]
+    }
+  },
+  "criterios_para_implementacao": [
+    "Os totais devem ser calculados no backend sobre todo o período solicitado.",
+    "Consultas detalhadas devem ser paginadas.",
+    "Datas devem usar o fuso America/Sao_Paulo.",
+    "Relatórios diário, mensal e anual devem compartilhar a mesma fonte de cálculo.",
+    "Filtros aplicados na tela devem ser preservados na exportação.",
+    "Exportações e fechamentos devem produzir evento de auditoria.",
+    "Pagamentos estornados não devem integrar o total recebido.",
+    "A interface não deve ler diretamente MySQL ou SQLite; toda leitura deve passar pela API ABEL."
+  ]
+}

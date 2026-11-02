@@ -1,0 +1,17 @@
+{
+  "stage": "E07",
+  "status": "APPROVED",
+  "criteria": {
+    "worklist_restricted_to_assigned_professional": true,
+    "worklist_requires_paid_appointment": true,
+    "worklist_excludes_financial_values": true,
+    "reanalysis_requires_observation": true,
+    "professional_absence_is_audited": true,
+    "responsive_interface_present": true
+  },
+  "evidence": [
+    "backend/app/api/routes/clinical.py",
+    "tests/test_clinical.py",
+    "docs/fase_10_validacao_frontend.json"
+  ]
+}

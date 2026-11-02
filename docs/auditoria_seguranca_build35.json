@@ -1,0 +1,54 @@
+{
+  "generated_at": "2026-11-01T16:01:40-03:00",
+  "version": "0.15.0+build.35",
+  "scope": ["backend", "frontend", "tools", "ambiente Poetry"],
+  "tools": {
+    "semgrep": "1.183.0",
+    "pip_audit": "2.10.1",
+    "ruff": "0.17.3"
+  },
+  "initial_findings": {
+    "semgrep": 3,
+    "dependency_records": 15,
+    "vulnerable_packages": ["cryptography 46.0.7", "pip 26.0.1"]
+  },
+  "corrections": [
+    "Substituido SQL textual de contagem por MetaData, Table, select e func.count em tres ferramentas",
+    "Atualizado cryptography de 46.0.7 para 50.0.2 no pyproject, lock e ambiente",
+    "Atualizado pip do ambiente Poetry de 26.0.1 para 26.2"
+  ],
+  "final_results": {
+    "semgrep": {
+      "rules": 226,
+      "files": 93,
+      "findings": 0,
+      "errors": 0,
+      "report_sha256": "2fae0d0cd12df171f8346a237a983f73c4e7f37e3eedbc4f3dd7ae93c2bc8a97"
+    },
+    "dependencies": {
+      "packages": 45,
+      "known_vulnerabilities": 0,
+      "report_sha256": "2254f94a705e41da68ef4a8704a305da57f0049489d3252de046d73df3aa8af1"
+    },
+    "ruff": "PASS",
+    "tests": "25/25 PASS",
+    "poetry": "PASS",
+    "schema": "PASS",
+    "backup": {
+      "integrity": "PASS",
+      "sha256": "fc1b2d286a4529e2c97ce2b3089a7710144e758f46971e15b65d4c772fe50f36",
+      "tables": 20,
+      "rows": 342750
+    },
+    "isolated_restore": "PASS",
+    "release_rehearsal": "PASS",
+    "technical_pilot": "PASS",
+    "temporary_databases": []
+  },
+  "external_tooling_risk": {
+    "taskmaster": "QUARANTINED_NOT_CONFIGURED",
+    "runtime_impact_on_abel": false
+  },
+  "decision": "TECHNICAL_SECURITY_PREFLIGHT_PASS",
+  "release_decision": "NO_GO_PENDING_HUMAN_HOMOLOGATION_AND_CUTOVER"
+}

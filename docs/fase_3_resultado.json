@@ -1,0 +1,23 @@
+{
+  "fase": 3,
+  "nome": "Modelo relacional e banco MySQL",
+  "versao": "0.4.4+build.14",
+  "status": "APROVADA",
+  "decisao": "GO_FASE_4",
+  "mysql": "8.4.9",
+  "database": "abel_clinica",
+  "alembic_revision": "52f8e516cc0a",
+  "tabelas_dominio": 18,
+  "foreign_keys": 18,
+  "check_constraints": 6,
+  "criterios": {
+    "criacao_do_zero": "PASS",
+    "rollback": "PASS",
+    "foreign_keys": "PASS",
+    "identificadores_textuais": "PASS",
+    "financeiro_decimal": "PASS",
+    "datas_tipadas": "PASS",
+    "integridade": "PASS",
+    "git_suspenso_respeitado": "PASS"
+  }
+}

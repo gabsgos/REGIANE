@@ -1,0 +1,41 @@
+{
+  "generated_at": "2026-11-02T20:27:31.550920+00:00",
+  "source_database": "abel_clinica",
+  "test_database": "abel_permissions_test",
+  "baseline_counts": {
+    "users": 5,
+    "roles": 3,
+    "patients": 3808,
+    "appointments": 3867,
+    "payments": 3923,
+    "receipts": 3723,
+    "clinical_documents": 0,
+    "audit_logs": 22
+  },
+  "catalog": {
+    "permissions": 42,
+    "unique_permissions": 42,
+    "profiles": 3,
+    "profile_permission_assignments": 64
+  },
+  "workflow": {
+    "appointment_workflow_columns": 3,
+    "delivery_table_exists": true,
+    "expected_released": 9,
+    "released": 9
+  },
+  "criteria": {
+    "baseline_preserved_first_upgrade": true,
+    "downgrade_preserved_data": true,
+    "new_tables_removed_on_downgrade": true,
+    "baseline_preserved_second_upgrade": true,
+    "exactly_42_unique_permissions": true,
+    "exactly_three_profiles": true,
+    "repeatable_catalog": true,
+    "workflow_schema_complete": true,
+    "workflow_backfill_consistent": true,
+    "workflow_repeatable": true
+  },
+  "isolated_database_removed": true,
+  "integrity": "PASS"
+}

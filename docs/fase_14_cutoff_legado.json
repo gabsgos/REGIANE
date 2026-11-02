@@ -1,0 +1,31 @@
+{
+  "generated_at": "2026-11-01T21:01:00-03:00",
+  "version": "0.15.0+build.40",
+  "source": "ABEL-BAK",
+  "data_scope": {
+    "start": "FIRST_AVAILABLE_RECORD",
+    "cutoff": "2026-10-31T12:00:00-03:00",
+    "cutoff_inclusive": true
+  },
+  "filesystem_evidence": {
+    "files_checked": 306,
+    "earliest_last_write": "1998-01-02T13:24:42-02:00",
+    "latest_last_write": "2026-10-31T08:41:28-03:00",
+    "files_modified_after_cutoff": 0
+  },
+  "manifest_evidence": {
+    "manifest": "docs/fase_0_manifesto_sha256.json",
+    "algorithm": "SHA-256",
+    "files_expected": 306,
+    "files_checked": 306,
+    "missing_files": 0,
+    "hash_mismatches": 0
+  },
+  "administrative_statement": "O sistema legado foi encerrado em 31/10/2026 as 12:00 e nao recebeu novas adicoes",
+  "limitations": [
+    "A evidencia temporal usa os metadados dos arquivos e a declaracao administrativa",
+    "A integridade do conteudo foi confirmada contra o manifesto SHA-256 da Fase 0"
+  ],
+  "integrity": "PASS",
+  "decision": "SOURCE_SNAPSHOT_FROZEN_AT_CUTOFF"
+}

@@ -1,0 +1,27 @@
+{
+  "fase": 14,
+  "nome": "Homologacao com usuarios",
+  "versao": "0.15.0+build.41",
+  "status": "APROVADA",
+  "decisao": "GO_FASE_15",
+  "piloto_tecnico": "PASS",
+  "workflows_tecnicos": 5,
+  "criterios": {
+    "piloto_controlado": "PASS",
+    "manual_usuario": "PASS",
+    "roteiro_treinamento": "PASS",
+    "gerente_aprovou": "PASS",
+    "atendimento_aprovou": "PASS",
+    "medico_aprovou": "PASS",
+    "plano_corte_aprovado": "PASS",
+    "responsaveis_definidos": "PASS",
+    "escopo_dados_corte_aprovado": "PASS",
+    "snapshot_legado_congelado": "PASS",
+    "janela_corte_definida": "PASS"
+  },
+  "bloqueador": null,
+  "janela_corte": {
+    "inicio": "2026-11-01T21:01:54-03:00",
+    "fim": "2026-11-01T23:01:54-03:00"
+  }
+}

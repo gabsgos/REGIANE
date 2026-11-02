@@ -1,0 +1,20 @@
+{
+  "fase": 4,
+  "nome": "Importador DBF para staging",
+  "versao": "0.5.0+build.15",
+  "status": "APROVADA",
+  "decisao": "GO_FASE_5",
+  "arquivos": 86,
+  "registros": 296775,
+  "erros": 0,
+  "duracao_primeira_carga_segundos": 34.566,
+  "duracao_repeticao_segundos": 69.061,
+  "criterios": {
+    "idempotencia": "PASS",
+    "contagens": "PASS",
+    "preservacao_valores": "PASS",
+    "erros_rastreaveis": "PASS",
+    "janela_operacional": "PASS",
+    "origens_intactas": "PASS"
+  }
+}

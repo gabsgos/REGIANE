@@ -1,0 +1,13 @@
+{
+  "generated_at": "2026-11-02T00:11:10.270188+00:00",
+  "log_records_inspected": 658,
+  "criteria": {
+    "health_api_database_storage": true,
+    "failed_login_is_generic": true,
+    "logs_are_json": true,
+    "logs_exclude_credentials": true,
+    "logs_exclude_query_and_body": true,
+    "rotation_configured": true
+  },
+  "integrity": "PASS"
+}

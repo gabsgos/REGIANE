@@ -1,0 +1,32 @@
+{
+  "stage": "E02",
+  "name": "Schema aditivo e catalogos",
+  "status": "APPROVED",
+  "migration": "b7c3e1a9f240",
+  "database_migrated": true,
+  "criteria": {
+    "isolated_upgrade_downgrade_upgrade_pass": true,
+    "seed_repeatable": true,
+    "exactly_three_profiles": true,
+    "exactly_42_unique_permissions": true,
+    "legacy_counts_reconciled": true,
+    "temporary_database_removed": true,
+    "compat_behavior_preserved": true
+  },
+  "operational_catalog": {
+    "profiles": 3,
+    "permissions": 42,
+    "role_permission_assignments": 64
+  },
+  "reconciled_counts": {
+    "users": 5,
+    "patients": 3808,
+    "appointments": 3867,
+    "payments": 3923
+  },
+  "evidence": [
+    "docs/permissoes_e02_migration_rehearsal.json",
+    "migrations/versions/b7c3e1a9f240_add_multiuser_permission_schema.py"
+  ],
+  "decision": "GO_E03"
+}

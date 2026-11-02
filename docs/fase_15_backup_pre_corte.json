@@ -1,0 +1,20 @@
+{
+  "generated_at": "2026-11-01T21:04:11-03:00",
+  "version": "0.15.0+build.43",
+  "backup_file": "backups/system/ABEL_full_20261102T000349Z.abelbak",
+  "encrypted": true,
+  "algorithm": "AES-256-GCM + scrypt",
+  "size_bytes": 20938977,
+  "sha256": "59661a67e363cf6dfc42f3866bac9ad1bd4209c2d380373dd7341d8461874685",
+  "tables": 20,
+  "rows": 342750,
+  "documents": 0,
+  "restore_test": {
+    "aes_gcm_authentication": true,
+    "dump_hash": true,
+    "all_table_counts": true,
+    "all_document_hashes": true,
+    "isolated_database_removed": true
+  },
+  "integrity": "PASS"
+}

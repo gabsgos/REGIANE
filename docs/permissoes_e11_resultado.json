@@ -1,0 +1,43 @@
+{
+  "stage": "E11",
+  "status": "APPROVED",
+  "release": "1.0.0+build.55",
+  "migration_head": "c4a0f6b2d901",
+  "criteria": {
+    "stages_e00_e10_have_evidence": true,
+    "automated_tests_passed": true,
+    "automated_tests_count": 54,
+    "ruff_passed": true,
+    "poetry_lock_valid": true,
+    "frontend_validation_passed": true,
+    "permission_matrix_enforced": true,
+    "api_health_passed": true,
+    "database_health_passed": true,
+    "document_storage_health_passed": true,
+    "backup_passed": true,
+    "restore_passed": true,
+    "human_database_audit_approved": true,
+    "high_or_critical_open_findings": 0,
+    "root_html_synchronized": true,
+    "build_txt_absent": true,
+    "manager_human_route_approved": true,
+    "reception_human_route_approved": true,
+    "doctor_human_route_approved": true,
+    "release_authorized": true
+  },
+  "backup": {
+    "file": "backups/system/ABEL_full_20261102T204206Z.abelbak",
+    "sha256": "238cdca0080c7425cb2efc92d39124904495c08118bfa69495723dcddbda3314",
+    "tables": 26,
+    "rows": 342888,
+    "encrypted": true
+  },
+  "restore": {
+    "tables": 26,
+    "rows": 342888,
+    "isolated_database_removed": true
+  },
+  "operational_note": "A homologation MEDICO account and active CRM professional were registered locally. Production professional registration must be confirmed during final deployment.",
+  "pdf_policy": "Every accepted PDF is final and authenticated; prior versions remain inactive history.",
+  "integrity": "PASS"
+}

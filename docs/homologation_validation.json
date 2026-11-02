@@ -1,0 +1,23 @@
+{
+  "generated_at": "2026-11-02T00:02:03.590057+00:00",
+  "status": "APPROVED",
+  "criteria": {
+    "required_roles": [
+      "atendimento",
+      "gerencia",
+      "medico_psicologo"
+    ],
+    "roles_present": [
+      "atendimento",
+      "gerencia",
+      "medico_psicologo"
+    ],
+    "evidence_hashes": {
+      "pilot_sha256": true,
+      "cut_plan_sha256": true
+    },
+    "cutover_plan_approved": true,
+    "operator_confirmation": true
+  },
+  "errors": []
+}

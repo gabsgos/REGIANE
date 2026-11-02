@@ -1,0 +1,15 @@
+{
+  "fase": 7,
+  "nome": "API de pacientes e atendimentos",
+  "versao": "0.8.0+build.19",
+  "status": "APROVADA",
+  "decisao": "GO_FASE_8",
+  "criterios": {
+    "filtros_compostos_com_rbac": "PASS",
+    "concorrencia_otimista": "PASS",
+    "persistencia_apos_nova_instancia": "PASS",
+    "auditoria_antes_depois": "PASS",
+    "paginacao": "PASS",
+    "cpf_novo_validado_legado_preservado": "PASS"
+  }
+}

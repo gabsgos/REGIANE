@@ -1,0 +1,16 @@
+{
+  "generated_at": "2026-11-02T20:41:39.111321+00:00",
+  "username": "gabriel.gosmano.medico",
+  "profile": "medico",
+  "criteria": {
+    "initial_login": true,
+    "mandatory_password_change": true,
+    "login_after_change": true,
+    "profile_is_medico": true,
+    "clinical_worklist_allowed": true,
+    "finance_denied": true,
+    "no_financial_fields_in_worklist": true
+  },
+  "worklist_items": 0,
+  "integrity": "PASS"
+}

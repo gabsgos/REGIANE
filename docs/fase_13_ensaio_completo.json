@@ -1,0 +1,122 @@
+{
+  "generated_at": "2026-11-01T19:01:01.982742+00:00",
+  "database": "abel_rehearsal_test",
+  "steps": [
+    {
+      "name": "migrations_from_zero",
+      "return_code": 0,
+      "duration_seconds": 7.806,
+      "status": "PASS"
+    },
+    {
+      "name": "schema_integrity",
+      "return_code": 0,
+      "duration_seconds": 2.372,
+      "status": "PASS"
+    },
+    {
+      "name": "import_first",
+      "return_code": 0,
+      "duration_seconds": 77.142,
+      "status": "PASS"
+    },
+    {
+      "name": "import_repeat",
+      "return_code": 0,
+      "duration_seconds": 81.847,
+      "status": "PASS"
+    },
+    {
+      "name": "normalize_first",
+      "return_code": 0,
+      "duration_seconds": 35.969,
+      "status": "PASS"
+    },
+    {
+      "name": "normalize_repeat",
+      "return_code": 0,
+      "duration_seconds": 36.448,
+      "status": "PASS"
+    },
+    {
+      "name": "normalization_integrity",
+      "return_code": 0,
+      "duration_seconds": 2.843,
+      "status": "PASS"
+    },
+    {
+      "name": "clinical_api",
+      "return_code": 0,
+      "duration_seconds": 4.675,
+      "status": "PASS"
+    },
+    {
+      "name": "finance_api",
+      "return_code": 0,
+      "duration_seconds": 4.294,
+      "status": "PASS"
+    },
+    {
+      "name": "documents_api",
+      "return_code": 0,
+      "duration_seconds": 4.239,
+      "status": "PASS"
+    },
+    {
+      "name": "admin_reports",
+      "return_code": 0,
+      "duration_seconds": 3.844,
+      "status": "PASS"
+    },
+    {
+      "name": "concurrency_performance",
+      "return_code": 0,
+      "duration_seconds": 4.178,
+      "status": "PASS"
+    },
+    {
+      "name": "frontend",
+      "return_code": 0,
+      "duration_seconds": 3.333,
+      "status": "PASS"
+    },
+    {
+      "name": "alembic_drift",
+      "return_code": 0,
+      "duration_seconds": 2.761,
+      "status": "PASS"
+    }
+  ],
+  "duration_seconds": 272.945,
+  "failure": null,
+  "rehearsal_table_counts": {
+    "alembic_version": 1,
+    "appointments": 3867,
+    "audit_logs": 0,
+    "auth_sessions": 0,
+    "clinical_documents": 0,
+    "event_types": 7,
+    "financial_accounts": 1,
+    "financial_movements": 3827,
+    "legacy_import_map": 22339,
+    "legacy_raw_records": 296775,
+    "migration_issues": 510,
+    "origins": 1,
+    "patients": 3808,
+    "payment_items": 3923,
+    "payments": 3923,
+    "professionals": 8,
+    "receipts": 3723,
+    "roles": 3,
+    "user_roles": 4,
+    "users": 4
+  },
+  "criteria": {
+    "all_steps_pass": true,
+    "production_unchanged": true,
+    "rehearsal_database_removed": true,
+    "expected_normalized_appointments": true,
+    "expected_staging_rows": true
+  },
+  "integrity": "PASS"
+}

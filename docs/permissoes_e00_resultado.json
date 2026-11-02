@@ -1,0 +1,19 @@
+{
+  "stage": "E00",
+  "name": "Decisoes e congelamento funcional",
+  "status": "APPROVED",
+  "criteria": {
+    "decisions_D01_D06_resolved": true,
+    "all_42_permissions_classified": true,
+    "required_user_and_professional_fields_defined": true,
+    "payment_absence_reanalysis_and_delivery_rules_defined": true,
+    "human_database_audit_approved": true
+  },
+  "evidence": [
+    "docs/modelo_gestao_usuarios_abel.json",
+    "docs/modelo_gestao_usuarios_abel.md",
+    "docs/plano_implementacao_permissoes_abel.json",
+    "docs/auditoria_humana_banco_20261102.json"
+  ],
+  "decision": "GO_E01"
+}

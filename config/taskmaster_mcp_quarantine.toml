@@ -1,0 +1,8 @@
+# NAO habilitar enquanto a auditoria npm da versao instalada registrar achados
+# criticos/altos. Este bloco preserva a configuracao minima para reavaliacao.
+[mcp_servers.taskmaster]
+command = 'C:\Program Files\nodejs\node.exe'
+args = ['C:\Users\gabri\AppData\Roaming\npm\node_modules\task-master-ai\dist\mcp-server.js']
+
+[mcp_servers.taskmaster.env]
+TASK_MASTER_TOOLS = "core"

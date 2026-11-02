@@ -1,0 +1,703 @@
+{
+  "generated_at": "2026-10-31T15:11:47.215800+00:00",
+  "source": "C:\\Users\\gabri\\Documents\\ABEL\\ABEL-BAK",
+  "workers": 8,
+  "batch_size": 1000,
+  "files_discovered": 86,
+  "files_imported": 86,
+  "expected_rows": 296775,
+  "stored_rows": 296775,
+  "errors": [],
+  "tables": [
+    {
+      "source_file": "AGPROVA.DBF",
+      "source_table": "AGPROVA",
+      "rows": 0,
+      "deleted_rows": 0,
+      "sha256": "4e8eef0f06a9274fe41f38d31dfa9be89751e6bcfcf16db99dd7c04a2bde63aa",
+      "read_seconds": 0.0087
+    },
+    {
+      "source_file": "AGPROVA.TXT",
+      "source_table": "AGPROVA",
+      "rows": 0,
+      "deleted_rows": 0,
+      "sha256": "f848b3d575a73ecbe95dac5173b8cdbdf822f373afb766eb0ef9e011631ab9c3",
+      "read_seconds": 0.0083
+    },
+    {
+      "source_file": "ARQCEP.DBF",
+      "source_table": "ARQCEP",
+      "rows": 101,
+      "deleted_rows": 0,
+      "sha256": "146c8484a16e6e13da8f9be825470c2e48f6bae0dc6e51c2e1422d966bb65bf1",
+      "read_seconds": 0.0391
+    },
+    {
+      "source_file": "CADG.DBF",
+      "source_table": "CADG",
+      "rows": 1438,
+      "deleted_rows": 0,
+      "sha256": "dec10a944a7f88cbd2773c53e933095eb4dbb057c3d8801ba85d16ecfbe953a5",
+      "read_seconds": 0.039
+    },
+    {
+      "source_file": "CANCLAUD.DBF",
+      "source_table": "CANCLAUD",
+      "rows": 0,
+      "deleted_rows": 0,
+      "sha256": "a2cd72d30263aafe500ccca05aacc5e52fd655448d12a39c31230bee3d025119",
+      "read_seconds": 0.0402
+    },
+    {
+      "source_file": "CANCLAUD.TXT",
+      "source_table": "CANCLAUD",
+      "rows": 0,
+      "deleted_rows": 0,
+      "sha256": "081d676499e1d54fb4946b24694846d4326c297bea2803bb25c7f98c50cc48e2",
+      "read_seconds": 0.042
+    },
+    {
+      "source_file": "CANCPLAN.DBF",
+      "source_table": "CANCPLAN",
+      "rows": 0,
+      "deleted_rows": 0,
+      "sha256": "acdae14156539c899cc53f1f12a0c39fb8e7b0e0119cae9244a111c110e15f25",
+      "read_seconds": 0.0417
+    },
+    {
+      "source_file": "CANCPLAN.TXT",
+      "source_table": "CANCPLAN",
+      "rows": 0,
+      "deleted_rows": 0,
+      "sha256": "50266324c9fee1e2ea2cb8edc3174ffc05f76566cc49cdb056f2aea4be434399",
+      "read_seconds": 0.0387
+    },
+    {
+      "source_file": "CANDIDAT.DBF",
+      "source_table": "CANDIDAT",
+      "rows": 3867,
+      "deleted_rows": 0,
+      "sha256": "a2800ae61d563f582450ab257cadb853fe0a37183a7a39f107ed25369dd9cab3",
+      "read_seconds": 0.254
+    },
+    {
+      "source_file": "CANDRES.DBF",
+      "source_table": "CANDRES",
+      "rows": 0,
+      "deleted_rows": 0,
+      "sha256": "fbf7b007feb8dbff2eb8c44ecc75bda6318086348d2d8a9a08413ee1cfdf66ab",
+      "read_seconds": 0.0373
+    },
+    {
+      "source_file": "CEP_SP.DBF",
+      "source_table": "CEP_SP",
+      "rows": 260775,
+      "deleted_rows": 0,
+      "sha256": "b30ab0d654ed208cfd6bfc652914a1a09e565cacc2854d04d29b1948ba720189",
+      "read_seconds": 4.4413
+    },
+    {
+      "source_file": "CIRETRAN.DBF",
+      "source_table": "CIRETRAN",
+      "rows": 332,
+      "deleted_rows": 0,
+      "sha256": "ba57c9cc94fcc0ee404b233938593ec699a12e44114d2577f300dbc5224b25c2",
+      "read_seconds": 0.0126
+    },
+    {
+      "source_file": "COMPROS.DBF",
+      "source_table": "COMPROS",
+      "rows": 1,
+      "deleted_rows": 0,
+      "sha256": "4ea3789fd1c87e9f25ffe9fcc7bf54b8836155d7aa1407948d5a7ab21faa5d28",
+      "read_seconds": 0.0125
+    },
+    {
+      "source_file": "CONTATO.DBF",
+      "source_table": "CONTATO",
+      "rows": 0,
+      "deleted_rows": 0,
+      "sha256": "26dd936c2016dbc5b79a3f67c79bf58454efe4a099cb7e9298072a37718b120b",
+      "read_seconds": 0.0135
+    },
+    {
+      "source_file": "CONTBAN.DBF",
+      "source_table": "CONTBAN",
+      "rows": 1,
+      "deleted_rows": 0,
+      "sha256": "a06eefd56c560434ded86d6f89dc2da3c71fb1b853d2820eaa08eeeb8e13a969",
+      "read_seconds": 0.1239
+    },
+    {
+      "source_file": "CONTBAN.TXT",
+      "source_table": "CONTBAN",
+      "rows": 0,
+      "deleted_rows": 0,
+      "sha256": "f1034ffeef6ce1ce3e09ad2c23e9aecd8c1bf8946b0866bf6b471635932fc20a",
+      "read_seconds": 0.0114
+    },
+    {
+      "source_file": "DEPARA.DBF",
+      "source_table": "DEPARA",
+      "rows": 44,
+      "deleted_rows": 0,
+      "sha256": "349b37ea4e2ec6c39f88807fc48f76378eb071e802fd163eea1455a9ee11b27c",
+      "read_seconds": 0.011
+    },
+    {
+      "source_file": "DEPOS.DBF",
+      "source_table": "DEPOS",
+      "rows": 2774,
+      "deleted_rows": 0,
+      "sha256": "6b86be701bc600f3398c35d2fdfd67a32440f8f43426c3abcfa1b2aeb66a6b97",
+      "read_seconds": 0.1945
+    },
+    {
+      "source_file": "DEPOS.TXT",
+      "source_table": "DEPOS",
+      "rows": 0,
+      "deleted_rows": 0,
+      "sha256": "99606927775312fb7ada70964aa02fe8cfe834bbecef20bd5a1502c700fabf2f",
+      "read_seconds": 0.192
+    },
+    {
+      "source_file": "DR_MED.DBF",
+      "source_table": "DR_MED",
+      "rows": 8,
+      "deleted_rows": 0,
+      "sha256": "deb34149cf64bbcb83c5dfd62348f112b4a4f999fcdd61eb57bf25c8f05eb7f9",
+      "read_seconds": 0.1441
+    },
+    {
+      "source_file": "EMPR_NFS.DBF",
+      "source_table": "EMPR_NFS",
+      "rows": 0,
+      "deleted_rows": 0,
+      "sha256": "ec00280b10501cb7a5a67d4bb49ba29a9fa5dfb777ca5986a8916f0dba8c18da",
+      "read_seconds": 0.1896
+    },
+    {
+      "source_file": "EVENTOS.DBF",
+      "source_table": "EVENTOS",
+      "rows": 7,
+      "deleted_rows": 0,
+      "sha256": "c1e28ba7ba1fb3bce1455f7b0a315768e0ba323516b51bff3d59ca190c7cd83b",
+      "read_seconds": 0.1894
+    },
+    {
+      "source_file": "EVENTOS.TXT",
+      "source_table": "EVENTOS",
+      "rows": 2,
+      "deleted_rows": 0,
+      "sha256": "8d3d7740fc7f859768311c84ca04fed7572af0bcdbe123387bce4516c863b1fc",
+      "read_seconds": 0.0935
+    },
+    {
+      "source_file": "FANLAN.DBF",
+      "source_table": "FANLAN",
+      "rows": 26,
+      "deleted_rows": 0,
+      "sha256": "6e9180f32e6756f8ed295f453e4abb542ddb47c37e68ff5a3b203fe67caa5e7f",
+      "read_seconds": 0.0708
+    },
+    {
+      "source_file": "FANLAN.TXT",
+      "source_table": "FANLAN",
+      "rows": 0,
+      "deleted_rows": 0,
+      "sha256": "65fe7de91158bf073565ff4abe5fdddf128ce4815859cec8b5f8c9e84b6eb531",
+      "read_seconds": 0.0283
+    },
+    {
+      "source_file": "FUNC.DBF",
+      "source_table": "FUNC",
+      "rows": 0,
+      "deleted_rows": 0,
+      "sha256": "04bf0f4a08185b8bf9ef4c708cdcb7909accc2f372ab7a5ce89f00577904a850",
+      "read_seconds": 0.0185
+    },
+    {
+      "source_file": "FUNC.TXT",
+      "source_table": "FUNC",
+      "rows": 0,
+      "deleted_rows": 0,
+      "sha256": "04bf0f4a08185b8bf9ef4c708cdcb7909accc2f372ab7a5ce89f00577904a850",
+      "read_seconds": 0.0212
+    },
+    {
+      "source_file": "FUNOCOR.DBF",
+      "source_table": "FUNOCOR",
+      "rows": 0,
+      "deleted_rows": 0,
+      "sha256": "3c232cf0ef4391e287bb94e3bff8cf893fcd01accd90ebc62f9f830054d244ef",
+      "read_seconds": 0.0182
+    },
+    {
+      "source_file": "FUNOCOR.TXT",
+      "source_table": "FUNOCOR",
+      "rows": 0,
+      "deleted_rows": 0,
+      "sha256": "3c232cf0ef4391e287bb94e3bff8cf893fcd01accd90ebc62f9f830054d244ef",
+      "read_seconds": 0.0202
+    },
+    {
+      "source_file": "GERADOR.DBF",
+      "source_table": "GERADOR",
+      "rows": 1,
+      "deleted_rows": 0,
+      "sha256": "36ebdbe26cb7577141e61bcdae79b28caa105933693f8bf54ebb3578ed66ed07",
+      "read_seconds": 0.017
+    },
+    {
+      "source_file": "HISTCXA.DBF",
+      "source_table": "HISTCXA",
+      "rows": 5,
+      "deleted_rows": 0,
+      "sha256": "27f4ed6775248583e137464e8f4552e1dc83cf2865adae5a29f3a05b8bdaffa5",
+      "read_seconds": 0.0075
+    },
+    {
+      "source_file": "HISTCXA.TXT",
+      "source_table": "HISTCXA",
+      "rows": 3,
+      "deleted_rows": 0,
+      "sha256": "0da69974bac9ac0f51dea5cd22bc4426a562ac1fb5378efc1ad7330e0bac1d15",
+      "read_seconds": 0.0165
+    },
+    {
+      "source_file": "HRBIO.DBF",
+      "source_table": "HRBIO",
+      "rows": 0,
+      "deleted_rows": 0,
+      "sha256": "a34e1baaf7542a132788cc3d4628a577fb3dd82267ff151cbd45d09f9279cbc6",
+      "read_seconds": 0.0146
+    },
+    {
+      "source_file": "HRBIO.TXT",
+      "source_table": "HRBIO",
+      "rows": 0,
+      "deleted_rows": 0,
+      "sha256": "1561c6eb53f77ae35be93f6f186314ccce10cd80f964c6e6c9f59b235a41cccf",
+      "read_seconds": 0.0138
+    },
+    {
+      "source_file": "LANCHQ.DBF",
+      "source_table": "LANCHQ",
+      "rows": 0,
+      "deleted_rows": 0,
+      "sha256": "ae4d6b19612babfbfbca3d68d1b995407a1872fa0fc06ddc0dacafb4af409369",
+      "read_seconds": 0.0084
+    },
+    {
+      "source_file": "LANCTO.188",
+      "source_table": "LANCTO",
+      "rows": 3766,
+      "deleted_rows": 0,
+      "sha256": "806c3323aec69c6f6085f9165d557489a463735d53aa2a0399fc2463d8f7da24",
+      "read_seconds": 0.1585
+    },
+    {
+      "source_file": "LANCTO.DBF",
+      "source_table": "LANCTO",
+      "rows": 3827,
+      "deleted_rows": 0,
+      "sha256": "dc605889757cb465fd1eebf0440e5fbac1c2c90ea439c9f0b03b93dca4530d9b",
+      "read_seconds": 0.1818
+    },
+    {
+      "source_file": "LANCTO.TXT",
+      "source_table": "LANCTO",
+      "rows": 0,
+      "deleted_rows": 0,
+      "sha256": "9755b6d6f54a311a40200b921e815a02a096474d83c7257d1de38ad354927136",
+      "read_seconds": 0.0779
+    },
+    {
+      "source_file": "LAUDODEF.DBF",
+      "source_table": "LAUDODEF",
+      "rows": 0,
+      "deleted_rows": 0,
+      "sha256": "cefdc34cf97cb97ca4b67ec64bc17f228ebadee8e2e729c822a2b3a000939b00",
+      "read_seconds": 0.1577
+    },
+    {
+      "source_file": "LAUDODEF.TXT",
+      "source_table": "LAUDODEF",
+      "rows": 0,
+      "deleted_rows": 0,
+      "sha256": "7b0abdc7b45be7612cac655be91cc5d121aa3ea6bb82ddefb80f8adbf92e3407",
+      "read_seconds": 0.1521
+    },
+    {
+      "source_file": "L_CARTAO.DBF",
+      "source_table": "L_CARTAO",
+      "rows": 171,
+      "deleted_rows": 0,
+      "sha256": "229bc3a1ebba42d24cc4ed8fdfb9b9f156b97e8ccef09fd495f1e06a1957110c",
+      "read_seconds": 0.008
+    },
+    {
+      "source_file": "L_CARTAO.TXT",
+      "source_table": "L_CARTAO",
+      "rows": 0,
+      "deleted_rows": 0,
+      "sha256": "3627bf0367ff54f87f0293cb882fad591459956f4819c01ccf713e5a2d73b29b",
+      "read_seconds": 0.0568
+    },
+    {
+      "source_file": "L_CHEQUE.DBF",
+      "source_table": "L_CHEQUE",
+      "rows": 0,
+      "deleted_rows": 0,
+      "sha256": "a5d20c1d5cfab5ed280ae4e8dfd62c560350d61f9e31fc488e3ae2f3724e9eda",
+      "read_seconds": 0.0095
+    },
+    {
+      "source_file": "L_CHEQUE.TXT",
+      "source_table": "L_CHEQUE",
+      "rows": 0,
+      "deleted_rows": 0,
+      "sha256": "f06a095a9b12a23dfecfd84fb520133b4eb546c398a429a310a6d4f74d94816c",
+      "read_seconds": 0.0109
+    },
+    {
+      "source_file": "MENSAGE.DBF",
+      "source_table": "MENSAGE",
+      "rows": 31,
+      "deleted_rows": 0,
+      "sha256": "7af3db96568a240b67ec3f7773e77c2fa6e0d14801dca126c1d7a1fdbd437802",
+      "read_seconds": 0.149
+    },
+    {
+      "source_file": "MUNIC.DBF",
+      "source_table": "MUNIC",
+      "rows": 5515,
+      "deleted_rows": 0,
+      "sha256": "d483dc55c160c9bf417803004118f28b7834dfc62916ad28501099cf89d06253",
+      "read_seconds": 0.225
+    },
+    {
+      "source_file": "NCAND.DBF",
+      "source_table": "NCAND",
+      "rows": 0,
+      "deleted_rows": 0,
+      "sha256": "cef54b23a45ccfe7a8c8d13ebfe313c76dea8333496e874bd648ba882e23a80b",
+      "read_seconds": 0.1689
+    },
+    {
+      "source_file": "NCAND.TXT",
+      "source_table": "NCAND",
+      "rows": 0,
+      "deleted_rows": 0,
+      "sha256": "9935bc4f7881f9e8884d928ed1b24c767a5443e4d8940e7c52089fa46abbb0ea",
+      "read_seconds": 0.1542
+    },
+    {
+      "source_file": "NPAGTOS.DBF",
+      "source_table": "NPAGTOS",
+      "rows": 0,
+      "deleted_rows": 0,
+      "sha256": "533635347d6479ea1783eee818005b4cdcc3662408856c467ad29d14166b8874",
+      "read_seconds": 0.108
+    },
+    {
+      "source_file": "NPAGTOS.TXT",
+      "source_table": "NPAGTOS",
+      "rows": 0,
+      "deleted_rows": 0,
+      "sha256": "5de271bc70797b3328d4181e4a82add3a900549c6067c41d54f4b72f65f1c804",
+      "read_seconds": 0.0057
+    },
+    {
+      "source_file": "OBSGEFOR.DBF",
+      "source_table": "OBSGEFOR",
+      "rows": 0,
+      "deleted_rows": 0,
+      "sha256": "6bb5f9a1bd8218fb2b6f57f075c760a54b35a343d2ea22af0eb55dec8ccdf305",
+      "read_seconds": 0.0755
+    },
+    {
+      "source_file": "OBSGEFOR.TXT",
+      "source_table": "OBSGEFOR",
+      "rows": 0,
+      "deleted_rows": 0,
+      "sha256": "f00a4351cee21965ff97da8d1915fc68fc50bd54b80c6e556b1c7e576099e143",
+      "read_seconds": 0.0018
+    },
+    {
+      "source_file": "ORIGEM.DBF",
+      "source_table": "ORIGEM",
+      "rows": 1,
+      "deleted_rows": 0,
+      "sha256": "c7af921b19192074cb7be523c5d57bc56d3c98a8becdd2fc33a6a22605eccd7a",
+      "read_seconds": 0.0295
+    },
+    {
+      "source_file": "PAGTOS.DBF",
+      "source_table": "PAGTOS",
+      "rows": 3923,
+      "deleted_rows": 0,
+      "sha256": "c45488a9a2a1113f0146774432a9a2de03f170b53f6b9c62704ea3eeafd0a579",
+      "read_seconds": 0.2224
+    },
+    {
+      "source_file": "PAGTOS.TXT",
+      "source_table": "PAGTOS",
+      "rows": 0,
+      "deleted_rows": 0,
+      "sha256": "3a216892fa1c6a30e75ecd2745c06e84866d600a9944c89a653f87db5e34c90f",
+      "read_seconds": 0.1155
+    },
+    {
+      "source_file": "PAIS.DBF",
+      "source_table": "PAIS",
+      "rows": 284,
+      "deleted_rows": 0,
+      "sha256": "f1dbda3354c0c97a93a7a5de96c74ab4e0edb2dd11ff5b821bedae771810662b",
+      "read_seconds": 0.0823
+    },
+    {
+      "source_file": "PLANILHA.DBF",
+      "source_table": "PLANILHA",
+      "rows": 1,
+      "deleted_rows": 0,
+      "sha256": "f31a4bf3a1cbdf8f51b1ee994cf0255339a42f1cdf1d1c721a1de35ebe0be5d9",
+      "read_seconds": 0.1701
+    },
+    {
+      "source_file": "PROGCART.DBF",
+      "source_table": "PROGCART",
+      "rows": 167,
+      "deleted_rows": 0,
+      "sha256": "8f4e7f410f018964450d37713e3f9f43467c23bf69eb31b7eb0c1d696adb33c0",
+      "read_seconds": 0.163
+    },
+    {
+      "source_file": "PROGCART.TXT",
+      "source_table": "PROGCART",
+      "rows": 0,
+      "deleted_rows": 0,
+      "sha256": "3bb2648c46ee848e005dc919f81eed8e9db400ecbfd05c8aacde3ad2e5693ad2",
+      "read_seconds": 0.0937
+    },
+    {
+      "source_file": "QUITFUN.DBF",
+      "source_table": "QUITFUN",
+      "rows": 0,
+      "deleted_rows": 0,
+      "sha256": "b486173714db5e6c1aca154393e0a3dfa331fbe2532b4e7cce95d3da866c5d2b",
+      "read_seconds": 0.0919
+    },
+    {
+      "source_file": "QUITFUN.TXT",
+      "source_table": "QUITFUN",
+      "rows": 0,
+      "deleted_rows": 0,
+      "sha256": "b486173714db5e6c1aca154393e0a3dfa331fbe2532b4e7cce95d3da866c5d2b",
+      "read_seconds": 0.0914
+    },
+    {
+      "source_file": "RECIBO.DBF",
+      "source_table": "RECIBO",
+      "rows": 3734,
+      "deleted_rows": 0,
+      "sha256": "c0adba62b9e1d522eb753a031416cb13bf001fe6cc94745c59a1d2bde591d139",
+      "read_seconds": 0.2586
+    },
+    {
+      "source_file": "RECIBO.TXT",
+      "source_table": "RECIBO",
+      "rows": 0,
+      "deleted_rows": 0,
+      "sha256": "8a8b1d6829f0298fd90e9910ef39b25112e3b87ddadda26e7bfa71c5da5a7bf8",
+      "read_seconds": 0.032
+    },
+    {
+      "source_file": "RELAT.DBF",
+      "source_table": "RELAT",
+      "rows": 1,
+      "deleted_rows": 0,
+      "sha256": "d4957de506b36aae8faeef736777f72cbb80c365ac6a17326dd645c2e0b9aa0d",
+      "read_seconds": 0.2552
+    },
+    {
+      "source_file": "SALDOBAN.DBF",
+      "source_table": "SALDOBAN",
+      "rows": 144,
+      "deleted_rows": 0,
+      "sha256": "b4c55548e6223a77e7628cdeadb88a32caf08c9c234a7891cc805f51516c4a6a",
+      "read_seconds": 0.3147
+    },
+    {
+      "source_file": "SALDOBAN.TXT",
+      "source_table": "SALDOBAN",
+      "rows": 0,
+      "deleted_rows": 0,
+      "sha256": "64ae4ce78726e290ab95b3603beba5e9efb340a5bcacaa7bb2083c0133ac5afa",
+      "read_seconds": 0.3132
+    },
+    {
+      "source_file": "T1400.TXT",
+      "source_table": "T1400",
+      "rows": 0,
+      "deleted_rows": 0,
+      "sha256": "b5c42f5638c9b40bead47a9b2699489254254dfb259c65944947a77a983b5853",
+      "read_seconds": 0.2934
+    },
+    {
+      "source_file": "TABMP.DBF",
+      "source_table": "TABMP",
+      "rows": 5491,
+      "deleted_rows": 0,
+      "sha256": "bb38b5fcf57608a5f8906772e7f1173e235484f7a335618376a1bdf794ba55da",
+      "read_seconds": 0.4954
+    },
+    {
+      "source_file": "TAB_PROV.DBF",
+      "source_table": "TAB_PROV",
+      "rows": 11,
+      "deleted_rows": 0,
+      "sha256": "665d8a680a3622aed642d58da9ccf4340f102f882c7189bf6477470efcf72f9e",
+      "read_seconds": 0.2903
+    },
+    {
+      "source_file": "TAB_PROV.TXT",
+      "source_table": "TAB_PROV",
+      "rows": 11,
+      "deleted_rows": 0,
+      "sha256": "7ce92dbd24be0007d04512f8e69af196015d87ba3c9c324ae15cb5a597216227",
+      "read_seconds": 0.513
+    },
+    {
+      "source_file": "TICKETS.DBF",
+      "source_table": "TICKETS",
+      "rows": 0,
+      "deleted_rows": 0,
+      "sha256": "32850014b835e57ddafe07c01d806954281665c133ac81a01bf9ee0acfdf1df6",
+      "read_seconds": 0.4822
+    },
+    {
+      "source_file": "TICKETS.TXT",
+      "source_table": "TICKETS",
+      "rows": 0,
+      "deleted_rows": 0,
+      "sha256": "32850014b835e57ddafe07c01d806954281665c133ac81a01bf9ee0acfdf1df6",
+      "read_seconds": 0.2378
+    },
+    {
+      "source_file": "TIPOIMP.DBF",
+      "source_table": "TIPOIMP",
+      "rows": 4,
+      "deleted_rows": 0,
+      "sha256": "16a54bd489208e77b5dddbae95e938b2dc261078489d5b1b1abe01e5fc18f008",
+      "read_seconds": 0.3659
+    },
+    {
+      "source_file": "TMP_ASS.188",
+      "source_table": "TMP_ASS",
+      "rows": 2,
+      "deleted_rows": 0,
+      "sha256": "645c00992d5b21d5645afbbd0b010abb81cf79f8f67ebbd9ce70bbd8eb7b7b08",
+      "read_seconds": 0.3331
+    },
+    {
+      "source_file": "TMP_ASS.DBF",
+      "source_table": "TMP_ASS",
+      "rows": 2,
+      "deleted_rows": 0,
+      "sha256": "64ac5f2a715fe031186a199b90abd6f277adde349e4d0814c7ffbf721b6528f2",
+      "read_seconds": 0.6236
+    },
+    {
+      "source_file": "TMP_EST.DBF",
+      "source_table": "TMP_EST",
+      "rows": 0,
+      "deleted_rows": 0,
+      "sha256": "7a5ddbe3477ed03f66d531f1f159eba90d2e80ed497b889a4338c43b1bc8b4ea",
+      "read_seconds": 0.4835
+    },
+    {
+      "source_file": "TMP_EVE.DBF",
+      "source_table": "TMP_EVE",
+      "rows": 0,
+      "deleted_rows": 0,
+      "sha256": "273ff1a8730d3e5698d9d3788d85b36ab9ee8b42428b5485c59aa1c680542d25",
+      "read_seconds": 0.3687
+    },
+    {
+      "source_file": "TMP_MP.DBF",
+      "source_table": "TMP_MP",
+      "rows": 0,
+      "deleted_rows": 0,
+      "sha256": "73acf296547ccfabe9eaf330b1b66e302b41d63e650865b813577ed9d213d132",
+      "read_seconds": 0.8141
+    },
+    {
+      "source_file": "TMP_REN.DBF",
+      "source_table": "TMP_REN",
+      "rows": 0,
+      "deleted_rows": 0,
+      "sha256": "65d2660ad7cf07e924466cd40e166d9f9d592b6adab724b755bddee40eb13862",
+      "read_seconds": 0.6132
+    },
+    {
+      "source_file": "TXCARTAO.DBF",
+      "source_table": "TXCARTAO",
+      "rows": 8,
+      "deleted_rows": 0,
+      "sha256": "c42ebfd728662127f29f97b00ef3341163d96c3bb7f209159cc4e4734ff37a70",
+      "read_seconds": 0.324
+    },
+    {
+      "source_file": "TXCARTAO.TXT",
+      "source_table": "TXCARTAO",
+      "rows": 8,
+      "deleted_rows": 0,
+      "sha256": "c42ebfd728662127f29f97b00ef3341163d96c3bb7f209159cc4e4734ff37a70",
+      "read_seconds": 0.5761
+    },
+    {
+      "source_file": "T_238.TXT",
+      "source_table": "T_238",
+      "rows": 0,
+      "deleted_rows": 0,
+      "sha256": "13a14e0cff9dc4e6fa406aff83e26e1fcb782a4f629030677b95aa8e03bab12e",
+      "read_seconds": 0.2907
+    },
+    {
+      "source_file": "USUARIOS.DBF",
+      "source_table": "USUARIOS",
+      "rows": 4,
+      "deleted_rows": 0,
+      "sha256": "0e5e3733eebece4fee0765e51a300598d01f1c71fca3a4eb4ef94c1a02accada",
+      "read_seconds": 0.5259
+    },
+    {
+      "source_file": "VAL_FUNC.DBF",
+      "source_table": "VAL_FUNC",
+      "rows": 0,
+      "deleted_rows": 0,
+      "sha256": "59f3c3729a8258aea71369e0b3d1a33a6516d0a75f5b77cd53698fe2bd39e876",
+      "read_seconds": 0.5994
+    },
+    {
+      "source_file": "VAL_FUNC.TXT",
+      "source_table": "VAL_FUNC",
+      "rows": 0,
+      "deleted_rows": 0,
+      "sha256": "59f3c3729a8258aea71369e0b3d1a33a6516d0a75f5b77cd53698fe2bd39e876",
+      "read_seconds": 0.431
+    },
+    {
+      "source_file": "pais.txt",
+      "source_table": "PAIS",
+      "rows": 284,
+      "deleted_rows": 0,
+      "sha256": "a57b02292b7945cb357e69e53cd9f13d580a490974ad95f3b2a87aa0a45bda3a",
+      "read_seconds": 0.1643
+    }
+  ],
+  "duration_seconds": 69.061,
+  "integrity": "PASS"
+}

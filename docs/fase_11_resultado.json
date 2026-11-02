@@ -1,0 +1,16 @@
+{
+  "fase": 11,
+  "nome": "Relatorios e operacao administrativa",
+  "versao": "0.12.0+build.25",
+  "status": "APROVADA",
+  "decisao": "GO_FASE_12",
+  "criterios": {
+    "relatorios_conferem": "PASS",
+    "exportacao_rbac": "PASS",
+    "periodo_e_filtros": "PASS",
+    "usuarios_somente_gerente": "PASS",
+    "fechamento_diario": "PASS",
+    "painel_migracao": "PASS",
+    "csv_formula_injection": "PASS"
+  }
+}

@@ -1,0 +1,5397 @@
+{
+  "gerado_em": "2026-10-31T12:00:10.745665-03:00",
+  "resumo": {
+    "tabelas": 54,
+    "registros_ativos": 292699,
+    "duplicados_exatos": 121,
+    "datas_invalidas": 0,
+    "datas_implausiveis": 3389,
+    "numericos_invalidos": 0
+  },
+  "tabelas": [
+    {
+      "arquivo": "AGPROVA.DBF",
+      "registros_declarados": 0,
+      "registros_fisicos": 0,
+      "registros_ativos": 0,
+      "registros_duplicados_exatos": 0,
+      "datas_invalidas": 0,
+      "datas_formalmente_validas_mas_implausiveis": 0,
+      "numericos_invalidos": 0,
+      "datas_invalidas_por_campo": {},
+      "datas_implausiveis_por_campo": {},
+      "numericos_invalidos_por_campo": {},
+      "preenchimento": {
+        "COMPUTADOR": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "DATA": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "COD_HOR": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "ALUNO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "USUARIO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "DT_USUARIO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "HR_USUARIO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "EXCLUIDO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "FALTOU": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "OBS": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "HOR_INI": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        }
+      }
+    },
+    {
+      "arquivo": "ARQCEP.DBF",
+      "registros_declarados": 101,
+      "registros_fisicos": 101,
+      "registros_ativos": 101,
+      "registros_duplicados_exatos": 0,
+      "datas_invalidas": 0,
+      "datas_formalmente_validas_mas_implausiveis": 0,
+      "numericos_invalidos": 0,
+      "datas_invalidas_por_campo": {},
+      "datas_implausiveis_por_campo": {},
+      "numericos_invalidos_por_campo": {},
+      "preenchimento": {
+        "NOME_LOG": {
+          "preenchidos": 101,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "LOCAL_LOG": {
+          "preenchidos": 101,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "BAIRRO1": {
+          "preenchidos": 101,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "BAIRRO2": {
+          "preenchidos": 20,
+          "vazios": 81,
+          "percentual_preenchido": 19.802
+        },
+        "CEP8": {
+          "preenchidos": 101,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "UF": {
+          "preenchidos": 101,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "TIPO": {
+          "preenchidos": 101,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "ESPECIAL": {
+          "preenchidos": 1,
+          "vazios": 100,
+          "percentual_preenchido": 0.9901
+        },
+        "USUARIO": {
+          "preenchidos": 101,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "DT_USUARIO": {
+          "preenchidos": 3,
+          "vazios": 98,
+          "percentual_preenchido": 2.9703
+        },
+        "HR_USUARIO": {
+          "preenchidos": 3,
+          "vazios": 98,
+          "percentual_preenchido": 2.9703
+        }
+      }
+    },
+    {
+      "arquivo": "CADG.DBF",
+      "registros_declarados": 1438,
+      "registros_fisicos": 1438,
+      "registros_ativos": 1438,
+      "registros_duplicados_exatos": 0,
+      "datas_invalidas": 0,
+      "datas_formalmente_validas_mas_implausiveis": 0,
+      "numericos_invalidos": 0,
+      "datas_invalidas_por_campo": {},
+      "datas_implausiveis_por_campo": {},
+      "numericos_invalidos_por_campo": {},
+      "preenchimento": {
+        "CIRETRAN": {
+          "preenchidos": 1438,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "REGISTRO": {
+          "preenchidos": 1438,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "SITUACAO": {
+          "preenchidos": 1438,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "TIPO_AB": {
+          "preenchidos": 1438,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "RAZAO": {
+          "preenchidos": 1438,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "FANTASIA": {
+          "preenchidos": 1438,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "TELEFONE": {
+          "preenchidos": 1438,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        }
+      }
+    },
+    {
+      "arquivo": "CANCLAUD.DBF",
+      "registros_declarados": 0,
+      "registros_fisicos": 0,
+      "registros_ativos": 0,
+      "registros_duplicados_exatos": 0,
+      "datas_invalidas": 0,
+      "datas_formalmente_validas_mas_implausiveis": 0,
+      "numericos_invalidos": 0,
+      "datas_invalidas_por_campo": {},
+      "datas_implausiveis_por_campo": {},
+      "numericos_invalidos_por_campo": {},
+      "preenchimento": {
+        "CRP": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "DATA": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "LAUDO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "DT_USUARIO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "HR_USUARIO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "USUARIO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        }
+      }
+    },
+    {
+      "arquivo": "CANCPLAN.DBF",
+      "registros_declarados": 0,
+      "registros_fisicos": 0,
+      "registros_ativos": 0,
+      "registros_duplicados_exatos": 0,
+      "datas_invalidas": 0,
+      "datas_formalmente_validas_mas_implausiveis": 0,
+      "numericos_invalidos": 0,
+      "datas_invalidas_por_campo": {},
+      "datas_implausiveis_por_campo": {},
+      "numericos_invalidos_por_campo": {},
+      "preenchimento": {
+        "CRM": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "DATA": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "RENACH": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "DT_USUARIO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "HR_USUARIO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "USUARIO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        }
+      }
+    },
+    {
+      "arquivo": "CANDIDAT.DBF",
+      "registros_declarados": 3867,
+      "registros_fisicos": 3867,
+      "registros_ativos": 3867,
+      "registros_duplicados_exatos": 0,
+      "datas_invalidas": 0,
+      "datas_formalmente_validas_mas_implausiveis": 3389,
+      "numericos_invalidos": 0,
+      "datas_invalidas_por_campo": {},
+      "datas_implausiveis_por_campo": {
+        "DT_VALID": 3381,
+        "DT_NASC": 8
+      },
+      "numericos_invalidos_por_campo": {},
+      "preenchimento": {
+        "NRO_PGU": {
+          "preenchidos": 1,
+          "vazios": 3866,
+          "percentual_preenchido": 0.0259
+        },
+        "DT_HABIT": {
+          "preenchidos": 0,
+          "vazios": 3867,
+          "percentual_preenchido": 0.0
+        },
+        "NOME": {
+          "preenchidos": 3867,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "PAI": {
+          "preenchidos": 1,
+          "vazios": 3866,
+          "percentual_preenchido": 0.0259
+        },
+        "MAE": {
+          "preenchidos": 1,
+          "vazios": 3866,
+          "percentual_preenchido": 0.0259
+        },
+        "DOADOR": {
+          "preenchidos": 3854,
+          "vazios": 13,
+          "percentual_preenchido": 99.6638
+        },
+        "SEXO": {
+          "preenchidos": 1,
+          "vazios": 3866,
+          "percentual_preenchido": 0.0259
+        },
+        "COR": {
+          "preenchidos": 0,
+          "vazios": 3867,
+          "percentual_preenchido": 0.0
+        },
+        "DT_NASC": {
+          "preenchidos": 3845,
+          "vazios": 22,
+          "percentual_preenchido": 99.4311
+        },
+        "NACIONAL": {
+          "preenchidos": 1,
+          "vazios": 3866,
+          "percentual_preenchido": 0.0259
+        },
+        "COD_NAT": {
+          "preenchidos": 1,
+          "vazios": 3866,
+          "percentual_preenchido": 0.0259
+        },
+        "ESTRANG": {
+          "preenchidos": 0,
+          "vazios": 3867,
+          "percentual_preenchido": 0.0
+        },
+        "PROFISSAO": {
+          "preenchidos": 1,
+          "vazios": 3866,
+          "percentual_preenchido": 0.0259
+        },
+        "CONTATO": {
+          "preenchidos": 3819,
+          "vazios": 48,
+          "percentual_preenchido": 98.7587
+        },
+        "LOGRAD": {
+          "preenchidos": 2,
+          "vazios": 3865,
+          "percentual_preenchido": 0.0517
+        },
+        "NUMERO": {
+          "preenchidos": 3854,
+          "vazios": 13,
+          "percentual_preenchido": 99.6638
+        },
+        "COMPL": {
+          "preenchidos": 1,
+          "vazios": 3866,
+          "percentual_preenchido": 0.0259
+        },
+        "CEP": {
+          "preenchidos": 2,
+          "vazios": 3865,
+          "percentual_preenchido": 0.0517
+        },
+        "BAIRRO": {
+          "preenchidos": 2,
+          "vazios": 3865,
+          "percentual_preenchido": 0.0517
+        },
+        "CIDADE": {
+          "preenchidos": 2,
+          "vazios": 3865,
+          "percentual_preenchido": 0.0517
+        },
+        "ESTADOC": {
+          "preenchidos": 2,
+          "vazios": 3865,
+          "percentual_preenchido": 0.0517
+        },
+        "TIPO_DOC": {
+          "preenchidos": 2,
+          "vazios": 3865,
+          "percentual_preenchido": 0.0517
+        },
+        "COD_NAC": {
+          "preenchidos": 1,
+          "vazios": 3866,
+          "percentual_preenchido": 0.0259
+        },
+        "RG": {
+          "preenchidos": 2,
+          "vazios": 3865,
+          "percentual_preenchido": 0.0517
+        },
+        "EXPEDIDO": {
+          "preenchidos": 2,
+          "vazios": 3865,
+          "percentual_preenchido": 0.0517
+        },
+        "ESTADO": {
+          "preenchidos": 1,
+          "vazios": 3866,
+          "percentual_preenchido": 0.0259
+        },
+        "DT_VALID": {
+          "preenchidos": 3381,
+          "vazios": 486,
+          "percentual_preenchido": 87.4321
+        },
+        "DT_EMIS": {
+          "preenchidos": 3381,
+          "vazios": 486,
+          "percentual_preenchido": 87.4321
+        },
+        "DT_EMISP": {
+          "preenchidos": 460,
+          "vazios": 3407,
+          "percentual_preenchido": 11.8955
+        },
+        "SIT_P": {
+          "preenchidos": 470,
+          "vazios": 3397,
+          "percentual_preenchido": 12.1541
+        },
+        "SIT_M": {
+          "preenchidos": 3381,
+          "vazios": 486,
+          "percentual_preenchido": 87.4321
+        },
+        "EST_CIVIL": {
+          "preenchidos": 2,
+          "vazios": 3865,
+          "percentual_preenchido": 0.0517
+        },
+        "INSTRUCAO": {
+          "preenchidos": 2,
+          "vazios": 3865,
+          "percentual_preenchido": 0.0517
+        },
+        "NRO_LAUDO": {
+          "preenchidos": 0,
+          "vazios": 3867,
+          "percentual_preenchido": 0.0
+        },
+        "LIVRO": {
+          "preenchidos": 3867,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "ETIQUETA": {
+          "preenchidos": 3867,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "COD_SEQ": {
+          "preenchidos": 3854,
+          "vazios": 13,
+          "percentual_preenchido": 99.6638
+        },
+        "OBSERVACAO": {
+          "preenchidos": 0,
+          "vazios": 3867,
+          "percentual_preenchido": 0.0
+        },
+        "BANCO": {
+          "preenchidos": 3867,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "CHEQUE": {
+          "preenchidos": 0,
+          "vazios": 3867,
+          "percentual_preenchido": 0.0
+        },
+        "ORIGEM": {
+          "preenchidos": 3854,
+          "vazios": 13,
+          "percentual_preenchido": 99.6638
+        },
+        "VLR_MEDICO": {
+          "preenchidos": 4,
+          "vazios": 3863,
+          "percentual_preenchido": 0.1034
+        },
+        "VLR_PSICOT": {
+          "preenchidos": 0,
+          "vazios": 3867,
+          "percentual_preenchido": 0.0
+        },
+        "INTCXAMED": {
+          "preenchidos": 0,
+          "vazios": 3867,
+          "percentual_preenchido": 0.0
+        },
+        "INTCXAPSI": {
+          "preenchidos": 0,
+          "vazios": 3867,
+          "percentual_preenchido": 0.0
+        },
+        "CPF": {
+          "preenchidos": 3854,
+          "vazios": 13,
+          "percentual_preenchido": 99.6638
+        },
+        "CATEGORIA": {
+          "preenchidos": 459,
+          "vazios": 3408,
+          "percentual_preenchido": 11.8697
+        },
+        "NRO_RENACH": {
+          "preenchidos": 0,
+          "vazios": 3867,
+          "percentual_preenchido": 0.0
+        },
+        "SERIE": {
+          "preenchidos": 0,
+          "vazios": 3867,
+          "percentual_preenchido": 0.0
+        },
+        "USUARIO": {
+          "preenchidos": 3867,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "DT_USUARIO": {
+          "preenchidos": 3867,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "HR_USUARIO": {
+          "preenchidos": 3867,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "CRM": {
+          "preenchidos": 3381,
+          "vazios": 486,
+          "percentual_preenchido": 87.4321
+        },
+        "CRP": {
+          "preenchidos": 460,
+          "vazios": 3407,
+          "percentual_preenchido": 11.8955
+        },
+        "PGU_REG": {
+          "preenchidos": 0,
+          "vazios": 3867,
+          "percentual_preenchido": 0.0
+        },
+        "RESULT": {
+          "preenchidos": 3844,
+          "vazios": 23,
+          "percentual_preenchido": 99.4052
+        },
+        "DT_DIA": {
+          "preenchidos": 3381,
+          "vazios": 486,
+          "percentual_preenchido": 87.4321
+        },
+        "RENACH": {
+          "preenchidos": 1,
+          "vazios": 3866,
+          "percentual_preenchido": 0.0259
+        },
+        "GEFOR_M": {
+          "preenchidos": 0,
+          "vazios": 3867,
+          "percentual_preenchido": 0.0
+        },
+        "GEFOR_P": {
+          "preenchidos": 0,
+          "vazios": 3867,
+          "percentual_preenchido": 0.0
+        },
+        "SELEC_M": {
+          "preenchidos": 0,
+          "vazios": 3867,
+          "percentual_preenchido": 0.0
+        },
+        "POUPDETRAN": {
+          "preenchidos": 3795,
+          "vazios": 72,
+          "percentual_preenchido": 98.1381
+        },
+        "USO": {
+          "preenchidos": 3854,
+          "vazios": 13,
+          "percentual_preenchido": 99.6638
+        },
+        "IMPED_DIG": {
+          "preenchidos": 0,
+          "vazios": 3867,
+          "percentual_preenchido": 0.0
+        },
+        "CODIGO": {
+          "preenchidos": 3867,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "COMFOTO": {
+          "preenchidos": 0,
+          "vazios": 3867,
+          "percentual_preenchido": 0.0
+        },
+        "RETORNO_NX": {
+          "preenchidos": 0,
+          "vazios": 3867,
+          "percentual_preenchido": 0.0
+        },
+        "TRANS_3000": {
+          "preenchidos": 0,
+          "vazios": 3867,
+          "percentual_preenchido": 0.0
+        },
+        "DT_PRECAD": {
+          "preenchidos": 3867,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "EMAIL": {
+          "preenchidos": 0,
+          "vazios": 3867,
+          "percentual_preenchido": 0.0
+        },
+        "HISTORICO": {
+          "preenchidos": 0,
+          "vazios": 3867,
+          "percentual_preenchido": 0.0
+        }
+      }
+    },
+    {
+      "arquivo": "CANDRES.DBF",
+      "registros_declarados": 0,
+      "registros_fisicos": 0,
+      "registros_ativos": 0,
+      "registros_duplicados_exatos": 0,
+      "datas_invalidas": 0,
+      "datas_formalmente_validas_mas_implausiveis": 0,
+      "numericos_invalidos": 0,
+      "datas_invalidas_por_campo": {},
+      "datas_implausiveis_por_campo": {},
+      "numericos_invalidos_por_campo": {},
+      "preenchimento": {
+        "NRO_PGU": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "DT_HABIT": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "NOME": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "PAI": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "MAE": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "DOADOR": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "SEXO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "COR": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "DT_NASC": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "NACIONAL": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "COD_NAT": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "ESTRANG": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "PROFISSAO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "CONTATO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "LOGRAD": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "NUMERO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "COMPL": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "CEP": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "BAIRRO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "CIDADE": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "ESTADOC": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "TIPO_DOC": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "COD_NAC": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "RG": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "EXPEDIDO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "ESTADO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "DT_VALID": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "DT_EMIS": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "DT_EMISP": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "SIT_P": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "SIT_M": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "EST_CIVIL": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "INSTRUCAO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "NRO_LAUDO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "LIVRO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "ETIQUETA": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "COD_SEQ": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "OBSERVACAO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "BANCO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "CHEQUE": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "ORIGEM": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "VLR_MEDICO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "VLR_PSICOT": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "INTCXAMED": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "INTCXAPSI": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "CPF": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "CATEGORIA": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "NRO_RENACH": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "SERIE": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "USUARIO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "DT_USUARIO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "HR_USUARIO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "CRM": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "CRP": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "PGU_REG": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "RESULT": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "DT_DIA": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "RENACH": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "GEFOR_M": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "GEFOR_P": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "SELEC_M": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "POUPDETRAN": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "USO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        }
+      }
+    },
+    {
+      "arquivo": "CEP_SP.DBF",
+      "registros_declarados": 260775,
+      "registros_fisicos": 260775,
+      "registros_ativos": 260775,
+      "registros_duplicados_exatos": 0,
+      "datas_invalidas": 0,
+      "datas_formalmente_validas_mas_implausiveis": 0,
+      "numericos_invalidos": 0,
+      "datas_invalidas_por_campo": {},
+      "datas_implausiveis_por_campo": {},
+      "numericos_invalidos_por_campo": {},
+      "preenchimento": {
+        "NOME_LOG": {
+          "preenchidos": 260775,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "LOCAL_LOG": {
+          "preenchidos": 259731,
+          "vazios": 1044,
+          "percentual_preenchido": 99.5997
+        },
+        "BAIRRO1": {
+          "preenchidos": 260501,
+          "vazios": 274,
+          "percentual_preenchido": 99.8949
+        },
+        "BAIRRO2": {
+          "preenchidos": 0,
+          "vazios": 260775,
+          "percentual_preenchido": 0.0
+        },
+        "CEP8": {
+          "preenchidos": 260775,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "UF": {
+          "preenchidos": 260775,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "TIPO": {
+          "preenchidos": 260750,
+          "vazios": 25,
+          "percentual_preenchido": 99.9904
+        },
+        "ESPECIAL": {
+          "preenchidos": 0,
+          "vazios": 260775,
+          "percentual_preenchido": 0.0
+        },
+        "USUARIO": {
+          "preenchidos": 260775,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "DT_USUARIO": {
+          "preenchidos": 0,
+          "vazios": 260775,
+          "percentual_preenchido": 0.0
+        },
+        "HR_USUARIO": {
+          "preenchidos": 0,
+          "vazios": 260775,
+          "percentual_preenchido": 0.0
+        }
+      }
+    },
+    {
+      "arquivo": "CIRETRAN.DBF",
+      "registros_declarados": 332,
+      "registros_fisicos": 332,
+      "registros_ativos": 332,
+      "registros_duplicados_exatos": 2,
+      "datas_invalidas": 0,
+      "datas_formalmente_validas_mas_implausiveis": 0,
+      "numericos_invalidos": 0,
+      "datas_invalidas_por_campo": {},
+      "datas_implausiveis_por_campo": {},
+      "numericos_invalidos_por_campo": {},
+      "preenchimento": {
+        "CIRETRAN": {
+          "preenchidos": 332,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "DESCRICAO": {
+          "preenchidos": 332,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "DESC_15": {
+          "preenchidos": 332,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        }
+      }
+    },
+    {
+      "arquivo": "COMPROS.DBF",
+      "registros_declarados": 1,
+      "registros_fisicos": 1,
+      "registros_ativos": 1,
+      "registros_duplicados_exatos": 0,
+      "datas_invalidas": 0,
+      "datas_formalmente_validas_mas_implausiveis": 0,
+      "numericos_invalidos": 0,
+      "datas_invalidas_por_campo": {},
+      "datas_implausiveis_por_campo": {},
+      "numericos_invalidos_por_campo": {},
+      "preenchimento": {
+        "DATA": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "LINHA1": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "LINHA2": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "LINHA3": {
+          "preenchidos": 0,
+          "vazios": 1,
+          "percentual_preenchido": 0.0
+        },
+        "DT_USUARIO": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "HR_USUARIO": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "USUARIO": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        }
+      }
+    },
+    {
+      "arquivo": "CONTATO.DBF",
+      "registros_declarados": 0,
+      "registros_fisicos": 0,
+      "registros_ativos": 0,
+      "registros_duplicados_exatos": 0,
+      "datas_invalidas": 0,
+      "datas_formalmente_validas_mas_implausiveis": 0,
+      "numericos_invalidos": 0,
+      "datas_invalidas_por_campo": {},
+      "datas_implausiveis_por_campo": {},
+      "numericos_invalidos_por_campo": {},
+      "preenchimento": {
+        "CLIENTE": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "NOME": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "ENDERECO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "CIDADE": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "BAIRRO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "ESTADO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "CEP": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "COMPL": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "DDD": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "TELEFONE": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "RAMAL": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "DDD2": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "TELEFONE2": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "RAMAL2": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "CELULAR": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "OBS": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "EMAIL": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "EMPRESA": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "USUARIO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "DT_USUARIO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "HR_USUARIO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "PAGE": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        }
+      }
+    },
+    {
+      "arquivo": "CONTBAN.DBF",
+      "registros_declarados": 1,
+      "registros_fisicos": 1,
+      "registros_ativos": 1,
+      "registros_duplicados_exatos": 0,
+      "datas_invalidas": 0,
+      "datas_formalmente_validas_mas_implausiveis": 0,
+      "numericos_invalidos": 0,
+      "datas_invalidas_por_campo": {},
+      "datas_implausiveis_por_campo": {},
+      "numericos_invalidos_por_campo": {},
+      "preenchimento": {
+        "CONTA": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "DESCRICAO": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "DESC_RES": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "TRANSPORTA": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "USUARIO": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "DT_USUARIO": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "HR_USUARIO": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "DTATUALCTA": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        }
+      }
+    },
+    {
+      "arquivo": "DEPARA.DBF",
+      "registros_declarados": 44,
+      "registros_fisicos": 44,
+      "registros_ativos": 44,
+      "registros_duplicados_exatos": 0,
+      "datas_invalidas": 0,
+      "datas_formalmente_validas_mas_implausiveis": 0,
+      "numericos_invalidos": 0,
+      "datas_invalidas_por_campo": {},
+      "datas_implausiveis_por_campo": {},
+      "numericos_invalidos_por_campo": {},
+      "preenchimento": {
+        "CODIGO": {
+          "preenchidos": 44,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "REGISTRO": {
+          "preenchidos": 44,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        }
+      }
+    },
+    {
+      "arquivo": "DEPOS.DBF",
+      "registros_declarados": 2774,
+      "registros_fisicos": 2774,
+      "registros_ativos": 2774,
+      "registros_duplicados_exatos": 0,
+      "datas_invalidas": 0,
+      "datas_formalmente_validas_mas_implausiveis": 0,
+      "numericos_invalidos": 0,
+      "datas_invalidas_por_campo": {},
+      "datas_implausiveis_por_campo": {},
+      "numericos_invalidos_por_campo": {},
+      "preenchimento": {
+        "ALUNO": {
+          "preenchidos": 2774,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "VALOR": {
+          "preenchidos": 2774,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "DT_DEPOS": {
+          "preenchidos": 2774,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "BANCO": {
+          "preenchidos": 2774,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "TRANS": {
+          "preenchidos": 2774,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "CONFERIDO": {
+          "preenchidos": 0,
+          "vazios": 2774,
+          "percentual_preenchido": 0.0
+        },
+        "SIGLA": {
+          "preenchidos": 0,
+          "vazios": 2774,
+          "percentual_preenchido": 0.0
+        },
+        "DT_INC": {
+          "preenchidos": 2774,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "DT_USUARIO": {
+          "preenchidos": 2774,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "HR_USUARIO": {
+          "preenchidos": 2774,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "USUARIO": {
+          "preenchidos": 2774,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "AUTOMATICO": {
+          "preenchidos": 2774,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "IMPRESSOCX": {
+          "preenchidos": 0,
+          "vazios": 2774,
+          "percentual_preenchido": 0.0
+        },
+        "VLRBXALU": {
+          "preenchidos": 2773,
+          "vazios": 1,
+          "percentual_preenchido": 99.964
+        },
+        "CORRESP": {
+          "preenchidos": 0,
+          "vazios": 2774,
+          "percentual_preenchido": 0.0
+        },
+        "AGENCIA": {
+          "preenchidos": 2774,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "CC": {
+          "preenchidos": 2774,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        }
+      }
+    },
+    {
+      "arquivo": "DR_MED.DBF",
+      "registros_declarados": 8,
+      "registros_fisicos": 8,
+      "registros_ativos": 8,
+      "registros_duplicados_exatos": 0,
+      "datas_invalidas": 0,
+      "datas_formalmente_validas_mas_implausiveis": 0,
+      "numericos_invalidos": 0,
+      "datas_invalidas_por_campo": {},
+      "datas_implausiveis_por_campo": {},
+      "numericos_invalidos_por_campo": {},
+      "preenchimento": {
+        "NOME": {
+          "preenchidos": 8,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "CREDENC": {
+          "preenchidos": 8,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "CRM": {
+          "preenchidos": 8,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "REGIAO": {
+          "preenchidos": 8,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "NRO_INI": {
+          "preenchidos": 1,
+          "vazios": 7,
+          "percentual_preenchido": 12.5
+        },
+        "NRO_FIM": {
+          "preenchidos": 1,
+          "vazios": 7,
+          "percentual_preenchido": 12.5
+        },
+        "CARIMBO1": {
+          "preenchidos": 0,
+          "vazios": 8,
+          "percentual_preenchido": 0.0
+        },
+        "CARIMBO2": {
+          "preenchidos": 0,
+          "vazios": 8,
+          "percentual_preenchido": 0.0
+        },
+        "CARIMBO3": {
+          "preenchidos": 0,
+          "vazios": 8,
+          "percentual_preenchido": 0.0
+        },
+        "CARIMBO4": {
+          "preenchidos": 0,
+          "vazios": 8,
+          "percentual_preenchido": 0.0
+        },
+        "CARIMBO5": {
+          "preenchidos": 0,
+          "vazios": 8,
+          "percentual_preenchido": 0.0
+        },
+        "CARIMBO6": {
+          "preenchidos": 0,
+          "vazios": 8,
+          "percentual_preenchido": 0.0
+        },
+        "CARIMBO7": {
+          "preenchidos": 0,
+          "vazios": 8,
+          "percentual_preenchido": 0.0
+        },
+        "MEDICO": {
+          "preenchidos": 3,
+          "vazios": 5,
+          "percentual_preenchido": 37.5
+        },
+        "SERIE": {
+          "preenchidos": 0,
+          "vazios": 8,
+          "percentual_preenchido": 0.0
+        },
+        "USUARIO": {
+          "preenchidos": 8,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "DT_USUARIO": {
+          "preenchidos": 8,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "HR_USUARIO": {
+          "preenchidos": 8,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "MED_PSI": {
+          "preenchidos": 8,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "DT_ABERT": {
+          "preenchidos": 0,
+          "vazios": 8,
+          "percentual_preenchido": 0.0
+        },
+        "DT_FECHA": {
+          "preenchidos": 0,
+          "vazios": 8,
+          "percentual_preenchido": 0.0
+        },
+        "HI1": {
+          "preenchidos": 0,
+          "vazios": 8,
+          "percentual_preenchido": 0.0
+        },
+        "HF1": {
+          "preenchidos": 0,
+          "vazios": 8,
+          "percentual_preenchido": 0.0
+        },
+        "ABRIU_OK": {
+          "preenchidos": 0,
+          "vazios": 8,
+          "percentual_preenchido": 0.0
+        },
+        "FECHOU_OK": {
+          "preenchidos": 0,
+          "vazios": 8,
+          "percentual_preenchido": 0.0
+        },
+        "DIG_CADAST": {
+          "preenchidos": 0,
+          "vazios": 8,
+          "percentual_preenchido": 0.0
+        },
+        "ULTRETORNO": {
+          "preenchidos": 0,
+          "vazios": 8,
+          "percentual_preenchido": 0.0
+        },
+        "QTDETROCA": {
+          "preenchidos": 0,
+          "vazios": 8,
+          "percentual_preenchido": 0.0
+        },
+        "ATIVO": {
+          "preenchidos": 2,
+          "vazios": 6,
+          "percentual_preenchido": 25.0
+        },
+        "CPF": {
+          "preenchidos": 0,
+          "vazios": 8,
+          "percentual_preenchido": 0.0
+        },
+        "PORTDF": {
+          "preenchidos": 1,
+          "vazios": 7,
+          "percentual_preenchido": 12.5
+        }
+      }
+    },
+    {
+      "arquivo": "EMPR_NFS.DBF",
+      "registros_declarados": 0,
+      "registros_fisicos": 0,
+      "registros_ativos": 0,
+      "registros_duplicados_exatos": 0,
+      "datas_invalidas": 0,
+      "datas_formalmente_validas_mas_implausiveis": 0,
+      "numericos_invalidos": 0,
+      "datas_invalidas_por_campo": {},
+      "datas_implausiveis_por_campo": {},
+      "numericos_invalidos_por_campo": {},
+      "preenchimento": {
+        "CNPJ": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "RAZAO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "EMAILNF": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "LOGRAD": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "NUMERO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "COMPL": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "BAIRRO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "CIDADE": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "UF": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "CEP": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "INSC_MUN": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "IBGE": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "CNAE": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "SENHAA1": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "REGIME": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "PR_LOGIN": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "PR_SENHA": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "PR_TOKEN": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "LOTERPS": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "SERIERPS": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "PROXRPS": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "PERC_ISS": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "DTALTISS": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "CAD_OK": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "CER_OK": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "PRE_OK": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "TRIBNAC": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "TRIBMUN": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "USUARIO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "DT_USUARIO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "HR_USUARIO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "NBS": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "NBS_M": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "NBS_P": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        }
+      }
+    },
+    {
+      "arquivo": "EVENTOS.DBF",
+      "registros_declarados": 7,
+      "registros_fisicos": 7,
+      "registros_ativos": 7,
+      "registros_duplicados_exatos": 0,
+      "datas_invalidas": 0,
+      "datas_formalmente_validas_mas_implausiveis": 0,
+      "numericos_invalidos": 0,
+      "datas_invalidas_por_campo": {},
+      "datas_implausiveis_por_campo": {},
+      "numericos_invalidos_por_campo": {},
+      "preenchimento": {
+        "CODIGO": {
+          "preenchidos": 7,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "NOMENCLATU": {
+          "preenchidos": 7,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "DEB_CRE": {
+          "preenchidos": 7,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "USUARIO": {
+          "preenchidos": 3,
+          "vazios": 4,
+          "percentual_preenchido": 42.8571
+        },
+        "DT_USUARIO": {
+          "preenchidos": 3,
+          "vazios": 4,
+          "percentual_preenchido": 42.8571
+        },
+        "HR_USUARIO": {
+          "preenchidos": 3,
+          "vazios": 4,
+          "percentual_preenchido": 42.8571
+        }
+      }
+    },
+    {
+      "arquivo": "FANLAN.DBF",
+      "registros_declarados": 26,
+      "registros_fisicos": 26,
+      "registros_ativos": 26,
+      "registros_duplicados_exatos": 5,
+      "datas_invalidas": 0,
+      "datas_formalmente_validas_mas_implausiveis": 0,
+      "numericos_invalidos": 0,
+      "datas_invalidas_por_campo": {},
+      "datas_implausiveis_por_campo": {},
+      "numericos_invalidos_por_campo": {},
+      "preenchimento": {
+        "DT_OCOR": {
+          "preenchidos": 26,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "DT_MED": {
+          "preenchidos": 10,
+          "vazios": 16,
+          "percentual_preenchido": 38.4615
+        },
+        "NOME": {
+          "preenchidos": 26,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "RENACH": {
+          "preenchidos": 1,
+          "vazios": 25,
+          "percentual_preenchido": 3.8462
+        },
+        "MOTIVO": {
+          "preenchidos": 26,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "DT_USUARIO": {
+          "preenchidos": 26,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "HR_USUARIO": {
+          "preenchidos": 26,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "USUARIO": {
+          "preenchidos": 26,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        }
+      }
+    },
+    {
+      "arquivo": "FUNC.DBF",
+      "registros_declarados": 0,
+      "registros_fisicos": 0,
+      "registros_ativos": 0,
+      "registros_duplicados_exatos": 0,
+      "datas_invalidas": 0,
+      "datas_formalmente_validas_mas_implausiveis": 0,
+      "numericos_invalidos": 0,
+      "datas_invalidas_por_campo": {},
+      "datas_implausiveis_por_campo": {},
+      "numericos_invalidos_por_campo": {},
+      "preenchimento": {
+        "NOME": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "CODIGO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "ENDERECO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "BAIRRO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "CIDADE": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "ESTADO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "CEP": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "TELEFONE": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "USUARIO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "DT_USUARIO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "HR_USUARIO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "FUNCAO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "RG": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "CPF": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "VLR_SAL": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "DT_NASC": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "DT_ADM": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "DT_DEM": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "CNH_REG": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "DT_1HAB": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "CATEG": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "OBS": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "TELCEL": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "EMAIL": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        }
+      }
+    },
+    {
+      "arquivo": "FUNOCOR.DBF",
+      "registros_declarados": 0,
+      "registros_fisicos": 0,
+      "registros_ativos": 0,
+      "registros_duplicados_exatos": 0,
+      "datas_invalidas": 0,
+      "datas_formalmente_validas_mas_implausiveis": 0,
+      "numericos_invalidos": 0,
+      "datas_invalidas_por_campo": {},
+      "datas_implausiveis_por_campo": {},
+      "numericos_invalidos_por_campo": {},
+      "preenchimento": {
+        "CODFUNC": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "DATA": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "SIGLA": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "DESCRICAO1": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "DESCRICAO2": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "USUARIO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "HR_USUARIO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "DT_USUARIO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        }
+      }
+    },
+    {
+      "arquivo": "GERADOR.DBF",
+      "registros_declarados": 1,
+      "registros_fisicos": 1,
+      "registros_ativos": 1,
+      "registros_duplicados_exatos": 0,
+      "datas_invalidas": 0,
+      "datas_formalmente_validas_mas_implausiveis": 0,
+      "numericos_invalidos": 0,
+      "datas_invalidas_por_campo": {},
+      "datas_implausiveis_por_campo": {},
+      "numericos_invalidos_por_campo": {},
+      "preenchimento": {
+        "DIRETORIO1": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "DIRETORIO2": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "DIRET_CEP": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "CL": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "CD": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "CP": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "CM": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "CD2": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "CT": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "COD_MUNIC": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "MUNICIPIO": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "MAIS_DESC": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "DATA_BACK": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "DATA_REST": {
+          "preenchidos": 0,
+          "vazios": 1,
+          "percentual_preenchido": 0.0
+        },
+        "CREDENC": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "CRM": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "REGIAO": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "COMIS_MED": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "COMIS_PSI": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "ANOS21": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "CREDENC_P": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "CRP": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "REGIAO_P": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "MEIA_LINHA": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "VLR_MEDICO": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "VLR_PSICOT": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "CONTA_MED": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "CONTA_PSI": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "CONTA_CXA": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "VLR_AUTO": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "LINHA1": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "LINHA2": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "LINHA3": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "LINHA4": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "SEN_GRAVA": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "SEN_ADIC": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "SEN_APAGA": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "CARIMBO_2": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "CORDTHR": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "CORUSEMP": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "CORTITSIS": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "CORTITMENU": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "CORPRG": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "UMA_IMPRES": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "USUARIO": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "DT_USUARIO": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "HR_USUARIO": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "IMP_MEDICO": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "IMP_PSICOT": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "IMP_GARE": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "COR_ADV": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "COR_BLO": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "COR_SN": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "TOPO_PAG": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "MARGEM_ESQ": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "N_ANTES_F4": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "PORTAM": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "PORTAP": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "MPANTES": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "NEGRITO": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "CARIMBO_EX": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "DT_DIARIO": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "HR_DIARIO": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "DT_ULT_BX": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "ENVIMPED": {
+          "preenchidos": 0,
+          "vazios": 1,
+          "percentual_preenchido": 0.0
+        },
+        "REGISTRO": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "DT_ATUAL": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "ATIVADO": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "TELNOVO": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "VLR_LDEF": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "ALTLOGO": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "CODSIST": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "DIABOL": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "COMREDE": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "VLR_MEDDF": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "VIAS_REC": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "ULTRSSLIDO": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "DTPROXRSS": {
+          "preenchidos": 0,
+          "vazios": 1,
+          "percentual_preenchido": 0.0
+        },
+        "HRPROXRSS": {
+          "preenchidos": 0,
+          "vazios": 1,
+          "percentual_preenchido": 0.0
+        },
+        "DTPROXDOWN": {
+          "preenchidos": 0,
+          "vazios": 1,
+          "percentual_preenchido": 0.0
+        },
+        "HRPROXDOWN": {
+          "preenchidos": 0,
+          "vazios": 1,
+          "percentual_preenchido": 0.0
+        },
+        "ULTENVIO": {
+          "preenchidos": 0,
+          "vazios": 1,
+          "percentual_preenchido": 0.0
+        },
+        "SEQENVIO": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "PROX_REC": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "IMUNIC": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "CODSERV": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "PROXNF": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "CODSERVP": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "EMAILNF": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "NOME_SERV": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "DT_V_SERV": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        }
+      }
+    },
+    {
+      "arquivo": "HISTCXA.DBF",
+      "registros_declarados": 5,
+      "registros_fisicos": 5,
+      "registros_ativos": 5,
+      "registros_duplicados_exatos": 0,
+      "datas_invalidas": 0,
+      "datas_formalmente_validas_mas_implausiveis": 0,
+      "numericos_invalidos": 0,
+      "datas_invalidas_por_campo": {},
+      "datas_implausiveis_por_campo": {},
+      "numericos_invalidos_por_campo": {},
+      "preenchimento": {
+        "CODIGO": {
+          "preenchidos": 5,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "DESCRICAO": {
+          "preenchidos": 5,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "USUARIO": {
+          "preenchidos": 5,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "DT_USUARIO": {
+          "preenchidos": 5,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "HR_USUARIO": {
+          "preenchidos": 5,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        }
+      }
+    },
+    {
+      "arquivo": "HRBIO.DBF",
+      "registros_declarados": 0,
+      "registros_fisicos": 0,
+      "registros_ativos": 0,
+      "registros_duplicados_exatos": 0,
+      "datas_invalidas": 0,
+      "datas_formalmente_validas_mas_implausiveis": 0,
+      "numericos_invalidos": 0,
+      "datas_invalidas_por_campo": {},
+      "datas_implausiveis_por_campo": {},
+      "numericos_invalidos_por_campo": {},
+      "preenchimento": {
+        "CODALUNO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "CRM": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "DTDIGMED": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "HORAMED": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "CAPTURAM": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "HRVALM": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "CRP": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "DTDIGPSI": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "HORAPSI": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "CAPTURAP": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "HRVALP": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "USUARIO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "DT_USUARIO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "HR_USUARIO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "GEFOR_VALM": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "GEFOR_VALP": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        }
+      }
+    },
+    {
+      "arquivo": "LANCHQ.DBF",
+      "registros_declarados": 0,
+      "registros_fisicos": 0,
+      "registros_ativos": 0,
+      "registros_duplicados_exatos": 0,
+      "datas_invalidas": 0,
+      "datas_formalmente_validas_mas_implausiveis": 0,
+      "numericos_invalidos": 0,
+      "datas_invalidas_por_campo": {},
+      "datas_implausiveis_por_campo": {},
+      "numericos_invalidos_por_campo": {},
+      "preenchimento": {
+        "VALOR": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "DT_CHEQUE": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        }
+      }
+    },
+    {
+      "arquivo": "LANCTO.DBF",
+      "registros_declarados": 3827,
+      "registros_fisicos": 3827,
+      "registros_ativos": 3827,
+      "registros_duplicados_exatos": 0,
+      "datas_invalidas": 0,
+      "datas_formalmente_validas_mas_implausiveis": 0,
+      "numericos_invalidos": 0,
+      "datas_invalidas_por_campo": {},
+      "datas_implausiveis_por_campo": {},
+      "numericos_invalidos_por_campo": {},
+      "preenchimento": {
+        "DATA": {
+          "preenchidos": 3827,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "CONTA": {
+          "preenchidos": 3827,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "HISTORICO": {
+          "preenchidos": 3827,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "DEBITO": {
+          "preenchidos": 3766,
+          "vazios": 61,
+          "percentual_preenchido": 98.4061
+        },
+        "CREDITO": {
+          "preenchidos": 3827,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "NRO_CHQ": {
+          "preenchidos": 2936,
+          "vazios": 891,
+          "percentual_preenchido": 76.7181
+        },
+        "USUARIO": {
+          "preenchidos": 3827,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "DT_USUARIO": {
+          "preenchidos": 3827,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "HR_USUARIO": {
+          "preenchidos": 3827,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "REFERENCIA": {
+          "preenchidos": 3827,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "TIPO": {
+          "preenchidos": 3827,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "ARQUIVO": {
+          "preenchidos": 3827,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "AUTOMATICO": {
+          "preenchidos": 3827,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "OBS": {
+          "preenchidos": 0,
+          "vazios": 3827,
+          "percentual_preenchido": 0.0
+        },
+        "NF_EMITIDA": {
+          "preenchidos": 430,
+          "vazios": 3397,
+          "percentual_preenchido": 11.236
+        },
+        "DT_NF": {
+          "preenchidos": 430,
+          "vazios": 3397,
+          "percentual_preenchido": 11.236
+        },
+        "ID_NF": {
+          "preenchidos": 0,
+          "vazios": 3827,
+          "percentual_preenchido": 0.0
+        }
+      }
+    },
+    {
+      "arquivo": "LAUDODEF.DBF",
+      "registros_declarados": 0,
+      "registros_fisicos": 0,
+      "registros_ativos": 0,
+      "registros_duplicados_exatos": 0,
+      "datas_invalidas": 0,
+      "datas_formalmente_validas_mas_implausiveis": 0,
+      "numericos_invalidos": 0,
+      "datas_invalidas_por_campo": {},
+      "datas_implausiveis_por_campo": {},
+      "numericos_invalidos_por_campo": {},
+      "preenchimento": {
+        "CODIGO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "DT_LAUDO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "TPDEF1": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "TPDEF2": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "TPDEF3": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "TPDEF4": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "TPDEF5": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "CID1": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "CID2": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "CID3": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "CID4": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "CID5": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "DDD1": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "DDD2": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "DDD3": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "DDD4": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "DDD5": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "DDD6": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "DV1": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "DV2": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "DV3": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "DV4": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "DV5": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "DV6": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "CRM1": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "CRM2": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "USUARIO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "DT_USUARIO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "HR_USUARIO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "CABECA": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "PESCOCO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "TRONCO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "MEMBROSI": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "MEMBROSS": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "PARAPLEGIA": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "PARAPARESI": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "MONOPLEGIA": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "MONOPARESI": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "TETRAPLEGI": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "TETRAPARES": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "TRIPLEGIA": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "TRIPARESIA": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "HEMIPLEGIA": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "HEMIPARESI": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "OSTOMIA": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "AMPUTACAO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "PARALISIA": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "NANISMO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "ACUIDADE": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "CAMPOVIS": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "REP_LEGAL": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "MEMBROSINF": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "TPDEF6": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "DDD7": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "DV7": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "DV8": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "DT_RETLAU": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "CIDFIS": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "CIDVIS": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "NDDD1": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "NDDD2": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "NDDD3": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "NDDD4": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "NDDD5": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "NDDD6": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "DEFPROV": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "DEFPERM": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        }
+      }
+    },
+    {
+      "arquivo": "L_CARTAO.DBF",
+      "registros_declarados": 171,
+      "registros_fisicos": 171,
+      "registros_ativos": 171,
+      "registros_duplicados_exatos": 0,
+      "datas_invalidas": 0,
+      "datas_formalmente_validas_mas_implausiveis": 0,
+      "numericos_invalidos": 0,
+      "datas_invalidas_por_campo": {},
+      "datas_implausiveis_por_campo": {},
+      "numericos_invalidos_por_campo": {},
+      "preenchimento": {
+        "ALUNO": {
+          "preenchidos": 171,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "TITULAR": {
+          "preenchidos": 171,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "NRO_CARTAO": {
+          "preenchidos": 0,
+          "vazios": 171,
+          "percentual_preenchido": 0.0
+        },
+        "CARTAO": {
+          "preenchidos": 171,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "COD_AUT": {
+          "preenchidos": 0,
+          "vazios": 171,
+          "percentual_preenchido": 0.0
+        },
+        "BOLETO": {
+          "preenchidos": 0,
+          "vazios": 171,
+          "percentual_preenchido": 0.0
+        },
+        "VALOR_CART": {
+          "preenchidos": 171,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "DT_RECEB": {
+          "preenchidos": 171,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "DT_USUARIO": {
+          "preenchidos": 171,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "HR_USUARIO": {
+          "preenchidos": 171,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "USUARIO": {
+          "preenchidos": 171,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "AUTOMATICO": {
+          "preenchidos": 171,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "FAVORECIDO": {
+          "preenchidos": 171,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "IMPRESSOCX": {
+          "preenchidos": 0,
+          "vazios": 171,
+          "percentual_preenchido": 0.0
+        },
+        "DC": {
+          "preenchidos": 170,
+          "vazios": 1,
+          "percentual_preenchido": 99.4152
+        },
+        "NRO_PARC": {
+          "preenchidos": 171,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        }
+      }
+    },
+    {
+      "arquivo": "L_CHEQUE.DBF",
+      "registros_declarados": 0,
+      "registros_fisicos": 0,
+      "registros_ativos": 0,
+      "registros_duplicados_exatos": 0,
+      "datas_invalidas": 0,
+      "datas_formalmente_validas_mas_implausiveis": 0,
+      "numericos_invalidos": 0,
+      "datas_invalidas_por_campo": {},
+      "datas_implausiveis_por_campo": {},
+      "numericos_invalidos_por_campo": {},
+      "preenchimento": {
+        "ALUNO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "TITULAR": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "NRO_CHQ": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "BANCO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "VALOR_CHQ": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "DT_CHEQUE": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "DT_RECEB": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "DT_USUARIO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "HR_USUARIO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "USUARIO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "AUTOMATICO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "DESTINO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "DT_DEST": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "FAVORECIDO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "ALINEA": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        }
+      }
+    },
+    {
+      "arquivo": "MENSAGE.DBF",
+      "registros_declarados": 31,
+      "registros_fisicos": 31,
+      "registros_ativos": 31,
+      "registros_duplicados_exatos": 0,
+      "datas_invalidas": 0,
+      "datas_formalmente_validas_mas_implausiveis": 0,
+      "numericos_invalidos": 0,
+      "datas_invalidas_por_campo": {},
+      "datas_implausiveis_por_campo": {},
+      "numericos_invalidos_por_campo": {},
+      "preenchimento": {
+        "DIA": {
+          "preenchidos": 31,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "RESUMO": {
+          "preenchidos": 31,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        }
+      }
+    },
+    {
+      "arquivo": "MUNIC.DBF",
+      "registros_declarados": 5515,
+      "registros_fisicos": 5515,
+      "registros_ativos": 5515,
+      "registros_duplicados_exatos": 0,
+      "datas_invalidas": 0,
+      "datas_formalmente_validas_mas_implausiveis": 0,
+      "numericos_invalidos": 0,
+      "datas_invalidas_por_campo": {},
+      "datas_implausiveis_por_campo": {},
+      "numericos_invalidos_por_campo": {},
+      "preenchimento": {
+        "MUNICIPIO": {
+          "preenchidos": 5515,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "CODIGO": {
+          "preenchidos": 5514,
+          "vazios": 1,
+          "percentual_preenchido": 99.9819
+        },
+        "ESTADO": {
+          "preenchidos": 5513,
+          "vazios": 2,
+          "percentual_preenchido": 99.9637
+        },
+        "COD_SEQ": {
+          "preenchidos": 5515,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "USUARIO": {
+          "preenchidos": 89,
+          "vazios": 5426,
+          "percentual_preenchido": 1.6138
+        },
+        "DT_USUARIO": {
+          "preenchidos": 89,
+          "vazios": 5426,
+          "percentual_preenchido": 1.6138
+        },
+        "HR_USUARIO": {
+          "preenchidos": 89,
+          "vazios": 5426,
+          "percentual_preenchido": 1.6138
+        }
+      }
+    },
+    {
+      "arquivo": "NCAND.DBF",
+      "registros_declarados": 0,
+      "registros_fisicos": 0,
+      "registros_ativos": 0,
+      "registros_duplicados_exatos": 0,
+      "datas_invalidas": 0,
+      "datas_formalmente_validas_mas_implausiveis": 0,
+      "numericos_invalidos": 0,
+      "datas_invalidas_por_campo": {},
+      "datas_implausiveis_por_campo": {},
+      "numericos_invalidos_por_campo": {},
+      "preenchimento": {
+        "NOME": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "DATA": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "DT_EMIS": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "DT_EMISP": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "FEZPRECAD": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "FEZMED": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "FEZPSIC": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "PROFISSAO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "CONTATO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "INSTRUCAO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "NRO_LAUDO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "OBSERVACAO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "ORIGEM": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "VLR_MEDICO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "VLR_PSICOT": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "INTCXAMED": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "INTCXAPSI": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "CPF": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "CATEGORIA": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "NRO_RENACH": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "USUARIO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "DT_USUARIO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "HR_USUARIO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "CRM": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "CRP": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "SIT_M": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "SIT_P": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "RESULT": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "RENACH": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "USO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "CODIGO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "EMAIL": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "USUCAD": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        }
+      }
+    },
+    {
+      "arquivo": "NPAGTOS.DBF",
+      "registros_declarados": 0,
+      "registros_fisicos": 0,
+      "registros_ativos": 0,
+      "registros_duplicados_exatos": 0,
+      "datas_invalidas": 0,
+      "datas_formalmente_validas_mas_implausiveis": 0,
+      "numericos_invalidos": 0,
+      "datas_invalidas_por_campo": {},
+      "datas_implausiveis_por_campo": {},
+      "numericos_invalidos_por_campo": {},
+      "preenchimento": {
+        "ALUNO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "DATA": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "EVENTO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "VALOR": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "VALOR_PG": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "JUROS": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "DT_PAGTO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "USUARIO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "DT_USUARIO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "HR_USUARIO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "GRATIS": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "ORIGINAL": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "CARTAO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "DESCONTO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "DT_PGDIG": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "COD_HOR": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "NUM_DOC": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "AE_RECEBEU": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "NUM_DOC2": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        }
+      }
+    },
+    {
+      "arquivo": "OBSGEFOR.DBF",
+      "registros_declarados": 0,
+      "registros_fisicos": 0,
+      "registros_ativos": 0,
+      "registros_duplicados_exatos": 0,
+      "datas_invalidas": 0,
+      "datas_formalmente_validas_mas_implausiveis": 0,
+      "numericos_invalidos": 0,
+      "datas_invalidas_por_campo": {},
+      "datas_implausiveis_por_campo": {},
+      "numericos_invalidos_por_campo": {},
+      "preenchimento": {
+        "DATA": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "CPF": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "OBS1": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "OBS2": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "OBS3": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "DT_USUARIO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "HR_USUARIO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "USUARIO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        }
+      }
+    },
+    {
+      "arquivo": "ORIGEM.DBF",
+      "registros_declarados": 1,
+      "registros_fisicos": 1,
+      "registros_ativos": 1,
+      "registros_duplicados_exatos": 0,
+      "datas_invalidas": 0,
+      "datas_formalmente_validas_mas_implausiveis": 0,
+      "numericos_invalidos": 0,
+      "datas_invalidas_por_campo": {},
+      "datas_implausiveis_por_campo": {},
+      "numericos_invalidos_por_campo": {},
+      "preenchimento": {
+        "CODIGO": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "DESCRICAO": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "VALOR": {
+          "preenchidos": 0,
+          "vazios": 1,
+          "percentual_preenchido": 0.0
+        },
+        "USUARIO": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "DT_USUARIO": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "HR_USUARIO": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "ATIVA": {
+          "preenchidos": 0,
+          "vazios": 1,
+          "percentual_preenchido": 0.0
+        }
+      }
+    },
+    {
+      "arquivo": "PAGTOS.DBF",
+      "registros_declarados": 3923,
+      "registros_fisicos": 3923,
+      "registros_ativos": 3923,
+      "registros_duplicados_exatos": 0,
+      "datas_invalidas": 0,
+      "datas_formalmente_validas_mas_implausiveis": 0,
+      "numericos_invalidos": 0,
+      "datas_invalidas_por_campo": {},
+      "datas_implausiveis_por_campo": {},
+      "numericos_invalidos_por_campo": {},
+      "preenchimento": {
+        "ALUNO": {
+          "preenchidos": 3923,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "DATA": {
+          "preenchidos": 3923,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "EVENTO": {
+          "preenchidos": 3923,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "VALOR": {
+          "preenchidos": 3923,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "VALOR_PG": {
+          "preenchidos": 3846,
+          "vazios": 77,
+          "percentual_preenchido": 98.0372
+        },
+        "JUROS": {
+          "preenchidos": 3844,
+          "vazios": 79,
+          "percentual_preenchido": 97.9862
+        },
+        "DT_PAGTO": {
+          "preenchidos": 3844,
+          "vazios": 79,
+          "percentual_preenchido": 97.9862
+        },
+        "USUARIO": {
+          "preenchidos": 3923,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "DT_USUARIO": {
+          "preenchidos": 3923,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "HR_USUARIO": {
+          "preenchidos": 3923,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "GRATIS": {
+          "preenchidos": 0,
+          "vazios": 3923,
+          "percentual_preenchido": 0.0
+        },
+        "ORIGINAL": {
+          "preenchidos": 65,
+          "vazios": 3858,
+          "percentual_preenchido": 1.6569
+        },
+        "CARTAO": {
+          "preenchidos": 2952,
+          "vazios": 971,
+          "percentual_preenchido": 75.2485
+        },
+        "DESCONTO": {
+          "preenchidos": 0,
+          "vazios": 3923,
+          "percentual_preenchido": 0.0
+        },
+        "DT_PGDIG": {
+          "preenchidos": 3844,
+          "vazios": 79,
+          "percentual_preenchido": 97.9862
+        },
+        "COD_HOR": {
+          "preenchidos": 0,
+          "vazios": 3923,
+          "percentual_preenchido": 0.0
+        },
+        "NUM_DOC": {
+          "preenchidos": 0,
+          "vazios": 3923,
+          "percentual_preenchido": 0.0
+        },
+        "AE_RECEBEU": {
+          "preenchidos": 3858,
+          "vazios": 65,
+          "percentual_preenchido": 98.3431
+        },
+        "NUM_DOC2": {
+          "preenchidos": 3840,
+          "vazios": 83,
+          "percentual_preenchido": 97.8843
+        },
+        "NUM_TRAN": {
+          "preenchidos": 2777,
+          "vazios": 1146,
+          "percentual_preenchido": 70.7877
+        }
+      }
+    },
+    {
+      "arquivo": "PAIS.DBF",
+      "registros_declarados": 284,
+      "registros_fisicos": 284,
+      "registros_ativos": 284,
+      "registros_duplicados_exatos": 0,
+      "datas_invalidas": 0,
+      "datas_formalmente_validas_mas_implausiveis": 0,
+      "numericos_invalidos": 0,
+      "datas_invalidas_por_campo": {},
+      "datas_implausiveis_por_campo": {},
+      "numericos_invalidos_por_campo": {},
+      "preenchimento": {
+        "CODIGO": {
+          "preenchidos": 284,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "PAIS": {
+          "preenchidos": 284,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "COD_SEQ": {
+          "preenchidos": 284,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "USUARIO": {
+          "preenchidos": 284,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "DT_USUARIO": {
+          "preenchidos": 23,
+          "vazios": 261,
+          "percentual_preenchido": 8.0986
+        },
+        "HR_USUARIO": {
+          "preenchidos": 23,
+          "vazios": 261,
+          "percentual_preenchido": 8.0986
+        }
+      }
+    },
+    {
+      "arquivo": "PLANILHA.DBF",
+      "registros_declarados": 1,
+      "registros_fisicos": 1,
+      "registros_ativos": 1,
+      "registros_duplicados_exatos": 0,
+      "datas_invalidas": 0,
+      "datas_formalmente_validas_mas_implausiveis": 0,
+      "numericos_invalidos": 0,
+      "datas_invalidas_por_campo": {},
+      "datas_implausiveis_por_campo": {},
+      "numericos_invalidos_por_campo": {},
+      "preenchimento": {
+        "PLANILHA": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "USUARIO": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "DT_USUARIO": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "HR_USUARIO": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        }
+      }
+    },
+    {
+      "arquivo": "PROGCART.DBF",
+      "registros_declarados": 167,
+      "registros_fisicos": 167,
+      "registros_ativos": 167,
+      "registros_duplicados_exatos": 0,
+      "datas_invalidas": 0,
+      "datas_formalmente_validas_mas_implausiveis": 0,
+      "numericos_invalidos": 0,
+      "datas_invalidas_por_campo": {},
+      "datas_implausiveis_por_campo": {},
+      "numericos_invalidos_por_campo": {},
+      "preenchimento": {
+        "DC": {
+          "preenchidos": 167,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "DT_RECEB": {
+          "preenchidos": 167,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "DT_PROGRAM": {
+          "preenchidos": 167,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "ALUNO": {
+          "preenchidos": 167,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "TITULAR": {
+          "preenchidos": 167,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "CARTAO": {
+          "preenchidos": 167,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "AUTOMATICO": {
+          "preenchidos": 167,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "TPPAGTO": {
+          "preenchidos": 167,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "VLR_PARC": {
+          "preenchidos": 167,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "VLR_CRED": {
+          "preenchidos": 167,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "VLR_DESC": {
+          "preenchidos": 167,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "CONFERIDO": {
+          "preenchidos": 0,
+          "vazios": 167,
+          "percentual_preenchido": 0.0
+        },
+        "TXOPER": {
+          "preenchidos": 167,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "USUARIO": {
+          "preenchidos": 167,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "DT_USUARIO": {
+          "preenchidos": 167,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "HR_USUARIO": {
+          "preenchidos": 167,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        }
+      }
+    },
+    {
+      "arquivo": "QUITFUN.DBF",
+      "registros_declarados": 0,
+      "registros_fisicos": 0,
+      "registros_ativos": 0,
+      "registros_duplicados_exatos": 0,
+      "datas_invalidas": 0,
+      "datas_formalmente_validas_mas_implausiveis": 0,
+      "numericos_invalidos": 0,
+      "datas_invalidas_por_campo": {},
+      "datas_implausiveis_por_campo": {},
+      "numericos_invalidos_por_campo": {},
+      "preenchimento": {
+        "COD_FUNC": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "MES": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "ANO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "VLR_SAL": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "DT_USUARIO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "HR_USUARIO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "USUARIO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        }
+      }
+    },
+    {
+      "arquivo": "RECIBO.DBF",
+      "registros_declarados": 3734,
+      "registros_fisicos": 3734,
+      "registros_ativos": 3734,
+      "registros_duplicados_exatos": 0,
+      "datas_invalidas": 0,
+      "datas_formalmente_validas_mas_implausiveis": 0,
+      "numericos_invalidos": 0,
+      "datas_invalidas_por_campo": {},
+      "datas_implausiveis_por_campo": {},
+      "numericos_invalidos_por_campo": {},
+      "preenchimento": {
+        "ALUNO": {
+          "preenchidos": 3734,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "CORRESP": {
+          "preenchidos": 3728,
+          "vazios": 6,
+          "percentual_preenchido": 99.8393
+        },
+        "NRO_RECIBO": {
+          "preenchidos": 3734,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "DT_RECIBO": {
+          "preenchidos": 3734,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "VALOR": {
+          "preenchidos": 3734,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "DT_USUARIO": {
+          "preenchidos": 3734,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "HR_USUARIO": {
+          "preenchidos": 3734,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "USUARIO": {
+          "preenchidos": 3734,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        }
+      }
+    },
+    {
+      "arquivo": "RELAT.DBF",
+      "registros_declarados": 1,
+      "registros_fisicos": 1,
+      "registros_ativos": 1,
+      "registros_duplicados_exatos": 0,
+      "datas_invalidas": 0,
+      "datas_formalmente_validas_mas_implausiveis": 0,
+      "numericos_invalidos": 0,
+      "datas_invalidas_por_campo": {},
+      "datas_implausiveis_por_campo": {},
+      "numericos_invalidos_por_campo": {},
+      "preenchimento": {
+        "REL1": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "REL2": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "REL3": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "NOME_REL1": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "NOME_REL2": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "NOME_REL3": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "ULTIMO": {
+          "preenchidos": 1,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "USUARIO": {
+          "preenchidos": 0,
+          "vazios": 1,
+          "percentual_preenchido": 0.0
+        },
+        "DT_USUARIO": {
+          "preenchidos": 0,
+          "vazios": 1,
+          "percentual_preenchido": 0.0
+        },
+        "HR_USUARIO": {
+          "preenchidos": 0,
+          "vazios": 1,
+          "percentual_preenchido": 0.0
+        }
+      }
+    },
+    {
+      "arquivo": "SALDOBAN.DBF",
+      "registros_declarados": 144,
+      "registros_fisicos": 144,
+      "registros_ativos": 144,
+      "registros_duplicados_exatos": 0,
+      "datas_invalidas": 0,
+      "datas_formalmente_validas_mas_implausiveis": 0,
+      "numericos_invalidos": 0,
+      "datas_invalidas_por_campo": {},
+      "datas_implausiveis_por_campo": {},
+      "numericos_invalidos_por_campo": {},
+      "preenchimento": {
+        "CONTA": {
+          "preenchidos": 144,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "MES": {
+          "preenchidos": 144,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "ANO": {
+          "preenchidos": 144,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "SDO_INI": {
+          "preenchidos": 1,
+          "vazios": 143,
+          "percentual_preenchido": 0.6944
+        },
+        "CREDITO": {
+          "preenchidos": 0,
+          "vazios": 144,
+          "percentual_preenchido": 0.0
+        },
+        "DEBITO": {
+          "preenchidos": 0,
+          "vazios": 144,
+          "percentual_preenchido": 0.0
+        },
+        "FLAG_FECH": {
+          "preenchidos": 144,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "USUARIO": {
+          "preenchidos": 144,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "DT_USUARIO": {
+          "preenchidos": 144,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "HR_USUARIO": {
+          "preenchidos": 144,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        }
+      }
+    },
+    {
+      "arquivo": "TABMP.DBF",
+      "registros_declarados": 5491,
+      "registros_fisicos": 5491,
+      "registros_ativos": 5491,
+      "registros_duplicados_exatos": 114,
+      "datas_invalidas": 0,
+      "datas_formalmente_validas_mas_implausiveis": 0,
+      "numericos_invalidos": 0,
+      "datas_invalidas_por_campo": {},
+      "datas_implausiveis_por_campo": {},
+      "numericos_invalidos_por_campo": {},
+      "preenchimento": {
+        "TIPO": {
+          "preenchidos": 5491,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "CODIGO": {
+          "preenchidos": 5490,
+          "vazios": 1,
+          "percentual_preenchido": 99.9818
+        },
+        "NOME": {
+          "preenchidos": 5433,
+          "vazios": 58,
+          "percentual_preenchido": 98.9437
+        },
+        "DT_USUARIO": {
+          "preenchidos": 0,
+          "vazios": 5491,
+          "percentual_preenchido": 0.0
+        },
+        "USUARIO": {
+          "preenchidos": 0,
+          "vazios": 5491,
+          "percentual_preenchido": 0.0
+        },
+        "HR_USUARIO": {
+          "preenchidos": 0,
+          "vazios": 5491,
+          "percentual_preenchido": 0.0
+        }
+      }
+    },
+    {
+      "arquivo": "TAB_PROV.DBF",
+      "registros_declarados": 11,
+      "registros_fisicos": 11,
+      "registros_ativos": 11,
+      "registros_duplicados_exatos": 0,
+      "datas_invalidas": 0,
+      "datas_formalmente_validas_mas_implausiveis": 0,
+      "numericos_invalidos": 0,
+      "datas_invalidas_por_campo": {},
+      "datas_implausiveis_por_campo": {},
+      "numericos_invalidos_por_campo": {},
+      "preenchimento": {
+        "CODIGO": {
+          "preenchidos": 11,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "HOR_INI": {
+          "preenchidos": 11,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "HOR_FIM": {
+          "preenchidos": 11,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "SABADO": {
+          "preenchidos": 11,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "SEG_SEX": {
+          "preenchidos": 11,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "USUARIO": {
+          "preenchidos": 11,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "DT_USUARIO": {
+          "preenchidos": 11,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "HR_USUARIO": {
+          "preenchidos": 11,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "DOMINGO": {
+          "preenchidos": 11,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        }
+      }
+    },
+    {
+      "arquivo": "TICKETS.DBF",
+      "registros_declarados": 0,
+      "registros_fisicos": 0,
+      "registros_ativos": 0,
+      "registros_duplicados_exatos": 0,
+      "datas_invalidas": 0,
+      "datas_formalmente_validas_mas_implausiveis": 0,
+      "numericos_invalidos": 0,
+      "datas_invalidas_por_campo": {},
+      "datas_implausiveis_por_campo": {},
+      "numericos_invalidos_por_campo": {},
+      "preenchimento": {
+        "CODIGO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "DATA": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "HORARIO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "USUINC": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "DESCRICAO1": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "DESCRICAO2": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "USUARIO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "HR_USUARIO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "DT_USUARIO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        }
+      }
+    },
+    {
+      "arquivo": "TIPOIMP.DBF",
+      "registros_declarados": 4,
+      "registros_fisicos": 4,
+      "registros_ativos": 4,
+      "registros_duplicados_exatos": 0,
+      "datas_invalidas": 0,
+      "datas_formalmente_validas_mas_implausiveis": 0,
+      "numericos_invalidos": 0,
+      "datas_invalidas_por_campo": {},
+      "datas_implausiveis_por_campo": {},
+      "numericos_invalidos_por_campo": {},
+      "preenchimento": {
+        "IMPRESSORA": {
+          "preenchidos": 4,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "POLEG04": {
+          "preenchidos": 2,
+          "vazios": 2,
+          "percentual_preenchido": 50.0
+        },
+        "POLEG11": {
+          "preenchidos": 4,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "POLEG12": {
+          "preenchidos": 4,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "LINPOL8": {
+          "preenchidos": 4,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "LINPOL6": {
+          "preenchidos": 4,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "NORMAL": {
+          "preenchidos": 4,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "CONDENSADO": {
+          "preenchidos": 4,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        }
+      }
+    },
+    {
+      "arquivo": "TMP_ASS.DBF",
+      "registros_declarados": 2,
+      "registros_fisicos": 2,
+      "registros_ativos": 2,
+      "registros_duplicados_exatos": 0,
+      "datas_invalidas": 0,
+      "datas_formalmente_validas_mas_implausiveis": 0,
+      "numericos_invalidos": 0,
+      "datas_invalidas_por_campo": {},
+      "datas_implausiveis_por_campo": {},
+      "numericos_invalidos_por_campo": {},
+      "preenchimento": {
+        "DATA": {
+          "preenchidos": 2,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "ASSOC": {
+          "preenchidos": 2,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "ALUNO": {
+          "preenchidos": 2,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "NOME": {
+          "preenchidos": 2,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "PAGTO": {
+          "preenchidos": 2,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "RG": {
+          "preenchidos": 0,
+          "vazios": 2,
+          "percentual_preenchido": 0.0
+        },
+        "CPF": {
+          "preenchidos": 2,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "X_RENACH": {
+          "preenchidos": 2,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "MP": {
+          "preenchidos": 2,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "DT_USUARIO": {
+          "preenchidos": 2,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "HR_USUARIO": {
+          "preenchidos": 2,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "USUARIO": {
+          "preenchidos": 2,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "RENACH": {
+          "preenchidos": 0,
+          "vazios": 2,
+          "percentual_preenchido": 0.0
+        },
+        "CRM": {
+          "preenchidos": 0,
+          "vazios": 2,
+          "percentual_preenchido": 0.0
+        },
+        "CRP": {
+          "preenchidos": 2,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "SELEC": {
+          "preenchidos": 0,
+          "vazios": 2,
+          "percentual_preenchido": 0.0
+        },
+        "NFSIM": {
+          "preenchidos": 0,
+          "vazios": 2,
+          "percentual_preenchido": 0.0
+        },
+        "VLRNF": {
+          "preenchidos": 2,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "DT_NF": {
+          "preenchidos": 0,
+          "vazios": 2,
+          "percentual_preenchido": 0.0
+        },
+        "ID_NF": {
+          "preenchidos": 0,
+          "vazios": 2,
+          "percentual_preenchido": 0.0
+        },
+        "STATUS": {
+          "preenchidos": 0,
+          "vazios": 2,
+          "percentual_preenchido": 0.0
+        }
+      }
+    },
+    {
+      "arquivo": "TMP_EST.DBF",
+      "registros_declarados": 0,
+      "registros_fisicos": 0,
+      "registros_ativos": 0,
+      "registros_duplicados_exatos": 0,
+      "datas_invalidas": 0,
+      "datas_formalmente_validas_mas_implausiveis": 0,
+      "numericos_invalidos": 0,
+      "datas_invalidas_por_campo": {},
+      "datas_implausiveis_por_campo": {},
+      "numericos_invalidos_por_campo": {},
+      "preenchimento": {
+        "CODIGO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "RESULTADO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "FORMULARIO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "CATEG": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "DT_USUARIO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "HR_USUARIO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "USUARIO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        }
+      }
+    },
+    {
+      "arquivo": "TMP_EVE.DBF",
+      "registros_declarados": 0,
+      "registros_fisicos": 0,
+      "registros_ativos": 0,
+      "registros_duplicados_exatos": 0,
+      "datas_invalidas": 0,
+      "datas_formalmente_validas_mas_implausiveis": 0,
+      "numericos_invalidos": 0,
+      "datas_invalidas_por_campo": {},
+      "datas_implausiveis_por_campo": {},
+      "numericos_invalidos_por_campo": {},
+      "preenchimento": {
+        "DESCRICAO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "QTDE": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "VALOR_AB": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "VALOR_PG": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "DT_USUARIO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "HR_USUARIO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "USUARIO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        }
+      }
+    },
+    {
+      "arquivo": "TMP_MP.DBF",
+      "registros_declarados": 0,
+      "registros_fisicos": 0,
+      "registros_ativos": 0,
+      "registros_duplicados_exatos": 0,
+      "datas_invalidas": 0,
+      "datas_formalmente_validas_mas_implausiveis": 0,
+      "numericos_invalidos": 0,
+      "datas_invalidas_por_campo": {},
+      "datas_implausiveis_por_campo": {},
+      "numericos_invalidos_por_campo": {},
+      "preenchimento": {
+        "NRO_LAUDO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "DT_EXAME": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "NOME": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "RG": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "SEXO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "SITUACAO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "DT_USUARIO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "HR_USUARIO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "USUARIO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "RENACH": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "AUTORIZ": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "CODAE": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "CPF": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        }
+      }
+    },
+    {
+      "arquivo": "TMP_REN.DBF",
+      "registros_declarados": 0,
+      "registros_fisicos": 0,
+      "registros_ativos": 0,
+      "registros_duplicados_exatos": 0,
+      "datas_invalidas": 0,
+      "datas_formalmente_validas_mas_implausiveis": 0,
+      "numericos_invalidos": 0,
+      "datas_invalidas_por_campo": {},
+      "datas_implausiveis_por_campo": {},
+      "numericos_invalidos_por_campo": {},
+      "preenchimento": {
+        "NOME": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "LOGRAD": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "NUMERO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "COMPL": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "BAIRRO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "CIDADE": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "ESTADO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "CEP": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "DATA": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "TELEFONE": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "DT_USUARIO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "HR_USUARIO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "USUARIO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "DT_NASC": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "CPF": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "EMAIL": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "CODIGO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "DT_VALID": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        }
+      }
+    },
+    {
+      "arquivo": "TXCARTAO.DBF",
+      "registros_declarados": 8,
+      "registros_fisicos": 8,
+      "registros_ativos": 8,
+      "registros_duplicados_exatos": 0,
+      "datas_invalidas": 0,
+      "datas_formalmente_validas_mas_implausiveis": 0,
+      "numericos_invalidos": 0,
+      "datas_invalidas_por_campo": {},
+      "datas_implausiveis_por_campo": {},
+      "numericos_invalidos_por_campo": {},
+      "preenchimento": {
+        "TPOPERAC": {
+          "preenchidos": 8,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "CARTAO": {
+          "preenchidos": 8,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "TXDEB": {
+          "preenchidos": 6,
+          "vazios": 2,
+          "percentual_preenchido": 75.0
+        },
+        "TXCRED1": {
+          "preenchidos": 6,
+          "vazios": 2,
+          "percentual_preenchido": 75.0
+        },
+        "TXCREDP": {
+          "preenchidos": 6,
+          "vazios": 2,
+          "percentual_preenchido": 75.0
+        },
+        "SIGLA": {
+          "preenchidos": 8,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "USUARIO": {
+          "preenchidos": 8,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "DT_USUARIO": {
+          "preenchidos": 8,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "HR_USUARIO": {
+          "preenchidos": 8,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        }
+      }
+    },
+    {
+      "arquivo": "USUARIOS.DBF",
+      "registros_declarados": 4,
+      "registros_fisicos": 4,
+      "registros_ativos": 4,
+      "registros_duplicados_exatos": 0,
+      "datas_invalidas": 0,
+      "datas_formalmente_validas_mas_implausiveis": 0,
+      "numericos_invalidos": 0,
+      "datas_invalidas_por_campo": {},
+      "datas_implausiveis_por_campo": {},
+      "numericos_invalidos_por_campo": {},
+      "preenchimento": {
+        "COD_USER": {
+          "preenchidos": 4,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "NOME": {
+          "preenchidos": 4,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "SENHA": {
+          "preenchidos": 4,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "USUARIO": {
+          "preenchidos": 4,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "DT_USUARIO": {
+          "preenchidos": 4,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "HR_USUARIO": {
+          "preenchidos": 4,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "AC_ESTAT": {
+          "preenchidos": 4,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "ALTVLREX": {
+          "preenchidos": 4,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "EXGRATIS": {
+          "preenchidos": 4,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "AC_CAIXA": {
+          "preenchidos": 4,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "DESATIVA": {
+          "preenchidos": 0,
+          "vazios": 4,
+          "percentual_preenchido": 0.0
+        },
+        "ALTORIGEM": {
+          "preenchidos": 4,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "ENVIMPED": {
+          "preenchidos": 0,
+          "vazios": 4,
+          "percentual_preenchido": 0.0
+        },
+        "ESTCXA": {
+          "preenchidos": 4,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "LIVRE": {
+          "preenchidos": 4,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "ULTRSSLIDO": {
+          "preenchidos": 4,
+          "vazios": 0,
+          "percentual_preenchido": 100.0
+        },
+        "DTPROXRSS": {
+          "preenchidos": 3,
+          "vazios": 1,
+          "percentual_preenchido": 75.0
+        },
+        "HRPROXRSS": {
+          "preenchidos": 3,
+          "vazios": 1,
+          "percentual_preenchido": 75.0
+        },
+        "DTPROXDOWN": {
+          "preenchidos": 0,
+          "vazios": 4,
+          "percentual_preenchido": 0.0
+        },
+        "HRPROXDOWN": {
+          "preenchidos": 0,
+          "vazios": 4,
+          "percentual_preenchido": 0.0
+        },
+        "CPF": {
+          "preenchidos": 3,
+          "vazios": 1,
+          "percentual_preenchido": 75.0
+        },
+        "CELULAR": {
+          "preenchidos": 3,
+          "vazios": 1,
+          "percentual_preenchido": 75.0
+        },
+        "DT_ATUCEL": {
+          "preenchidos": 3,
+          "vazios": 1,
+          "percentual_preenchido": 75.0
+        }
+      }
+    },
+    {
+      "arquivo": "VAL_FUNC.DBF",
+      "registros_declarados": 0,
+      "registros_fisicos": 0,
+      "registros_ativos": 0,
+      "registros_duplicados_exatos": 0,
+      "datas_invalidas": 0,
+      "datas_formalmente_validas_mas_implausiveis": 0,
+      "numericos_invalidos": 0,
+      "datas_invalidas_por_campo": {},
+      "datas_implausiveis_por_campo": {},
+      "numericos_invalidos_por_campo": {},
+      "preenchimento": {
+        "COD_FUNC": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "NRO_VALE": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "DT_VALE": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "REFERENCIA": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "VLR_VALE": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "USUARIO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "DT_USUARIO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "HR_USUARIO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "TIPO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "DEBCXA": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "AUTOMATICO": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "ANOMES": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        },
+        "OBS1": {
+          "preenchidos": 0,
+          "vazios": 0,
+          "percentual_preenchido": 0.0
+        }
+      }
+    }
+  ],
+  "chaves_candidatas": [
+    {
+      "tabela": "CANDIDAT.DBF",
+      "campo": "CODIGO",
+      "linhas": 3867,
+      "vazios": 0,
+      "distintos_preenchidos": 3867,
+      "chaves_duplicadas": 0,
+      "linhas_em_chaves_duplicadas": 0
+    },
+    {
+      "tabela": "CANDIDAT.DBF",
+      "campo": "CPF",
+      "linhas": 3867,
+      "vazios": 13,
+      "distintos_preenchidos": 3795,
+      "chaves_duplicadas": 59,
+      "linhas_em_chaves_duplicadas": 118
+    },
+    {
+      "tabela": "CANDIDAT.DBF",
+      "campo": "RENACH",
+      "linhas": 3867,
+      "vazios": 3866,
+      "distintos_preenchidos": 1,
+      "chaves_duplicadas": 0,
+      "linhas_em_chaves_duplicadas": 0
+    },
+    {
+      "tabela": "CANDIDAT.DBF",
+      "campo": "NRO_PGU",
+      "linhas": 3867,
+      "vazios": 3866,
+      "distintos_preenchidos": 1,
+      "chaves_duplicadas": 0,
+      "linhas_em_chaves_duplicadas": 0
+    },
+    {
+      "tabela": "USUARIOS.DBF",
+      "campo": "COD_USER",
+      "linhas": 4,
+      "vazios": 0,
+      "distintos_preenchidos": 4,
+      "chaves_duplicadas": 0,
+      "linhas_em_chaves_duplicadas": 0
+    },
+    {
+      "tabela": "USUARIOS.DBF",
+      "campo": "NOME",
+      "linhas": 4,
+      "vazios": 0,
+      "distintos_preenchidos": 4,
+      "chaves_duplicadas": 0,
+      "linhas_em_chaves_duplicadas": 0
+    },
+    {
+      "tabela": "USUARIOS.DBF",
+      "campo": "CPF",
+      "linhas": 4,
+      "vazios": 1,
+      "distintos_preenchidos": 3,
+      "chaves_duplicadas": 0,
+      "linhas_em_chaves_duplicadas": 0
+    },
+    {
+      "tabela": "DR_MED.DBF",
+      "campo": "CRM",
+      "linhas": 8,
+      "vazios": 0,
+      "distintos_preenchidos": 8,
+      "chaves_duplicadas": 0,
+      "linhas_em_chaves_duplicadas": 0
+    },
+    {
+      "tabela": "DR_MED.DBF",
+      "campo": "CPF",
+      "linhas": 8,
+      "vazios": 8,
+      "distintos_preenchidos": 0,
+      "chaves_duplicadas": 0,
+      "linhas_em_chaves_duplicadas": 0
+    },
+    {
+      "tabela": "DR_MED.DBF",
+      "campo": "CREDENC",
+      "linhas": 8,
+      "vazios": 0,
+      "distintos_preenchidos": 1,
+      "chaves_duplicadas": 1,
+      "linhas_em_chaves_duplicadas": 8
+    },
+    {
+      "tabela": "RECIBO.DBF",
+      "campo": "NRO_RECIBO",
+      "linhas": 3734,
+      "vazios": 0,
+      "distintos_preenchidos": 3734,
+      "chaves_duplicadas": 0,
+      "linhas_em_chaves_duplicadas": 0
+    },
+    {
+      "tabela": "MUNIC.DBF",
+      "campo": "CODIGO",
+      "linhas": 5515,
+      "vazios": 1,
+      "distintos_preenchidos": 5514,
+      "chaves_duplicadas": 0,
+      "linhas_em_chaves_duplicadas": 0
+    },
+    {
+      "tabela": "MUNIC.DBF",
+      "campo": "COD_SEQ",
+      "linhas": 5515,
+      "vazios": 0,
+      "distintos_preenchidos": 5515,
+      "chaves_duplicadas": 0,
+      "linhas_em_chaves_duplicadas": 0
+    },
+    {
+      "tabela": "EVENTOS.DBF",
+      "campo": "CODIGO",
+      "linhas": 7,
+      "vazios": 0,
+      "distintos_preenchidos": 7,
+      "chaves_duplicadas": 0,
+      "linhas_em_chaves_duplicadas": 0
+    },
+    {
+      "tabela": "CONTBAN.DBF",
+      "campo": "CONTA",
+      "linhas": 1,
+      "vazios": 0,
+      "distintos_preenchidos": 1,
+      "chaves_duplicadas": 0,
+      "linhas_em_chaves_duplicadas": 0
+    },
+    {
+      "tabela": "ORIGEM.DBF",
+      "campo": "CODIGO",
+      "linhas": 1,
+      "vazios": 0,
+      "distintos_preenchidos": 1,
+      "chaves_duplicadas": 0,
+      "linhas_em_chaves_duplicadas": 0
+    }
+  ]
+}

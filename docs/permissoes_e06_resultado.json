@@ -1,0 +1,20 @@
+{
+  "stage": "E06",
+  "status": "APPROVED",
+  "decision": "Todo PDF aceito e final e autenticado; nao existe estado de rascunho.",
+  "criteria": {
+    "authenticated_pdf_only": true,
+    "previous_versions_inactive_history": true,
+    "professional_credential_required": true,
+    "paid_appointment_required": true,
+    "manual_delivery_queue": true,
+    "automatic_whatsapp_disabled": true,
+    "destination_masked_in_audit": true,
+    "migration_rehearsal_pass": true
+  },
+  "evidence": [
+    "docs/permissoes_e06_migration_rehearsal.json",
+    "tests/test_documents.py",
+    "frontend/index.html"
+  ]
+}

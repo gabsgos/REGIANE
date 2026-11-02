@@ -1,0 +1,43 @@
+{
+  "generated_at": "2026-11-01T21:14:00-03:00",
+  "version": "1.0.0",
+  "project_version": "1.0.0",
+  "scope": [
+    "backend",
+    "frontend",
+    "tools",
+    "tests",
+    "projeto_clinica_hrp.html",
+    "ambiente Poetry"
+  ],
+  "tools": {
+    "semgrep": "1.183.0",
+    "pip_audit": "2.10.1",
+    "ruff": "0.17.3"
+  },
+  "results": {
+    "semgrep": {
+      "rules": 226,
+      "files": 97,
+      "findings": 0,
+      "errors": 0,
+      "report": "data/tool-audit/semgrep-abel-1.0.0.json",
+      "report_sha256": "684447fed4f99845ecdee30fc28e4b337a1f0e1b507cfa16e31c021759add169"
+    },
+    "dependencies": {
+      "packages": 46,
+      "known_vulnerabilities": 0,
+      "report": "data/tool-audit/abel-pip-audit-1.0.0.json",
+      "report_sha256": "b5e0e060c73d0b393032f3f93755201dc1bff98d17dd0dad5296c92cb9bbba43"
+    },
+    "ruff": "PASS",
+    "tests": "29/29 PASS",
+    "poetry": "PASS"
+  },
+  "external_tooling_risk": {
+    "taskmaster": "QUARANTINED_NOT_CONFIGURED",
+    "runtime_impact_on_abel": false
+  },
+  "decision": "TECHNICAL_SECURITY_PREFLIGHT_PASS",
+  "release_decision": "TECHNICAL_PASS_PENDING_OPERATIONAL_LGPD_ACCEPTANCE"
+}

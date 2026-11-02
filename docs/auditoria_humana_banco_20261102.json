@@ -1,0 +1,55 @@
+{
+  "document_type": "HUMAN_DATABASE_AUDIT_APPROVAL",
+  "system": "ABEL Clinica",
+  "audit_date": "2026-11-02",
+  "timezone": "America/Sao_Paulo",
+  "status": "APPROVED",
+  "decision": "AUDITORIA_HUMANA_COMPLETA_E_APROVADA",
+  "scope": {
+    "database": "Banco ABEL pos-migracao",
+    "data_period": {
+      "start": "FIRST_AVAILABLE_RECORD",
+      "end_inclusive": "2026-10-31T12:00:00-03:00"
+    },
+    "sampling_method": "GRANDE_AMOSTRA",
+    "sample_size": null,
+    "sample_size_note": "Quantidade numerica nao informada; aprovacao recebida como grande amostra.",
+    "areas": [
+      "cadastros",
+      "atendimentos",
+      "relacionamentos",
+      "financeiro",
+      "recibos",
+      "estornos",
+      "relatorios",
+      "inconsistencias de migracao"
+    ]
+  },
+  "approvals": [
+    {
+      "responsible_name": "Regiane",
+      "role_in_audit": "responsavel_tecnica_e_auditora_humana",
+      "approved": true,
+      "approved_at": "2026-11-02T13:50:00-03:00"
+    },
+    {
+      "responsible_name": "Leandro",
+      "role_in_audit": "auditor_humano",
+      "approved": true,
+      "approved_at": "2026-11-02T13:50:00-03:00"
+    }
+  ],
+  "declaration": "Auditoria humana completa do banco concluida e aprovada com grande amostra.",
+  "evidence_references": [
+    "docs/fase_2_qualidade_dados.json",
+    "docs/fase_2_matriz_origem_destino.json",
+    "docs/fase_5_reconciliacao.json",
+    "docs/fase_8_validacao_financeira.json",
+    "docs/fase_15_migracao_final.json",
+    "docs/fase_15_resultado.json",
+    "docs/release_manifest_final.json"
+  ],
+  "open_critical_findings": 0,
+  "open_high_findings": 0,
+  "recorded_at": "2026-11-02T13:50:00-03:00"
+}

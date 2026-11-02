@@ -1,0 +1,33 @@
+{
+  "generated_at": "2026-11-01T21:14:30-03:00",
+  "version": "1.0.0",
+  "technical_criteria": {
+    "poetry_lock": "PASS",
+    "ruff": "PASS",
+    "tests": "29/29 PASS",
+    "schema": "PASS",
+    "alembic_revision": "2e32865e3947",
+    "semgrep": "0 FINDINGS; 0 ERRORS; 226 RULES; 97 TARGETS",
+    "dependency_vulnerabilities": 0,
+    "health": "PASS_VERSION_1.0.0",
+    "smoke": "PASS",
+    "legacy_read_only": "306/306",
+    "post_cut_backup_restore": "PASS",
+    "final_backup_restore": "PASS"
+  },
+  "critical_defects": 0,
+  "high_defects": 0,
+  "operational_acceptance": {
+    "security_lgpd": "APPROVED",
+    "retention_and_disposal_policy": "APPROVED",
+    "data_subject_rights_responsible": "REGIANE",
+    "incident_responsibles": [
+      "GABRIEL_GOSMANO",
+      "REGIANE"
+    ],
+    "incident_channel": "PHONE_1194395970",
+    "approved_at": "2026-11-01T21:17:42-03:00"
+  },
+  "integrity": "PASS",
+  "decision": "GO_FINAL_MANIFEST"
+}

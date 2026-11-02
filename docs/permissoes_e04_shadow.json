@@ -1,0 +1,91 @@
+{
+  "generated_at": "2026-11-02T20:29:55.634068+00:00",
+  "mode": "SHADOW",
+  "classified_routes": 33,
+  "divergences": [
+    {
+      "file": "backend/app/api/routes/documents.py",
+      "line": 213,
+      "permission": "document.read",
+      "legacy_roles": [
+        "gerente",
+        "medico"
+      ],
+      "csrf": false,
+      "role": "atendente",
+      "legacy_allowed": false,
+      "target_allowed": true,
+      "approved": true,
+      "reason": "Target access is limited to authenticated delivery queue in E06."
+    },
+    {
+      "file": "backend/app/api/routes/finance.py",
+      "line": 206,
+      "permission": "finance.read",
+      "legacy_roles": [
+        "gerente",
+        "atendente"
+      ],
+      "csrf": false,
+      "role": "atendente",
+      "legacy_allowed": true,
+      "target_allowed": false,
+      "approved": true,
+      "reason": "Target removes aggregate and historical finance access."
+    },
+    {
+      "file": "backend/app/api/routes/finance.py",
+      "line": 292,
+      "permission": "finance.read",
+      "legacy_roles": [
+        "gerente",
+        "atendente"
+      ],
+      "csrf": false,
+      "role": "atendente",
+      "legacy_allowed": true,
+      "target_allowed": false,
+      "approved": true,
+      "reason": "Target removes aggregate and historical finance access."
+    },
+    {
+      "file": "backend/app/api/routes/finance.py",
+      "line": 490,
+      "permission": "finance.read",
+      "legacy_roles": [
+        "gerente",
+        "atendente"
+      ],
+      "csrf": false,
+      "role": "atendente",
+      "legacy_allowed": true,
+      "target_allowed": false,
+      "approved": true,
+      "reason": "Target removes aggregate and historical finance access."
+    },
+    {
+      "file": "backend/app/api/routes/finance.py",
+      "line": 623,
+      "permission": "finance.export",
+      "legacy_roles": [
+        "gerente",
+        "atendente"
+      ],
+      "csrf": false,
+      "role": "atendente",
+      "legacy_allowed": true,
+      "target_allowed": false,
+      "approved": true,
+      "reason": "Target reserves financial exports for GESTOR."
+    }
+  ],
+  "unexplained_divergences": [],
+  "criteria": {
+    "all_authenticated_routes_classified": true,
+    "all_permissions_exist": true,
+    "zero_unexplained_divergences": true,
+    "legacy_policy_remains_authoritative": true,
+    "sensitive_values_not_collected": true
+  },
+  "integrity": "PASS"
+}

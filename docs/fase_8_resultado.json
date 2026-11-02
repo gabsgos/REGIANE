@@ -1,0 +1,17 @@
+{
+  "fase": 8,
+  "nome": "Financeiro, pagamentos e recibos",
+  "versao": "0.9.0+build.21",
+  "status": "APROVADA",
+  "decisao": "GO_FASE_9",
+  "criterios": {
+    "pagamento_hibrido": "PASS",
+    "soma_itens_total": "PASS",
+    "valores_negativos": "PASS",
+    "indicadores_independentes": "PASS",
+    "auditoria": "PASS",
+    "estorno_preserva_original": "PASS",
+    "medico_sem_financeiro": "PASS",
+    "reconciliacao_legado": "PASS"
+  }
+}

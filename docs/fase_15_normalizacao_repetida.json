@@ -1,0 +1,23 @@
+{
+  "patients": 3808,
+  "appointments": 3867,
+  "professionals": 8,
+  "users": 4,
+  "payments": 3923,
+  "receipts": 3723,
+  "financial_movements": 3827,
+  "legacy_maps": 22339,
+  "migration_issues": 510,
+  "payment_source_total": "409829.41",
+  "payment_database_total": "409829.41",
+  "payment_totals_match": true,
+  "orphan_financial_rows": 0,
+  "auxiliary_financial_coverage": {
+    "DEPOS.DBF": 2774,
+    "L_CARTAO.DBF": 171,
+    "PROGCART.DBF": 167
+  },
+  "generated_at": "2026-11-02T00:07:12.708581+00:00",
+  "duration_seconds": 20.801,
+  "integrity": "PASS"
+}

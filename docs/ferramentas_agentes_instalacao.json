@@ -1,0 +1,122 @@
+{
+  "generated_at": "2026-11-01T15:44:48-03:00",
+  "scope": "Codex local e projeto ABEL",
+  "application_version_unchanged": "0.15.0+build.34",
+  "git_policy": {
+    "allowed_by_user_at": "2026-11-01T15:38:00-03:00",
+    "commands_used_after_authorization": [
+      "git status --short"
+    ],
+    "commit_or_push": false
+  },
+  "codex_config": {
+    "backup": "data/tool-install-backup/codex-config-before-20261101T1535-0300.toml",
+    "before_sha256": "789e9eedc6b5dcb0bf7a8a081cc63d240cf1d1ba23c519004544f3cab7007024",
+    "after_sha256": "7891f0c4dbc3dfb2fc08500a487bf84da146c00d9c11327a6f552275f05627b8"
+  },
+  "skills": [
+    {
+      "source": "cloudflare/security-audit-skill",
+      "commit": "c1c8a8c1471069fb0e188eeaff69b8e8db6564a8",
+      "installed": ["security-audit"]
+    },
+    {
+      "source": "trailofbits/skills",
+      "commit": "2be6433b39e009cd2b6fd3be1895f6b1faa5af9a",
+      "installed": ["sharp-edges", "semgrep", "supply-chain-risk-auditor"]
+    },
+    {
+      "source": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "commit": "3a13158ff1f32156cbe144108de48eda2ecaed9a",
+      "installed": ["ui-ux-pro-max"]
+    },
+    {
+      "source": "usestrix/strix",
+      "commit": "6b7ae2ebe4d47037a927aade23265ff4e4f27e84",
+      "installed": [
+        "api-security-testing",
+        "application-security-testing",
+        "ci-security-scanning-with-strix",
+        "find-security-vulnerabilities-in-code",
+        "fix-security-vulnerabilities-with-strix",
+        "managed-pentesting-with-strix",
+        "owasp-top-10-testing",
+        "penetration-testing-with-strix",
+        "web-app-penetration-testing"
+      ]
+    },
+    {
+      "source": "DietrichGebert/ponytail",
+      "commit": "96608e078b2d5ea607c5c3b8b5a54d1c1fba6846",
+      "installed": [
+        "ponytail",
+        "ponytail-audit",
+        "ponytail-debt",
+        "ponytail-gain",
+        "ponytail-help",
+        "ponytail-review"
+      ],
+      "hooks_installed": false
+    }
+  ],
+  "tools": {
+    "serena": {
+      "version": "2.1.0",
+      "manager": "uv tool",
+      "mcp": "ENABLED_READ_ONLY",
+      "languages": ["python", "typescript"],
+      "exposed_tools": 12,
+      "write_shell_dashboard_tools": false,
+      "smoke_test": "PASS"
+    },
+    "spec_kit": {
+      "package": "specify-cli",
+      "version": "1.2.5",
+      "manager": "uv tool",
+      "isolated_initialization_test": "PASS",
+      "initialized_in_abel": false,
+      "reason": "Evitar sobreposicao com PLANO_DE_ACAO.json durante as Fases 14 a 16"
+    },
+    "strix": {
+      "package": "strix-agent",
+      "version": "1.7.0",
+      "manager": "uv tool",
+      "dependency_integrity": "PASS",
+      "runtime": "NOT_EXECUTED",
+      "blockers": ["Docker ausente", "nenhuma chave de modelo autorizada"]
+    },
+    "taskmaster": {
+      "package": "task-master-ai",
+      "version": "0.43.1",
+      "manager": "npm global --ignore-scripts",
+      "installed": true,
+      "mcp": "QUARANTINED_NOT_CONFIGURED",
+      "audit": {
+        "dependencies": 844,
+        "low": 5,
+        "moderate": 48,
+        "high": 11,
+        "critical": 2,
+        "total": 66,
+        "lock_sha256": "bc8bd7c75ecbe439cf376e41f6731c46c83bd5527dac0935ac623818f003fdea"
+      },
+      "downgrade_0_29_0": "REJECTED_67_FINDINGS_2_CRITICAL",
+      "quarantine_template": "config/taskmaster_mcp_quarantine.toml"
+    }
+  },
+  "integrity": {
+    "skills_with_skill_md": "20/20",
+    "skill_git_blob_hashes": "20/20 PASS",
+    "skill_hooks_installed": 0,
+    "serena_dependencies": "PASS",
+    "spec_kit_dependencies": "PASS",
+    "strix_dependencies": "PASS",
+    "abel_tests": "25/25 PASS",
+    "abel_schema": "PASS",
+    "mysql": "8.4.9 LISTENING 127.0.0.1:3307",
+    "alembic": "2e32865e3947 HEAD",
+    "git_clone_used": false,
+    "remote_install_scripts_executed": false
+  },
+  "restart_required": "Nova sessao do Codex para descoberta das skills e do MCP Serena"
+}

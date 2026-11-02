@@ -1,0 +1,73 @@
+{
+  "generated_at": "2026-11-01T21:18:00-03:00",
+  "version": "1.0.0",
+  "artifacts": [
+    {
+      "path": "pyproject.toml",
+      "sha256": "950c7182cd0a6c897d45f6a3129be0be6861f721c4fcd2fab9594cc6d3fa3595",
+      "bytes": 1219
+    },
+    {
+      "path": "poetry.lock",
+      "sha256": "6ad3db2354aea835b4e2be3eeabc448f2cda9d83f1be584603e6646a6ddcc0da",
+      "bytes": 212044
+    },
+    {
+      "path": "migrations/versions/2e32865e3947_add_user_concurrency_control.py",
+      "sha256": "a5bfdc4f2036afc4e2b7e5f1d8ae35a44b91f17812e54e807ec7131798d4db1d",
+      "bytes": 907
+    },
+    {
+      "path": "docs/fase_0_manifesto_sha256.json",
+      "sha256": "e3a1a0cf8f6023d7a37962c72f63edf918d1505d54518b7afbbfb413ba4711ed",
+      "bytes": 66670
+    },
+    {
+      "path": "docs/fase_15_resultado.json",
+      "sha256": "4af938fb246b9224231fd45630e8ac26fcd7680f307220a05dea3617ef2950bd",
+      "bytes": 1038
+    },
+    {
+      "path": "docs/fase_16_validacao_final.json",
+      "sha256": "e4796c43f558005b1228fd4b7b3b95c3468df4d7238a7262fcca9ea5ffeca870",
+      "bytes": 945
+    },
+    {
+      "path": "docs/auditoria_seguranca_resultado.json",
+      "sha256": "c460ac4e07a1460d8e1fbb857687e33fac31f23f58549dc2eaeb1f6ce5d91f3a",
+      "bytes": 1144
+    },
+    {
+      "path": "docs/fase_16_backup_final.json",
+      "sha256": "266aaf38e2205057f2f1042b2b005eada8d9e85af6ef7098ae260a43f90ddc44",
+      "bytes": 478
+    },
+    {
+      "path": "docs/politica_retencao_lgpd.md",
+      "sha256": "b50ea810c6dd0f56378e3efa8e7438e46eb207c2b33cedbc47671579fc1d675b",
+      "bytes": 2738
+    },
+    {
+      "path": "docs/revisao_seguranca_lgpd_preliminar.md",
+      "sha256": "96f125d3760deb57d8cff0796f61925eeeace3498bfdb6ef6c7d9caa89fcd665",
+      "bytes": 2803
+    }
+  ],
+  "backup": {
+    "path": "backups/system/ABEL_full_20261102T001407Z.abelbak",
+    "sha256": "2d9ce46af6c7416ede9f832a1d48f80723ac1a6109a6e98425faaeb618453ca5",
+    "restore_tested": true,
+    "restore_integrity": "PASS"
+  },
+  "release": {
+    "tests": "29/29 PASS",
+    "critical_defects": 0,
+    "high_defects": 0,
+    "security_findings": 0,
+    "dependency_vulnerabilities": 0,
+    "human_homologation": "APPROVED",
+    "cutover": "PASS",
+    "operational_lgpd_acceptance": "APPROVED"
+  },
+  "integrity": "PASS"
+}

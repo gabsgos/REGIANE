@@ -1,0 +1,27 @@
+{
+  "stage": "E01",
+  "name": "Baseline, inventario e recuperacao",
+  "status": "APPROVED",
+  "criteria": {
+    "authenticated_routes_classified": true,
+    "classified_route_count": 28,
+    "screens_and_domains_have_expected_profiles": true,
+    "legacy_payment_modes_inventory_and_preservation_plan": true,
+    "encrypted_backup_created": true,
+    "isolated_restore_reconciled": true,
+    "baseline_tests_pass": true
+  },
+  "backup": {
+    "file": "backups/system/ABEL_full_20261102T201327Z.abelbak",
+    "sha256": "9aace31e1be2d7deb9512a0003998b64b8832a2b2dc230eef981779227b82387",
+    "tables": 20,
+    "rows": 342752
+  },
+  "tests": "38/38 PASS",
+  "evidence": [
+    "docs/fase_12_backup.json",
+    "docs/fase_12_restauracao.json",
+    "docs/permissoes_e01_inventario_legado.json"
+  ],
+  "decision": "GO_E02"
+}

@@ -1,0 +1,17 @@
+{
+  "generated_at": "2026-11-02T00:11:00.264057+00:00",
+  "criteria": {
+    "manager_creates_user": true,
+    "temporary_password_reset": true,
+    "user_list_manager_only": true,
+    "report_matches_control_query": true,
+    "closing_matches_control_queries": true,
+    "csv_export_authorized_and_safe": true,
+    "export_audited": true,
+    "migration_panel_available": true,
+    "attendant_report_denied": true
+  },
+  "report_appointment_count": 1,
+  "control_appointment_count": 1,
+  "integrity": "PASS"
+}

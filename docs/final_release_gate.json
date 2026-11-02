@@ -1,0 +1,25 @@
+{
+  "generated_at": "2026-11-02T00:18:38.652409+00:00",
+  "project_version": "1.0.0",
+  "criteria": {
+    "human_homologation": true,
+    "phase_14_approved": true,
+    "cutover_integrity": true,
+    "production_active": true,
+    "legacy_read_only": true,
+    "no_data_loss": true,
+    "post_cut_smoke": true,
+    "post_cut_backup": true,
+    "post_cut_restore": true,
+    "security_preflight": true,
+    "security_current_version": true,
+    "final_tests": true,
+    "zero_critical_defects": true,
+    "zero_high_defects": true,
+    "final_manifest": true,
+    "final_version": true,
+    "no_build_txt": true
+  },
+  "failed_criteria": [],
+  "decision": "GO_FINAL_1_0_0"
+}
