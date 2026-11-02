@@ -1594,6 +1594,20 @@ Restauracao:
 - Estado: NO-GO temporario. O tablet responde ao ping em `192.168.0.15`, mas o SSH em `8022` parou antes da criacao dos servicos ABEL; proxy publico e runtime FISIA nao foram alterados.
 - Retomada: executar `sshd` no Termux e repetir somente a etapa idempotente de runtime; depois validar banco, API, proxy e URL publica.
 
+[2026-11-02 18:31:18 -03:00] Deploy do ABEL no tablet concluido; build 1.0.0+build.56.
+- SSH 8022 reativado e dependencias confirmadas no Debian aarch64: Python 3.13.5, Poetry 2.3.4, MariaDB 11.8, build-essential e curl.
+- Corrigido o isolamento do Python para impedir uso do Python Android 3.14; 34 dependencias da aplicacao foram instaladas pela lock do Poetry.
+- Contornada de forma restrita a autenticacao `unix_socket` incompatível com PRoot: modo de manutencao foi usado apenas para criar `abel_clinica` e `abel_app`, seguido de retorno imediato ao modo normal.
+- Migrados e conferidos 7 usuarios e 3.808 pacientes; health confirmou API, banco e armazenamento `ok` em ambiente `production`.
+- Servicos ativos: `abel-mariadb`, `abel-api` em 127.0.0.1:8001 e `fisia-reverse-proxy` em 127.0.0.1:8080.
+- Proxy FISIA atualizado seletivamente para `/abel`, `/abel.html` e `/abel/*`; rollback salvo em `/opt/fisia/runtime/deploy_backups/pre_abel_build55_20261102_183004`.
+- URL publica aprovada com HTTP 200: `https://walk-gaming-magazine.ngrok-free.dev/abel.html`; endpoint `/abel/api/health` aprovado.
+- Acesso publico aprovado: Leandro login 200, gestao 200 e financeiro 200; Gabriel login 200, fila clinica 200 e financeiro negado 403.
+- Criados `tools/tablet_abel_status.py`, `tools/tablet_abel_publish.py`, `tools/validate_tablet_audit_access.py` e `docs/tablet_deploy_resultado.json` para evidencia e repetibilidade.
+- Credenciais permaneceram fora dos logs e artefatos; os arquivos locais `.secret` continuam sendo a fonte controlada para a auditoria.
+- Gate final: Ruff aprovado, 54/54 testes ABEL aprovados, JSONs de evidencia validos, 5/5 testes direcionados do proxy aprovados e autenticacao publica repetida com sucesso.
+- Git FISIA nao foi enviado automaticamente: o repositorio contem centenas de alteracoes historicas nao relacionadas e os mesmos arquivos `BUILD.txt`, `LOG.log`, `reverse_proxy.py` e teste acumulam trabalho anterior; um commit seletivo agregaria mudancas de terceiros sem revisao.
+
 [2026-11-02 18:27:48 -03:00]
 Tipo: Commit consolidado solicitado pelo usuario
 Versao/build do bloco: 1.0.0+build.55 (sem incremento; operacao Git)
@@ -1606,4 +1620,19 @@ Validacao pre-commit:
 - O commit sera criado localmente sem push, pois a versao x.x permanece 1.0.0.
 Restauracao:
 - Reverter o commit consolidado com uma operacao Git nao destrutiva ou restaurar os arquivos a partir do commit anterior `fab6a28`.
+
+[2026-11-02 18:29:16 -03:00]
+Tipo: Preparacao de push seguro com configuracao Serena
+Versao/build do bloco: 1.0.0+build.55 (sem incremento; configuracao e Git)
+Arquivos adicionados ao versionamento:
+- .serena/.gitignore
+- .serena/project.yml
+- .serena/context-abel-readonly.yml
+Decisao de seguranca:
+- O remoto `gabsgos/REGIANE` foi confirmado como publico.
+- Nao foram adicionados `data/`, `backups/` ou `ABEL-BAK/` porque contem banco MySQL, binlogs, sessoes, credenciais, chaves privadas, dados clinicos e arquivos acima de 100 MB.
+- Cache e configuracao local do Serena permanecem excluidos por `.serena/.gitignore`.
+- O push inclui codigo, migrations, testes, ferramentas, documentacao e configuracao Serena reutilizavel, sem dados operacionais sensiveis.
+Restauracao:
+- Reverter o commit de configuracao Serena e o commit consolidado; nenhum banco ou backup local foi alterado.
 

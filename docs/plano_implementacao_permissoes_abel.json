@@ -6,7 +6,7 @@
   "language": "pt-BR",
   "application": {
     "name": "ABEL",
-    "current_version_reference": "1.0.0+build.55",
+    "current_version_reference": "1.0.0+build.56",
     "target_access_model": "abel-user-access-v2-three-levels",
     "human_profiles": [
       "GESTOR",
@@ -16,7 +16,7 @@
     "implementation_not_started": false
   },
   "implementation_progress": {
-    "build": "1.0.0+build.55",
+    "build": "1.0.0+build.56",
     "local_ready": [
       "schema aditivo de permissoes, perfis e workflow aplicado",
       "migrations b7c3e1a9f240 e c4a0f6b2d901 aplicadas",

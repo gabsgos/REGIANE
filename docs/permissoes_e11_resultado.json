@@ -1,7 +1,7 @@
 {
   "stage": "E11",
   "status": "APPROVED",
-  "release": "1.0.0+build.55",
+  "release": "1.0.0+build.56",
   "migration_head": "c4a0f6b2d901",
   "criteria": {
     "stages_e00_e10_have_evidence": true,

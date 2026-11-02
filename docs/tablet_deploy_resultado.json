@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "status": "APPROVED",
+  "completed_at": "2026-11-02T18:31:18-03:00",
+  "release": "1.0.0+build.56",
+  "target": {
+    "device": "tablet FISIA",
+    "architecture": "aarch64",
+    "runtime": "/opt/abel",
+    "public_url": "https://walk-gaming-magazine.ngrok-free.dev/abel.html"
+  },
+  "backup": {
+    "file": "/data/data/com.termux/files/home/backups/fisia_full_pre_abel_build55_20261102_180258.tar",
+    "bytes": 2296729600,
+    "entries": 29719,
+    "sha256": "767c7bdd103003f16dca25f68a1d6fd61988bd9c74adae65ee661c6c385e5094",
+    "verified": true
+  },
+  "migration": {
+    "users": 7,
+    "patients": 3808,
+    "database": "abel_clinica",
+    "database_health": "ok"
+  },
+  "services": {
+    "abel_mariadb": "run",
+    "abel_api": "run",
+    "fisia_reverse_proxy": "run"
+  },
+  "public_validation": {
+    "page_status": 200,
+    "health_status": "ok",
+    "environment": "production",
+    "leandro_login": 200,
+    "leandro_admin_users": 200,
+    "leandro_finance": 200,
+    "gabriel_login": 200,
+    "gabriel_clinical_worklist": 200,
+    "gabriel_finance_denied": 403
+  },
+  "rollback": "/opt/fisia/runtime/deploy_backups/pre_abel_build55_20261102_183004",
+  "integrity": "PASS"
+}

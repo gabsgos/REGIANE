@@ -2,9 +2,8 @@
 
 from __future__ import annotations
 
-import json
 import getpass
-import sys
+import json
 
 import paramiko
 
