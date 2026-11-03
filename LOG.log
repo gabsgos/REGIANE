@@ -1888,3 +1888,4 @@ Restauracao:
 [2026-11-03 19:25] Frontend agenda atualizado para listar todos os atendimentos do período, tabela completa e filtro exclusivo de profissionais CRM/CRP; contrato de paginação existente preservado.
 
 [2026-11-03 19:45 -03:00] Opção B agenda: API/modelo preparados para process_type, license_category, exam_status e status médico/psicológico; importação cria atendimentos independentes por serviço quando ambos os exames são informados. Migration a7c9e1d2f4b6 criada. Validação: py_compile e parser aprovado; alembic check bloqueado por banco local não atualizado. Deploy pendente de homologação da migration.
+[2026-11-03 20:12 -03:00] Homologação tablet: backup SQL remoto /opt/abel/abel_clinica.sql verificado (129468487 bytes); tablet estava em build 1.0.0+build.60 com migration f3b5c7d9e1a2. Migration a7c9e1d2f4b6 transferida e aplicada com sucesso; serviço abel-api reiniciado; /api/health retornou 200. Frontend e dados não substituídos.
