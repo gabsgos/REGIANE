@@ -1859,3 +1859,7 @@ Restauracao:
 [2026-11-03 19:40:00 -03:00] Deploy autorizado concluído: migration de workspace_invites aplicada no MariaDB do tablet; backend e frontend atualizados seletivamente; health API/database/document_storage OK; rota frontend /usuarios respondeu. Commits locais fa8d689 (ABEL) e ca5252a (regianefront). 
 [2026-11-03 21:10:00 -03:00] Cadastro de usuário atualizado localmente: perfil psicologo, conselho CRM/CRP derivado do perfil, UF, número de conselho, campos obrigatórios de identificação/contato/endereço e birth_date opcional. Migration f2a4b6c8d0e1 criada para role psicologo. Sem deploy.
 [2026-11-03 21:25:00 -03:00] Teste de schema atualizado para refletir o novo perfil psicologo; expectativa antiga de três perfis corrigida. Rodar gate novamente antes de deploy.
+
+[2026-11-03 16:20 -03:00] Criado new-update.json com regra de não exclusão, alerta de CPF duplicado e agenda mock para homologação.
+
+[2026-11-03 16:45 -03:00] Atualizada matriz de acesso financeiro: recepção limitada ao fechamento diário, médicos/psicólogos ao resumo individual filtrado por profissional e gestor ao financeiro completo. Relatórios e usuários ocultados no menu para não gestores.

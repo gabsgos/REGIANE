@@ -1,0 +1,23 @@
+{
+  "version": "2026-11-03",
+  "changes": {
+    "patients": {
+      "deletion": "disabled",
+      "rule": "patient records are never deleted; manager or reception may edit them",
+      "duplicate_cpf": "keep UNIQUE constraint, show warning and offer navigation to cadastro"
+    },
+    "daily_agenda": {
+      "status": "implemented in project",
+      "source": "DETRAN PDF import",
+      "home_preview": true,
+      "mock_data": true,
+      "mock_scope": "visual homologation only; never written to production database"
+    }
+  },
+  "acceptance_criteria": [
+    "No delete action is visible in patient lists",
+    "Duplicate CPF returns a user-facing warning instead of a traceback",
+    "Agenda upload and today's appointments are visible on Visao Geral",
+    "Mock agenda records remain isolated from real tablet data"
+  ]
+}

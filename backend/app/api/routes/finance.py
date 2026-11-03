@@ -312,7 +312,7 @@ def create_receipt(
 
 @router.get("/summary")
 def financial_summary(
-    _: Annotated[AuthContext, Depends(require_permission("finance.read", "gerente", "atendente"))],
+    context: Annotated[AuthContext, Depends(require_permission("finance.read", "gerente", "atendente", "medico", "psicologo"))],
     db: Annotated[Session, Depends(get_db_session)],
     date_from: Annotated[date | None, Query()] = None,
     date_to: Annotated[date | None, Query()] = None,
@@ -320,15 +320,26 @@ def financial_summary(
     today = business_today()
     date_from = date_from or today
     date_to = date_to or today
+    if "atendente" in context.roles:
+        date_from = date_to = today
     if date_to < date_from:
         raise HTTPException(status_code=422, detail="Periodo invalido")
     start, end = utc_day_bounds(date_from, date_to)
-    base_filters = (
+    base_filters = [
         Payment.status == "pago",
         Payment.paid_at >= start,
         Payment.paid_at < end,
-    )
-    total = db.scalar(select(func.sum(Payment.total_amount)).where(*base_filters)) or Decimal(
+    ]
+    if "medico" in context.roles or "psicologo" in context.roles:
+        if not context.user.professional_id:
+            return {"date_from": date_from.isoformat(), "date_to": date_to.isoformat(), "paid_count": 0, "paid_total": "0.00", "by_method": {}, "reversal_count": 0}
+        professional_filter = (
+            Appointment.doctor_id == context.user.professional_id
+            if "medico" in context.roles
+            else Appointment.psychologist_id == context.user.professional_id
+        )
+        base_filters.extend([Payment.appointment_id == Appointment.id, professional_filter])
+    total = db.scalar(select(func.sum(Payment.total_amount)).select_from(Payment).where(*base_filters)) or Decimal(
         "0.00"
     )
     count = db.scalar(select(func.count()).select_from(Payment).where(*base_filters)) or 0
