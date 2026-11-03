@@ -1808,3 +1808,20 @@ Restauracao:
 - Cookies de sessão/CSRF são mantidos pelo navegador no domínio público do tablet.
 - Serviço `abel-frontend` reiniciado e rota pública validada HTTP 200 com `abel-login` presente.
 
+[2026-11-03 15:00:00 -03:00] Analise FISIA/ABEL para gestao de acessos.
+- Comparados `FISIA/frontend/src/vanilla/main.ts`, `management-v2.css`, endpoints `/api/gestao/*`, backend ABEL `admin_reports.py` e adapter do `regianefront`.
+- Plano salvo em `docs/plano_gestao_acessos_gestor_fisia_abel.json`.
+- Escopo inicial: resumo, usuarios, papeis, catalogo de permissoes e auditoria; overrides e aprovacao em duas pessoas ficam posteriores.
+- Nenhuma tela ou endpoint foi alterado nesta etapa de planejamento.
+
+[2026-11-03 15:10:00 -03:00] Corrigida sessao da pagina local via proxy do tablet.
+- Adicionado proxy local `/abel/api/*` no Dash para encaminhar ao tablet e preservar cookies ABEL no dominio `127.0.0.1`.
+- `run_tablet.ps1` e `.env.tablet.example` agora usam API local proxyada e `ABEL_UPSTREAM_URL` publico.
+- O frontend remoto do tablet permanece apontando diretamente para a API interna; SQLite local continua padrao fora do script de homologacao.
+- Ajustado o proxy para remover o atributo `Secure` apenas no cookie local de desenvolvimento HTTP; o tablet remoto mantém cookies seguros.
+
+[2026-11-03 15:25:00 -03:00] Backend padrão do frontend alterado para ABEL/tablet.
+- `DATA_BACKEND` padrão agora é `abel_api`.
+- URL padrão local agora é `http://127.0.0.1:8050/abel/api`, encaminhada ao tablet pelo proxy.
+- SQLite permanece disponível somente por configuração explícita `DATA_BACKEND=sqlite` e é tratado como legado.
+

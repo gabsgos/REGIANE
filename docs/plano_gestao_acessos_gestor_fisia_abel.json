@@ -1,0 +1,41 @@
+{
+  "title": "Plano de gestao de usuarios e permissoes - FISIA para ABEL",
+  "created_at": "2026-11-03T14:55:00-03:00",
+  "scope": "Projetar as telas de acesso do perfil gestor no regianefront, usando o modelo de permissoes do FISIA e os contratos seguros do ABEL.",
+  "source_analysis": {
+    "fisia": {
+      "reference": "C:/Users/gabri/Documents/FISIA/frontend/src/vanilla/main.ts",
+      "surfaces": ["Resumo", "Unidades", "Pessoas/usuarios", "Perfis", "Permissoes", "Convites", "Auditoria", "Inspetor de permissao efetiva"],
+      "patterns": ["busca e filtros", "paginacao", "status ativo/inativo", "perfis com permissoes", "overrides por unidade", "aprovacao de mudancas privilegiadas", "trilha de auditoria", "modo mock separado do modo API"],
+      "api_examples": ["/api/gestao/usuarios", "/api/gestao/permissoes", "/api/gestao/inspetor", "/api/gestao/auditoria"]
+    },
+    "abel": {
+      "backend": "C:/Users/gabri/Documents/ABEL/backend/app/api/routes/admin_reports.py",
+      "available": ["GET /api/admin/users", "POST /api/admin/users", "PUT /api/admin/users/{user_id}", "POST /api/admin/users/{user_id}/reset-password", "GET /api/auth/me", "POST /api/auth/login"],
+      "authorization": "Permissoes server-side via require_csrf_permission; roles atuais incluem gerente, atendente e medico.",
+      "gap": "Ainda nao existe no contrato ABEL uma superficie equivalente para catalogo de permissoes, perfis editaveis, overrides por unidade, convites e inspetor efetivo."
+    },
+    "regianefront": {
+      "adapter": "C:/Users/gabri/Documents/ABEL/regianefront/data_access/abel_api_adapter.py",
+      "current_ui": ["Cadastro", "Medicos", "Financeiro", "Relatorios", "Configuracoes"],
+      "gap": "Nao existe pagina de usuarios/permissoes nem metodos do adapter para administracao; a rota configuracoes ainda e placeholder."
+    }
+  },
+  "target_design": {
+    "route": "/usuarios",
+    "access": "Somente gerente com permissao user.manage; o backend continua sendo a autoridade final.",
+    "tabs": ["Resumo", "Usuarios", "Perfis", "Catalogo de permissoes", "Auditoria"],
+    "minimum_v1": ["listar/buscar usuarios", "filtrar ativo/inativo e papel", "criar usuario", "editar dados nao sensiveis", "desativar/reativar", "redefinir senha", "exibir papeis e permissoes efetivas", "registrar e consultar auditoria"],
+    "deferred_v1": ["overrides por unidade", "workflow de convite", "aprovacao em duas pessoas", "edição livre de perfis", "delegacao temporaria"],
+    "security_rules": ["nao exibir hash ou senha", "reset retorna senha temporaria uma unica vez", "acoes mutaveis exigem CSRF", "nao permitir gerente remover o ultimo gerente ativo", "auditar ator, alvo, acao, antes/depois e request_id"]
+  },
+  "phases": [
+    {"id": "A0", "name": "Contrato e matriz de acesso", "objective": "Fechar a matriz ABEL para gestor, atendente e medico e mapear FISIA para chaves ABEL.", "deliverables": ["docs/matriz_gestao_acessos_abel.json", "contratos de resposta paginada"], "exit_criteria": ["chaves aprovadas", "permissoes de leitura/escrita definidas", "nenhum campo sensivel exposto"]},
+    {"id": "A1", "name": "Backend administrativo", "objective": "Completar endpoints server-side para usuarios, papeis, permissoes e auditoria.", "deliverables": ["GET /api/admin/users com busca/filtro/paginacao", "GET /api/admin/permissions", "GET /api/admin/audit", "schemas de resposta", "testes de autorizacao"], "exit_criteria": ["gerente autorizado", "medico/atendente recebem 403", "CSRF validado", "paginacao deterministica", "auditoria persistida"]},
+    {"id": "A2", "name": "Adapter do regianefront", "objective": "Adicionar uma interface administrativa independente de SQLite/API.", "deliverables": ["admin_service", "metodos AbelApiAdapter", "implementacao SQLite compativel para testes", "tratamento de 401/403/429"], "exit_criteria": ["testes de contrato passam", "modo SQLite continua funcionando", "nenhum SQL direto na pagina"]},
+    {"id": "A3", "name": "Tela gestor", "objective": "Implementar a pagina /usuarios inspirada no FISIA, adaptada ao ABEL.", "deliverables": ["resumo", "tabela com busca/filtros/paginacao", "modal criar/editar", "reset de senha", "detalhe de papeis/permissoes", "auditoria"], "exit_criteria": ["rota oculta para nao gestores", "estados loading/erro/vazio", "mobile utilizavel", "acoes confirmadas e feedback visivel"]},
+    {"id": "A4", "name": "Homologacao e seguranca", "objective": "Validar fluxos com gerente e provar isolamento de perfis.", "deliverables": ["testes automatizados", "roteiro humano", "evidencias de 401/403/CSRF", "verificacao sem segredo no bundle"], "exit_criteria": ["Leandro aprova gestao", "medico nao acessa", "auditoria confere", "sem regressao nas paginas existentes"]},
+    {"id": "A5", "name": "Deploy e unificacao", "objective": "Publicar somente apos os gates tecnicos e humanos.", "deliverables": ["deploy tablet", "smoke test publico", "commit e push dos dois repositorios"], "exit_criteria": ["build reproduzivel", "tablet online", "rollback documentado", "aceite formal"]}
+  ],
+  "current_status": {"phase": "A0", "status": "PLANNED", "blockers": ["A1 precisa definir os endpoints de permissoes antes da UI real", "homologacao humana ainda nao executada"]}
+}
