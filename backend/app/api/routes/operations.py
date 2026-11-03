@@ -81,6 +81,11 @@ class AgendaRowIn(BaseModel):
     scheduled_at: datetime
     service_code: Literal["MEDICAL_EXAM", "PSYCHOTECHNICAL"]
     renach: str | None = Field(default=None, max_length=20)
+    process_type: str | None = Field(default=None, max_length=80)
+    license_category: str | None = Field(default=None, max_length=10)
+    exam_status: str | None = Field(default=None, max_length=30)
+    medical_status: str | None = Field(default=None, max_length=30)
+    psychological_status: str | None = Field(default=None, max_length=30)
 
     @field_validator("cpf")
     @classmethod
@@ -410,8 +415,8 @@ def upsert_service_type(
     return result
 
 
-def _source_key(digest: str, row: int) -> str:
-    return hashlib.sha256(f"{digest}:{row}".encode()).hexdigest()[:40]
+def _source_key(digest: str, row: int, service_code: str) -> str:
+    return hashlib.sha256(f"{digest}:{row}:{service_code}".encode()).hexdigest()[:40]
 
 
 @router.post("/agenda/import", status_code=status.HTTP_201_CREATED)
@@ -444,34 +449,40 @@ def import_agenda(
     db.flush()
     created = exceptions = 0
     for row in payload.rows:
-        key = _source_key(payload.sha256, row.source_row)
+        key = _source_key(payload.sha256, row.source_row, row.service_code)
         patient = db.scalar(select(Patient).where(Patient.cpf == row.cpf)) if row.cpf else None
-        service = db.scalar(
-            select(ServiceType).where(
-                ServiceType.code == row.service_code, ServiceType.active.is_(True)
-            )
-        )
-        appointment = None
+        service_codes = [row.service_code]
+        if row.exam_status is None and row.service_code == "MEDICAL_EXAM" and row.psychological_status:
+            # A DETRAN row can carry both exam outcomes; the second service is
+            # represented as a separate appointment for independent workflow/payment.
+            service_codes.append("PSYCHOTECHNICAL")
+        appointments = []
         row_status = "REQUIRES_REVIEW"
-        if patient and service:
-            appointment = Appointment(
-                patient_id=patient.id,
-                exam_date=row.scheduled_at.date(),
-                scheduled_at=row.scheduled_at.replace(tzinfo=None),
-                service_type_id=service.id,
-                renach=row.renach,
-                status="aberto",
-                operational_status="SCHEDULED",
-                source_kind="DETRAN_PDF",
-                source_key=key,
-                created_by_id=context.user.id,
-            )
-            db.add(appointment)
-            db.flush()
-            created += 1
-            row_status = "CREATED"
+        if patient:
+            for service_code in service_codes:
+                service = db.scalar(select(ServiceType).where(
+                    ServiceType.code == service_code, ServiceType.active.is_(True)))
+                if not service:
+                    continue
+                appointment = Appointment(
+                    patient_id=patient.id, exam_date=row.scheduled_at.date(),
+                    scheduled_at=row.scheduled_at.replace(tzinfo=None), service_type_id=service.id,
+                    renach=row.renach, process_type=row.process_type,
+                    license_category=row.license_category,
+                    exam_status=(row.medical_status if service_code == "MEDICAL_EXAM" else row.psychological_status) or row.exam_status,
+                    status="aberto", operational_status="SCHEDULED", source_kind="DETRAN_PDF",
+                    source_key=_source_key(payload.sha256, row.source_row, service_code),
+                    created_by_id=context.user.id)
+                db.add(appointment); db.flush(); appointments.append(appointment)
+            if appointments:
+                created += len(appointments)
+                appointment = appointments[0]
+                row_status = "CREATED"
+            else:
+                appointment = None
         else:
             exceptions += 1
+            appointment = None
         db.add(
             AgendaImportRow(
                 batch_id=batch.id,

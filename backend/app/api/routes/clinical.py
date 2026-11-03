@@ -87,6 +87,7 @@ class PatientOut(BaseModel):
 class AppointmentCreate(BaseModel):
     patient_id: int
     exam_date: date
+    scheduled_at: datetime | None = None
     event_type_id: int | None = None
     doctor_id: int | None = None
     psychologist_id: int | None = None
@@ -108,6 +109,9 @@ class AppointmentOut(BaseModel):
     patient_id: int
     legacy_code: str | None
     renach: str | None
+    process_type: str | None
+    license_category: str | None
+    exam_status: str | None
     exam_date: date
     event_type_id: int | None
     doctor_id: int | None
