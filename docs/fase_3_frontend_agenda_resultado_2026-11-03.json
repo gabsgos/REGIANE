@@ -1,0 +1,14 @@
+{
+  "fase": "3",
+  "nome": "Frontend gestor e agenda",
+  "status": "EM_HOMOLOGACAO_LOCAL",
+  "checks": [
+    {"id": "C3-01", "resultado": "OK", "item": "pagina de usuarios com busca e filtro de status"},
+    {"id": "C3-02", "resultado": "OK", "item": "abas usuarios, permissoes, convites e auditoria"},
+    {"id": "C3-03", "resultado": "OK", "item": "agenda contempla nao compareceu e inapto temporario"},
+    {"id": "C3-04", "resultado": "OK", "item": "compile Python e diff check"},
+    {"id": "C3-05", "resultado": "PENDENTE", "item": "CRUD real de convite/auditoria e correlação visual do PDF ainda precisam de endpoints dedicados"}
+  ],
+  "deploy_tablet": "NAO_REALIZADO_CONFORME_DIRETRIZ",
+  "proxima_acao": "Completar endpoints de convites/auditoria e fluxo visual de revisão do PDF antes do deploy."
+}
