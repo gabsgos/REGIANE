@@ -1,0 +1,54 @@
+{
+  "checked_at": "2026-11-03T11:49:00-03:00",
+  "release": "1.0.0+build.57",
+  "result": "BLOCKED",
+  "passed": [
+    "backend Poetry valido",
+    "frontend Poetry valido",
+    "backend 59 testes aprovados",
+    "frontend 37 testes aprovados",
+    "backend lint completo aprovado",
+    "compileall backend e frontend aprovado",
+    "Alembic possui cabeca unica d81a6c9e4301",
+    "migration F03 compila em SQL MySQL",
+    "78 rotas OpenAPI geradas e todas as rotas operacionais requeridas presentes",
+    "zero atribuicao aparente de segredo no diff",
+    "Graphify atualizado nos dois repositorios",
+    "SQLite legado permanece funcional"
+  ],
+  "failed_or_pending": [
+    {
+      "gate": "F02_ZERO_SQL_NAS_PAGINAS",
+      "status": "FAIL",
+      "evidence": "53 referencias diretas a execute_query, execute_insert ou get_connection ainda existem em pages/*.py",
+      "required_action": "migrar callbacks remanescentes para services antes de ativar abel_api"
+    },
+    {
+      "gate": "F03_MIGRATION_REHEARSAL",
+      "status": "PENDING",
+      "evidence": "SQL MySQL compilou; nao foi aplicado em MariaDB isolado",
+      "required_action": "provisionar schema de homologacao, executar upgrade, validadores, downgrade e novo upgrade"
+    },
+    {
+      "gate": "F05_REAL_PDF_SAMPLE",
+      "status": "PENDING",
+      "evidence": "nenhum PDF Detran de amostra esta presente no workspace",
+      "required_action": "fornecer lote representativo sem alterar os originais"
+    },
+    {
+      "gate": "F04_F10_HUMAN_HOMOLOGATION",
+      "status": "PENDING",
+      "evidence": "a aprovacao humana anterior precede esta build e nao valida os novos fluxos",
+      "required_action": "Regiane/Leandro validarem cadastro, agenda, atendimento, financeiro e documento na build 57"
+    },
+    {
+      "gate": "F12_CUTOVER",
+      "status": "BLOCKED",
+      "evidence": "F02, F03, F05 e homologacao humana nao concluidos",
+      "required_action": "nao alterar DATA_BACKEND para abel_api em producao ainda"
+    }
+  ],
+  "safe_runtime_setting": "DATA_BACKEND=sqlite",
+  "next_executable_phase": "F02",
+  "release_ready": false
+}

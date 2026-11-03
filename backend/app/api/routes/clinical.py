@@ -120,6 +120,10 @@ class AppointmentOut(BaseModel):
     workflow_status: str
     reanalysis_required: bool
     operational_observation: str | None
+    scheduled_at: datetime | None
+    operational_status: str
+    service_type_id: int | None
+    source_kind: str
 
 
 class ProfessionalAbsence(BaseModel):
@@ -170,7 +174,11 @@ def appointment_scope(statement, context: AuthContext):
 
 def sync_appointment_workflow(db: Session, appointment: Appointment) -> str:
     immutable_states = {"PDF_AUTENTICADO", "DISPONIVEL_RECEPCAO", "ENTREGUE", "EMENDADO"}
-    if appointment.status == "cancelado":
+    if appointment.operational_status == "COMPLETED":
+        appointment.workflow_status = "CONCLUIDO_PAGAMENTO_INDEPENDENTE"
+    elif appointment.operational_status == "TEMPORARILY_UNFIT":
+        appointment.workflow_status = "TEMPORARILY_UNFIT"
+    elif appointment.status == "cancelado":
         if appointment.workflow_status != "CANCELADO_FALTA_PROFISSIONAL":
             appointment.workflow_status = "CANCELADO"
     elif appointment.workflow_status in immutable_states:
@@ -207,14 +215,7 @@ def professional_can_act(db: Session, context: AuthContext, appointment: Appoint
         appointment.psychologist_id,
     }:
         return False
-    return bool(
-        db.scalar(
-            select(Payment.id).where(
-                Payment.appointment_id == appointment.id, Payment.status == "pago"
-            )
-        )
-        and appointment.status == "aberto"
-    )
+    return appointment.status == "aberto"
 
 
 @router.get("/patients")
@@ -345,6 +346,7 @@ def list_appointments(
     date_from: date | None = None,
     date_to: date | None = None,
     appointment_status: str | None = Query(default=None, alias="status"),
+    patient_id: int | None = Query(default=None, ge=1),
     page: int = Query(default=1, ge=1),
     page_size: int = Query(default=25, ge=1, le=100),
 ) -> dict:
@@ -355,6 +357,8 @@ def list_appointments(
         statement = statement.where(Appointment.exam_date <= date_to)
     if appointment_status:
         statement = statement.where(Appointment.status == appointment_status)
+    if patient_id:
+        statement = statement.where(Appointment.patient_id == patient_id)
     if search:
         term = f"%{search.strip()}%"
         statement = statement.join(Patient).where(
@@ -520,9 +524,7 @@ def clinical_worklist(
                 Appointment.doctor_id == context.user.professional_id,
                 Appointment.psychologist_id == context.user.professional_id,
             ),
-            Appointment.id.in_(
-                select(Payment.appointment_id).where(Payment.status == "pago")
-            ),
+            Appointment.id.in_(select(Payment.appointment_id).where(Payment.status == "pago")),
         )
         .order_by(Appointment.exam_date, Appointment.id)
     )

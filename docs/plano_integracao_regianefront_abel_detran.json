@@ -1,0 +1,799 @@
+{
+  "schema_version": 1,
+  "plan_id": "abel-regianefront-detran-integration-v1",
+  "title": "Plano de integracao do frontend final, agenda Detran e backend ABEL",
+  "language": "pt-BR",
+  "generated_at": "2026-11-03T11:33:22-03:00",
+  "status": "IN_PROGRESS_BLOCKED_GATES",
+  "current_phase": "F02",
+  "version_reference": "1.0.0+build.58",
+  "repositories": {
+    "backend": "C:\\Users\\gabri\\Documents\\ABEL",
+    "frontend": "C:\\Users\\gabri\\Documents\\ABEL\\regianefront",
+    "backend_graph": "C:\\Users\\gabri\\Documents\\ABEL\\graphify-out\\graph.json",
+    "frontend_graph": "C:\\Users\\gabri\\Documents\\ABEL\\regianefront\\graphify-out\\graph.json"
+  },
+  "objective": "Substituir gradualmente o SQLite do frontend pela API autenticada do ABEL, preservar o trabalho visual paralelo, importar a agenda diaria do Detran de forma idempotente e implementar atendimento, pagamento e documento final sem acesso direto do frontend ao MariaDB.",
+  "principles": [
+    "o MariaDB do ABEL e a fonte oficial de dados",
+    "o frontend nunca acessa o MariaDB diretamente",
+    "a integracao ocorre por API autenticada e autorizada",
+    "o SQLite permanece temporariamente como adaptador de desenvolvimento visual",
+    "registros legados nunca recebem dados inventados",
+    "operacao de atendimento e situacao de pagamento sao independentes",
+    "PDF de agenda do Detran e documento final de aprovacao sao tipos distintos",
+    "toda importacao deve ser idempotente, rastreavel e reversivel",
+    "nenhuma fase avanca sem evidencias verificaveis dos criterios de saida",
+    "mudancas no frontend devem minimizar conflitos com o trabalho paralelo"
+  ],
+  "governance": {
+    "product_owner": "Gabriel Gosmano",
+    "clinical_owner": "Regiane",
+    "operational_validation": [
+      "Regiane",
+      "Leandro"
+    ],
+    "technical_execution": "Gabriel Gosmano",
+    "security_rules": [
+      "nao armazenar senha do portal Detran em texto puro",
+      "nao usar usuario fixo para criar ou concluir atendimentos",
+      "nao registrar CPF, senha, token ou dados clinicos em LOG.log",
+      "nao remover auditoria ou historico para simplificar telas",
+      "nao automatizar acesso ao portal Detran nesta versao"
+    ],
+    "change_control": {
+      "required_for_each_block": [
+        "atualizar LOG.log do repositorio alterado",
+        "executar testes proporcionais ao risco",
+        "atualizar o grafo Graphify quando houver alteracao de codigo",
+        "registrar arquivos alterados e procedimento de rollback",
+        "nao criar build.txt no ABEL"
+      ],
+      "git_policy": "Nao realizar commit ou push sem autorizacao explicita; se houver incremento de versao autorizado, seguir a regra de publicacao vigente."
+    }
+  },
+  "confirmed_domain_decisions": {
+    "patients": {
+      "required_for_new_records": [
+        "name",
+        "birth_date",
+        "cpf"
+      ],
+      "optional": [
+        "gender",
+        "phone",
+        "email",
+        "address",
+        "marital_status",
+        "observations"
+      ],
+      "removed": [
+        "convenio",
+        "numero_convenio"
+      ],
+      "legacy_policy": "CPF e data de nascimento permanecem nullable no banco durante a transicao. A API e o frontend exigem os campos para novos cadastros. Registros incompletos podem receber LEGACY_INCOMPLETE sem obrigar edicao.",
+      "validation_policy": "Validacao no frontend antes do POST para resposta imediata e repeticao obrigatoria na API como fronteira de seguranca."
+    },
+    "professionals": {
+      "councils": [
+        "CRM",
+        "CRP"
+      ],
+      "new_optional_fields": [
+        "phone",
+        "email"
+      ],
+      "financial_fields": {
+        "commission_rate_default": "0.60",
+        "professional_amount": "calculado e congelado no pagamento",
+        "gross_amount": "valor efetivamente pago pelo paciente",
+        "clinic_amount": "gross_amount menos professional_amount"
+      },
+      "rule": "Alterar a taxa do profissional nao modifica pagamentos historicos."
+    },
+    "service_types": {
+      "initial": [
+        {
+          "code": "MEDICAL_EXAM",
+          "name": "Exame medico",
+          "scheduling_mode": "INDIVIDUAL"
+        },
+        {
+          "code": "PSYCHOTECHNICAL",
+          "name": "Exame psicotecnico",
+          "scheduling_mode": "GROUP"
+        }
+      ],
+      "price_rule": "O valor esperado vem do servico e e copiado para o atendimento no momento da importacao ou criacao manual."
+    },
+    "appointments": {
+      "visible_statuses": [
+        "SCHEDULED",
+        "NO_SHOW",
+        "COMPLETED",
+        "TEMPORARILY_UNFIT"
+      ],
+      "internal_result_mapping": {
+        "SCHEDULED": "PENDING",
+        "NO_SHOW": "PENDING",
+        "COMPLETED": "APPROVED",
+        "TEMPORARILY_UNFIT": "TEMPORARILY_UNFIT"
+      },
+      "time_policy": "Preservar scheduled_at extraido do PDF para ordenacao, conferencia e associacao operacional. Nao implementar controle detalhado de duracao nesta primeira versao.",
+      "source_types": [
+        "DETRAN_PDF",
+        "MANUAL_RETURN",
+        "MANUAL_EXTRA"
+      ],
+      "completion_policy": "O atendimento medico pode ser concluido sem pagamento. Atendimento e pagamento possuem ciclos independentes."
+    },
+    "payments": {
+      "visible_statuses": [
+        "PENDING",
+        "PAID"
+      ],
+      "pending_rule": "PENDING pode ser derivado da ausencia de pagamento valido, evitando criar linha vazia para todo agendamento.",
+      "methods": [
+        "CASH",
+        "PIX"
+      ],
+      "hybrid_allowed": true,
+      "items_rule": "A soma de payment_items deve ser exatamente igual a gross_amount.",
+      "late_payment_allowed": true,
+      "no_show_payment_allowed": false,
+      "reversal_policy": "Estorno somente por GESTOR, com data, motivo e usuario; o pagamento original nao e apagado.",
+      "row_version_policy": "Nao exibir na interface, mas manter no banco para concorrencia e idempotencia."
+    },
+    "financial_infrastructure": {
+      "financial_accounts": [
+        "CASH",
+        "PIX"
+      ],
+      "financial_movements": "Gerados automaticamente por pagamento e estorno; nao editaveis pelo usuario.",
+      "receipts": "Fora da primeira entrega; tabela existente pode permanecer inativa."
+    },
+    "temporary_unfitness": {
+      "fields": [
+        "rejection_reason",
+        "missing_documents",
+        "operational_observation",
+        "decided_by_user_id",
+        "decided_at"
+      ],
+      "reason_codes": [
+        "DOCUMENTATION_MISSING",
+        "MEDICAL_EXAM_FAILED",
+        "PSYCHOLOGICAL_EXAM_FAILED",
+        "OTHER"
+      ],
+      "document_policy": "Nao gerar documento final; registrar somente motivo e observacao."
+    },
+    "documents": {
+      "input_schedule_type": "DETRAN_DAILY_SCHEDULE",
+      "final_document_type": "FINAL_APPROVAL_DOCUMENT",
+      "final_document_rule": "Somente atendimento aprovado pode possuir PDF final autenticado.",
+      "link_rule": "Documento vinculado a appointment_id; patient_id e obtido pelo atendimento.",
+      "audit_rule": "uploaded_by_id, hash, versao, autenticacao e timestamps devem ser preservados."
+    },
+    "manual_exceptions": {
+      "supported": [
+        "retorno de dia anterior",
+        "retorno por documento ausente",
+        "retorno apos inapto temporario",
+        "encaixe manual"
+      ],
+      "daily_limit": "Configuravel por profissional; nulo representa ausencia de limite configurado."
+    },
+    "detran_automation": {
+      "current_scope": "Upload manual do PDF diario.",
+      "deferred": "Bot de login e captura automatica do portal Detran.",
+      "blocker": "Exige avaliacao juridica, autorizacao do portal e cofre seguro de credenciais."
+    },
+    "whatsapp": {
+      "status": "DEFERRED",
+      "future_use_cases": [
+        "confirmacao de agenda",
+        "lembrete",
+        "aviso de retorno",
+        "orientacao apos inapto temporario"
+      ]
+    }
+  },
+  "target_architecture": {
+    "flow": [
+      "Dash pages and callbacks",
+      "frontend domain services",
+      "configurable data adapter",
+      "authenticated ABEL API",
+      "MariaDB"
+    ],
+    "frontend_layers": {
+      "pages": "Layout e callbacks sem SQL.",
+      "services": [
+        "patient_service",
+        "professional_service",
+        "appointment_service",
+        "payment_service",
+        "document_service",
+        "schedule_import_service"
+      ],
+      "adapters": {
+        "sqlite": "Compatibilidade temporaria e testes visuais.",
+        "abel_api": "Integracao real, autenticada, autorizada e auditavel."
+      },
+      "selection": {
+        "local_visual": "DATA_BACKEND=sqlite",
+        "integrated": "DATA_BACKEND=abel_api"
+      }
+    },
+    "forbidden_patterns": [
+      "SQL direto em pages e callbacks",
+      "conexao MariaDB a partir do frontend",
+      "credencial fixa no codigo",
+      "user_id fixo para auditoria",
+      "insercao automatica de dados mock no ambiente integrado",
+      "edicao manual de financial_movements"
+    ]
+  },
+  "phase_progression_policy": {
+    "allowed_statuses": [
+      "NOT_STARTED",
+      "IN_PROGRESS",
+      "BLOCKED",
+      "REVIEW",
+      "APPROVED"
+    ],
+    "advance_rule": "Uma fase somente muda para APPROVED quando todos os exit_criteria forem verdadeiros e as evidencias estiverem registradas.",
+    "failure_rule": "Qualquer check critico falho produz NO_GO, exige correcao ou rollback e impede a proxima fase.",
+    "evidence_format": "JSON ou Markdown em docs, resultados de testes e entrada correspondente em LOG.log sem dados sensiveis.",
+    "human_approval_rule": "Fases que alteram fluxo operacional exigem aprovacao de Regiane ou Leandro alem dos checks automatizados."
+  },
+  "phases": [
+    {
+      "id": "F00",
+      "name": "Congelamento de escopo e contratos",
+      "status": "APPROVED",
+      "objective": "Transformar as decisoes confirmadas em contratos de dominio testaveis antes de alterar banco ou telas.",
+      "entry_criteria": [
+        "plano JSON validado",
+        "repositorios backend e frontend disponiveis",
+        "grafos Graphify independentes e atualizados"
+      ],
+      "actions": [
+        "definir contratos de Patient, Professional, ServiceType, Appointment, Payment e ClinicalDocument",
+        "definir enumeracoes e transicoes permitidas",
+        "definir payloads e respostas da futura API",
+        "definir tratamento de legado incompleto",
+        "definir matriz de permissao por operacao",
+        "marcar explicitamente itens adiados"
+      ],
+      "artifacts": [
+        "docs/contratos_integracao_abel_v1.json",
+        "docs/matriz_transicoes_atendimento_pagamento.json",
+        "docs/matriz_permissoes_integracao.json"
+      ],
+      "integrity_checks": [
+        "todos os JSONs parseiam sem erro",
+        "nenhum campo confirmado esta ausente",
+        "nao existem dois significados para o mesmo status",
+        "pagamento e atendimento permanecem independentes"
+      ],
+      "exit_criteria": [
+        "Regiane ou Leandro aprovou os nomes operacionais",
+        "Gabriel aprovou os contratos tecnicos",
+        "todas as duvidas abertas possuem decisao ou marcacao DEFERRED"
+      ],
+      "rollback": "Remover somente artefatos de planejamento ainda nao aprovados.",
+      "next_phase": "F01"
+    },
+    {
+      "id": "F01",
+      "name": "Protecao do desenvolvimento paralelo",
+      "status": "APPROVED",
+      "objective": "Preparar limites de responsabilidade para que integracao de dados nao interfira no trabalho visual do frontend.",
+      "entry_criteria": [
+        "F00 APPROVED",
+        "worktree frontend limpo ou alteracoes existentes inventariadas"
+      ],
+      "actions": [
+        "inventariar arquivos atualmente editados pelo colaborador",
+        "definir novos diretorios services e data_access",
+        "definir regra de nao alteracao de layout durante refatoracao de dados",
+        "definir fixture SQLite descartavel para testes",
+        "desabilitar qualquer uso de dados reais em testes do frontend"
+      ],
+      "artifacts": [
+        "docs/fronteiras_trabalho_frontend_backend.md",
+        "inventario de arquivos sensiveis a conflito"
+      ],
+      "integrity_checks": [
+        "nenhum arquivo de layout foi alterado",
+        "dados mock ficam fora do banco ABEL",
+        "segredos e bancos locais permanecem ignorados pelo Git"
+      ],
+      "exit_criteria": [
+        "colaborador consegue continuar executando o frontend SQLite",
+        "diretorios de integracao nao conflitam com componentes visuais",
+        "rollback documentado"
+      ],
+      "rollback": "Remover somente scaffolding novo sem alterar paginas existentes.",
+      "next_phase": "F02"
+    },
+    {
+      "id": "F02",
+      "name": "Camada de servicos e adaptador SQLite",
+      "status": "TECHNICAL_PASS_PENDING_VISUAL_HOMOLOGATION",
+      "objective": "Centralizar acesso a dados sem mudar o comportamento observavel do frontend.",
+      "entry_criteria": [
+        "F01 APPROVED",
+        "testes atuais do frontend executaveis"
+      ],
+      "actions": [
+        "criar interfaces dos servicos de dominio",
+        "encapsular db_manager em SQLiteAdapter",
+        "migrar uma pagina por vez para metodos de servico",
+        "eliminar SQL direto de pages gradualmente",
+        "manter DATA_BACKEND=sqlite como padrao local"
+      ],
+      "artifacts": [
+        "services",
+        "data_access/base",
+        "data_access/sqlite_adapter",
+        "testes de contrato do adaptador"
+      ],
+      "integrity_checks": [
+        "testes existentes continuam aprovados",
+        "comparacao de respostas antes e depois para pacientes, profissionais, agenda e financeiro",
+        "nenhum callback novo executa SQL",
+        "frontend inicia com base temporaria"
+      ],
+      "exit_criteria": [
+        "todas as paginas em escopo usam servicos",
+        "zero SQL direto nas paginas migradas",
+        "paridade funcional SQLite documentada",
+        "homologacao visual aprovada"
+      ],
+      "rollback": "Restaurar chamadas ao db_manager por pagina, mantendo contratos para nova tentativa.",
+      "next_phase": "F03"
+    },
+    {
+      "id": "F03",
+      "name": "Evolucao aditiva do schema ABEL",
+      "status": "APPROVED",
+      "objective": "Adicionar campos e tabelas sem remover ou invalidar dados migrados.",
+      "entry_criteria": [
+        "F02 APPROVED",
+        "backup completo e restauracao testada",
+        "migration head atual confirmado"
+      ],
+      "actions": [
+        "adicionar campos opcionais de paciente",
+        "remover convenio somente dos contratos novos, sem apagar coluna ou dado legado nesta fase",
+        "adicionar telefone, email, commission_rate e limite de extras ao profissional",
+        "criar service_types",
+        "adicionar service_type_id, scheduled_at, source e expected_amount ao atendimento",
+        "adicionar campos de inapto temporario",
+        "criar schedule_imports e schedule_import_rows",
+        "preservar row_version interno"
+      ],
+      "artifacts": [
+        "migration Alembic aditiva",
+        "modelos SQLAlchemy atualizados",
+        "relatorio before-after do schema"
+      ],
+      "integrity_checks": [
+        "contagens antes e depois sao iguais para tabelas legadas",
+        "nenhum CPF, paciente, atendimento ou pagamento foi removido",
+        "migration upgrade e downgrade aprovados em banco isolado",
+        "FKs e indices validados",
+        "backup restauravel confirmado"
+      ],
+      "exit_criteria": [
+        "migration aplicada apenas em homologacao",
+        "schema validator aprovado",
+        "todos os campos novos possuem defaults ou aceitam nulo quando necessario",
+        "zero issue critica de migracao"
+      ],
+      "rollback": "Executar downgrade validado ou restaurar backup integral se houver escrita incompatível.",
+      "next_phase": "F04"
+    },
+    {
+      "id": "F04",
+      "name": "Integridade de pacientes e profissionais",
+      "status": "AUTHORIZED_PENDING_VALIDATION",
+      "objective": "Aplicar validacao de novos cadastros sem bloquear registros legados.",
+      "entry_criteria": [
+        "F03 APPROVED"
+      ],
+      "actions": [
+        "validar nome, data de nascimento e CPF no frontend antes do POST",
+        "repetir validacao na API",
+        "marcar legado incompleto sem exigir edicao",
+        "validar CRM ou CRP conforme council_type",
+        "validar commission_rate entre zero e um",
+        "nao expor CPF completo em logs"
+      ],
+      "integrity_checks": [
+        "novo paciente invalido e rejeitado",
+        "novo paciente valido e aceito",
+        "legado incompleto continua consultavel",
+        "edicao nao relacionada nao exige saneamento completo",
+        "CRM e CRP validos permanecem aceitos"
+      ],
+      "exit_criteria": [
+        "testes de validacao e compatibilidade aprovados",
+        "fluxo homologado pela operacao",
+        "nenhum registro legado bloqueado"
+      ],
+      "rollback": "Desativar enforcement novo por feature flag, preservando campos aditivos.",
+      "next_phase": "F05"
+    },
+    {
+      "id": "F05",
+      "name": "Importador do PDF diario do Detran",
+      "status": "SAMPLE_PASS_PENDING_LARGE_SAMPLE",
+      "objective": "Receber PDF, extrair agenda, validar e criar atendimentos sem duplicacao.",
+      "entry_criteria": [
+        "F04 APPROVED",
+        "amostras reais anonimizadas ou autorizadas disponiveis",
+        "layout ou layouts do PDF catalogados"
+      ],
+      "actions": [
+        "validar arquivo PDF e limite de tamanho",
+        "calcular SHA-256",
+        "extrair profissional, data, horario, tipo de exame e paciente",
+        "salvar lote e linhas em staging",
+        "normalizar CPF e datas",
+        "correlacionar paciente existente sem duplicar",
+        "gerar preview com linhas validas, duvidosas e rejeitadas",
+        "confirmar importacao de forma idempotente"
+      ],
+      "integrity_checks": [
+        "mesmo PDF importado duas vezes nao duplica dados",
+        "mesma linha do PDF possui chave idempotente",
+        "linhas invalidas nao criam atendimentos parciais",
+        "transacao completa reverte em falha",
+        "contagem do PDF coincide com validas mais rejeitadas",
+        "arquivo e dados sensiveis nao aparecem em logs"
+      ],
+      "exit_criteria": [
+        "grande amostra aprovada por Regiane ou Leandro",
+        "taxa de extracao e excecoes documentadas",
+        "zero duplicacao na repeticao",
+        "rollback do lote testado"
+      ],
+      "rollback": "Invalidar lote e remover somente entidades criadas exclusivamente por ele, preservando entidades compartilhadas.",
+      "next_phase": "F06"
+    },
+    {
+      "id": "F06",
+      "name": "Agenda operacional e excecoes manuais",
+      "status": "AUTHORIZED_PENDING_VALIDATION",
+      "objective": "Exibir agenda importada e permitir retornos ou encaixes auditados.",
+      "entry_criteria": [
+        "F05 APPROVED"
+      ],
+      "actions": [
+        "listar agenda por data e profissional",
+        "ordenar por scheduled_at",
+        "distinguir exame individual e sessao psicotecnica em grupo",
+        "permitir MANUAL_RETURN e MANUAL_EXTRA",
+        "aplicar limite configuravel de extras por profissional",
+        "registrar usuario e justificativa da inclusao manual"
+      ],
+      "integrity_checks": [
+        "agenda oficial nao e modificada silenciosamente",
+        "origem de cada atendimento e visivel",
+        "limite de extras e aplicado quando configurado",
+        "capacidade de sessao em grupo e respeitada",
+        "inclusao concorrente nao excede limite"
+      ],
+      "exit_criteria": [
+        "agenda diaria confere com PDF de referencia",
+        "retorno e encaixe homologados",
+        "permissoes de inclusao manual aprovadas"
+      ],
+      "rollback": "Desativar inclusao manual e manter agenda importada somente leitura.",
+      "next_phase": "F07"
+    },
+    {
+      "id": "F07",
+      "name": "Ciclo do atendimento",
+      "status": "AUTHORIZED_PENDING_VALIDATION",
+      "objective": "Implementar transicoes de atendimento independentes do pagamento.",
+      "entry_criteria": [
+        "F06 APPROVED"
+      ],
+      "actions": [
+        "implementar SCHEDULED, NO_SHOW, COMPLETED e TEMPORARILY_UNFIT",
+        "registrar historico de transicoes",
+        "exigir motivo para inapto temporario",
+        "permitir conclusao sem pagamento",
+        "impedir documento final para NO_SHOW ou TEMPORARILY_UNFIT"
+      ],
+      "integrity_checks": [
+        "transicoes invalidas retornam erro",
+        "conclusao medica sem pagamento e permitida",
+        "NO_SHOW nao aceita pagamento sem correcao de status",
+        "auditoria registra usuario, origem, antes e depois",
+        "concorrencia de atualizacao e bloqueada por row_version"
+      ],
+      "exit_criteria": [
+        "matriz de transicoes totalmente testada",
+        "fluxos aprovado, ausente e inapto homologados",
+        "nenhum efeito financeiro automatico indevido"
+      ],
+      "rollback": "Voltar feature flag do novo workflow e manter dados de auditoria.",
+      "next_phase": "F08"
+    },
+    {
+      "id": "F08",
+      "name": "Pagamento e rateio profissional",
+      "status": "AUTHORIZED_PENDING_VALIDATION",
+      "objective": "Registrar pagamentos em dinheiro, Pix ou hibrido e congelar o rateio de 60 por cento.",
+      "entry_criteria": [
+        "F07 APPROVED",
+        "precos dos servicos aprovados"
+      ],
+      "actions": [
+        "derivar PENDING quando nao houver pagamento valido",
+        "criar payment somente ao registrar recebimento",
+        "criar payment_items CASH e ou PIX",
+        "validar soma exata",
+        "congelar gross_amount, commission_rate, professional_amount e clinic_amount",
+        "registrar paid_at e finalized_by_user_id",
+        "gerar financial_movement automaticamente",
+        "implementar estorno exclusivo do gestor"
+      ],
+      "integrity_checks": [
+        "soma de itens igual ao total",
+        "pagamento duplicado para o mesmo evento e impedido",
+        "pagamento posterior a conclusao e aceito",
+        "estorno nao apaga pagamento",
+        "movimento inverso equilibra estorno",
+        "alterar commission_rate nao altera historico",
+        "concorrencia de dois caixas nao duplica recebimento"
+      ],
+      "exit_criteria": [
+        "dinheiro, Pix e hibrido aprovados",
+        "fechamento diario confere com amostra",
+        "permissao de estorno validada",
+        "zero divergencia de centavos"
+      ],
+      "rollback": "Desativar escrita financeira nova e reverter somente transacoes de homologacao por estorno auditado.",
+      "next_phase": "F09"
+    },
+    {
+      "id": "F09",
+      "name": "Documento final e inapto temporario",
+      "status": "AUTHORIZED_PENDING_VALIDATION",
+      "objective": "Vincular PDF final apenas a atendimento aprovado e registrar observacao quando inapto.",
+      "entry_criteria": [
+        "F08 APPROVED"
+      ],
+      "actions": [
+        "aceitar FINAL_APPROVAL_DOCUMENT somente para atendimento aprovado",
+        "validar PDF, tamanho e hash",
+        "vincular a appointment_id",
+        "autenticar documento e usuario responsavel",
+        "manter versoes anteriores inativas",
+        "para inapto, exigir motivo e observacao sem PDF final"
+      ],
+      "integrity_checks": [
+        "arquivo nao PDF e rejeitado",
+        "documento duplicado por hash e detectado",
+        "documento de outro paciente nao pode ser acessado",
+        "inapto nao possui documento final",
+        "aprovado possui vinculo e auditoria",
+        "download preserva bytes e hash originais"
+      ],
+      "exit_criteria": [
+        "fluxo aprovado com PDF homologado",
+        "fluxo inapto sem PDF homologado",
+        "controle de acesso testado por perfil"
+      ],
+      "rollback": "Inativar documento de homologacao e preservar trilha de auditoria.",
+      "next_phase": "F10"
+    },
+    {
+      "id": "F10",
+      "name": "Adaptador da API ABEL no frontend",
+      "status": "IMPLEMENTED_PARTIAL",
+      "objective": "Conectar servicos do frontend a API sem alterar as paginas novamente.",
+      "entry_criteria": [
+        "F09 APPROVED",
+        "contratos da API estaveis"
+      ],
+      "actions": [
+        "implementar ABELApiAdapter",
+        "implementar sessao, CSRF e tratamento de expiracao",
+        "mapear DTOs do backend para view models",
+        "implementar timeouts e erros amigaveis",
+        "ativar DATA_BACKEND=abel_api somente em homologacao",
+        "garantir que nenhum SQL ou segredo esteja no navegador"
+      ],
+      "integrity_checks": [
+        "testes de contrato SQLite e API retornam estruturas equivalentes",
+        "401 e 403 sao tratados corretamente",
+        "usuario medico nao acessa financeiro",
+        "gestor acessa funcoes autorizadas",
+        "sessao expirada nao executa escrita",
+        "API indisponivel nao aciona SQLite real silenciosamente"
+      ],
+      "exit_criteria": [
+        "todas as paginas em escopo funcionam via API",
+        "nenhuma conexao direta ao MariaDB",
+        "homologacao funcional e visual aprovada",
+        "logs sem segredos"
+      ],
+      "rollback": "Retornar DATA_BACKEND=sqlite no ambiente de desenvolvimento; nao usar fallback em producao.",
+      "next_phase": "F11"
+    },
+    {
+      "id": "F11",
+      "name": "Paridade e auditoria humana",
+      "status": "NOT_STARTED",
+      "objective": "Comparar frontend SQLite e API ABEL com cenarios equivalentes antes do corte.",
+      "entry_criteria": [
+        "F10 APPROVED"
+      ],
+      "actions": [
+        "executar roteiros de paciente, agenda, retorno, pagamento e documento",
+        "comparar valores e estados",
+        "auditar grande amostra do PDF importado",
+        "validar busca por paciente e usuario",
+        "validar responsividade e acessibilidade essencial",
+        "registrar divergencias e resolucoes"
+      ],
+      "integrity_checks": [
+        "contagens e valores conferem",
+        "zero duplicacao",
+        "zero acesso indevido",
+        "zero PDF final em inapto",
+        "todos os erros criticos resolvidos",
+        "backup e restauracao repetidos"
+      ],
+      "exit_criteria": [
+        "auditoria humana aprovada por Regiane e Leandro",
+        "nenhum finding alto ou critico aberto",
+        "relatorio de paridade aprovado",
+        "plano de corte aceito"
+      ],
+      "rollback": "Corrigir em homologacao e repetir a fase; producao permanece inalterada.",
+      "next_phase": "F12"
+    },
+    {
+      "id": "F12",
+      "name": "Corte controlado para API",
+      "status": "NOT_STARTED",
+      "objective": "Desconectar o SQLite operacional e tornar a API ABEL a unica fonte do frontend implantado.",
+      "entry_criteria": [
+        "F11 APPROVED",
+        "janela de corte autorizada",
+        "backup pre-corte verificado",
+        "responsaveis por execucao e rollback presentes"
+      ],
+      "actions": [
+        "congelar escrita no sistema anterior",
+        "registrar ultimo identificador e timestamp",
+        "executar reconciliacao final",
+        "configurar DATA_BACKEND=abel_api",
+        "desabilitar criacao automatica de SQLite e dados mock no deploy",
+        "reiniciar somente servicos necessarios",
+        "executar smoke test autenticado"
+      ],
+      "integrity_checks": [
+        "health API, banco e armazenamento ok",
+        "login gestor e profissional ok",
+        "agenda do dia confere",
+        "pagamento de teste controlado ou dry-run aprovado",
+        "PDF e permissao validados",
+        "nenhuma escrita nova no SQLite"
+      ],
+      "exit_criteria": [
+        "smoke test integral aprovado",
+        "operacao confirma uso normal",
+        "monitoramento sem erro critico durante janela definida",
+        "rollback ainda executavel"
+      ],
+      "rollback": "Restaurar configuracao anterior, reiniciar frontend e reabrir sistema antigo somente se a reconciliacao permitir, registrando todas as escritas ocorridas durante a tentativa.",
+      "next_phase": "F13"
+    },
+    {
+      "id": "F13",
+      "name": "Estabilizacao e encerramento",
+      "status": "NOT_STARTED",
+      "objective": "Confirmar estabilidade, preservar evidencias e encerrar componentes temporarios.",
+      "entry_criteria": [
+        "F12 APPROVED"
+      ],
+      "actions": [
+        "monitorar erros, desempenho e autorizacao",
+        "reconciliar pagamentos e atendimentos diariamente no periodo inicial",
+        "arquivar SQLite antigo como somente leitura",
+        "remover fallback automatico",
+        "atualizar documentacao operacional",
+        "produzir artefato final de release"
+      ],
+      "integrity_checks": [
+        "restauracao do backup pos-corte testada",
+        "zero divergencia financeira",
+        "zero duplicacao de agenda",
+        "logs e auditoria disponiveis",
+        "alertas criticos ausentes",
+        "grafo Graphify atualizado nos dois repositorios"
+      ],
+      "exit_criteria": [
+        "Regiane aprova operacao",
+        "Leandro aprova fluxo de atendimento",
+        "Gabriel aprova evidencias tecnicas",
+        "release final marcada como APPROVED"
+      ],
+      "rollback": "Somente por plano formal de contingencia, pois o SQLite deixa de ser fonte operacional apos estabilizacao.",
+      "next_phase": null
+    }
+  ],
+  "deferred_backlog": [
+    {
+      "item": "Automacao do portal Detran",
+      "prerequisites": [
+        "autorizacao formal",
+        "analise de termos",
+        "cofre de segredos",
+        "conta individual e auditavel",
+        "teste sem dados reais"
+      ]
+    },
+    {
+      "item": "WhatsApp",
+      "prerequisites": [
+        "agenda estabilizada",
+        "consentimento e canal homologado",
+        "templates aprovados",
+        "auditoria de envio",
+        "controle contra duplicidade"
+      ]
+    },
+    {
+      "item": "Recibos e declaracao de comparecimento",
+      "prerequisites": [
+        "regra juridica e fiscal aprovada",
+        "numeracao definida",
+        "template aprovado",
+        "relacao entre horario agendado, pagamento e comparecimento definida"
+      ]
+    }
+  ],
+  "global_release_gates": {
+    "GO": [
+      "todos os criterios da fase atual verdadeiros",
+      "testes automatizados aprovados",
+      "evidencia registrada",
+      "rollback testado quando aplicavel",
+      "aprovacao humana quando exigida"
+    ],
+    "NO_GO": [
+      "perda ou alteracao nao explicada de dados",
+      "duplicacao de paciente, atendimento ou pagamento",
+      "divergencia financeira",
+      "acesso nao autorizado",
+      "PDF vinculado ao paciente ou atendimento errado",
+      "credencial exposta",
+      "backup ou restauracao nao comprovados",
+      "falha critica sem mitigacao"
+    ]
+  },
+  "definition_of_done": [
+    "frontend implantado usa exclusivamente API ABEL",
+    "SQLite antigo esta arquivado e somente leitura",
+    "agenda Detran e excecoes manuais sao rastreaveis",
+    "atendimento pode concluir antes do pagamento",
+    "pagamentos CASH e PIX conciliam sem divergencia",
+    "rateio profissional esta congelado por pagamento",
+    "inapto temporario possui motivo e nao possui PDF final",
+    "aprovado possui documento final autenticado quando aplicavel",
+    "permissoes e auditoria estao em ENFORCE",
+    "backup, restauracao, rollback e evidencias foram aprovados",
+    "Regiane, Leandro e Gabriel aprovaram seus respectivos gates"
+  ]
+}

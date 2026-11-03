@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "timezone": "America/Sao_Paulo",
+  "patient": {
+    "required_on_create": ["name", "birth_date", "cpf"],
+    "optional": ["gender", "phone", "email", "address", "marital_status", "observations"],
+    "removed_from_new_contract": ["convenio", "numero_convenio"],
+    "legacy_policy": "Campos ausentes continuam nulos e podem ser sinalizados como LEGACY_INCOMPLETE sem exigir edicao."
+  },
+  "professional": {
+    "required_on_create": ["name", "council_type", "council_number"],
+    "council_type": ["CRM", "CRP"],
+    "optional": ["council_region", "phone", "email"],
+    "commission_rate_default": "0.60"
+  },
+  "service_type": {
+    "codes": ["MEDICAL_EXAM", "PSYCHOTECHNICAL"],
+    "required": ["code", "name", "price"],
+    "price_rule": "O valor do pagamento nasce do servico associado ao agendamento."
+  },
+  "appointment": {
+    "required": ["patient_id", "service_type", "scheduled_at", "origin"],
+    "origin": ["DETRAN_PDF", "RETURN", "WALK_IN"],
+    "status": ["SCHEDULED", "NO_SHOW", "COMPLETED", "TEMPORARILY_UNFIT"],
+    "payment_status": ["PENDING", "PAID"],
+    "audit_user_policy": "created_by e finalized_by sao obtidos da sessao autenticada; usuario fixo e proibido."
+  },
+  "payment": {
+    "required_when_paid": ["appointment_id", "gross_amount", "paid_at", "finalized_by", "items"],
+    "methods": ["CASH", "PIX"],
+    "hybrid_allowed": true,
+    "frozen_fields": ["commission_rate", "professional_amount", "clinic_amount"],
+    "receipts": "DEFERRED",
+    "independence": "Um atendimento concluido pode permanecer com pagamento PENDING."
+  },
+  "clinical_document": {
+    "kind": "FINAL_APPROVAL_PDF",
+    "allowed_only_when": "appointment.status == COMPLETED",
+    "temporarily_unfit_policy": "Nao gera PDF; exige motivo ou observacao auditavel."
+  },
+  "deferred": ["portal_detran_bot", "whatsapp", "receipts", "mandatory_database_not_null_for_legacy"]
+}

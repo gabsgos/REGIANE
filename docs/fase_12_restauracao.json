@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-11-02T20:42:58.945721+00:00",
-  "backup_file": "C:\\Users\\gabri\\Documents\\ABEL\\backups\\system\\ABEL_full_20261102T204206Z.abelbak",
+  "generated_at": "2026-11-03T15:42:42.090274+00:00",
+  "backup_file": "C:\\Users\\gabri\\Documents\\ABEL\\backups\\system\\ABEL_full_20261103T154055Z.abelbak",
   "restored_table_count": 26,
-  "restored_row_count": 342888,
+  "restored_row_count": 343053,
   "criteria": {
     "aes_gcm_authentication": true,
     "dump_hash": true,

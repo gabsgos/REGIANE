@@ -1,0 +1,62 @@
+{
+  "checked_at": "2026-11-03T13:15:00-03:00",
+  "release": "1.0.0+build.59",
+  "phase": "F03",
+  "environment": {
+    "kind": "isolated_local_rehearsal",
+    "database_engine": "MySQL 8.4",
+    "database": "temporary",
+    "production_data_used": false
+  },
+  "cycle": {
+    "fresh_upgrade": {
+      "status": "PASS",
+      "revision": "d81a6c9e4301",
+      "table_count_including_alembic": 29
+    },
+    "downgrade": {
+      "status": "PASS_AFTER_FIX",
+      "revision": "c4a0f6b2d901",
+      "table_count_including_alembic": 26,
+      "new_tables_absent": true
+    },
+    "data_preservation": {
+      "status": "PASS",
+      "sentinel_rows_before": 1,
+      "sentinel_rows_after_downgrade": 1,
+      "sentinel_rows_after_reupgrade": 1
+    },
+    "reupgrade": {
+      "status": "PASS",
+      "revision": "d81a6c9e4301",
+      "table_count_including_alembic": 29,
+      "new_tables_present": true,
+      "new_patient_columns_present": true
+    }
+  },
+  "defect_found_and_fixed": {
+    "description": "MySQL required appointment foreign keys to be dropped before their supporting indexes.",
+    "build_fixed": 59
+  },
+  "automated_checks": {
+    "backend_tests": "59 PASS",
+    "frontend_tests": "41 PASS",
+    "ruff": "PASS"
+  },
+  "local_database_application": {
+    "backup_integrity": "PASS",
+    "restore_test": "PASS",
+    "pre_upgrade_revision": "c4a0f6b2d901",
+    "post_upgrade_revision": "d81a6c9e4301",
+    "schema_validation": "PASS"
+  },
+  "result": "APPROVED",
+  "cleanup": {
+    "temporary_server_stopped": true,
+    "temporary_datadir_removed": true,
+    "recoverability": "Not applicable; only disposable rehearsal data was removed."
+  },
+  "limitations": [
+    "No legacy source database was modified; the local ABEL database was upgraded only after backup and restore validation."
+  ]
+}

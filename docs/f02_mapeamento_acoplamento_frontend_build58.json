@@ -1,0 +1,48 @@
+{
+  "checked_at": "2026-11-03T12:08:00-03:00",
+  "release": "1.0.0+build.58",
+  "summary": {
+    "direct_sql_references": 18,
+    "all_db_manager_calls": 18,
+    "in_scope_calls_to_migrate": 0,
+    "out_of_scope_calls_to_remove_with_pages": 18
+  },
+  "in_scope": [
+    {"page": "financeiro.py", "calls": 11, "target": ["PaymentService", "FinancialReportService"]},
+    {"page": "relatorios.py", "calls": 11, "target": ["FinancialReportService", "AppointmentService"]},
+    {"page": "home.py", "calls": 8, "target": ["DashboardService"]},
+    {"page": "agendamento.py", "calls": 6, "target": ["AppointmentService", "ProfessionalService"]},
+    {"page": "cadastro.py", "calls": 6, "target": ["PatientService", "ScheduleImportService", "DocumentService"]},
+    {"page": "medicos.py", "calls": 5, "target": ["ProfessionalService"]},
+    {"page": "pacientes.py", "calls": 5, "target": ["PatientService"]}
+  ],
+  "out_of_scope": [
+    {"page": "prontuarios.py", "calls": 8, "decision": "remover da navegacao e do produto final; nao migrar prontuario"},
+    {"page": "comunicacao.py", "calls": 7, "decision": "adiar comunicacao/WhatsApp; nao migrar nesta versao"},
+    {"page": "prescricoes.py", "calls": 3, "decision": "remover do produto final; nao ha prescricao no escopo Detran"}
+  ],
+  "migration_sequence": [
+    "pacientes e medicos",
+    "agendamento e cadastro/importacao",
+    "financeiro",
+    "relatorios e home",
+    "remocao controlada das paginas fora de escopo",
+    "ativacao de teste com DATA_BACKEND=abel_api"
+  ],
+  "completion_criteria": [
+    "zero execute_query, execute_insert ou get_connection em pages",
+    "zero chamada db_manager em paginas mantidas",
+    "paginas removidas nao aparecem na navegacao nem sao importadas pelo app",
+    "mesmos callbacks passam com SQLiteAdapter e AbelApiAdapter",
+    "suite automatizada e homologacao visual aprovadas"
+  ],
+  "result": {
+    "retained_pages_db_references": 0,
+    "sqlite_tests": "PASS_39",
+    "sqlite_dash_import": "PASS",
+    "api_dash_import": "PASS",
+    "sqlite_http_shell": "PASS_200",
+    "api_http_shell": "PASS_200",
+    "status": "TECHNICAL_PASS_PENDING_VISUAL_HOMOLOGATION"
+  }
+}

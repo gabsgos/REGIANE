@@ -1,0 +1,24 @@
+{
+  "checked_at": "2026-11-03T11:40:15-03:00",
+  "F00": {
+    "status": "APPROVED",
+    "evidence": [
+      "contratos_integracao_abel_v1.json validado",
+      "matriz_transicoes_atendimento_pagamento.json validada",
+      "matriz_permissoes_integracao.json validada",
+      "nomes operacionais e contratos confirmados nas decisoes do projeto",
+      "itens fora de escopo marcados DEFERRED"
+    ]
+  },
+  "F01": {
+    "status": "APPROVED",
+    "evidence": [
+      "fronteiras_integracao_regianefront.md criado",
+      "DATA_BACKEND=sqlite definido como rollback",
+      "app.py e utils/db_manager.py pendentes preservados",
+      "frontend: 34 testes aprovados",
+      "backend: baseline de 54 testes previamente aprovado"
+    ]
+  },
+  "next_phase": "F02"
+}

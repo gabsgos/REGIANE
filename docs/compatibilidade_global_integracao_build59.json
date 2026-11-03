@@ -1,0 +1,47 @@
+{
+  "checked_at": "2026-11-03T12:45:00-03:00",
+  "release": "1.0.0+build.59",
+  "automated_checks": {
+    "backend_tests": {"status": "PASS", "passed": 59},
+    "frontend_tests": {"status": "PASS", "passed": 41},
+    "ruff": "PASS",
+    "backend_compile": "PASS",
+    "maintained_pages_direct_database_calls": 0,
+    "mariadb_upgrade_downgrade_reupgrade": "PASS",
+    "backup_before_local_upgrade": "PASS",
+    "backup_restore_test": "PASS",
+    "local_schema_revision": "d81a6c9e4301",
+    "local_schema_validation": "PASS",
+    "json_artifacts": "PASS",
+    "no_build_txt": true
+  },
+  "phase_gates": {
+    "F02": {
+      "status": "TECHNICAL_PASS_PENDING_VISUAL_HOMOLOGATION",
+      "blocking": true
+    },
+    "F03": {"status": "APPROVED", "blocking": false},
+    "F04": {"status": "IMPLEMENTED_PENDING_HUMAN_WORKFLOW_VALIDATION", "blocking": true},
+    "F05": {
+      "status": "TECHNICAL_SAMPLE_PASS_INSUFFICIENT_FOR_LARGE_SAMPLE_GATE",
+      "sample_rows": 22,
+      "blocking": true
+    },
+    "F06": {"status": "IMPLEMENTED_PENDING_HUMAN_WORKFLOW_VALIDATION", "blocking": true},
+    "F07": {"status": "IMPLEMENTED_PENDING_HUMAN_WORKFLOW_VALIDATION", "blocking": true},
+    "F08": {"status": "IMPLEMENTED_PENDING_REAL_FINANCIAL_RECONCILIATION", "blocking": true},
+    "F09": {"status": "IMPLEMENTED_PENDING_PROFILE_AND_DOCUMENT_VALIDATION", "blocking": true},
+    "F10": {"status": "TECHNICAL_PASS_PENDING_AUTHENTICATED_BROWSER_E2E", "blocking": true},
+    "F11_F13": {"status": "BLOCKED_BY_PREVIOUS_GATES", "blocking": true}
+  },
+  "compatibility": {
+    "schema": "PASS",
+    "legacy_data_preservation": "PASS_IN_REHEARSAL_AND_BACKUP_RESTORE",
+    "frontend_sqlite_mode": "PASS_AUTOMATED",
+    "frontend_abel_api_mode": "PASS_IMPORT_AND_HTTP_BOOT",
+    "release_gate_legacy_1_0_0": "PASS",
+    "new_frontend_integration_release_ready": false
+  },
+  "decision": "NO_GO_FOR_FINAL_FRONTEND_CUTOVER",
+  "reason": "Remaining gates require human visual/workflow validation, a larger Detran PDF sample, real financial reconciliation, and authenticated browser end-to-end evidence."
+}

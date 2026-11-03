@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "appointment": {
+    "initial": "SCHEDULED",
+    "allowed": {
+      "SCHEDULED": ["NO_SHOW", "COMPLETED", "TEMPORARILY_UNFIT"],
+      "NO_SHOW": ["SCHEDULED"],
+      "COMPLETED": [],
+      "TEMPORARILY_UNFIT": ["SCHEDULED"]
+    },
+    "rules": {
+      "COMPLETED": "Pode ocorrer com pagamento PENDING; PDF final e opcional nesta transicao e pode ser anexado depois.",
+      "TEMPORARILY_UNFIT": "Exige rejection_reason ou operational_observation e nunca aceita PDF final.",
+      "NO_SHOW": "Nao cria pagamento automaticamente."
+    }
+  },
+  "payment": {
+    "initial": "PENDING",
+    "allowed": {"PENDING": ["PAID"], "PAID": ["REVERSED"]},
+    "rules": {
+      "PAID": "Soma de payment_items deve ser exatamente gross_amount.",
+      "REVERSED": "Somente gestor, com motivo, usuario e timestamp; registro original permanece auditavel."
+    }
+  },
+  "invariants": [
+    "appointment.status e payment.status sao eixos independentes",
+    "somente CASH e PIX sao aceitos",
+    "valores monetarios usam duas casas decimais",
+    "PDF final existe somente para atendimento COMPLETED"
+  ]
+}

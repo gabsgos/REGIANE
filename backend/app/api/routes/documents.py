@@ -27,7 +27,6 @@ from backend.app.db.models import (
     ClinicalDocument,
     DocumentDelivery,
     Patient,
-    Payment,
     Professional,
 )
 from backend.app.db.session import get_db_session
@@ -59,9 +58,7 @@ def can_access_appointment(context: AuthContext, appointment: Appointment) -> bo
     return False
 
 
-def can_authenticate_document(
-    db: Session, context: AuthContext, appointment: Appointment
-) -> bool:
+def can_authenticate_document(db: Session, context: AuthContext, appointment: Appointment) -> bool:
     if not context.user.professional_id:
         return False
     professional = db.get(Professional, context.user.professional_id)
@@ -76,12 +73,11 @@ def can_authenticate_document(
         appointment.psychologist_id,
     }:
         return False
-    paid = db.scalar(
-        select(Payment.id).where(
-            Payment.appointment_id == appointment.id, Payment.status == "pago"
-        )
+    return bool(
+        appointment.operational_status == "COMPLETED"
+        and appointment.status == "concluido"
+        and not appointment.reanalysis_required
     )
-    return bool(paid and appointment.status == "aberto")
 
 
 def document_json(item: ClinicalDocument) -> dict:

@@ -1,0 +1,38 @@
+{
+  "checked_at": "2026-11-03T11:46:35-03:00",
+  "release": "1.0.0+build.59",
+  "automated_checks": {
+    "backend_pytest": {"status": "PASS", "passed": 59, "failed": 0},
+    "frontend_unittest": {"status": "PASS", "passed": 37, "failed": 0},
+    "backend_ruff_changed_scope": "PASS",
+    "backend_compileall": "PASS",
+    "poetry_backend": "PASS",
+    "poetry_frontend": "PASS",
+    "alembic_head": "d81a6c9e4301",
+    "mysql_offline_migration_compile": "PASS",
+    "graphify_backend": {"status": "PASS", "nodes": 887, "edges": 2893},
+    "graphify_frontend": {"status": "PASS", "nodes": 651, "edges": 1436}
+  },
+  "phase_status": {
+    "F02": {"status": "IMPLEMENTED_PARTIAL", "pending": ["migrar callbacks legados restantes para services", "homologacao visual"]},
+    "F03": {"status": "APPROVED", "pending": []},
+    "F04": {"status": "IMPLEMENTED_PENDING_HOMOLOGATION", "pending": ["homologar cadastro com operacao"]},
+    "F05": {"status": "IMPLEMENTED_PENDING_HOMOLOGATION", "pending": ["executar grande amostra de PDFs reais Detran", "aprovar excecoes"]},
+    "F06": {"status": "IMPLEMENTED_PENDING_HOMOLOGATION", "pending": ["homologar retorno e encaixe"]},
+    "F07": {"status": "IMPLEMENTED_PENDING_HOMOLOGATION", "pending": ["homologar fluxos operacionais"]},
+    "F08": {"status": "IMPLEMENTED_PENDING_HOMOLOGATION", "pending": ["conferir fechamento financeiro com amostra real"]},
+    "F09": {"status": "IMPLEMENTED_PENDING_HOMOLOGATION", "pending": ["homologar PDF final e inapto por perfil"]},
+    "F10": {"status": "IMPLEMENTED_PARTIAL", "pending": ["migrar todas as paginas em escopo", "teste HTTP autenticado ponta a ponta"]},
+    "F11": {"status": "BLOCKED_BY_PREVIOUS_GATES"},
+    "F12": {"status": "BLOCKED_BY_PREVIOUS_GATES"},
+    "F13": {"status": "BLOCKED_BY_PREVIOUS_GATES"}
+  },
+  "compatibility": {
+    "legacy_schema": "PASS_ADDITIVE",
+    "legacy_frontend_sqlite": "PASS_TESTS",
+    "api_auth_model": "PASS_COOKIE_AND_CSRF_FORWARDING",
+    "attendance_payment_independence": "PASS_UNIT_AND_CODE_REVIEW",
+    "release_ready": false,
+    "blocking_phase": "F02"
+  }
+}

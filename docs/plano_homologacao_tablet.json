@@ -1,0 +1,91 @@
+{
+  "title": "Plano de homologacao ABEL no tablet",
+  "created_at": "2026-11-03T13:35:00-03:00",
+  "scope": {
+    "purpose": "Manter o tablet como ambiente online de homologacao e testes do frontend novo conectado ao backend ABEL.",
+    "production": "Nao alterar nem redirecionar o banco de producao nesta fase.",
+    "backup_policy": "Backup operacional nao sera executado nesta rodada, conforme autorizacao do usuario; o risco fica registrado.",
+    "default_frontend_backend": "sqlite",
+    "homologation_frontend_backend": "abel_api",
+    "git_policy": "Publicar somente codigo e configuracoes nao sensiveis; dados, DBs, segredos e documentos permanecem fora do GitHub publico."
+  },
+  "phases": [
+    {
+      "id": "T0",
+      "name": "Governanca e preflight",
+      "objective": "Confirmar topologia, acessibilidade SSH, espaco, servicos e separacao entre tablet e producao.",
+      "actions": ["verificar tablet e SSH", "verificar Poetry e dependencias", "confirmar portas 8001 e 3306 locais no tablet", "confirmar branch funcional do frontend"],
+      "exit_criteria": ["SSH autenticado", "tablet identificado", "Poetry disponível", "nenhum banco de producao incluído no pacote"],
+      "status": "APPROVED",
+      "evidence": {
+        "ssh": "192.168.0.15:8022 authenticated",
+        "abel_mariadb_service": "running",
+        "abel_api_service": "running",
+        "reverse_proxy_service": "running",
+        "local_api_health": 200,
+        "local_abel_html": 200,
+        "public_abel_html": 200,
+        "public_api_health": 200
+      }
+    },
+    {
+      "id": "T1",
+      "name": "Preparacao do runtime",
+      "objective": "Instalar ou confirmar MariaDB, Python, Poetry e dependencias no tablet.",
+      "actions": ["instalar dependencias ausentes", "criar ambiente Poetry isolado", "configurar servicos supervisionados", "gerar .env local fora do Git"],
+      "exit_criteria": ["poetry install concluído", "MariaDB ativo apenas na interface planejada", "API configurada para homologacao"],
+      "status": "APPROVED",
+      "evidence": ["Poetry 2.3.4 e runtime ABEL presentes no tablet", "MariaDB respondendo no PRoot", "API production health PASS", "document storage PASS"]
+    },
+    {
+      "id": "T2",
+      "name": "Carga controlada de homologacao",
+      "objective": "Disponibilizar schema e dados mock/anonimizados para testes online.",
+      "actions": ["aplicar migrations", "carregar somente dados autorizados para homologacao", "criar usuario de teste", "validar permissoes"],
+      "exit_criteria": ["schema no head", "login gestor aprovado", "perfil medico sem acesso financeiro", "nenhum dado sensivel exposto no pacote Git"],
+      "status": "APPROVED",
+      "evidence": {
+        "public_manager_login": "PASS",
+        "session_cookie": true,
+        "csrf_cookie": true,
+        "role": "gerente",
+        "migration": "d81a6c9e4301 (head)",
+        "frontend_service": "abel-frontend running on 8050",
+        "api_health": 200,
+        "manager_login": "PASS"
+      }
+    },
+    {
+      "id": "T3",
+      "name": "Conexao do frontend",
+      "objective": "Executar o novo frontend apontando para a API do tablet sem alterar o fallback SQLite.",
+      "actions": ["usar DATA_BACKEND=abel_api no tablet", "configurar ABEL_API_URL por ambiente", "manter DATA_BACKEND=sqlite no desenvolvimento local", "validar pacientes, agenda, financeiro e documentos"],
+      "exit_criteria": ["frontend HTTP 200", "health da API PASS", "paginacao PASS", "historico financeiro PASS", "sem erro de adaptador"],
+      "status": "APPROVED",
+      "evidence": ["DATA_BACKEND=abel_api", "local frontend 8050 HTTP 200", "public /abel-front/ HTTP 200"]
+    },
+    {
+      "id": "T4",
+      "name": "Homologacao humana",
+      "objective": "Executar roteiro visual e operacional com Regiane, Leandro e perfis autorizados.",
+      "actions": ["validar cadastro e busca", "validar agenda Detran", "validar atendimento e pagamento", "validar inapto temporario", "validar documentos finais"],
+      "exit_criteria": ["roteiro assinado", "nenhum bloqueador critico", "evidencias registradas", "go/no-go formal"],
+      "status": "PENDING_HUMAN_APPROVAL"
+    },
+    {
+      "id": "T5",
+      "name": "Unificacao Git segura",
+      "objective": "Unificar a branch funcional do frontend somente com codigo e dependencias reproduziveis.",
+      "actions": ["revisar diff", "confirmar pyproject.toml e poetry.lock", "excluir DBs, dados, segredos e documentos", "merge/push após homologacao"],
+      "exit_criteria": ["tree limpa", "testes PASS", "remote confirmado", "nenhum segredo ou dado clinico versionado"],
+      "status": "BLOCKED_BY_T4"
+    }
+  ],
+  "current_gate": "T4",
+  "current_blockers": [
+    "O remoto GitHub do frontend é público; DBs e dados completos não podem ser enviados para ele.",
+    "Sem backup nesta rodada, rollback de dados no tablet não está disponível.",
+    "T4 depende do roteiro e aceite humano de homologação."
+  ],
+  "definition_of_done": ["tablet online", "frontend conectado ao ABEL no tablet", "testes automatizados PASS", "homologacao humana aprovada", "branch funcional unificada sem dados sensiveis"]
+}

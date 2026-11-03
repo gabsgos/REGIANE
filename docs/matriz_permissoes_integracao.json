@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "roles": {
+    "ADMIN": ["patients.*", "professionals.*", "appointments.*", "payments.*", "documents.*", "imports.*"],
+    "MANAGER": ["patients.read", "patients.write", "professionals.read", "appointments.*", "payments.read", "payments.write", "payments.reverse", "documents.read", "imports.*"],
+    "RECEPTION": ["patients.read", "patients.write", "professionals.read", "appointments.read", "appointments.schedule", "payments.read", "payments.write", "documents.read", "imports.read"],
+    "DOCTOR": ["patients.read", "appointments.read", "appointments.finalize_medical", "documents.read", "documents.write_final"],
+    "PSYCHOLOGIST": ["patients.read", "appointments.read", "appointments.finalize_psychotechnical", "documents.read", "documents.write_final"],
+    "AUDITOR": ["patients.read", "professionals.read", "appointments.read", "payments.read", "documents.read", "imports.read"]
+  },
+  "rules": [
+    "Deny by default.",
+    "A API repete validacao mesmo quando o frontend oculta uma acao.",
+    "Estorno exige MANAGER ou ADMIN.",
+    "Usuario autenticado e gravado em toda mutacao auditavel.",
+    "Dados sensiveis e segredos nunca sao escritos em LOG.log."
+  ]
+}

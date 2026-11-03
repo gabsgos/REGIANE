@@ -1,0 +1,49 @@
+{
+  "checked_at": "2026-11-03T12:06:09-03:00",
+  "release": "1.0.0+build.58",
+  "source_policy": "originais somente leitura; nenhum dado foi importado no ABEL",
+  "authorization": {
+    "authorized_by": ["Regiane", "Leandro"],
+    "authorized_at": "2026-11-03T11:58:00-03:00",
+    "scope": "prosseguir com validacao das fases F04 a F10",
+    "note": "Ano 20026 informado pelo usuario foi normalizado para 2026 pelo contexto da data atual."
+  },
+  "f03_decision": "DEFERRED_TO_FINAL",
+  "samples": [
+    {
+      "sha256": "1e7a6c302171c3bd9726cc668431b4992970158d95e24b89743960034fb3377b",
+      "pages": 1,
+      "rows_detected": 8,
+      "cpf_with_11_digits": 8,
+      "rows_with_parser_warning": 0,
+      "noncanonical_status_after_fix": 0,
+      "empty_status_cells_confirmed_visually": 1
+    },
+    {
+      "sha256": "b208ec7efd9dc519159b036f3c0e21c8476f78f99dd6d3446008a0abe0023aaf",
+      "pages": 2,
+      "rows_detected": 14,
+      "cpf_with_11_digits": 14,
+      "rows_with_parser_warning": 0,
+      "noncanonical_status_after_fix": 0,
+      "empty_status_cells_confirmed_visually": 3
+    }
+  ],
+  "findings": [
+    "Os PDFs sao rasterizados e exigem OCR local.",
+    "O parser reconheceu corretamente data da agenda, profissional e CRM nos dois arquivos.",
+    "A continuacao de tabela na segunda pagina foi reconhecida.",
+    "Variantes OCR truncadas de status foram corrigidas e cobertas por teste.",
+    "Celulas de status vazias permaneceram vazias e nao receberam valor inventado.",
+    "Dependencias OCR ausentes do Poetry foram adicionadas ao manifesto."
+  ],
+  "checks": {
+    "frontend_tests": "PASS_38",
+    "poetry_check": "PASS",
+    "real_ocr_execution": "PASS",
+    "personal_data_logged": false,
+    "original_files_modified": false
+  },
+  "phase_result": "SAMPLE_PASS_PENDING_LARGE_SAMPLE",
+  "remaining_gate": "Amostra de dois dias e 22 linhas ainda nao caracteriza grande amostra operacional."
+}

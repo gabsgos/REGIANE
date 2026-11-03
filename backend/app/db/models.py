@@ -52,6 +52,10 @@ class Patient(TimestampMixin, Base):
     phone: Mapped[str | None] = mapped_column(String(20))
     email: Mapped[str | None] = mapped_column(String(254))
     address_json: Mapped[dict | None] = mapped_column(JSON)
+    gender: Mapped[str | None] = mapped_column(String(20))
+    marital_status: Mapped[str | None] = mapped_column(String(30))
+    process_type: Mapped[str | None] = mapped_column(String(80))
+    observations: Mapped[str | None] = mapped_column(Text)
     active: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
     row_version: Mapped[int] = mapped_column(Integer, default=1, server_default="1", nullable=False)
 
@@ -72,6 +76,28 @@ class Professional(TimestampMixin, Base):
     council_region: Mapped[str | None] = mapped_column(String(5))
     cpf: Mapped[str | None] = mapped_column(String(11))
     specialty: Mapped[str | None] = mapped_column(String(50))
+    phone: Mapped[str | None] = mapped_column(String(20))
+    email: Mapped[str | None] = mapped_column(String(254))
+    commission_rate: Mapped[Decimal] = mapped_column(
+        Numeric(5, 4), default=Decimal("0.6000"), server_default="0.6000", nullable=False
+    )
+    row_version: Mapped[int] = mapped_column(Integer, default=1, server_default="1", nullable=False)
+    active: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
+
+    __mapper_args__ = {"version_id_col": row_version}
+
+
+class ServiceType(TimestampMixin, Base):
+    __tablename__ = "service_types"
+    __table_args__ = (
+        CheckConstraint("code in ('MEDICAL_EXAM','PSYCHOTECHNICAL')", name="code_allowed"),
+        CheckConstraint("price >= 0", name="price_nonnegative"),
+    )
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    code: Mapped[str] = mapped_column(String(30), unique=True, index=True)
+    name: Mapped[str] = mapped_column(String(100))
+    price: Mapped[Decimal] = mapped_column(Numeric(12, 2))
     active: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
 
 
@@ -161,9 +187,7 @@ class UserPermissionOverride(TimestampMixin, Base):
 
     id: Mapped[int] = mapped_column(BigInteger, primary_key=True, autoincrement=True)
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id", ondelete="CASCADE"))
-    permission_id: Mapped[int] = mapped_column(
-        ForeignKey("permissions.id", ondelete="CASCADE")
-    )
+    permission_id: Mapped[int] = mapped_column(ForeignKey("permissions.id", ondelete="CASCADE"))
     effect: Mapped[str] = mapped_column(String(5))
     scope_type: Mapped[str | None] = mapped_column(String(40))
     scope_id: Mapped[str | None] = mapped_column(String(80))
@@ -184,9 +208,7 @@ class AccessGrant(TimestampMixin, Base):
 
     id: Mapped[int] = mapped_column(BigInteger, primary_key=True, autoincrement=True)
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id", ondelete="CASCADE"))
-    permission_id: Mapped[int] = mapped_column(
-        ForeignKey("permissions.id", ondelete="CASCADE")
-    )
+    permission_id: Mapped[int] = mapped_column(ForeignKey("permissions.id", ondelete="CASCADE"))
     scope_type: Mapped[str | None] = mapped_column(String(40))
     scope_id: Mapped[str | None] = mapped_column(String(80))
     starts_at: Mapped[datetime] = mapped_column(DateTime)
@@ -280,6 +302,21 @@ class Appointment(TimestampMixin, Base):
         Boolean, default=False, server_default="0", nullable=False
     )
     operational_observation: Mapped[str | None] = mapped_column(Text)
+    service_type_id: Mapped[int | None] = mapped_column(ForeignKey("service_types.id"), index=True)
+    scheduled_at: Mapped[datetime | None] = mapped_column(DateTime, index=True)
+    operational_status: Mapped[str] = mapped_column(
+        String(30), default="SCHEDULED", server_default="SCHEDULED", nullable=False
+    )
+    source_kind: Mapped[str] = mapped_column(
+        String(20), default="LEGACY", server_default="LEGACY", nullable=False
+    )
+    source_key: Mapped[str | None] = mapped_column(String(120), unique=True, index=True)
+    rejection_reason: Mapped[str | None] = mapped_column(String(50))
+    missing_documents: Mapped[bool] = mapped_column(
+        Boolean, default=False, server_default="0", nullable=False
+    )
+    finalized_by_id: Mapped[int | None] = mapped_column(ForeignKey("users.id"))
+    completed_at: Mapped[datetime | None] = mapped_column(DateTime)
 
     __mapper_args__ = {"version_id_col": row_version}
 
@@ -301,6 +338,9 @@ class Payment(TimestampMixin, Base):
     reversal_reason: Mapped[str | None] = mapped_column(String(255))
     reversed_by_id: Mapped[int | None] = mapped_column(ForeignKey("users.id"))
     row_version: Mapped[int] = mapped_column(Integer, default=1, server_default="1", nullable=False)
+    commission_rate: Mapped[Decimal | None] = mapped_column(Numeric(5, 4))
+    professional_amount: Mapped[Decimal | None] = mapped_column(Numeric(12, 2))
+    clinic_amount: Mapped[Decimal | None] = mapped_column(Numeric(12, 2))
 
     __mapper_args__ = {"version_id_col": row_version}
 
@@ -413,6 +453,36 @@ class AuditLog(Base):
     before_json: Mapped[dict | None] = mapped_column(JSON)
     after_json: Mapped[dict | None] = mapped_column(JSON)
     request_id: Mapped[str | None] = mapped_column(String(64), index=True)
+
+
+class AgendaImportBatch(TimestampMixin, Base):
+    __tablename__ = "agenda_import_batches"
+
+    id: Mapped[int] = mapped_column(BigInteger, primary_key=True, autoincrement=True)
+    sha256: Mapped[str] = mapped_column(String(64), unique=True, index=True)
+    original_name: Mapped[str] = mapped_column(String(255))
+    agenda_date: Mapped[date] = mapped_column(Date, index=True)
+    status: Mapped[str] = mapped_column(String(30), default="IMPORTED")
+    row_count: Mapped[int] = mapped_column(Integer, default=0, nullable=False)
+    imported_by_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
+    rolled_back_at: Mapped[datetime | None] = mapped_column(DateTime)
+    rolled_back_by_id: Mapped[int | None] = mapped_column(ForeignKey("users.id"))
+
+
+class AgendaImportRow(TimestampMixin, Base):
+    __tablename__ = "agenda_import_rows"
+    __table_args__ = (UniqueConstraint("batch_id", "source_row"),)
+
+    id: Mapped[int] = mapped_column(BigInteger, primary_key=True, autoincrement=True)
+    batch_id: Mapped[int] = mapped_column(
+        ForeignKey("agenda_import_batches.id", ondelete="CASCADE"), index=True
+    )
+    source_row: Mapped[int] = mapped_column(Integer)
+    source_key: Mapped[str] = mapped_column(String(120), unique=True, index=True)
+    payload_json: Mapped[dict] = mapped_column(JSON)
+    patient_id: Mapped[int | None] = mapped_column(ForeignKey("patients.id"))
+    appointment_id: Mapped[int | None] = mapped_column(ForeignKey("appointments.id"))
+    status: Mapped[str] = mapped_column(String(30), default="IMPORTED")
 
 
 class LegacyRawRecord(Base):

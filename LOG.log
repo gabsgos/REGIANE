@@ -1636,3 +1636,175 @@ Decisao de seguranca:
 Restauracao:
 - Reverter o commit de configuracao Serena e o commit consolidado; nenhum banco ou backup local foi alterado.
 
+[2026-11-03 10:20:43 -03:00] Graphify restaurado e instancia do backend ABEL reconstruida.
+- Instalado o pacote oficial `graphifyy` 0.9.101 via `uv tool`, substituindo um executavel residual sem pacote Python.
+- Criado `.graphifyignore` para excluir `regianefront/` do corpus do backend e manter os grafos independentes.
+- Saidas do backend mantidas em `graphify-out/`: `graph.json`, `graph.html` e `GRAPH_REPORT.md`.
+- Resultado isolado: 847 nos, 2.726 arestas e 54 comunidades; 457 nos do frontend foram removidos do grafo da raiz.
+- Nenhum codigo de aplicacao, banco ou configuracao operacional foi alterado.
+- Instalado o extra oficial `graphifyy[mcp]`; servidor MCP do backend ativo em `http://127.0.0.1:8765/mcp` e porta TCP validada.
+- Logs efemeros dos servidores foram isolados em `.graphify-runtime/`, agora ignorado pelo Git.
+- `uv tool update-shell` adicionou `C:\Users\gabri\.local\bin` ao PATH; novos terminais reconhecerao `graphify` diretamente.
+
+[2026-11-03 11:33:22 -03:00] Plano detalhado de integracao frontend, Detran e ABEL criado; build mantida.
+- Criado `docs/plano_integracao_regianefront_abel_detran.json` com contratos confirmados, arquitetura alvo, governanca, fases F00 a F13, checks de integridade, criterios GO/NO-GO, rollback e definition of done.
+- O plano preserva o SQLite apenas como adaptador temporario, define a API ABEL como fronteira oficial e separa agenda Detran, excecoes manuais, atendimento, pagamento e documento final.
+- Nenhum codigo funcional, schema, banco, servico ou configuracao de runtime foi alterado neste bloco.
+
+[2026-11-03 11:40:15 -03:00] Integracao regianefront/ABEL - fases F00 e F01 aprovadas.
+- Formalizados contratos de paciente, profissional, servico, atendimento, pagamento e documento final.
+- Formalizadas matrizes de transicao e permissao, mantendo atendimento e pagamento independentes.
+- Documentadas fronteiras para preservar o desenvolvimento visual paralelo e rollback por `DATA_BACKEND=sqlite`.
+- Validacao-base: frontend 34/34 testes; backend 54/54 testes na baseline desta execucao.
+- Plano avancado para F02; nenhuma tabela ou dado clinico foi alterado neste bloco.
+
+[2026-11-03 11:46:35 -03:00] Integracao regianefront/ABEL - implementacao tecnica F02 a F10 (build 57).
+- Adicionados contratos de adaptador SQLite/API no frontend e servicos de dominio sem credencial MariaDB.
+- Schema ABEL evoluido de forma aditiva para servicos, agenda Detran, status operacional, motivos de inapto e rateio financeiro congelado.
+- Criada migration `d81a6c9e4301`, compilada com sucesso para MySQL sem aplicar no banco operacional.
+- Criados endpoints operacionais para pacientes estritos, profissionais, servicos, importacao/rollback de agenda, encaixes e finalizacao.
+- Removido o acoplamento entre conclusao clinica e pagamento; PDF final exige atendimento concluido/apto.
+- Pagamentos limitados a dinheiro/Pix, sem duplicidade ativa e com comissao profissional padrao de 60 por cento.
+- Checks: backend 59 testes, lint do escopo limpo; frontend 37 testes; Poetry valido nos dois projetos.
+- Graphify atualizado: backend 887 nos/2.893 arestas; frontend 651 nos/1.436 arestas.
+- Gates humanos e de homologacao permanecem pendentes e estao registrados em `docs/integracao_f02_f10_resultado.json`.
+
+[2026-11-03 11:49:00 -03:00] Check global de compatibilidade build 57.
+- PASS: Poetry nos dois repositorios, backend 59 testes, frontend 37 testes, lint e compilacao.
+- PASS: cabeca Alembic unica, SQL MySQL compilado, 78 rotas OpenAPI e rotas operacionais presentes.
+- BLOCK: 53 referencias SQL permanecem em paginas legadas; F02 nao atende o criterio zero SQL.
+- PENDING: rehearsal MariaDB isolado, grande amostra de PDFs e homologacao humana especifica da build 57.
+- Corte F12 nao executado; configuracao segura permanece `DATA_BACKEND=sqlite`.
+- Evidencia completa em `docs/compatibilidade_global_integracao_build57.json`.
+
+[2026-11-03 12:06:09 -03:00] F05 - amostra real de PDFs Detran validada (build 58).
+- Regiane e Leandro autorizaram a validacao em 03/11/2026 as 11:58; F03 foi adiada para o encerramento.
+- Dois PDFs rasterizados, tres paginas e 22 linhas foram processados somente em leitura, sem importar dados no ABEL.
+- Todos os 22 CPFs foram extraidos com 11 digitos; zero aviso estrutural e zero status nao canonico apos correcao.
+- O teste revelou dependencias OCR ausentes no manifesto Poetry e variantes truncadas de status; ambos foram corrigidos.
+- A amostra passou tecnicamente, mas permanece insuficiente para o gate de grande amostra da F05.
+- Evidencia sem dados pessoais em `docs/fase_f05_amostra_pdf_detran_build58.json`.
+
+[2026-11-03 12:08:00 -03:00] F02 - acoplamento frontend detalhado.
+- Mapeadas 70 chamadas ao db_manager: 53 SQL diretas e 17 chamadas de metodos legados.
+- 52 chamadas pertencem as sete paginas mantidas e devem migrar para services/data_access.
+- 18 chamadas pertencem a prontuarios, comunicacao e prescricoes; essas paginas serao removidas ou adiadas, nao migradas.
+- Ordem e criterios de conclusao registrados em `docs/f02_mapeamento_acoplamento_frontend_build58.json`.
+
+[2026-11-03 12:15:00 -03:00] F02 - bloco financeiro do regianefront desacoplado.
+- Removidas 11 consultas SQL diretas da pagina financeira.
+- Modo SQLite preserva visualizacao legada; modo API apresenta apenas pagamentos ABEL autenticados.
+- Despesas e cobrancas pendentes nao foram recriadas no novo backend, conforme decisao de dominio.
+
+[2026-11-03 12:24:00 -03:00] F02 - gate tecnico aprovado na build 58.
+- Zero acesso direto ao banco nas sete paginas mantidas do regianefront.
+- Modulos fora de escopo permanecem isolados e nao sao importados pelo app atual.
+- Dash inicializa e responde HTTP 200 em DATA_BACKEND=sqlite e DATA_BACKEND=abel_api.
+- F02 aguarda apenas homologacao visual humana antes de APPROVED definitivo.
+
+[2026-11-03 12:32:00 -03:00] Integracao financeira por atendimento.
+- O regianefront passou a exigir atendimento antes de registrar pagamento.
+- Pagamentos SQLite preservam o vinculo por consulta_id; o modo API usa appointment_id.
+- Cobranças e despesas avulsas nao atravessam a fronteira da API.
+- Check do frontend: 41 testes aprovados.
+
+[2026-11-03 13:05:00 -03:00] Build 59 - correcao do rollback MariaDB.
+- O ensaio isolado da migration Detran encontrou ordem invalida no downgrade MySQL: o indice de service_type era removido antes da chave estrangeira dependente.
+- O downgrade agora remove primeiro as constraints e depois os indices.
+- Versao de runtime atualizada para 1.0.0+build.59; ciclo completo de upgrade/downgrade/reupgrade sera repetido antes da aprovacao da F03.
+- O ciclo limpo confirmou downgrade ate c4a0f6b2d901, preservacao do paciente sentinela e reupgrade ate d81a6c9e4301.
+- Ajustes de formatacao e lint da migration foram incorporados ao mesmo bloco de correcao.
+
+[2026-11-03 13:15:00 -03:00] F03 - ensaio isolado concluido na build 59.
+- Upgrade limpo, downgrade, preservacao de dados e reupgrade foram aprovados em MySQL 8.4 isolado.
+- Backend: 59 testes e Ruff aprovados; frontend: 41 testes aprovados.
+- Evidencia: `docs/fase_f03_rehearsal_mysql_build59.json`.
+- F03 permanece condicionada apenas ao teste de restauracao do backup real antes do corte; nenhum banco produtivo ou legado foi alterado.
+- A instancia MySQL temporaria foi encerrada e seu datadir descartavel removido apos validacao do PID, executavel e caminho absoluto; nenhum dado real foi removido.
+
+[2026-11-03 12:43:00 -03:00] F03 aprovada e aplicada no banco local.
+- Backup criptografado criado com 26 tabelas e 343053 linhas; integridade PASS.
+- Restauracao integral conferida em banco isolado: autenticacao AES-GCM, hash do dump, contagens e limpeza PASS.
+- `abel_clinica` atualizado de c4a0f6b2d901 para d81a6c9e4301.
+- Validador final: 28 tabelas de dominio, 44 FKs, 13 checks, InnoDB/utf8mb4 e revisao Alembic no head; integridade PASS.
+
+[2026-11-03 12:45:00 -03:00] Check global de compatibilidade build 59.
+- PASS tecnico: 59 testes backend, 41 frontend, Ruff, compilacao, schema local e ciclo completo de migration.
+- PASS de seguranca operacional: backup criptografado e restauracao isolada antes do upgrade local.
+- F02 segue pendente somente de homologacao visual; F05 possui 22 linhas reais, abaixo do criterio de grande amostra.
+- F04, F06-F10 exigem evidencias humanas/operacionais e browser autenticado; F11-F13 permanecem bloqueadas por esses gates.
+- Decisao fail-closed: NO-GO para corte do novo frontend. Evidencia em `docs/compatibilidade_global_integracao_build59.json`.
+
+[2026-11-03 13:25:00 -03:00] Build 60 - paginacao operacional e integracao do workspace do paciente.
+- `/api/operations/patients` agora recebe `page` e `page_size`, calcula total real e retorna metadados de paginacao.
+- Listagem de atendimentos passou a aceitar filtro `patient_id`, eliminando filtragem incompleta sobre os 100 atendimentos mais recentes.
+- Runtime atualizado para `1.0.0+build.60`.
+- Backend: 59 testes e Ruff aprovados; frontend: 44 testes, Poetry, compileall e importacao SQLite/API aprovados.
+
+[2026-11-03 13:35:00 -03:00] Plano de homologacao online no tablet iniciado.
+- Criado `docs/plano_homologacao_tablet.json` com fases T0-T5, criterios de passagem, bloqueadores e definicao de pronto.
+- Tablet será ambiente persistente de homologacao; SQLite continua padrão local e `abel_api` será usado somente no tablet.
+- Conforme autorização do usuario, nenhum backup operacional será executado nesta rodada; risco de rollback foi registrado no plano.
+- GitHub do frontend foi confirmado público; DBs, dados clínicos, documentos e segredos permanecem excluídos da publicação.
+- Fase T0 em andamento: preflight de SSH, Poetry, portas e separacao de ambientes.
+- Preflight local concluido: Poetry 2.3.4 valido no backend e frontend; `poetry install --no-root --sync` sem alteracoes pendentes; JSON e compileall aprovados.
+- Tablet respondeu na porta SSH 8022; portas 8001/API e 3306/MariaDB ainda nao respondem, portanto o runtime online ainda nao foi declarado ativo.
+
+[2026-11-03 13:45:00 -03:00] T0/T1 do tablet reavaliadas e aprovadas.
+- SSH autenticado em `192.168.0.15:8022`; o primeiro teste de portas locais não representava os serviços dentro do PRoot Debian.
+- Confirmados ativos no tablet: `abel-mariadb`, `abel-api`, `fisia-reverse-proxy` e `fisia-web-static`.
+- API local `/api/health` retornou 200 com banco e armazenamento OK.
+- Proxy local `/abel.html` retornou 200.
+- URL pública `https://walk-gaming-magazine.ngrok-free.dev/abel.html` retornou 200 com `ngrok-skip-browser-warning`; `/abel/api/health` retornou 200 e database/document_storage OK.
+- Plano avançado para T2: validar autenticação, schema, permissões e conexão do frontend novo.
+- Login público de homologação do gestor Leandro aprovado: HTTP 200, cookies de sessão e CSRF emitidos, perfil `gerente` reconhecido.
+- T2 permanece em andamento até concluir checagem do schema remoto e as rotas autenticadas do frontend.
+
+[2026-11-03 14:05:00 -03:00] Gate T2 - NO-GO para deploy do frontend novo no tablet.
+- SSH, serviços, proxy, health e login público permanecem PASS.
+- Schema remoto verificado em `c4a0f6b2d901 (head)`; build atual requer `d81a6c9e4301`.
+- Frontend Dash novo não foi encontrado no tablet; somente `/opt/abel` backend foi localizado.
+- Sem backup/rollback habilitado nesta rodada, migration e substituição de runtime foram deliberadamente interrompidas.
+- T3, T4 e T5 bloqueadas por T2; nenhum dado ou serviço do tablet foi alterado.
+
+[2026-11-03 14:25:00 -03:00] T2/T3 aprovadas tecnicamente e deploy de homologacao concluido.
+- Conforme autorizacao, o tablet foi tratado como ambiente descartavel de visualizacao; nao foi criado backup de dados.
+- Migration aplicada com sucesso no tablet: `c4a0f6b2d901 -> d81a6c9e4301 (head)`.
+- Poetry do backend instalado/validado em `/opt/abel`; frontend extraido em `/opt/regianefront` com ambiente virtual funcional.
+- Servico supervisionado `abel-frontend` ativo na porta interna 8050 com `DATA_BACKEND=abel_api` e `ABEL_API_URL=http://127.0.0.1:8001/api`.
+- API local retornou HTTP 200; frontend local retornou HTTP 200.
+- Proxy publico reiniciado e rota `https://walk-gaming-magazine.ngrok-free.dev/abel-front/` retornou HTTP 200 com a pagina Dash.
+- T4 permanece PENDING_HUMAN_APPROVAL: falta roteiro visual/operacional assinado. T5 permanece bloqueada ate o aceite humano e revisao final do GitHub publico.
+
+[2026-11-03 13:35:00 -03:00] Frontend - indicador visual de carregamento.
+- Adicionado overlay inicial com barra e percentual estimado de 8% a 100% em `regianefront/app.py`.
+- O indicador informa `Pronto 100%` após o evento de carregamento da página e desaparece automaticamente.
+- Alteração compatível com Dash; não adiciona dependências.
+
+[2026-11-03 13:45:00 -03:00] Frontend - correção de publicação sob `/abel-front/`.
+- Configurado `DASH_PREFIX=/abel-front/` no serviço do tablet para que scripts e assets usem o mesmo prefixo público.
+- Reenviado `regianefront/app.py` e reiniciado `abel-frontend`.
+- O SQLite local permanece padrão; somente o serviço do tablet usa `DATA_BACKEND=abel_api`.
+
+[2026-11-03 13:55:00 -03:00] Diagnóstico remoto e correção do serviço Dash.
+- Causa encontrada: o arquivo `abel-frontend/run` havia sido gravado com os caracteres literais ``\n``; o supervisor mantinha processo antigo sem `DASH_PREFIX` efetivo.
+- Reenviado o script com quebras de linha reais e reiniciado o serviço.
+- Verificados HTTP 200 e JSON válido em `/abel-front/_dash-layout`.
+- Verificado `abel-load` presente na resposta pública `/abel-front/`; assets agora usam o prefixo correto.
+
+[2026-11-03 14:05:00 -03:00] Frontend local preparado para homologação via tablet.
+- Adicionados `run_tablet.ps1` e `.env.tablet.example` com `DATA_BACKEND=abel_api` e URL pública da API ABEL.
+- README atualizado com o fluxo de execução local conectado ao tablet.
+- SQLite permanece o padrão para `python app.py`; nenhuma credencial foi adicionada ao Git.
+
+[2026-11-03 14:35:00 -03:00] Servidor local iniciado para homologação.
+- Iniciado `regianefront/app.py` pelo Poetry com `DATA_BACKEND=abel_api` e API pública do tablet.
+- `http://127.0.0.1:8050/` retornou HTTP 200.
+- O erro do Windows ocorreu por tentativa de abrir `abel` como caminho executável; o endereço correto é a URL HTTP local.
+
+[2026-11-03 14:50:00 -03:00] Tela de autenticação ABEL implantada.
+- Adicionado login próprio no frontend com usuário e senha, usando `/abel/api/auth/login`.
+- A tela valida a sessão em `/abel/api/auth/me` e só libera a aplicação após autenticação.
+- Cookies de sessão/CSRF são mantidos pelo navegador no domínio público do tablet.
+- Serviço `abel-frontend` reiniciado e rota pública validada HTTP 200 com `abel-login` presente.
+

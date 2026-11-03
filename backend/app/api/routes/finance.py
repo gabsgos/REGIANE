@@ -22,11 +22,19 @@ from backend.app.api.dependencies import (
 from backend.app.api.routes.admin_reports import safe_csv
 from backend.app.api.routes.clinical import audit, sync_appointment_workflow
 from backend.app.core.config import get_settings
-from backend.app.db.models import Appointment, Patient, Payment, PaymentItem, Receipt, User
+from backend.app.db.models import (
+    Appointment,
+    Patient,
+    Payment,
+    PaymentItem,
+    Professional,
+    Receipt,
+    User,
+)
 from backend.app.db.session import get_db_session
 
 router = APIRouter(prefix="/finance", tags=["financeiro"])
-PaymentMethod = Literal["pix", "dinheiro", "cartao", "cheque"]
+PaymentMethod = Literal["pix", "dinheiro"]
 BUSINESS_TIMEZONE = ZoneInfo(get_settings().business_timezone)
 
 
@@ -48,9 +56,7 @@ def validate_report_period(date_from: date, date_to: date) -> None:
         raise HTTPException(status_code=422, detail="Periodo invalido")
 
 
-def payment_period_filters(
-    date_from: date, date_to: date, user_id: int | None = None
-) -> tuple:
+def payment_period_filters(date_from: date, date_to: date, user_id: int | None = None) -> tuple:
     start, end = utc_day_bounds(date_from, date_to)
     filters = [Payment.paid_at >= start, Payment.paid_at < end]
     if user_id is not None:
@@ -147,6 +153,13 @@ def payment_json(db: Session, payment: Payment) -> dict:
         "reversed_at": payment.reversed_at.isoformat() if payment.reversed_at else None,
         "reversal_reason": payment.reversal_reason,
         "row_version": payment.row_version,
+        "commission_rate": str(payment.commission_rate)
+        if payment.commission_rate is not None
+        else None,
+        "professional_amount": str(payment.professional_amount)
+        if payment.professional_amount is not None
+        else None,
+        "clinic_amount": str(payment.clinic_amount) if payment.clinic_amount is not None else None,
         "items": [
             {
                 "id": item.id,
@@ -168,8 +181,17 @@ def create_payment(
     ],
     db: Annotated[Session, Depends(get_db_session)],
 ) -> dict:
-    if not db.get(Appointment, payload.appointment_id):
+    appointment = db.get(Appointment, payload.appointment_id)
+    if not appointment:
         raise HTTPException(status_code=422, detail="Atendimento inexistente")
+    if db.scalar(
+        select(Payment.id).where(Payment.appointment_id == appointment.id, Payment.status == "pago")
+    ):
+        raise HTTPException(status_code=409, detail="Atendimento ja possui pagamento ativo")
+    professional_id = appointment.doctor_id or appointment.psychologist_id
+    professional = db.get(Professional, professional_id) if professional_id else None
+    rate = professional.commission_rate if professional else Decimal("0.6000")
+    professional_amount = (payload.total_amount * rate).quantize(Decimal("0.01"))
     now = datetime.now(UTC).replace(tzinfo=None)
     payment = Payment(
         appointment_id=payload.appointment_id,
@@ -177,6 +199,9 @@ def create_payment(
         status="pago",
         paid_at=now,
         created_by_id=context.user.id,
+        commission_rate=rate,
+        professional_amount=professional_amount,
+        clinic_amount=payload.total_amount - professional_amount,
     )
     db.add(payment)
     db.flush()
@@ -189,9 +214,7 @@ def create_payment(
                 reference=item.reference,
             )
         )
-    appointment = db.get(Appointment, payload.appointment_id)
-    if appointment:
-        sync_appointment_workflow(db, appointment)
+    sync_appointment_workflow(db, appointment)
     db.flush()
     after = payment_json(db, payment)
     audit(db, context, "create", "payments", payment.id, None, after)
@@ -202,9 +225,7 @@ def create_payment(
 @router.get("/payments/{payment_id}")
 def get_payment(
     payment_id: int,
-    _: Annotated[
-        AuthContext, Depends(require_permission("finance.read", "gerente", "atendente"))
-    ],
+    _: Annotated[AuthContext, Depends(require_permission("finance.read", "gerente", "atendente"))],
     db: Annotated[Session, Depends(get_db_session)],
 ) -> dict:
     payment = db.get(Payment, payment_id)
@@ -217,9 +238,7 @@ def get_payment(
 def reverse_payment(
     payment_id: int,
     payload: ReversalRequest,
-    context: Annotated[
-        AuthContext, Depends(require_csrf_permission("finance.reverse", "gerente"))
-    ],
+    context: Annotated[AuthContext, Depends(require_csrf_permission("finance.reverse", "gerente"))],
     db: Annotated[Session, Depends(get_db_session)],
 ) -> dict:
     payment = db.get(Payment, payment_id)
@@ -235,12 +254,17 @@ def reverse_payment(
     payment.reversal_reason = payload.reason
     payment.reversed_by_id = context.user.id
     appointment = db.get(Appointment, payment.appointment_id)
-    if appointment and appointment.workflow_status not in {
-        "PDF_AUTENTICADO",
-        "DISPONIVEL_RECEPCAO",
-        "ENTREGUE",
-        "EMENDADO",
-    }:
+    if (
+        appointment
+        and appointment.operational_status != "COMPLETED"
+        and appointment.workflow_status
+        not in {
+            "PDF_AUTENTICADO",
+            "DISPONIVEL_RECEPCAO",
+            "ENTREGUE",
+            "EMENDADO",
+        }
+    ):
         appointment.workflow_status = "BLOQUEADO"
     db.flush()
     after = payment_json(db, payment)
@@ -288,9 +312,7 @@ def create_receipt(
 
 @router.get("/summary")
 def financial_summary(
-    _: Annotated[
-        AuthContext, Depends(require_permission("finance.read", "gerente", "atendente"))
-    ],
+    _: Annotated[AuthContext, Depends(require_permission("finance.read", "gerente", "atendente"))],
     db: Annotated[Session, Depends(get_db_session)],
     date_from: Annotated[date | None, Query()] = None,
     date_to: Annotated[date | None, Query()] = None,
@@ -486,9 +508,7 @@ def export_financial_report(
 @router.get("/patients/{patient_id}/report")
 def patient_financial_report(
     patient_id: int,
-    _: Annotated[
-        AuthContext, Depends(require_permission("finance.read", "gerente", "atendente"))
-    ],
+    _: Annotated[AuthContext, Depends(require_permission("finance.read", "gerente", "atendente"))],
     db: Annotated[Session, Depends(get_db_session)],
     page: Annotated[int, Query(ge=1)] = 1,
     page_size: Annotated[int, Query(ge=10, le=100)] = 25,
