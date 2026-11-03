@@ -28,6 +28,7 @@ class UserRoleName(StrEnum):
     MANAGER = "gerente"
     ATTENDANT = "atendente"
     DOCTOR = "medico"
+    PSYCHOLOGIST = "psicologo"
 
 
 class AppointmentStatus(StrEnum):

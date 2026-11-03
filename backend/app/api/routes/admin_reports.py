@@ -40,7 +40,7 @@ from backend.app.db.models import (
 from backend.app.db.session import get_db_session
 
 router = APIRouter(tags=["administracao", "relatorios"])
-RoleName = Literal["gerente", "atendente", "medico"]
+RoleName = Literal["gerente", "atendente", "medico", "psicologo"]
 
 
 def validate_cpf(value: str) -> str:
@@ -63,7 +63,7 @@ class UserCreate(BaseModel):
     username: str = Field(min_length=3, max_length=80, pattern=r"^[a-zA-Z0-9._-]+$")
     display_name: str = Field(min_length=2, max_length=120)
     cpf: CPF
-    birth_date: date
+    birth_date: date | None = None
     phone: str = Field(min_length=8, max_length=20)
     email: str = Field(min_length=3, max_length=254, pattern=r"^[^\s@]+@[^\s@]+\.[^\s@]+$")
     address: str = Field(min_length=5, max_length=500)
@@ -74,7 +74,7 @@ class UserCreate(BaseModel):
 class UserUpdate(BaseModel):
     display_name: str = Field(min_length=2, max_length=120)
     cpf: CPF
-    birth_date: date
+    birth_date: date | None = None
     phone: str = Field(min_length=8, max_length=20)
     email: str = Field(min_length=3, max_length=254, pattern=r"^[^\s@]+@[^\s@]+\.[^\s@]+$")
     address: str = Field(min_length=5, max_length=500)
@@ -135,15 +135,15 @@ def role_by_name(db: Session, role_name: str) -> Role:
 def validate_professional_link(
     db: Session, role_name: RoleName, professional_id: int | None
 ) -> None:
-    if role_name == "medico" and not professional_id:
-        raise HTTPException(status_code=422, detail="Profissional obrigatorio para perfil medico")
+    if role_name in {"medico", "psicologo"} and not professional_id:
+        raise HTTPException(status_code=422, detail="Profissional obrigatorio para perfil clinico")
     if not professional_id:
         return
     professional = db.get(Professional, professional_id)
     if (
         not professional
         or not professional.active
-        or professional.council_type not in {"CRM", "CRP"}
+        or professional.council_type != ("CRM" if role_name == "medico" else "CRP")
         or not professional.council_number.strip()
     ):
         raise HTTPException(status_code=422, detail="CRM ou CRP ativo obrigatorio")

@@ -90,6 +90,16 @@ PROFILE_PERMISSIONS = {
         "document.download",
         "document.authenticate",
     ),
+    "psicologo": (
+        "clinic.read",
+        "unit.read",
+        "demographic.read",
+        "schedule.read",
+        "clinical_queue.read",
+        "document.read",
+        "document.upload",
+        "document.download",
+    ),
 }
 
 
@@ -154,6 +164,7 @@ def _seed_access_catalog() -> None:
         "gerente": "Gestor",
         "atendente": "Recepcao",
         "medico": "Profissional clinico CRM ou CRP",
+        "psicologo": "Profissional clinico CRP",
     }
     for role_name, description in role_descriptions.items():
         role_id = bind.execute(sa.select(roles.c.id).where(roles.c.name == role_name)).scalar()

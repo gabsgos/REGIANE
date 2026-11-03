@@ -63,7 +63,7 @@ def test_seed_has_three_profiles_and_42_unique_permissions() -> None:
     migration = load_migration_module()
     keys = [item[0] for item in migration.PERMISSIONS]
     assert len(keys) == len(set(keys)) == 42
-    assert set(migration.PROFILE_PERMISSIONS) == {"gerente", "atendente", "medico"}
+    assert set(migration.PROFILE_PERMISSIONS) == {"gerente", "atendente", "medico", "psicologo"}
     assert "user.create" in migration.PROFILE_PERMISSIONS["gerente"]
     assert "user.create" not in migration.PROFILE_PERMISSIONS["atendente"]
     assert "finance.reverse" not in migration.PROFILE_PERMISSIONS["atendente"]
