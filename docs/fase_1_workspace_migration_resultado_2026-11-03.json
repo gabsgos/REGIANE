@@ -2,14 +2,15 @@
   "fase": "1",
   "nome": "Workspace e migração",
   "data": "2026-11-03",
-  "status": "APROVADA_PARA_DEPLOY_TABLET",
+  "status": "DEPLOY_TABLET_APROVADO",
   "checks": [
     {"id": "C1-01", "nome": "models compilam", "resultado": "OK"},
     {"id": "C1-02", "nome": "poetry check", "resultado": "OK"},
     {"id": "C1-03", "nome": "testes regressao", "resultado": "OK", "evidencia": "59 passed"},
     {"id": "C1-04", "nome": "SQL Alembic MySQL offline", "resultado": "OK", "evidencia": "geracao completa ate f1a2b3c4d5e6"},
     {"id": "C1-05", "nome": "SQLite offline", "resultado": "NAO_APLICAVEL", "motivo": "migrations legadas usam ALTER CONSTRAINT sem batch mode; alvo de homologacao e MariaDB"},
-    {"id": "C1-06", "nome": "preservacao de dados", "resultado": "PENDENTE_TABLET", "motivo": "depende de upgrade online no MariaDB isolado"}
+    {"id": "C1-06", "nome": "preservacao de dados", "resultado": "OK", "evidencia": "alembic upgrade online executado no MariaDB do tablet sem recriar banco"},
+    {"id": "C1-07", "nome": "health pos-deploy", "resultado": "OK", "evidencia": "API, database e document_storage retornaram ok"}
   ],
   "alteracoes": [
     "Criadas tabelas workspaces e workspace_members.",
@@ -18,6 +19,6 @@
     "Dados legados recebem workspace 1: ABEL legado.",
     "Corrigidas validações/seeds offline da migration b7c3e1a9f240 sem reduzir validações online."
   ],
-  "gate_deploy": "aprovado_com_validacao_online_obrigatoria",
-  "proximo_passo": "Aplicar alembic upgrade head no MariaDB do tablet, validar schema e health, sem recriar banco."
+  "gate_deploy": "APROVADO",
+  "proximo_passo": "Iniciar etapa 2: contratos da API administrativa e filtros server-side por workspace."
 }
