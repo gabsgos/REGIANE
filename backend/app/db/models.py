@@ -147,6 +147,21 @@ class WorkspaceMember(Base):
     revoked_at: Mapped[datetime | None] = mapped_column(DateTime)
 
 
+class WorkspaceInvite(TimestampMixin, Base):
+    __tablename__ = "workspace_invites"
+
+    id: Mapped[int] = mapped_column(BigInteger, primary_key=True, autoincrement=True)
+    workspace_id: Mapped[int] = mapped_column(ForeignKey("workspaces.id", ondelete="CASCADE"), index=True)
+    email: Mapped[str] = mapped_column(String(254), index=True)
+    role_id: Mapped[int] = mapped_column(ForeignKey("roles.id"))
+    token_hash: Mapped[str] = mapped_column(String(64), unique=True, index=True)
+    expires_at: Mapped[datetime] = mapped_column(DateTime, index=True)
+    status: Mapped[str] = mapped_column(String(20), default="PENDING", server_default="PENDING")
+    reason: Mapped[str | None] = mapped_column(String(255))
+    created_by_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
+    accepted_by_id: Mapped[int | None] = mapped_column(ForeignKey("users.id"))
+
+
 class Role(Base):
     __tablename__ = "roles"
 

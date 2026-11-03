@@ -8,7 +8,7 @@ from decimal import Decimal
 from typing import Annotated, Literal
 
 from fastapi import APIRouter, Depends, HTTPException, Query, status
-from fastapi.responses import StreamingResponse
+from fastapi.responses import Response, StreamingResponse
 from pydantic import AfterValidator, BaseModel, Field
 from sqlalchemy import delete, distinct, func, or_, select
 from sqlalchemy.exc import IntegrityError
@@ -20,7 +20,7 @@ from backend.app.api.dependencies import (
     require_permission,
 )
 from backend.app.api.routes.clinical import audit
-from backend.app.core.security import hash_password
+from backend.app.core.security import hash_password, token_digest, new_token
 from backend.app.db.models import (
     Appointment,
     AuthSession,
@@ -35,6 +35,7 @@ from backend.app.db.models import (
     Role,
     User,
     UserRole,
+    WorkspaceInvite,
 )
 from backend.app.db.session import get_db_session
 
@@ -174,6 +175,75 @@ def list_permissions(
 ) -> dict:
     permissions = list(db.scalars(select(Permission).where(Permission.active.is_(True)).order_by(Permission.key)))
     return {"items": [{"id": item.id, "key": item.key, "resource": item.resource, "action": item.action, "sensitivity": item.sensitivity, "delegable": item.delegable, "active": item.active} for item in permissions]}
+
+
+@router.get("/admin/invites")
+def list_invites(
+    context: Annotated[AuthContext, Depends(require_permission("user.read", "gerente"))],
+    db: Annotated[Session, Depends(get_db_session)],
+) -> dict:
+    now = datetime.now(UTC).replace(tzinfo=None)
+    rows = list(db.scalars(select(WorkspaceInvite).where(WorkspaceInvite.workspace_id == context.user.workspace_id).order_by(WorkspaceInvite.created_at.desc())))
+    for row in rows:
+        if row.status == "PENDING" and row.expires_at <= now:
+            row.status = "EXPIRED"
+    db.commit()
+    return {"items": [{"id": r.id, "email": r.email, "role_id": r.role_id, "status": r.status, "expires_at": r.expires_at, "reason": r.reason} for r in rows]}
+
+
+class InviteCreate(BaseModel):
+    email: str = Field(min_length=3, max_length=254, pattern=r"^[^\s@]+@[^\s@]+\.[^\s@]+$")
+    role: RoleName
+    validity_hours: int = Field(default=72, ge=1, le=720)
+    reason: str | None = Field(default=None, max_length=255)
+
+
+@router.post("/admin/invites", status_code=status.HTTP_201_CREATED)
+def create_invite(
+    payload: InviteCreate,
+    context: Annotated[AuthContext, Depends(require_csrf_permission("user.create", "gerente"))],
+    db: Annotated[Session, Depends(get_db_session)],
+) -> dict:
+    role = role_by_name(db, payload.role)
+    token = new_token()
+    invite = WorkspaceInvite(workspace_id=context.user.workspace_id, email=payload.email.lower(), role_id=role.id, token_hash=token_digest(token), expires_at=datetime.now(UTC).replace(tzinfo=None) + timedelta(hours=payload.validity_hours), reason=payload.reason, created_by_id=context.user.id)
+    db.add(invite)
+    db.flush()
+    audit(db, context, "create", "workspace_invites", invite.id, None, {"email": invite.email, "role": payload.role})
+    db.commit()
+    return {"invite": {"id": invite.id, "email": invite.email, "status": invite.status, "expires_at": invite.expires_at}, "token": token}
+
+
+@router.delete("/admin/invites/{invite_id}", status_code=status.HTTP_204_NO_CONTENT)
+def revoke_invite(
+    invite_id: int,
+    context: Annotated[AuthContext, Depends(require_csrf_permission("user.manage", "gerente"))],
+    db: Annotated[Session, Depends(get_db_session)],
+) -> Response:
+    invite = db.scalar(select(WorkspaceInvite).where(WorkspaceInvite.id == invite_id, WorkspaceInvite.workspace_id == context.user.workspace_id))
+    if not invite:
+        raise HTTPException(status_code=404, detail="Convite nao encontrado")
+    invite.status = "REVOKED"
+    audit(db, context, "revoke", "workspace_invites", invite.id, {"status": "PENDING"}, {"status": "REVOKED"})
+    db.commit()
+    return Response(status_code=status.HTTP_204_NO_CONTENT)
+
+
+@router.get("/admin/audit")
+def list_admin_audit(
+    context: Annotated[AuthContext, Depends(require_permission("access.audit", "gerente"))],
+    db: Annotated[Session, Depends(get_db_session)],
+    action: str | None = Query(default=None, max_length=50),
+    page: int = Query(default=1, ge=1),
+    page_size: int = Query(default=50, ge=1, le=100),
+) -> dict:
+    from backend.app.db.models import AuditLog
+    statement = select(AuditLog).join(User, User.id == AuditLog.user_id, isouter=True).where(User.workspace_id == context.user.workspace_id)
+    if action:
+        statement = statement.where(AuditLog.action == action)
+    total = db.scalar(select(func.count()).select_from(statement.subquery())) or 0
+    rows = list(db.scalars(statement.order_by(AuditLog.occurred_at.desc()).offset((page - 1) * page_size).limit(page_size)))
+    return {"items": [{"id": r.id, "occurred_at": r.occurred_at, "user_id": r.user_id, "action": r.action, "entity_type": r.entity_type, "entity_id": r.entity_id} for r in rows], "page": page, "page_size": page_size, "total": total}
 
 
 @router.post("/admin/users", status_code=status.HTTP_201_CREATED)

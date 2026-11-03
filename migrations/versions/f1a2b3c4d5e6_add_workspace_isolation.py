@@ -52,6 +52,27 @@ def upgrade() -> None:
         sa.PrimaryKeyConstraint("workspace_id", "user_id"),
     )
     op.create_index("ix_workspace_members_manager", "workspace_members", ["manager_id"])
+    op.create_table(
+        "workspace_invites",
+        sa.Column("id", sa.BigInteger(), primary_key=True, autoincrement=True),
+        sa.Column("workspace_id", sa.BigInteger(), nullable=False),
+        sa.Column("email", sa.String(254), nullable=False),
+        sa.Column("role_id", sa.Integer(), nullable=False),
+        sa.Column("token_hash", sa.String(64), nullable=False, unique=True),
+        sa.Column("expires_at", sa.DateTime(), nullable=False),
+        sa.Column("status", sa.String(20), nullable=False, server_default="PENDING"),
+        sa.Column("reason", sa.String(255)),
+        sa.Column("created_by_id", sa.BigInteger(), nullable=False),
+        sa.Column("accepted_by_id", sa.BigInteger()),
+        sa.Column("created_at", sa.DateTime(), nullable=False, server_default=sa.func.now()),
+        sa.Column("updated_at", sa.DateTime(), nullable=False, server_default=sa.func.now()),
+        sa.ForeignKeyConstraint(["workspace_id"], ["workspaces.id"], ondelete="CASCADE"),
+        sa.ForeignKeyConstraint(["role_id"], ["roles.id"]),
+        sa.ForeignKeyConstraint(["created_by_id"], ["users.id"]),
+        sa.ForeignKeyConstraint(["accepted_by_id"], ["users.id"]),
+    )
+    op.create_index("ix_workspace_invites_workspace_id", "workspace_invites", ["workspace_id"])
+    op.create_index("ix_workspace_invites_expires_at", "workspace_invites", ["expires_at"])
 
     op.execute(
         sa.text(
@@ -91,5 +112,8 @@ def downgrade() -> None:
     op.drop_column("users", "manager_id")
     op.drop_column("users", "workspace_id")
     op.drop_index("ix_workspace_members_manager", table_name="workspace_members")
+    op.drop_index("ix_workspace_invites_expires_at", table_name="workspace_invites")
+    op.drop_index("ix_workspace_invites_workspace_id", table_name="workspace_invites")
+    op.drop_table("workspace_invites")
     op.drop_table("workspace_members")
     op.drop_table("workspaces")
