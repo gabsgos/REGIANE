@@ -150,13 +150,13 @@ def validate_professional_link(
 
 @router.get("/admin/users")
 def list_users(
-    _: Annotated[AuthContext, Depends(require_permission("user.read", "gerente"))],
+    context: Annotated[AuthContext, Depends(require_permission("user.read", "gerente"))],
     db: Annotated[Session, Depends(get_db_session)],
     q: Annotated[str | None, Query(min_length=1, max_length=120)] = None,
     page: Annotated[int, Query(ge=1)] = 1,
     page_size: Annotated[int, Query(ge=1, le=100)] = 25,
 ) -> dict:
-    statement = select(User)
+    statement = select(User).where(User.workspace_id == context.user.workspace_id)
     if q:
         pattern = f"%{q.strip()}%"
         statement = statement.where(
@@ -197,6 +197,8 @@ def create_user(
         email=payload.email.strip().lower(),
         address=payload.address.strip(),
         professional_id=payload.professional_id,
+        workspace_id=context.user.workspace_id,
+        manager_id=None if payload.role == "gerente" else context.user.id,
         active=True,
         must_reset_password=True,
     )
@@ -224,6 +226,8 @@ def update_user(
 ) -> dict:
     user = db.get(User, user_id)
     if not user:
+        raise HTTPException(status_code=404, detail="Usuario nao encontrado")
+    if user.workspace_id != context.user.workspace_id:
         raise HTTPException(status_code=404, detail="Usuario nao encontrado")
     if user.id == context.user.id and not payload.active:
         raise HTTPException(status_code=409, detail="Nao e permitido desativar a propria conta")

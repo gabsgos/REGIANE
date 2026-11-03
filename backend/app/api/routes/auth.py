@@ -141,6 +141,8 @@ def me(context: Annotated[AuthContext, Depends(get_auth_context)]) -> dict:
         "username": context.user.username,
         "display_name": context.user.display_name,
         "roles": sorted(context.roles),
+        "workspace_id": context.user.workspace_id,
+        "manager_id": context.user.manager_id,
         "must_reset_password": context.user.must_reset_password,
     }
 

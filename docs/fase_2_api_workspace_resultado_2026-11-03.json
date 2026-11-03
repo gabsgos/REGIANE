@@ -1,0 +1,14 @@
+{
+  "fase": "2",
+  "nome": "Contratos da API administrativa",
+  "status": "APROVADA_PARA_HOMOLOGACAO",
+  "checks": [
+    {"id": "C2-01", "resultado": "OK", "item": "filtro server-side por workspace em admin/users"},
+    {"id": "C2-02", "resultado": "OK", "item": "criacao vincula workspace_id e manager_id da sessao"},
+    {"id": "C2-03", "resultado": "OK", "item": "edicao de outro workspace nao revela existencia"},
+    {"id": "C2-04", "resultado": "OK", "item": "59 testes de regressao"},
+    {"id": "C2-05", "resultado": "OK", "item": "health do tablet API/database/document_storage"}
+  ],
+  "proxima_fase": "3 - Frontend gestor e visibilidade por perfil",
+  "observacao": "O tablet foi atualizado seletivamente; nao houve recriacao do banco."
+}
