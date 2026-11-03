@@ -1864,3 +1864,9 @@ Restauracao:
 
 [2026-11-03 16:45 -03:00] Atualizada matriz de acesso financeiro: recepção limitada ao fechamento diário, médicos/psicólogos ao resumo individual filtrado por profissional e gestor ao financeiro completo. Relatórios e usuários ocultados no menu para não gestores.
 2026-11-03 17:02 -03:00 | Deploy tablet: backend financeiro + migration f3b5c7d9e1a2 + frontend role-aware; health OK; Alembic head f3b5c7d9e1a2.
+2026-11-03 17:25 -03:00 | Criado financeiro_individual_plano.json com regras por perfil, calculos, mocks, seguranca e criterios; nenhuma alteracao de codigo ou deploy.
+2026-11-03 17:28 -03:00 | Especificacao de financeiro individual e regras de exibicao adicionada em financeiro_individual_update.json.
+[2026-11-03 17:00:10 -03:00] Sessão ajustada para validade máxima de 6 horas; autenticação continua validada pelo registro auth_sessions e access_version.
+[2026-11-03 17:25:00 -03:00] Deploy/restart solicitado: frontend e backend sincronizados no tablet; serviços reiniciados e health check executado.
+[2026-11-03 17:35:00 -03:00] Permissões múltiplas: atualização de usuários aceita roles simultâneas, protege último gestor e exige vínculo profissional único; financeiro coletivo restrito a gestor.
+[2026-11-03 17:40:00 -03:00] Compatibilidade mantida: UserUpdate aceita payload legado role e normaliza para roles; suite root aprovada com 59 testes.

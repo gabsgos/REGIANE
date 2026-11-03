@@ -9,7 +9,7 @@ from typing import Annotated, Literal
 
 from fastapi import APIRouter, Depends, HTTPException, Query, status
 from fastapi.responses import Response, StreamingResponse
-from pydantic import AfterValidator, BaseModel, Field
+from pydantic import AfterValidator, BaseModel, Field, model_validator
 from sqlalchemy import delete, distinct, func, or_, select
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
@@ -78,10 +78,19 @@ class UserUpdate(BaseModel):
     phone: str = Field(min_length=8, max_length=20)
     email: str = Field(min_length=3, max_length=254, pattern=r"^[^\s@]+@[^\s@]+\.[^\s@]+$")
     address: str = Field(min_length=5, max_length=500)
-    role: RoleName
+    roles: list[RoleName] | None = Field(default=None, min_length=1, max_length=4)
+    role: RoleName | None = None
     professional_id: int | None = None
     active: bool
     expected_version: int = Field(ge=1)
+
+    @model_validator(mode="after")
+    def normalize_roles(self):
+        if not self.roles:
+            if not self.role:
+                raise ValueError("Informe ao menos um papel")
+            self.roles = [self.role]
+        return self
 
 
 def user_json(db: Session, user: User) -> dict:
@@ -304,21 +313,26 @@ def update_user(
     if user.row_version != payload.expected_version:
         raise HTTPException(status_code=409, detail="Registro alterado por outro usuario")
     before = user_json(db, user)
-    role = role_by_name(db, payload.role)
-    validate_professional_link(db, payload.role, payload.professional_id)
-    current_role = db.scalar(
+    requested_roles = list(dict.fromkeys(payload.roles))
+    professional_roles = [role for role in requested_roles if role in {"medico", "psicologo"}]
+    if len(professional_roles) > 1:
+        raise HTTPException(status_code=422, detail="Selecione apenas medico ou psicologo")
+    if professional_roles:
+        validate_professional_link(db, professional_roles[0], payload.professional_id)
+    current_roles = list(db.scalars(
         select(Role.name)
         .join(UserRole, UserRole.role_id == Role.id)
         .where(UserRole.user_id == user.id)
-    )
+    ))
+    current_role = current_roles[0] if current_roles else None
     access_changed = (
-        current_role != payload.role
+        set(current_roles) != set(requested_roles)
         or user.professional_id != payload.professional_id
         or user.active != payload.active
     )
     if user.id == context.user.id and access_changed:
         raise HTTPException(status_code=409, detail="Nao e permitido alterar o proprio acesso")
-    if current_role == "gerente" and (payload.role != "gerente" or not payload.active):
+    if "gerente" in current_roles and ("gerente" not in requested_roles or not payload.active):
         active_managers = db.scalar(
             select(func.count())
             .select_from(UserRole)
@@ -340,7 +354,8 @@ def update_user(
         user.access_version += 1
         db.execute(delete(AuthSession).where(AuthSession.user_id == user.id))
     db.execute(delete(UserRole).where(UserRole.user_id == user.id))
-    db.add(UserRole(user_id=user.id, role_id=role.id))
+    for role_name in requested_roles:
+        db.add(UserRole(user_id=user.id, role_id=role_by_name(db, role_name).id))
     try:
         db.flush()
     except IntegrityError as exc:

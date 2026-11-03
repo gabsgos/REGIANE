@@ -312,7 +312,7 @@ def create_receipt(
 
 @router.get("/summary")
 def financial_summary(
-    context: Annotated[AuthContext, Depends(require_permission("finance.read", "gerente", "atendente", "medico", "psicologo"))],
+    context: Annotated[AuthContext, Depends(require_permission("finance.read", "gerente"))],
     db: Annotated[Session, Depends(get_db_session)],
     date_from: Annotated[date | None, Query()] = None,
     date_to: Annotated[date | None, Query()] = None,

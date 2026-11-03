@@ -17,7 +17,9 @@ class Settings(BaseSettings):
     api_port: int = 8000
     business_timezone: str = "America/Sao_Paulo"
     database_url: str | None = None
-    session_hours: int = 8
+    # Sessões de usuário expiram após seis horas; a validade efetiva também
+    # é conferida em cada chamada autenticada pelo token armazenado no banco.
+    session_hours: int = 6
     cookie_secure: bool = False
     login_max_attempts: int = 5
     login_window_seconds: int = 300
