@@ -1,0 +1,225 @@
+{
+  "documento": "Plano de desenvolvimento - gestão de usuários, permissões e workspaces",
+  "versao": "0.1.0",
+  "data": "2026-11-03",
+  "status": "planejamento_aprovacao_pendente",
+  "escopo": {
+    "objetivo": "Criar telas de gestão para o perfil gestor e aplicar autorização por perfil e workspace no frontend e backend.",
+    "referencias": [
+      "Telas FISIA anexadas: Pessoas, Perfis e Convites",
+      "ABEL: admin/users, admin/permissions, autorização server-side e CSRF",
+      "Design system ui-ux-pro-max persistido em design-system/abel-gestao-de-acessos/MASTER.md"
+    ],
+    "fora_do_escopo": [
+      "Deploy ou push nesta etapa",
+      "Exposição de credenciais ou dados clínicos no frontend",
+      "Permissões decididas somente no navegador"
+    ]
+  },
+  "modelo_de_workspace": {
+    "decisao_de_modelagem": {
+      "modelo": "workspace_unico_por_usuario_com_gestor_responsavel",
+      "regra_principal": "Cada usuário pertence a exatamente um workspace ativo.",
+      "exemplo": {
+        "username": "gabriel@hrp",
+        "workspace": "HRP",
+        "manager_id": "gestor_responsavel_id",
+        "role": "medico"
+      },
+      "separacao_de_responsabilidades": {
+        "workspace_id": "Isola os dados da clínica e define o limite de segurança.",
+        "manager_id": "Define quem administra o usuário dentro do workspace.",
+        "role": "Define as permissões funcionais do usuário.",
+        "observacao": "manager_id não substitui workspace_id; é uma camada administrativa adicional."
+      },
+      "regras": [
+        "workspace_id é obrigatório e não pode ser escolhido pelo frontend.",
+        "manager_id deve apontar para um gestor ativo do mesmo workspace.",
+        "Usuários de baixo nível não podem alterar workspace_id ou manager_id.",
+        "O gestor só lista e administra usuários do próprio workspace e sob sua responsabilidade.",
+        "Troca de gestor mantém o usuário no workspace e altera somente manager_id, com auditoria.",
+        "Transferência entre workspaces exige operação administrativa explícita, confirmação e auditoria.",
+        "O último gestor ativo do workspace não pode ser removido ou desativado.",
+        "Usuários com histórico devem ser desativados/revogados, não excluídos fisicamente."
+      ]
+    },
+    "diagnostico_atual": {
+      "situacao": "bloqueio",
+      "evidencias": [
+        "Não existem tabelas workspaces, workspace_members ou unidades no modelo atual.",
+        "UserRole é global e UserPermissionOverride/AccessGrant possuem escopo textual opcional, não uma associação obrigatória.",
+        "Pacientes, atendimentos e financeiro não possuem workspace_id obrigatório no modelo analisado."
+      ],
+      "risco": "Um gestor poderia visualizar ou alterar dados de outra clínica se a API aceitar apenas user_id, role ou escopo enviado pelo cliente."
+    },
+    "modelo_alvo": {
+      "tabelas": [
+        {
+          "nome": "workspaces",
+          "campos": ["id", "name", "slug", "status", "created_at", "updated_at"]
+        },
+        {
+          "nome": "workspace_members",
+          "campos": ["workspace_id", "user_id", "role_id", "manager_id", "status", "joined_at", "revoked_at"],
+          "restricoes": ["unique(workspace_id,user_id)", "membro ativo obrigatório para acesso", "manager_id no mesmo workspace"]
+        },
+        {
+          "nome": "workspace_invites",
+          "campos": ["id", "workspace_id", "email", "role_id", "expires_at", "status", "created_by_id", "accepted_by_id"]
+        }
+      ],
+      "entidades_com_workspace_id_obrigatorio": ["patients", "appointments", "payments", "financial_movements", "clinical_documents", "professionals"],
+      "regra": "Toda consulta e mutação deve receber workspace_id da sessão autenticada; o cliente não pode escolher um workspace arbitrário.",
+      "isolamento": "Aplicar filtros server-side e, se possível, Row-Level Security/conta de banco separada na implantação futura.",
+      "auditoria": "Registrar workspace_id, ator, alvo, ação, resultado, correlação e timestamp em cada alteração administrativa."
+    },
+    "criterio_de_aprovacao": [
+      "Não existe endpoint que retorne registros de workspace diferente do contexto autenticado.",
+      "Testes de acesso cruzado retornam 403 ou lista vazia sem vazar existência do registro.",
+      "Convite revogado, expirado e membro removido deixam de autorizar acesso.",
+      "Migração preserva os registros legados em um workspace inicial explicitamente identificado."
+      ,"Todo usuário migrado possui exatamente um workspace e manager_id nulo somente para gestores raiz aprovados."
+      ,"Nenhum usuário subordinado consegue alterar seu workspace ou gestor pela API."
+    ]
+  },
+  "perfis_e_acoes": {
+    "gestor": {
+      "visivel": ["visão geral", "agenda", "cadastros", "profissionais", "financeiro clínico", "relatórios", "usuários e permissões", "auditoria"],
+      "permitido": ["criar/remover/desativar usuários do próprio workspace", "atribuir perfis delegáveis", "criar/editar/cancelar atendimentos", "registrar e ajustar financeiro", "consultar auditoria"],
+      "restricoes": ["não pode remover o último gestor ativo", "não pode alterar o próprio acesso de forma a perder governança", "não pode acessar outro workspace"]
+    },
+    "recepcao": {
+      "visivel": ["agenda", "cadastros", "financeiro individual do paciente", "registro de pagamento"],
+      "permitido": ["cadastrar/editar paciente", "consultar agenda", "registrar pagamento associado ao atendimento"],
+      "negado": ["financeiro completo da clínica", "relatórios financeiros agregados", "gestão de usuários", "alterar permissões", "cancelar ou criar evento sem regra operacional"]
+    },
+    "medico_psicologo": {
+      "visivel": ["agenda própria", "cadastros necessários ao atendimento", "financeiro próprio", "atendimento", "envio do PDF final quando aprovado"],
+      "permitido": ["registrar atendimento", "concluir atendimento", "registrar observação de inapto temporário", "consultar seus pagamentos", "enviar documento final aprovado"],
+      "negado": ["financeiro completo da clínica", "criar/cancelar evento de agenda", "gestão de usuários", "alterar permissões", "enviar PDF quando o exame não foi aprovado"]
+    }
+  },
+  "telas": [
+    {
+      "id": "A0",
+      "nome": "Pessoas",
+      "rota": "/usuarios?tab=pessoas",
+      "objetivo": "Listar membros do workspace com busca, filtros, status, perfil, última atividade e ações.",
+      "componentes": ["filtros por nome/email/perfil/status", "tabela responsiva", "paginação server-side", "badge de workspace", "abrir, editar, desativar, resetar senha"],
+      "criterios": ["só gestor vê a tela", "ações exibem confirmação e resultado", "sem remoção física por padrão; usar desativação/revogação auditável"]
+    },
+    {
+      "id": "A1",
+      "nome": "Criar usuário/convite",
+      "rota": "/usuarios/novo",
+      "objetivo": "Criar usuário local ou convite vinculado ao workspace atual.",
+      "campos": ["nome", "usuário/email", "CPF", "telefone", "perfil", "profissional associado quando necessário", "validade", "motivo"],
+      "criterios": ["perfil deve ser delegável", "workspace vem da sessão", "senha temporária nunca aparece em URL/log", "CSRF e confirmação de ação"]
+    },
+    {
+      "id": "A2",
+      "nome": "Perfis",
+      "rota": "/usuarios?tab=perfis",
+      "objetivo": "Exibir matriz de permissões por perfil sem permitir escalada indevida.",
+      "componentes": ["tabela recurso/ação", "descrição e sensibilidade", "indicador delegável", "inspector de permissões efetivas"],
+      "criterios": ["backend é fonte de verdade", "permissão negada não aparece como botão executável", "mudanças de perfil versionadas e auditadas"]
+    },
+    {
+      "id": "A3",
+      "nome": "Convites e acessos temporários",
+      "rota": "/usuarios?tab=convites",
+      "objetivo": "Controlar convites pendentes, expiração, revogação e acessos temporários.",
+      "criterios": ["token de convite é de uso único", "expiração obrigatória", "revogação imediata invalida o acesso"]
+    },
+    {
+      "id": "A4",
+      "nome": "Auditoria e segurança",
+      "rota": "/usuarios?tab=auditoria",
+      "objetivo": "Permitir ao gestor consultar alterações de acesso e decisões de autorização.",
+      "criterios": ["dados sensíveis mascarados", "filtro por ator/alvo/ação/período", "exportação somente com permissão explícita"]
+    }
+  ],
+  "agenda_adaptada": {
+    "origem_da_regra": [
+      "FISIA oferece visualização diária, semanal, mensal e anual, filtros por status, modal de agendamento e configurações por profissional/unidade.",
+      "Transcrições de 03/11/2026 confirmam que a agenda Detran recebida em PDF é a agenda oficial do dia, mas não cobre retornos e encaixes vindos de dias anteriores.",
+      "O médico pode ter janela própria, duração mínima aproximada de 5 minutos, limite variável de encaixes e horários distintos por dia.",
+      "Psicotécnico ocorre em uma única leva diária, normalmente às 09:00, com limite de participantes."
+    ],
+    "dois_fluxos": {
+      "agenda_previa": {
+        "finalidade": "Reservar retornos, encaixes e pacientes conhecidos antes da chegada da agenda oficial.",
+        "origem": "Cadastro manual pela recepção ou gestor.",
+        "campos_obrigatorios": ["patient_id ou identificação provisória", "professional_id", "service_type", "exam_date", "source=PRE_AGENDAMENTO", "status"],
+        "campos_opcionais": ["scheduled_start_at", "scheduled_end_at", "observacao", "horario_simbolico", "prioridade"],
+        "regra": "Pode existir sem horário fixo; quando houver horário, deve respeitar a janela e o limite do profissional."
+      },
+      "agenda_pdf_do_dia": {
+        "finalidade": "Importar a lista oficial Detran recebida no dia e correlacionar com pacientes existentes.",
+        "origem": "PDF do Detran armazenado com hash, nome, data da agenda e resultado da leitura.",
+        "campos_obrigatorios": ["source=DETRAN_PDF", "agenda_date", "external_reference ou hash do registro", "nome", "CPF quando presente", "horário quando presente", "tipo de exame"],
+        "regra": "A confirmação do PDF prevalece sobre uma pré-reserva equivalente, sem apagar a origem nem o histórico da pré-agenda.",
+        "excecoes": ["registro duplicado", "CPF divergente", "paciente não cadastrado", "horário ausente", "paciente de outro dia em retorno", "PDF ilegível"]
+      }
+    },
+    "modelo_de_atendimento": {
+      "status_atendimento": ["AGENDADO", "NAO_COMPARECEU", "CONCLUIDO", "INAPTO_TEMPORARIO", "CANCELADO"],
+      "status_pagamento": ["PENDENTE", "PAGO", "ESTORNADO"],
+      "regras": [
+        "Atendimento concluído pode permanecer com pagamento PENDENTE.",
+        "Pagamento não pode ser marcado como PAGO para NAO_COMPARECEU.",
+        "O profissional pode registrar/concluir o atendimento sem pagamento confirmado.",
+        "PDF final só é gerado/enviado quando o resultado for aprovado; INAPTO_TEMPORARIO mantém observação, sem PDF final.",
+        "INAPTO_TEMPORARIO significa que o paciente compareceu, mas precisa retornar ou regularizar condição; não equivale a AGENDADO.",
+        "A hora agendada, início/fim real e timestamp do pagamento são eventos distintos e devem ser preservados."
+      ]
+    },
+    "regras_de_capacidade": {
+      "por_profissional": ["dias_da_semana", "inicio", "fim", "duracao_minima", "intervalo", "limite_encaixes", "limite_simultaneos"],
+      "medico": "Limite de encaixes configurável por profissional e por dia; não assumir uma capacidade global fixa.",
+      "psicologo": "Uma sessão/rodada diária configurável, com horário de início e capacidade máxima de participantes.",
+      "conflito": "O backend rejeita encaixe que ultrapasse capacidade, sobreponha evento incompatível ou use profissional fora da janela.",
+      "recepcao": "Pode registrar retorno/encaixe conforme permissão, mas não altera regras de capacidade sem gestor."
+    },
+    "interface_adaptada_fisia": {
+      "visualizacoes": ["dia", "semana", "mes", "ano"],
+      "filtros": ["status atendimento", "origem PRE_AGENDAMENTO/DETRAN_PDF", "profissional", "tipo exame", "pendencia de pagamento"],
+      "componentes": ["painel de importação PDF com progresso", "fila de conflitos para revisão", "calendário com origem/status visíveis", "painel diário de encaixes e retornos", "modal de agendamento com busca de paciente"],
+      "regras_de_perfil": [
+        "Gestor pode importar, corrigir conflitos, criar, editar e cancelar.",
+        "Recepção pode importar/revisar conforme permissão e registrar encaixes/pagamentos, sem editar capacidade.",
+        "Médico/psicólogo visualiza sua agenda, registra atendimento e resultado, sem criar/cancelar evento."
+      ],
+      "ux_obrigatoria": ["loading percentual do PDF", "erro por registro sem bloquear lote inteiro", "confirmação antes de sobrescrever correlação", "foco no modal", "controles de pelo menos 44px", "legenda que não dependa só de cor"]
+    },
+    "criterios_de_integridade": [
+      "Importar o mesmo PDF duas vezes não duplica atendimentos.",
+      "Pré-agendamento correlacionado permanece auditável e recebe referência ao registro oficial.",
+      "Alteração posterior do PDF não apaga atendimento concluído nem pagamento.",
+      "Todo atendimento possui origem, workspace_id, paciente, tipo e histórico de status.",
+      "Datas e horários são armazenados em America/Sao_Paulo com conversão consistente para consultas.",
+      "A agenda suporta pacientes fora da lista somente como retorno/encaixe autorizado e auditado."
+    ]
+  },
+  "etapas": [
+    {"id": 0, "nome": "Contrato e matriz", "objetivo": "Congelar perfis, ações, escopos e estados.", "saida": "este JSON aprovado", "proxima_fase": "todos os conflitos de regra resolvidos"},
+    {"id": 1, "nome": "Workspace e migração", "objetivo": "Criar tabelas, associar legado ao workspace inicial e adicionar filtros server-side.", "saida": "migration upgrade/downgrade e testes de isolamento", "proxima_fase": "zero acesso cruzado nos testes"},
+    {"id": 1.5, "nome": "Contrato de agenda Detran", "objetivo": "Separar pré-agenda de agenda oficial PDF, definir correlação, capacidade, encaixes, retornos e estados.", "saida": "schema e casos de conflito aprovados", "proxima_fase": "importador e API implementáveis sem ambiguidade"},
+    {"id": 2, "nome": "API administrativa", "objetivo": "Completar CRUD, convites, perfis, efetivas, auditoria e paginação.", "saida": "OpenAPI e testes 401/403/409/422", "proxima_fase": "contratos estáveis para o frontend"},
+    {"id": 3, "nome": "Frontend gestor", "objetivo": "Implementar telas A0-A4 com design system, loading, vazio, erro, foco e responsividade.", "saida": "fluxos navegáveis sem mock oculto", "proxima_fase": "homologação visual e funcional"},
+    {"id": 4, "nome": "Visibilidade por perfil", "objetivo": "Aplicar menu, rotas e ações conforme permissões retornadas pela sessão.", "saida": "matriz automatizada por perfil", "proxima_fase": "testes de regressão por perfil"},
+    {"id": 5, "nome": "Auditoria humana", "objetivo": "Validar gestor, recepção e profissionais em ambiente isolado/tablet.", "saida": "evidências e aceite", "proxima_fase": "somente após aprovação autorizar commit/push/deploy final"}
+  ],
+  "gates": {
+    "seguranca": ["autorização server-side", "CSRF em mutações", "sem segredo em logs", "auditoria de criar/editar/desativar/revogar"],
+    "ux": ["foco visível", "teclado", "contraste mínimo 4.5:1", "controles >=44px", "loading/erro/vazio", "sem rolagem horizontal em mobile"],
+    "dados": ["migração reversível", "workspace legado explícito", "paginação server-side", "não deletar fisicamente usuários com histórico"],
+    "release": ["testes locais aprovados", "homologação tablet aprovada", "usuário gestor valida", "só então commit/push"]
+  },
+  "bloqueios_atuais": [
+    "Workspace ainda não existe como entidade e não há isolamento obrigatório nas tabelas clínicas/financeiras.",
+    "Frontend possui base de usuários/permissões, mas ainda não possui telas completas de convites, perfis, acessos temporários e auditoria.",
+    "Papéis atuais são gerente, atendente e medico; psicólogo precisa ser representado por perfil/associação CRP sem quebrar legado.",
+    "Remoção deve ser revogação/desativação auditável, não DELETE físico."
+  ]
+}

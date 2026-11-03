@@ -30,6 +30,7 @@ from backend.app.db.models import (
     Payment,
     PaymentItem,
     Professional,
+    Permission,
     Receipt,
     Role,
     User,
@@ -152,6 +153,8 @@ def list_users(
     _: Annotated[AuthContext, Depends(require_permission("user.read", "gerente"))],
     db: Annotated[Session, Depends(get_db_session)],
     q: Annotated[str | None, Query(min_length=1, max_length=120)] = None,
+    page: Annotated[int, Query(ge=1)] = 1,
+    page_size: Annotated[int, Query(ge=1, le=100)] = 25,
 ) -> dict:
     statement = select(User)
     if q:
@@ -159,8 +162,18 @@ def list_users(
         statement = statement.where(
             or_(User.username.ilike(pattern), User.display_name.ilike(pattern))
         )
-    users = list(db.scalars(statement.order_by(User.display_name)))
-    return {"items": [user_json(db, user) for user in users]}
+    total = db.scalar(select(func.count()).select_from(statement.subquery())) or 0
+    users = list(db.scalars(statement.order_by(User.display_name).offset((page - 1) * page_size).limit(page_size)))
+    return {"items": [user_json(db, user) for user in users], "page": page, "page_size": page_size, "total": total}
+
+
+@router.get("/admin/permissions")
+def list_permissions(
+    _: Annotated[AuthContext, Depends(require_permission("user.read", "gerente"))],
+    db: Annotated[Session, Depends(get_db_session)],
+) -> dict:
+    permissions = list(db.scalars(select(Permission).where(Permission.active.is_(True)).order_by(Permission.key)))
+    return {"items": [{"id": item.id, "key": item.key, "resource": item.resource, "action": item.action, "sensitivity": item.sensitivity, "delegable": item.delegable, "active": item.active} for item in permissions]}
 
 
 @router.post("/admin/users", status_code=status.HTTP_201_CREATED)

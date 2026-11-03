@@ -1825,3 +1825,24 @@ Restauracao:
 - URL padrão local agora é `http://127.0.0.1:8050/abel/api`, encaminhada ao tablet pelo proxy.
 - SQLite permanece disponível somente por configuração explícita `DATA_BACKEND=sqlite` e é tratado como legado.
 
+[2026-11-03 15:35:00 -03:00] Gestao de acessos iniciada somente no ambiente local.
+- Implementada base local da rota `/usuarios` no `regianefront`, com abas Usuários e Permissões, busca, tabela e estados de erro/loading.
+- Adapter local ganhou chamadas `admin_users` e `admin_permissions`.
+- Backend local ganhou paginação em `/api/admin/users` e catálogo em `/api/admin/permissions`.
+- Validações de compilação, JSON e diff passaram.
+- Conforme solicitado, nenhuma alteração foi enviada ou reiniciada no tablet.
+
+[2026-11-03 16:05:00 -03:00] Diagnóstico de login local.
+- Usuário `leandro.martins` e senha homologada retornaram HTTP 200 tanto na API pública quanto no proxy local.
+- Melhorada a mensagem de erro do formulário para exibir o detalhe/status real da API; alteração permanece somente local.
+
+[2026-11-03 16:20:00 -03:00] Deploy de auditoria das telas de acesso no tablet, sem commit/push.
+- Enviados `admin_reports.py`, `app.py`, `sidebar.py`, `abel_api_adapter.py` e `pages/usuarios.py` para o runtime do tablet.
+- Reiniciados `abel-api` e `abel-frontend`; processo antigo do Uvicorn foi encerrado para carregar o novo endpoint.
+- Login do gestor HTTP 200; `/api/admin/users` HTTP 200; `/api/admin/permissions` HTTP 200.
+- Frontend público `/abel-front/usuarios` HTTP 200.
+- Código permanece sem commit/push após este deploy, conforme solicitado para auditoria.
+
+[2026-11-03 14:30:00 -03:00] Planejamento de gestão de permissões e workspaces: analisadas referências FISIA, definido modelo de isolamento, matriz gestor/recepção/profissional, telas A0-A4, gates e bloqueios atuais. Criado docs/plano_gestao_permissoes_workspace_2026-11-03.json. Sem deploy, commit ou push.
+[2026-11-03 14:40:00 -03:00] Plano atualizado com modelo híbrido: um workspace por usuário, manager_id para vínculo administrativo e role para permissões. Incluídas regras de troca de gestor, transferência, último gestor e critérios de migração. Sem deploy, commit ou push.
+[2026-11-03 15:05:00 -03:00] Plano atualizado após análise do FISIA, telas de agenda e transcrições de Leandro: adicionados fluxos de pré-agenda e agenda oficial Detran PDF, estados de atendimento/pagamento, capacidade variável por profissional, rodada psicotécnica, correlação, conflitos, regras de integridade e etapa 1.5. Sem deploy, commit ou push.
