@@ -9,7 +9,7 @@ Create Date: 2026-11-02 13:40:00
 from collections.abc import Sequence
 
 import sqlalchemy as sa
-from alembic import op
+from alembic import context, op
 
 revision: str = "b7c3e1a9f240"
 down_revision: str | Sequence[str] | None = "2e32865e3947"
@@ -94,6 +94,10 @@ PROFILE_PERMISSIONS = {
 
 
 def _validate_existing_data() -> None:
+    # Offline SQL generation has no connection to inspect existing rows.
+    # Runtime upgrade still performs all validations before changing schema.
+    if context.is_offline_mode():
+        return
     bind = op.get_bind()
     duplicate_cpf = bind.execute(
         sa.text(
@@ -121,6 +125,8 @@ def _validate_existing_data() -> None:
 
 
 def _seed_access_catalog() -> None:
+    if context.is_offline_mode():
+        return
     bind = op.get_bind()
     roles = sa.table(
         "roles",

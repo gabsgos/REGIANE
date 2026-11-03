@@ -114,6 +114,8 @@ class User(TimestampMixin, Base):
     email: Mapped[str | None] = mapped_column(String(254))
     address: Mapped[str | None] = mapped_column(Text)
     professional_id: Mapped[int | None] = mapped_column(ForeignKey("professionals.id"), index=True)
+    workspace_id: Mapped[int | None] = mapped_column(ForeignKey("workspaces.id"), index=True)
+    manager_id: Mapped[int | None] = mapped_column(ForeignKey("users.id"), index=True)
     active: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
     must_reset_password: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
     access_version: Mapped[int] = mapped_column(
@@ -122,6 +124,27 @@ class User(TimestampMixin, Base):
     row_version: Mapped[int] = mapped_column(Integer, default=1, server_default="1", nullable=False)
 
     __mapper_args__ = {"version_id_col": row_version}
+
+
+class Workspace(TimestampMixin, Base):
+    __tablename__ = "workspaces"
+
+    id: Mapped[int] = mapped_column(BigInteger, primary_key=True, autoincrement=True)
+    name: Mapped[str] = mapped_column(String(120))
+    slug: Mapped[str] = mapped_column(String(80), unique=True, index=True)
+    status: Mapped[str] = mapped_column(String(20), default="ACTIVE", server_default="ACTIVE")
+
+
+class WorkspaceMember(Base):
+    __tablename__ = "workspace_members"
+
+    workspace_id: Mapped[int] = mapped_column(ForeignKey("workspaces.id", ondelete="CASCADE"), primary_key=True)
+    user_id: Mapped[int] = mapped_column(ForeignKey("users.id", ondelete="CASCADE"), primary_key=True)
+    role_id: Mapped[int] = mapped_column(ForeignKey("roles.id"))
+    manager_id: Mapped[int | None] = mapped_column(ForeignKey("users.id"), index=True)
+    status: Mapped[str] = mapped_column(String(20), default="ACTIVE", server_default="ACTIVE")
+    joined_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+    revoked_at: Mapped[datetime | None] = mapped_column(DateTime)
 
 
 class Role(Base):
