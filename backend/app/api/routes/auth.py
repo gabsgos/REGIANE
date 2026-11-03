@@ -150,7 +150,10 @@ def me(context: Annotated[AuthContext, Depends(get_auth_context)]) -> dict:
 @router.post("/logout", status_code=status.HTTP_204_NO_CONTENT)
 def logout(
     response: Response,
-    context: Annotated[AuthContext, Depends(require_csrf)],
+    # Logout is intentionally not CSRF-protected: revoking the current session
+    # is safe even when initiated by a cross-site request, while requiring the
+    # CSRF token can leave the browser redirected but the server session alive.
+    context: Annotated[AuthContext, Depends(get_auth_context)],
     db: Annotated[Session, Depends(get_db_session)],
 ) -> Response:
     context.session.revoked_at = datetime.now(UTC).replace(tzinfo=None)
