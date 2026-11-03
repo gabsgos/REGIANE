@@ -1863,3 +1863,4 @@ Restauracao:
 [2026-11-03 16:20 -03:00] Criado new-update.json com regra de não exclusão, alerta de CPF duplicado e agenda mock para homologação.
 
 [2026-11-03 16:45 -03:00] Atualizada matriz de acesso financeiro: recepção limitada ao fechamento diário, médicos/psicólogos ao resumo individual filtrado por profissional e gestor ao financeiro completo. Relatórios e usuários ocultados no menu para não gestores.
+2026-11-03 17:02 -03:00 | Deploy tablet: backend financeiro + migration f3b5c7d9e1a2 + frontend role-aware; health OK; Alembic head f3b5c7d9e1a2.
