@@ -1,0 +1,152 @@
+{
+  "documento": "Plano de implementação da agenda ABEL reutilizando a estrutura comum do FISIA",
+  "data": "2026-11-03",
+  "status": "PLANEJADO_SEM_IMPLEMENTACAO",
+  "escopo": {
+    "objetivo": "Entregar agenda diária, semanal, mensal e anual para atendimentos ABEL, preservando a origem do agendamento (pré-agenda manual ou PDF Detran), o vínculo com paciente/profissional e os estados clínico-financeiros.",
+    "nao_escopado_agora": [
+      "Substituir a fonte oficial do PDF Detran por criação livre de horários.",
+      "Permitir que médico ou psicólogo altere ou cancele a agenda.",
+      "Expor financeiro coletivo para recepção ou profissional.",
+      "Usar localStorage como fonte de verdade."
+    ]
+  },
+  "analise_comparativa": {
+    "fisia_reaproveitavel": [
+      "Motor FullCalendar 7 com timeGridDay, timeGridWeek, dayGridMonth e multiMonthYear.",
+      "Barra de navegação com calendário, período anterior, Hoje, próximo período e título.",
+      "Filtro de status e seletor de visualização.",
+      "Lista opcional para operação e acessibilidade.",
+      "Cores por ciclo de vida e identificação visual do profissional.",
+      "Cartão de evento com paciente, profissional, serviço, horário e status.",
+      "Seleção de intervalo para abrir o fluxo de agendamento.",
+      "Clique no evento para abrir detalhe contextual.",
+      "Confirmação antes de mover ou redimensionar um evento.",
+      "Regras de horário de trabalho, dias disponíveis, intervalo e capacidade.",
+      "Indicador de horário atual, blocos de indisponibilidade e buffers.",
+      "Configurações da agenda por profissional/unidade.",
+      "Estados de carregando, vazio, erro parcial e alteração pendente."
+    ],
+    "abel_existente": [
+      "appointments com paciente, médico/psicólogo, data de exame, RENACH, origem, resultado e workflow.",
+      "Agenda diária existente em pages/agendamento.py com filtros, criação e cards.",
+      "Endpoints de listagem, criação, atualização, ausência profissional e reanálise.",
+      "Importação de agenda Detran e tabelas agenda_import_batches/agenda_import_rows.",
+      "Controle de status operacional, pagamento independente e documento final autenticado.",
+      "Autorização por perfil e workspace no backend."
+    ],
+    "incompatibilidades_a_tratar": [
+      "O PDF Detran é a fonte oficial do horário de início; o próximo intervalo de 10 minutos cobre o atendimento atual, salvo regra diferente informada no lote.",
+      "O FISIA permite drag-and-drop; no ABEL isso deve ser gestor/recepção e somente para pré-agenda, nunca para registro já importado/concluído.",
+      "Status FISIA precisam ser mapeados para os estados ABEL sem perder o workflow Detran.",
+      "A agenda oficial importada deve manter lote, linha original e idempotência; a correlação visual com pré-agenda fica fora da primeira entrega.",
+      "Capacidade e conflitos devem ser validados no backend, não somente no componente visual."
+    ]
+  },
+  "features_reaproveitadas_por_view": {
+    "diaria": [
+      "Grade por horário e profissional.",
+      "Painel Hoje na clínica.",
+      "Detalhe do evento, status, pagamento e documento.",
+      "Ações permitidas conforme perfil."
+    ],
+    "semanal": [
+      "timeGridWeek com navegação e filtros.",
+      "Agrupamento visual por profissional/unidade.",
+      "Destaque de dias indisponíveis e horário atual."
+    ],
+    "mensal": [
+      "dayGridMonth com resumo de quantidade por dia.",
+      "Seleção do dia para abrir a agenda diária.",
+      "Marcadores compactos por status e origem."
+    ],
+    "anual": [
+      "multiMonthYear com contagens por mês.",
+      "Resumo executados, agendados, cancelados e inapto temporário.",
+      "Clique no mês/dia levando à visão mensal ou diária."
+    ]
+  },
+  "modelo_de_dados": {
+    "origens": ["PRE_AGENDAMENTO", "DETRAN_PDF", "MANUAL_AUTORIZADO"],
+    "estados_agendamento": ["AGENDADO", "CONFIRMADO", "EM_ATENDIMENTO", "CONCLUIDO", "NAO_COMPARECEU", "INAPTO_TEMPORARIO", "CANCELADO"],
+    "estados_pagamento": ["PENDENTE", "PAGO"],
+    "campos_horarios_recomendados": ["scheduled_start_at", "scheduled_end_at", "started_at", "completed_at"],
+    "regra_horario_pdf": "scheduled_start_at vem do horário do PDF Detran; scheduled_end_at = início + 10 minutos por padrão, parametrizável por tipo de exame/lote.",
+    "campos_de_correlacao": ["import_batch_id", "source_row_number", "source_hash", "correlation_status"],
+    "regra": "Campos novos devem ser aditivos e opcionais para dados legados; Nome, data de nascimento e CPF continuam obrigatórios somente em novos cadastros de paciente."
+  },
+  "permissoes": {
+    "menu_agenda": "Visível para todos os perfis; a autorização é aplicada aos dados e às ações, não à existência do menu.",
+    "gestor": ["visualizar_todas_as_views", "criar_editar_cancelar_pre_agenda", "importar_pdf", "configurar_agenda", "concluir_fluxos_administrativos"],
+    "recepcao": ["visualizar_agenda_operacional", "importar_pdf_se_autorizado", "criar_pre_agenda", "editar_pre_agenda", "nao_cancelar_evento_concluido", "registrar_pagamento"],
+    "medico": ["visualizar_agenda_propria", "registrar_atendimento", "enviar_documento_final_aprovado", "nao_criar_ou_cancelar_evento"],
+    "psicologo": ["visualizar_agenda_propria", "registrar_atendimento", "enviar_documento_final_aprovado", "nao_criar_ou_cancelar_evento"],
+    "regra_multiplos_papeis": "As permissões são a união dos papéis ativos do usuário; o backend calcula a autorização efetiva e o frontend apenas oculta ações não permitidas."
+  },
+  "etapas": [
+    {
+      "id": "A0",
+      "nome": "Contrato e inventário",
+      "objetivo": "Fixar o mapeamento FISIA -> ABEL, estados, origem e permissões.",
+      "entregaveis": ["contrato JSON", "matriz de estados", "inventário de endpoints e campos"],
+      "gate": ["contrato revisado", "nenhum estado FISIA sem destino ABEL", "sem alteração de banco"],
+      "proxima": "A1"
+    },
+    {
+      "id": "A1",
+      "nome": "Schema e contrato de API",
+      "objetivo": "Adicionar horários, correlação e paginação de forma reversível.",
+      "entregaveis": ["migration aditiva", "schemas de resposta", "idempotência de importação", "testes de autorização"],
+      "gate": ["upgrade/downgrade em banco isolado", "dados legados preservados", "testes de workspace e papel aprovados"],
+      "proxima": "A2"
+    },
+    {
+      "id": "A2",
+      "nome": "Importação e agenda diária",
+      "objetivo": "Transformar PDF Detran em eventos normalizados e apresentar a operação do dia.",
+      "entregaveis": ["preview", "confirmação humana", "correlação", "detecção de duplicidade", "rollback por lote", "visão diária"],
+      "gate": ["amostra real processada", "linhas sem perda", "horário de início lido do PDF", "fim calculado em blocos de 10 minutos", "rollback validado"],
+      "proxima": "A3"
+    },
+    {
+      "id": "A3",
+      "nome": "Visões semanal e mensal",
+      "objetivo": "Reutilizar a navegação e filtros do FISIA para operação clínica.",
+      "entregaveis": ["semana", "mês", "filtros", "detalhe contextual", "ações por permissão"],
+      "gate": ["responsividade", "teclado/foco", "menu visível para todos os perfis", "ações bloqueadas conforme autorização", "testes de leitura"],
+      "proxima": "A4"
+    },
+    {
+      "id": "A4",
+      "nome": "Visão anual e configurações",
+      "objetivo": "Consolidar indicadores de agenda e regras por profissional/unidade.",
+      "entregaveis": ["ano", "contagens por mês", "configurações", "capacidade e buffers"],
+      "gate": ["totais reconciliados com API", "timezone America/Sao_Paulo validado", "sem vazamento entre workspaces"],
+      "proxima": "A5"
+    },
+    {
+      "id": "A5",
+      "nome": "Integração com Hoje na clínica",
+      "objetivo": "Exibir agenda do dia, upload/preview de PDF e pendências na visão geral.",
+      "entregaveis": ["cards operacionais", "atalho para importar PDF", "pendências de pagamento/documento", "loading progressivo"],
+      "gate": ["erro parcial não bloqueia dashboard", "dados respeitam perfil", "smoke test autenticado"],
+      "proxima": "A6"
+    },
+    {
+      "id": "A6",
+      "nome": "Homologação e deploy",
+      "objetivo": "Validar a agenda completa no tablet antes de commit/push de release.",
+      "entregaveis": ["checklist gestor/recepção/profissional", "teste com PDF", "relatório de compatibilidade", "deploy controlado"],
+      "gate": ["todos os gates anteriores aprovados", "API e frontend saudáveis", "rollback comprovado", "aprovação humana"],
+      "proxima": "FINAL"
+    }
+  ],
+  "criterios_globais": [
+    "Backend é a fonte de verdade para autorização, conflitos, estados e totais.",
+    "SQLite permanece somente adaptador legado/local enquanto a API ABEL é o caminho oficial.",
+    "Nenhum evento concluído, importado ou com documento autenticado pode ser alterado por drag-and-drop.",
+    "A correlação visual entre pré-agenda e PDF não bloqueia a primeira entrega funcional e será tratada em etapa posterior.",
+    "Toda mudança de agenda registra usuário, timestamp, origem, versão e motivo quando aplicável.",
+    "Nenhum deploy será considerado concluído sem health check, smoke test e verificação visual das quatro views."
+  ]
+}

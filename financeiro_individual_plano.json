@@ -1,0 +1,122 @@
+{
+  "documento": "Plano de financeiro individual e demonstracao",
+  "versao": "2026-11-03",
+  "status": "planejamento_sem_implementacao",
+  "regra_operacional": "Nao alterar codigo, banco ou deploy ate nova autorizacao",
+  "objetivo": "Exibir a parte financeira correta para cada perfil sem expor o caixa completo da clinica",
+  "perfis": {
+    "recepcao": {
+      "escopo": "fechamento_diario",
+      "permitido": [
+        "total recebido no dia",
+        "quantidade de pagamentos do dia",
+        "totais por forma de pagamento: dinheiro, pix e hibrido",
+        "lista operacional dos recebimentos do dia",
+        "conferencia de pagamentos pendentes do atendimento"
+      ],
+      "bloqueado": [
+        "historico financeiro completo da clinica",
+        "despesas",
+        "margem da clinica",
+        "repasse individual de profissionais",
+        "exportacao financeira historica"
+      ],
+      "periodo_padrao": "dia_atual",
+      "fechamento": "permitir reabrir a conferencia sem alterar pagamentos; estorno somente por gestor"
+    },
+    "medico_psicologo": {
+      "escopo": "financeiro_individual",
+      "permitido": [
+        "atendimentos proprios pagos",
+        "valor bruto de cada atendimento",
+        "percentual de repasse vigente no pagamento",
+        "valor estimado ou congelado do repasse",
+        "total individual por periodo",
+        "status pendente, pago e estornado dos proprios atendimentos"
+      ],
+      "bloqueado": [
+        "financeiro de outros profissionais",
+        "despesas e caixa da clinica",
+        "valor liquido da clinica",
+        "alteracao do percentual de repasse",
+        "estorno"
+      ],
+      "filtros": ["periodo", "status", "forma_de_pagamento", "tipo_de_exame"],
+      "escopo_server_side_obrigatorio": true
+    },
+    "gestor": {
+      "escopo": "financeiro_completo",
+      "permitido": [
+        "receitas",
+        "despesas",
+        "pendencias",
+        "caixa por forma de pagamento",
+        "repasse por profissional",
+        "estornos",
+        "exportacao e auditoria"
+      ]
+    }
+  },
+  "calculos": {
+    "valor_bruto": "payment.total_amount",
+    "percentual_repasse": "payment.commission_rate ou 0.60 quando definido pelo cadastro profissional",
+    "repasse_profissional": "round(valor_bruto * percentual_repasse, 2)",
+    "valor_clinica": "valor_bruto - repasse_profissional",
+    "saldo_individual": "soma dos repasses pagos - repasses estornados",
+    "saldo_diario_recepcao": "soma de pagamentos pagos no dia por forma de pagamento",
+    "hibrido": "payment.total_amount = item.dinheiro + item.pix; cada item aparece uma vez",
+    "pendente": "atendimento concluido sem payment pago; nao entra em recebido",
+    "estornado": "nao entra no saldo atual e permanece no historico auditado"
+  },
+  "cartoes_demonstracao": {
+    "recepcao": [
+      {"titulo": "Recebido hoje", "valor": "R$ 1.080,00", "origem": "pagamentos pagos do dia"},
+      {"titulo": "Dinheiro", "valor": "R$ 360,00", "origem": "payment_items.method=dinheiro"},
+      {"titulo": "Pix", "valor": "R$ 540,00", "origem": "payment_items.method=pix"},
+      {"titulo": "Hibrido", "valor": "R$ 180,00", "origem": "soma de pagamentos com dois itens"}
+    ],
+    "profissional": [
+      {"titulo": "Bruto no periodo", "valor": "R$ 900,00"},
+      {"titulo": "Repasse", "valor": "R$ 540,00", "formula": "900 * 0.60"},
+      {"titulo": "Atendimentos pagos", "valor": "10"},
+      {"titulo": "Pendentes", "valor": "2", "observacao": "nao compoem o repasse pago"}
+    ],
+    "gestor": [
+      {"titulo": "Receita bruta", "valor": "R$ 4.500,00"},
+      {"titulo": "Repasses", "valor": "R$ 2.700,00"},
+      {"titulo": "Despesas", "valor": "R$ 800,00"},
+      {"titulo": "Resultado operacional", "valor": "R$ 1.000,00", "formula": "4500 - 2700 - 800"}
+    ],
+    "escopo": "mock_visual_homologacao; nao gravar no banco de producao"
+  },
+  "telas_sugeridas": [
+    "Resumo individual",
+    "Tabela de atendimentos e pagamentos",
+    "Detalhe do pagamento com itens Pix/dinheiro",
+    "Comparativo por periodo",
+    "Exportacao somente conforme permissao"
+  ],
+  "seguranca": {
+    "autorizacao": "backend deve filtrar por role e professional_id; esconder menu no frontend nao e suficiente",
+    "recepcao": "endpoint limitado ao dia atual e sem campos de repasse/despesa",
+    "profissional": "endpoint retorna somente appointments vinculados ao profissional autenticado",
+    "gestor": "acesso a relatorios completos exige finance.report",
+    "auditoria": "registrar consulta, exportacao, estorno e fechamento diario",
+    "privacidade": "nao retornar dados financeiros de terceiros por excesso de campos"
+  },
+  "bloqueios_atuais": [
+    "Tela financeira remota apresenta 403 quando a sessao nao possui a permissao do relatorio completo",
+    "O frontend precisa escolher endpoint de resumo individual em vez de usar finance.report para todos os perfis",
+    "Os valores demonstrativos ainda nao devem ser confundidos com dados reais"
+  ],
+  "criterios_de_aceite": [
+    "Recepcao visualiza somente o fechamento do dia",
+    "Medico e psicologo visualizam somente seus proprios pagamentos e repasses",
+    "Gestor visualiza receitas, despesas, repasses, estornos e exportacao",
+    "Pagamento hibrido soma exatamente os itens Pix e dinheiro",
+    "Pendente nao entra em recebido e estornado nao entra no saldo atual",
+    "Nenhum perfil nao gestor acessa usuarios ou relatorios completos",
+    "Mock fica isolado e identificado como demonstracao",
+    "403 de permissao e exibido como acesso restrito, sem mascarar como falha de banco"
+  ]
+}

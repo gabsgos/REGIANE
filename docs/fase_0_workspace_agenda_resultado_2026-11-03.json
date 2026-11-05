@@ -1,0 +1,35 @@
+{
+  "fase": "0",
+  "nome": "Contrato e matriz",
+  "data": "2026-11-03",
+  "status": "APROVADA_PARA_FASE_1",
+  "evidencias": {
+    "plano_json": "docs/plano_gestao_permissoes_workspace_2026-11-03.json",
+    "design_system": "design-system/abel-gestao-de-acessos/MASTER.md",
+    "transcricoes": [
+      "C:/Users/gabri/Downloads/Quick Share/Chamada Leandro Lider_261103_104645_original.txt",
+      "C:/Users/gabri/Downloads/Quick Share/Chamada Leandro Lider_261103_105856_original.txt"
+    ],
+    "referencia_fisia": "FISIA agenda: visualizacoes dia/semana/mes/ano, filtros, modal e configuracoes por profissional"
+  },
+  "checks": [
+    {"id": "C0-01", "nome": "workspace unico por usuario", "resultado": "OK", "evidencia": "workspace_id obrigatorio; manager_id administrativo; role funcional"},
+    {"id": "C0-02", "nome": "matriz de perfis", "resultado": "OK", "evidencia": "gestor, recepcao, medico e psicologo com permitido/negado definido"},
+    {"id": "C0-03", "nome": "separacao da agenda", "resultado": "OK", "evidencia": "PRE_AGENDAMENTO separado de DETRAN_PDF"},
+    {"id": "C0-04", "nome": "estados", "resultado": "OK", "evidencia": "atendimento e pagamento possuem ciclos independentes"},
+    {"id": "C0-05", "nome": "capacidade", "resultado": "OK", "evidencia": "limite por profissional/dia, encaixes e rodada psicotecnica"},
+    {"id": "C0-06", "nome": "auditoria e seguranca", "resultado": "OK", "evidencia": "origem, correlacao, conflitos, timestamps e alteracoes auditaveis"},
+    {"id": "C0-07", "nome": "ux acessivel", "resultado": "OK", "evidencia": "loading, erro parcial, foco, teclado, contraste e controles de 44px previstos"}
+  ],
+  "bloqueios_remanescentes": [
+    "Implementar workspace_id e manager_id no banco/backend.",
+    "Confirmar o contrato exato de colunas do PDF Detran com amostra real.",
+    "Implementar testes de acesso cruzado antes de homologacao."
+  ],
+  "proxima_fase": {
+    "id": "1",
+    "nome": "Workspace e migracao",
+    "condicao": "Pode iniciar: contrato aprovado; nenhum bloqueio de definicao pendente.",
+    "primeiro_entregavel": "Migration reversivel para workspaces, workspace_members, manager_id e workspace_id nas entidades alvo."
+  }
+}

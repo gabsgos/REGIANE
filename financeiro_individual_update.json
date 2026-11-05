@@ -1,0 +1,39 @@
+{
+  "versao": "2026-11-03.1",
+  "objetivo": "Exibir o financeiro conforme o perfil sem expor o caixa completo da clinica.",
+  "perfis": {
+    "recepcao": {
+      "escopo": "fechamento diario",
+      "periodo_forcado": "data atual",
+      "exibicoes": ["total recebido", "quantidade de pagamentos", "por forma de pagamento", "estornos do dia"],
+      "bloqueios": ["relatorio completo", "despesas da clinica", "exportacao financeira"]
+    },
+    "medico_psicologo": {
+      "escopo": "atendimentos vinculados ao proprio profissional",
+      "calculos": {
+        "bruto": "soma dos pagamentos dos atendimentos do profissional",
+        "repasse": "bruto multiplicado por commission_rate",
+        "clinica": "bruto menos repasse"
+      },
+      "exibicoes": ["total bruto", "repasse individual", "quantidade de atendimentos pagos", "Pix e dinheiro separados"],
+      "bloqueios": ["financeiro de outros profissionais", "despesas da clinica", "relatorio completo"]
+    },
+    "gestor": {
+      "escopo": "financeiro completo da clinica",
+      "exibicoes": ["receitas", "despesas", "pendencias", "estornos", "fluxo de caixa", "exportacao"]
+    }
+  },
+  "regras": [
+    "Totais devem ser calculados no backend; o frontend apenas apresenta.",
+    "Pagamento hibrido soma payment_items dinheiro e pix sem duplicar receita.",
+    "Acesso e filtragem devem ser validados no backend, nao apenas ocultados no menu.",
+    "Menu Medicos removido da navegacao principal; o cadastro profissional permanece restrito ao gestor."
+  ],
+  "criterios_conclusao": [
+    "Recepcao ve somente o resumo do dia.",
+    "Profissional ve somente seus pagamentos e repasse.",
+    "Gestor continua vendo o relatorio completo.",
+    "Nenhum perfil nao gestor recebe dados de despesas ou exportacao.",
+    "Testes de adaptador e compilacao passam."
+  ]
+}

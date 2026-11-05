@@ -1,0 +1,344 @@
+{
+  "documento": "Instruções para agenda diária e agenda extra de encaixes do ABEL",
+  "data": "2026-11-05",
+  "timezone": "America/Sao_Paulo",
+  "status": "PLANEJADO_SEM_IMPLEMENTACAO",
+  "escopo": {
+    "objetivo": "Implementar agenda oficial DETRAN, agenda extra de encaixes e sessões coletivas de psicotécnico com capacidade personalizada por profissional.",
+    "alteracao_de_codigo_nesta_etapa": false,
+    "alteracao_de_build_nesta_etapa": false,
+    "deploy_nesta_etapa": false,
+    "git_nesta_etapa": false
+  },
+  "fontes": [
+    {
+      "tipo": "transcricao",
+      "arquivo": "C:/Users/gabri/Downloads/Transcrição.txt"
+    },
+    {
+      "tipo": "chamada",
+      "arquivo": "C:/Users/gabri/Downloads/Quick Share/Chamada Leandro Lider_261103_104645_original.txt"
+    },
+    {
+      "tipo": "chamada",
+      "arquivo": "C:/Users/gabri/Downloads/Quick Share/Chamada Leandro Lider_261103_105856_original.txt"
+    },
+    {
+      "tipo": "analise_tecnica",
+      "arquivo": "C:/Users/gabri/.codex/attachments/83eb9bde-c75a-4bcb-9afc-855ebba9c521/Texto colado.txt"
+    }
+  ],
+  "regras_confirmadas": {
+    "regimes_de_agenda": [
+      {
+        "codigo": "DETRAN_OFICIAL",
+        "descricao": "Agenda importada do PDF do DETRAN, com data e horário oficiais."
+      },
+      {
+        "codigo": "AGENDA_EXTRA",
+        "descricao": "Encaixes, retornos e recuperações de faltas controlados pela capacidade diária do profissional."
+      },
+      {
+        "codigo": "PSICOTECNICO_GRUPO",
+        "descricao": "Sessão coletiva em horário fixo, com vários pacientes vinculados e capacidade própria."
+      }
+    ],
+    "motivos_de_encaixe": [
+      "EXTRA_RETORNO",
+      "EXTRA_FALTA_ANTERIOR",
+      "EXTRA_AUTORIZADO"
+    ],
+    "operacao": [
+      "O encaixe reserva capacidade em um dia e não exige horário clínico rígido.",
+      "Um horário ou faixa de chegada pode ser informado para distribuir os pacientes.",
+      "O limite de encaixes deve ser individual por profissional.",
+      "O profissional pode ter limite numérico ou operar explicitamente sem limite.",
+      "Deve existir limite padrão recorrente e substituição para uma data específica.",
+      "Os horários de trabalho variam por profissional e dia da semana.",
+      "O exame médico individual dura aproximadamente entre 5 e 10 minutos.",
+      "O psicotécnico deve ser tratado como turma e não como conflito entre consultas individuais."
+    ]
+  },
+  "diagnostico_atual": {
+    "recursos_existentes": [
+      "appointments já registra paciente, profissional, data, horário, origem e estados clínico-financeiros.",
+      "A importação do PDF usa source_kind DETRAN_PDF.",
+      "A criação manual aceita atualmente RETURN ou WALK_IN.",
+      "O frontend possui formulário de nova consulta e visualização por período."
+    ],
+    "lacunas": [
+      "Não existe jornada recorrente do profissional no backend.",
+      "Não existe limite padrão ou limite especial por data.",
+      "Não existe modo explícito sem limite.",
+      "Não existe entidade de sessão coletiva.",
+      "Não existe validação transacional de capacidade ou conflito.",
+      "Não existe separação operacional completa entre agenda oficial e agenda extra."
+    ],
+    "defeitos_identificados": [
+      {
+        "local": "regianefront/pages/agendamento.py",
+        "problema": "A criação captura qualquer exceção e exibe uma mensagem genérica, ocultando o detalhe retornado pela API."
+      },
+      {
+        "local": "regianefront/pages/agendamento.py",
+        "problema": "O formulário envia MEDICAL_EXAM mesmo quando o profissional selecionado pode ser psicólogo."
+      },
+      {
+        "local": "regianefront/pages/agendamento.py",
+        "problema": "A visualização com consultas referencia consultas_df, variável inexistente."
+      },
+      {
+        "local": "regianefront/data_access/abel_api_adapter.py",
+        "problema": "O valor digitado no formulário não é persistido pelo contrato atual de criação do atendimento."
+      }
+    ]
+  },
+  "modelo_de_dados_recomendado": {
+    "professional_schedule_rule": {
+      "finalidade": "Definir jornada e política recorrente por profissional e dia da semana.",
+      "campos": [
+        "professional_id",
+        "weekday",
+        "start_time",
+        "end_time",
+        "service_mode",
+        "extra_limit_mode",
+        "default_extra_limit",
+        "default_arrival_time",
+        "active",
+        "row_version"
+      ],
+      "valores": {
+        "service_mode": [
+          "INDIVIDUAL",
+          "GROUP"
+        ],
+        "extra_limit_mode": [
+          "LIMITED",
+          "UNLIMITED"
+        ]
+      }
+    },
+    "professional_day_override": {
+      "finalidade": "Substituir a regra recorrente em uma data específica.",
+      "campos": [
+        "professional_id",
+        "date",
+        "extra_limit_mode",
+        "extra_limit",
+        "closed",
+        "reason",
+        "created_by_id",
+        "row_version"
+      ]
+    },
+    "schedule_session": {
+      "finalidade": "Representar uma turma coletiva, especialmente o psicotécnico.",
+      "campos": [
+        "professional_id",
+        "date",
+        "start_at",
+        "expected_end_at",
+        "capacity",
+        "service_mode",
+        "status",
+        "row_version"
+      ]
+    },
+    "appointment_extensions": {
+      "campos": [
+        "booking_kind",
+        "extra_reason",
+        "arrival_window_start",
+        "arrival_window_end",
+        "schedule_session_id"
+      ],
+      "booking_kind": [
+        "DETRAN_OFICIAL",
+        "EXTRA_RETORNO",
+        "EXTRA_FALTA_ANTERIOR",
+        "EXTRA_AUTORIZADO",
+        "PSICOTECNICO_GRUPO"
+      ]
+    }
+  },
+  "regras_de_capacidade": {
+    "precedencia": [
+      "professional_day_override",
+      "professional_schedule_rule",
+      "clinic_default"
+    ],
+    "estados_que_consumem_capacidade": [
+      "SCHEDULED",
+      "CONFIRMED",
+      "IN_SERVICE"
+    ],
+    "estados_que_nao_consumem_capacidade": [
+      "CANCELLED"
+    ],
+    "instrucoes": [
+      "Executar contagem e criação do encaixe na mesma transação.",
+      "Bloquear a criação quando o limite efetivo estiver preenchido.",
+      "Não usar apenas o frontend para validar capacidade.",
+      "Representar UNLIMITED explicitamente e não por valor nulo ambíguo.",
+      "Registrar em auditoria a regra aplicada, o usuário e a capacidade antes e depois da operação.",
+      "Nunca converter silenciosamente um evento DETRAN em encaixe."
+    ]
+  },
+  "interface_agenda_diaria": {
+    "cabecalho": [
+      "data",
+      "profissional",
+      "jornada_do_dia",
+      "quantidade_agenda_oficial",
+      "encaixes_utilizados",
+      "limite_efetivo_ou_sem_limite",
+      "capacidade_da_turma_quando_aplicavel"
+    ],
+    "secao_agenda_oficial": [
+      "horario_oficial",
+      "paciente",
+      "tipo_de_exame",
+      "status_atendimento",
+      "status_pagamento",
+      "pendencias"
+    ],
+    "secao_agenda_extra": [
+      "horario_ou_faixa_orientativa",
+      "paciente",
+      "motivo_do_encaixe",
+      "incluido_por",
+      "status",
+      "posicao_na_capacidade"
+    ],
+    "formulario_adicionar_encaixe": [
+      "paciente",
+      "profissional",
+      "data",
+      "motivo",
+      "horario_ou_faixa_orientativa",
+      "observacao",
+      "capacidade_restante"
+    ],
+    "responsividade": "No tablet e celular, apresentar agenda oficial e agenda extra em abas ou seções empilhadas, sem rolagem horizontal.",
+    "feedback": "Exibir mensagens específicas da API e manter erros associados aos respectivos campos."
+  },
+  "permissoes_recomendadas": {
+    "gerente": [
+      "visualizar_todas_as_agendas",
+      "criar_encaixe",
+      "alterar_limites",
+      "criar_excecao_por_data",
+      "fechar_data"
+    ],
+    "recepcao": [
+      "visualizar_agenda_operacional",
+      "criar_encaixe",
+      "editar_encaixe_ativo"
+    ],
+    "medico": [
+      "visualizar_agenda_propria",
+      "registrar_atendimento"
+    ],
+    "psicologo": [
+      "visualizar_agenda_propria",
+      "visualizar_turma_propria",
+      "registrar_atendimento"
+    ]
+  },
+  "api_proposta": [
+    {
+      "method": "GET",
+      "path": "/operations/schedule/day",
+      "finalidade": "Retornar agenda oficial, agenda extra, sessões e capacidade efetiva por data e profissional."
+    },
+    {
+      "method": "POST",
+      "path": "/operations/schedule/extras",
+      "finalidade": "Criar encaixe com validação transacional de capacidade."
+    },
+    {
+      "method": "GET",
+      "path": "/operations/professionals/{professional_id}/schedule-policy",
+      "finalidade": "Consultar jornada e política recorrente."
+    },
+    {
+      "method": "PUT",
+      "path": "/operations/professionals/{professional_id}/schedule-policy",
+      "finalidade": "Atualizar jornada e limite padrão."
+    },
+    {
+      "method": "PUT",
+      "path": "/operations/professionals/{professional_id}/schedule-overrides/{date}",
+      "finalidade": "Criar ou alterar a exceção de uma data."
+    }
+  ],
+  "ordem_de_implementacao": [
+    {
+      "etapa": 1,
+      "acao": "Expor o erro real do agendamento atual e corrigir os defeitos já identificados."
+    },
+    {
+      "etapa": 2,
+      "acao": "Criar migration e contratos para jornada e capacidade por profissional."
+    },
+    {
+      "etapa": 3,
+      "acao": "Adicionar exceções de capacidade por data."
+    },
+    {
+      "etapa": 4,
+      "acao": "Classificar atendimentos oficiais, extras e coletivos sem alterar a idempotência do PDF."
+    },
+    {
+      "etapa": 5,
+      "acao": "Implementar criação transacional de encaixe no backend."
+    },
+    {
+      "etapa": 6,
+      "acao": "Entregar agenda diária com áreas separadas para agenda oficial e agenda extra."
+    },
+    {
+      "etapa": 7,
+      "acao": "Implementar sessões coletivas de psicotécnico."
+    },
+    {
+      "etapa": 8,
+      "acao": "Executar testes, homologação visual e validação autenticada antes de qualquer deploy."
+    }
+  ],
+  "criterios_de_aceite": [
+    "Limites diferentes podem ser configurados para profissionais distintos.",
+    "Uma data específica pode substituir o limite recorrente.",
+    "O modo sem limite funciona sem usar número artificialmente alto.",
+    "Duas solicitações simultâneas não ocupam a mesma última vaga.",
+    "Cancelamento libera a capacidade conforme a regra definida.",
+    "Agenda oficial e agenda extra permanecem visualmente e semanticamente separadas.",
+    "Pacientes do psicotécnico podem compartilhar a mesma sessão sem conflito falso.",
+    "A recepção não consegue alterar limites.",
+    "Médico e psicólogo visualizam somente os dados autorizados.",
+    "Toda alteração de capacidade e encaixe fica auditável.",
+    "Datas e horários são interpretados em America/Sao_Paulo.",
+    "Mensagens de erro informam causa e recuperação possível."
+  ],
+  "testes_obrigatorios": [
+    "limite_numerico",
+    "sem_limite",
+    "excecao_por_data",
+    "data_fechada",
+    "concorrencia_na_ultima_vaga",
+    "cancelamento_e_liberacao_de_vaga",
+    "permissoes_por_perfil",
+    "sessao_coletiva",
+    "preservacao_da_importacao_detran",
+    "timezone_america_sao_paulo",
+    "layout_desktop_tablet_mobile",
+    "mensagens_de_erro_especificas"
+  ],
+  "decisoes_pendentes": [
+    "Definir se NO_SHOW libera capacidade somente durante o dia ou apenas após encerramento administrativo.",
+    "Definir quem pode editar um encaixe após o início do atendimento.",
+    "Definir a capacidade padrão das turmas de psicotécnico.",
+    "Definir se a faixa orientativa será livre ou calculada automaticamente pelo sistema."
+  ]
+}
