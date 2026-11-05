@@ -12,7 +12,7 @@ class Settings(BaseSettings):
 
     environment: str = "development"
     app_name: str = "ABEL Clinica"
-    app_version: str = "1.0.0+build.60"
+    app_version: str = "1.0.0+build.61"
     api_host: str = "127.0.0.1"
     api_port: int = 8000
     business_timezone: str = "America/Sao_Paulo"

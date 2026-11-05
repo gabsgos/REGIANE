@@ -12,7 +12,7 @@ def test_health_check() -> None:
     assert response.json() == {
         "status": "ok",
         "service": "ABEL Clinica",
-        "version": "1.0.0",
+            "version": "1.0.0+build.61",
         "environment": "development",
         "checks": {"api": "ok", "database": "ok", "document_storage": "ok"},
     }

@@ -52,6 +52,8 @@ def audit(db: Session, action: str, user_id: int | None = None) -> None:
 
 
 def set_auth_cookies(response: Response, token: str, csrf: str) -> None:
+    response.headers["Cache-Control"] = "no-store"
+    response.headers["Pragma"] = "no-cache"
     max_age = settings.session_hours * 3600
     response.set_cookie(
         "abel_session",
@@ -135,7 +137,12 @@ def login(
 
 
 @router.get("/me")
-def me(context: Annotated[AuthContext, Depends(get_auth_context)]) -> dict:
+def me(
+    response: Response,
+    context: Annotated[AuthContext, Depends(get_auth_context)],
+) -> dict:
+    response.headers["Cache-Control"] = "no-store"
+    response.headers["Pragma"] = "no-cache"
     return {
         "id": context.user.id,
         "username": context.user.username,
@@ -161,6 +168,8 @@ def logout(
     db.commit()
     response.delete_cookie("abel_session", path="/")
     response.delete_cookie("abel_csrf", path="/")
+    response.headers["Cache-Control"] = "no-store"
+    response.headers["Pragma"] = "no-cache"
     response.status_code = status.HTTP_204_NO_CONTENT
     return response
 
@@ -187,5 +196,7 @@ def change_password(
     db.commit()
     response.delete_cookie("abel_session", path="/")
     response.delete_cookie("abel_csrf", path="/")
+    response.headers["Cache-Control"] = "no-store"
+    response.headers["Pragma"] = "no-cache"
     response.status_code = status.HTTP_204_NO_CONTENT
     return response

@@ -415,7 +415,8 @@ def upsert_service_type(
     return result
 
 
-def _source_key(digest: str, row: int, service_code: str) -> str:
+def _source_key(digest: str, row: int, service_code: str = "UNKNOWN") -> str:
+    """Build a stable import key while keeping compatibility with old callers."""
     return hashlib.sha256(f"{digest}:{row}:{service_code}".encode()).hexdigest()[:40]
 
 

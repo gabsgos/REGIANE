@@ -52,6 +52,33 @@ def create_app() -> FastAPI:
             },
         )
         response.headers["X-Request-ID"] = request_id
+        response.headers.setdefault("X-Content-Type-Options", "nosniff")
+        response.headers.setdefault("X-Frame-Options", "SAMEORIGIN")
+        response.headers.setdefault("Referrer-Policy", "strict-origin-when-cross-origin")
+        response.headers.setdefault(
+            "Permissions-Policy", "camera=(), microphone=(), geolocation=()"
+        )
+        response.headers.setdefault(
+            "Content-Security-Policy",
+            "frame-ancestors 'self'; base-uri 'self'; object-src 'none'",
+        )
+        sensitive_prefixes = (
+            "/api/auth",
+            "/abel/api/auth",
+            "/api/operations",
+            "/abel/api/operations",
+            "/api/clinical",
+            "/abel/api/clinical",
+            "/api/finance",
+            "/abel/api/finance",
+            "/api/documents",
+            "/abel/api/documents",
+            "/api/reports",
+            "/abel/api/reports",
+        )
+        if request.url.path.startswith(sensitive_prefixes):
+            response.headers["Cache-Control"] = "no-store"
+            response.headers["Pragma"] = "no-cache"
         return response
 
     @application.get("/abel.html", include_in_schema=False)
