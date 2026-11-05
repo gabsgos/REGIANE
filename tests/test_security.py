@@ -10,10 +10,14 @@ from backend.app.api.dependencies import (
     require_csrf,
     require_roles,
 )
+from backend.app.api.routes import auth
 from backend.app.core.rate_limit import LoginRateLimiter
 from backend.app.core.security import hash_password, token_digest, verify_password
+from backend.app.db.base import Base
 from backend.app.db.models import AuthSession, User
-from fastapi import HTTPException
+from fastapi import HTTPException, Response
+from sqlalchemy import create_engine
+from sqlalchemy.orm import Session
 from tools.validate_auth import read_secret
 
 
@@ -136,3 +140,85 @@ def test_csrf_rejects_mismatch() -> None:
     with pytest.raises(HTTPException, match="CSRF invalido"):
         require_csrf(context, "incorreto", "incorreto")
     assert require_csrf(context, "correto", "correto") is context
+
+
+def test_auth_context_revokes_idle_session(monkeypatch) -> None:
+    settings = SimpleNamespace(session_idle_minutes=15)
+    monkeypatch.setattr(dependencies, "get_settings", lambda: settings)
+    engine = create_engine("sqlite://")
+    Base.metadata.create_all(engine)
+    now = datetime.now(UTC).replace(tzinfo=None)
+    token = "t" * 32
+    with Session(engine) as db:
+        user = User(
+            id=1,
+            username="gestor",
+            display_name="Gestor",
+            active=True,
+            must_reset_password=False,
+        )
+        session = AuthSession(
+            id=1,
+            user_id=1,
+            token_hash=token_digest(token),
+            csrf_hash="y" * 64,
+            access_version=1,
+            created_at=now - timedelta(hours=1),
+            expires_at=now + timedelta(hours=1),
+            last_seen_at=now - timedelta(minutes=16),
+        )
+        db.add_all([user, session])
+        db.commit()
+        with pytest.raises(HTTPException, match="inatividade") as exc:
+            dependencies.get_auth_context(db, token)
+        assert exc.value.status_code == 401
+        db.refresh(session)
+        assert session.revoked_at is not None
+
+
+def test_close_tab_revokes_matching_tab(monkeypatch) -> None:
+    monkeypatch.setattr(auth, "audit", lambda *args: None)
+    engine = create_engine("sqlite://")
+    Base.metadata.create_all(engine)
+    now = datetime.now(UTC).replace(tzinfo=None)
+    with Session(engine) as db:
+        user = User(id=1, username="gestor", display_name="Gestor", active=True)
+        session = AuthSession(
+            id=1,
+            user_id=1,
+            token_hash="t" * 64,
+            csrf_hash="c" * 64,
+            tab_id_hash=token_digest("tab-abcdefghijklmnop"),
+            created_at=now,
+            expires_at=now + timedelta(hours=1),
+            last_seen_at=now,
+        )
+        db.add_all([user, session])
+        db.commit()
+        context = AuthContext(user=user, session=session, roles=frozenset({"gerente"}))
+        response = auth.close_tab(
+            payload=type("Payload", (), {"tab_id": "tab-abcdefghijklmnop"})(),
+            response=Response(),
+            context=context,
+            db=db,
+        )
+        assert response.status_code == 204
+        db.refresh(session)
+        assert session.revoked_at is not None
+
+
+def test_close_tab_rejects_wrong_tab() -> None:
+    session = AuthSession(tab_id_hash=token_digest("tab-correta"))
+    context = AuthContext(
+        user=User(id=1, username="gestor", display_name="Gestor", active=True),
+        session=session,
+        roles=frozenset({"gerente"}),
+    )
+    with pytest.raises(HTTPException, match="Aba invalida") as exc:
+        auth.close_tab(
+            payload=type("Payload", (), {"tab_id": "tab-incorreta"})(),
+            response=Response(),
+            context=context,
+            db=SimpleNamespace(),
+        )
+    assert exc.value.status_code == 403

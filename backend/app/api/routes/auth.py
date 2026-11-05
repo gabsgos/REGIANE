@@ -29,6 +29,11 @@ rate_limiter = LoginRateLimiter(settings.login_max_attempts, settings.login_wind
 class LoginRequest(BaseModel):
     username: str = Field(min_length=1, max_length=80)
     password: str = Field(min_length=1, max_length=256)
+    tab_id: str | None = Field(default=None, min_length=16, max_length=128)
+
+
+class CloseTabRequest(BaseModel):
+    tab_id: str = Field(min_length=16, max_length=128)
 
 
 class PasswordChangeRequest(BaseModel):
@@ -54,11 +59,9 @@ def audit(db: Session, action: str, user_id: int | None = None) -> None:
 def set_auth_cookies(response: Response, token: str, csrf: str) -> None:
     response.headers["Cache-Control"] = "no-store"
     response.headers["Pragma"] = "no-cache"
-    max_age = settings.session_hours * 3600
     response.set_cookie(
         "abel_session",
         token,
-        max_age=max_age,
         httponly=True,
         secure=settings.cookie_secure or settings.environment == "production",
         samesite="strict",
@@ -67,7 +70,6 @@ def set_auth_cookies(response: Response, token: str, csrf: str) -> None:
     response.set_cookie(
         "abel_csrf",
         csrf,
-        max_age=max_age,
         httponly=False,
         secure=settings.cookie_secure or settings.environment == "production",
         samesite="strict",
@@ -115,6 +117,7 @@ def login(
         created_at=now,
         expires_at=now + timedelta(hours=settings.session_hours),
         last_seen_at=now,
+        tab_id_hash=token_digest(payload.tab_id) if payload.tab_id else None,
         revoked_at=None,
     )
     db.add(auth_session)
@@ -134,6 +137,25 @@ def login(
         "must_reset_password": user.must_reset_password,
         "csrf_token": csrf,
     }
+
+
+@router.post("/close-tab", status_code=status.HTTP_204_NO_CONTENT)
+def close_tab(
+    payload: CloseTabRequest,
+    response: Response,
+    context: Annotated[AuthContext, Depends(get_auth_context)],
+    db: Annotated[Session, Depends(get_db_session)],
+) -> Response:
+    if context.session.tab_id_hash and context.session.tab_id_hash != token_digest(payload.tab_id):
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Aba invalida")
+    context.session.revoked_at = datetime.now(UTC).replace(tzinfo=None)
+    audit(db, "tab_closed", context.user.id)
+    db.commit()
+    response.delete_cookie("abel_session", path="/")
+    response.delete_cookie("abel_csrf", path="/")
+    response.headers["Cache-Control"] = "no-store"
+    response.status_code = status.HTTP_204_NO_CONTENT
+    return response
 
 
 @router.get("/me")

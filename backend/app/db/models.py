@@ -292,6 +292,7 @@ class AuthSession(Base):
     created_at: Mapped[datetime] = mapped_column(DateTime, nullable=False)
     expires_at: Mapped[datetime] = mapped_column(DateTime, index=True, nullable=False)
     last_seen_at: Mapped[datetime] = mapped_column(DateTime, nullable=False)
+    tab_id_hash: Mapped[str | None] = mapped_column(String(64), index=True)
     revoked_at: Mapped[datetime | None] = mapped_column(DateTime)
 
 

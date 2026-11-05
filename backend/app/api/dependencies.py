@@ -66,6 +66,14 @@ def get_auth_context(
     )
     if not auth_session:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Sessao invalida")
+    idle_cutoff = now - timedelta(minutes=get_settings().session_idle_minutes)
+    if auth_session.last_seen_at < idle_cutoff:
+        auth_session.revoked_at = now
+        db.commit()
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Sessao expirada por inatividade",
+        )
     user = db.get(User, auth_session.user_id)
     if not user or not user.active:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Usuario inativo")

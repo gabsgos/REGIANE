@@ -20,6 +20,8 @@ class Settings(BaseSettings):
     # Sessões de usuário expiram após seis horas; a validade efetiva também
     # é conferida em cada chamada autenticada pelo token armazenado no banco.
     session_hours: int = 6
+    # Sessões sem chamadas autenticadas expiram após este período.
+    session_idle_minutes: int = 15
     cookie_secure: bool = False
     login_max_attempts: int = 5
     login_window_seconds: int = 300
