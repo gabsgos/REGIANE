@@ -3,7 +3,7 @@ from __future__ import annotations
 import csv
 import io
 import secrets
-from datetime import date, datetime, time, timedelta
+from datetime import UTC, date, datetime, time, timedelta
 from decimal import Decimal
 from typing import Annotated, Literal
 
@@ -69,6 +69,9 @@ class UserCreate(BaseModel):
     address: str = Field(min_length=5, max_length=500)
     role: RoleName
     professional_id: int | None = None
+    council_type: Literal['CRM', 'CRP'] | None = None
+    council_number: str | None = Field(default=None, min_length=2, max_length=20)
+    council_region: str | None = Field(default=None, pattern=r'^[A-Z]{2}$')
 
 
 class UserUpdate(BaseModel):
@@ -264,6 +267,23 @@ def create_user(
     db: Annotated[Session, Depends(get_db_session)],
 ) -> dict:
     role = role_by_name(db, payload.role)
+    if payload.role in {'medico', 'psicologo'} and not payload.professional_id:
+        council = 'CRM' if payload.role == 'medico' else 'CRP'
+        if payload.council_type != council or not payload.council_number or not payload.council_region:
+            raise HTTPException(status_code=422, detail='Informe conselho, numero e UF do profissional')
+        existing = db.scalar(select(Professional).where(
+            Professional.council_type == council,
+            Professional.council_number == payload.council_number.strip(),
+        ))
+        if existing:
+            raise HTTPException(status_code=409, detail='Conselho ja cadastrado; vincule o profissional existente')
+        professional = Professional(name=payload.display_name.strip(), council_type=council,
+                                    council_number=payload.council_number.strip(),
+                                    council_region=payload.council_region, cpf=payload.cpf,
+                                    phone=payload.phone, email=payload.email)
+        db.add(professional)
+        db.flush()
+        payload.professional_id = professional.id
     validate_professional_link(db, payload.role, payload.professional_id)
     temporary_password = secrets.token_urlsafe(18)
     user = User(
@@ -318,6 +338,8 @@ def update_user(
     if len(professional_roles) > 1:
         raise HTTPException(status_code=422, detail="Selecione apenas medico ou psicologo")
     if professional_roles:
+        if 'professional_id' not in payload.model_fields_set:
+            payload.professional_id = user.professional_id
         validate_professional_link(db, professional_roles[0], payload.professional_id)
     current_roles = list(db.scalars(
         select(Role.name)
@@ -338,7 +360,8 @@ def update_user(
             .select_from(UserRole)
             .join(Role, Role.id == UserRole.role_id)
             .join(User, User.id == UserRole.user_id)
-            .where(Role.name == "gerente", User.active.is_(True), User.id != user.id)
+            .where(Role.name == "gerente", User.active.is_(True), User.id != user.id,
+                   User.workspace_id == context.user.workspace_id)
         )
         if not active_managers:
             raise HTTPException(status_code=409, detail="Ultimo gestor ativo protegido")

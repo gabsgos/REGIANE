@@ -135,7 +135,7 @@ class FinalizeIn(BaseModel):
 def list_professionals(
     _: Annotated[
         AuthContext,
-        Depends(require_permission("demographic.read", "gerente", "atendente", "medico")),
+        Depends(require_permission("demographic.read", "gerente", "atendente", "medico", "psicologo")),
     ],
     db: Annotated[Session, Depends(get_db_session)],
     search: str | None = Query(default=None, max_length=120),
@@ -173,7 +173,7 @@ def get_professional(
     professional_id: int,
     _: Annotated[
         AuthContext,
-        Depends(require_permission("demographic.read", "gerente", "atendente", "medico")),
+        Depends(require_permission("demographic.read", "gerente", "atendente", "medico", "psicologo")),
     ],
     db: Annotated[Session, Depends(get_db_session)],
 ) -> dict:
@@ -312,7 +312,7 @@ def patient_operation_json(patient: Patient) -> dict:
 def list_operation_patients(
     _: Annotated[
         AuthContext,
-        Depends(require_permission("demographic.read", "gerente", "atendente", "medico")),
+        Depends(require_permission("demographic.read", "gerente", "atendente", "medico", "psicologo")),
     ],
     db: Annotated[Session, Depends(get_db_session)],
     search: str | None = Query(default=None, max_length=120),
@@ -345,7 +345,7 @@ def get_operation_patient(
     patient_id: int,
     _: Annotated[
         AuthContext,
-        Depends(require_permission("demographic.read", "gerente", "atendente", "medico")),
+        Depends(require_permission("demographic.read", "gerente", "atendente", "medico", "psicologo")),
     ],
     db: Annotated[Session, Depends(get_db_session)],
 ) -> dict:
@@ -387,13 +387,7 @@ def deactivate_patient(
     ],
     db: Annotated[Session, Depends(get_db_session)],
 ) -> dict:
-    item = db.get(Patient, patient_id)
-    if not item:
-        raise HTTPException(status_code=404, detail="Paciente nao encontrado")
-    item.active = False
-    audit(db, context, "deactivate", "patients", item.id, None, {"active": False})
-    db.commit()
-    return {"id": item.id, "active": False}
+    raise HTTPException(405, 'Cadastros de pacientes sao preservados; utilize edicao')
 
 
 @router.post("/service-types", status_code=status.HTTP_201_CREATED)
@@ -568,38 +562,17 @@ def create_manual_appointment(
     ],
     db: Annotated[Session, Depends(get_db_session)],
 ) -> dict:
-    patient = db.get(Patient, payload.patient_id)
-    service = db.scalar(
-        select(ServiceType).where(
-            ServiceType.code == payload.service_code, ServiceType.active.is_(True)
-        )
-    )
-    if not patient or not service:
-        raise HTTPException(status_code=422, detail="Paciente ou servico inexistente")
-    professional = (
-        db.get(Professional, payload.professional_id) if payload.professional_id else None
-    )
-    item = Appointment(
-        patient_id=patient.id,
-        exam_date=payload.scheduled_at.date(),
-        scheduled_at=payload.scheduled_at.replace(tzinfo=None),
-        service_type_id=service.id,
-        doctor_id=professional.id if professional and professional.council_type == "CRM" else None,
-        psychologist_id=professional.id
-        if professional and professional.council_type == "CRP"
-        else None,
-        renach=payload.renach,
-        notes=payload.notes,
-        status="aberto",
-        operational_status="SCHEDULED",
-        source_kind=payload.origin,
-        created_by_id=context.user.id,
-    )
-    db.add(item)
-    db.flush()
-    audit(db, context, "create", "appointments", item.id, None, {"origin": item.source_kind})
-    db.commit()
-    return {"id": item.id, "status": item.operational_status, "payment_status": "PENDING"}
+    from uuid import uuid4
+    from backend.app.api.routes.schedule import ExtraIn, create_extra, local_datetime
+    if not payload.professional_id:
+        raise HTTPException(422, 'Profissional obrigatorio para encaixe')
+    starts_at = local_datetime(payload.scheduled_at)
+    result = create_extra(ExtraIn(patient_id=payload.patient_id,
+        professional_id=payload.professional_id, day=starts_at.date(), arrival_time=starts_at.time(),
+        service_code=payload.service_code, notes=payload.notes, renach=payload.renach,
+        reason='EXTRA_RETORNO' if payload.origin == 'RETURN' else 'EXTRA_AUTORIZADO',
+        idempotency_key=uuid4()), context, db)
+    return {**result, 'status': 'SCHEDULED', 'payment_status': 'PENDING'}
 
 
 @router.post("/appointments/{appointment_id}/finalize")
@@ -607,14 +580,16 @@ def finalize_appointment(
     appointment_id: int,
     payload: FinalizeIn,
     context: Annotated[
-        AuthContext, Depends(require_csrf_permission("clinical_queue.write", "gerente", "medico"))
+        AuthContext, Depends(require_csrf_permission("clinical_queue.write", "gerente", "medico", "psicologo"))
     ],
     db: Annotated[Session, Depends(get_db_session)],
 ) -> dict:
-    item = db.get(Appointment, appointment_id)
+    item = db.scalar(select(Appointment).where(Appointment.id == appointment_id).with_for_update())
     if not item:
         raise HTTPException(status_code=404, detail="Atendimento nao encontrado")
-    if item.operational_status not in {"SCHEDULED", "NO_SHOW", "TEMPORARILY_UNFIT"}:
+    if 'gerente' not in context.roles and (not context.user.professional_id or context.user.professional_id not in {item.doctor_id, item.psychologist_id}):
+        raise HTTPException(403, 'Atendimento nao atribuido ao profissional')
+    if item.operational_status not in {"SCHEDULED", "WAITING", "IN_PROGRESS", "NO_SHOW", "TEMPORARILY_UNFIT"}:
         raise HTTPException(status_code=409, detail="Transicao de atendimento invalida")
     before = {"operational_status": item.operational_status}
     item.operational_status = payload.outcome

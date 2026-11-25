@@ -1,0 +1,248 @@
+{
+  "documento": "Sugestões após análise funcional da gestão e agenda ABEL",
+  "registrado_em": "2026-11-17T11:17:05-03:00",
+  "timezone": "America/Sao_Paulo",
+  "status": "IMPLEMENTADO_LOCALMENTE_HOMOLOGACAO_PENDENTE",
+  "execucao_build_65": {
+    "base_git": {"abel": "4b6565f", "regianefront": "6943d4d"},
+    "workspace_legado": "HRP, confirmado pelo usuário para os dados clínicos existentes",
+    "etapas": {
+      "F0": "Sessão local coberta por testes HTTP. Homologação no navegador pendente.",
+      "F1": "Tabela e indicadores usam o mesmo período e filtros. Histórico de sete dias mantém ordem decrescente.",
+      "F2": "Gestão de papéis, vínculo CRM/CRP, RENACH e financeiro revisados em código. Conciliação funcional pendente.",
+      "F3": "Regras semanais, exceções por data, reserva concorrente, cancelamento e vínculo com atendimento anterior.",
+      "F4": "Turmas independentes, identificação da origem e fila diária com chegada, início e finalização.",
+      "F5": "Pendente de homologação autenticada por perfil no tablet, incluindo PDF e recebimentos."
+    },
+    "migrations": ["c91f7d2a6401", "d02b8a316f75", "e13c9b427a86", "f24dab538c97", "a4e75c1d902b"],
+    "checks": {"backend_pytest": 83, "frontend_unittest": 59, "dash_http": [200, 200], "migration_mysql": "upgrade, downgrade e novo upgrade", "ultima_vaga_concorrente": "aprovado"},
+    "deploy": true,
+    "commit_local": true,
+    "merge_local_main": true,
+    "push": false
+  },
+  "execucao_2026_11_17": {
+    "estado": "IMPLEMENTACAO_PARCIAL_GATE_AUTENTICADO_PENDENTE",
+    "versoes": "Local e origin/main alinhados nos commits; local contém melhorias ausentes no tablet. Alterações prévias preservadas.",
+    "frontend_build": "1.0.0+build.64",
+    "sessao_build_64": {
+      "status": "CHECKS_AUTOMATIZADOS_APROVADOS_VISUAL_PENDENTE",
+      "frontend_tests": 54,
+      "http_autenticado_isolado": "5 casos aprovados, sem usar dados reais",
+      "mudancas": ["Logout mantém origem/prefixo e não alega sucesso em falha", "Expiração reapresenta login", "Aba sem tab_id solicita login", "Fechamento depende do timeout de 15 minutos; pagehide removido para preservar reload"],
+      "limite": "Computer Use não identificou a URL do Chrome com confiança e interrompeu a automação; teste visual não concluído. Cookies independentes por aba não implementados."
+    },
+    "tablet_api_build": "1.0.0+build.61",
+    "concluido": ["Conferência de Git e diffs locais/remotos", "Correção do filtro todos", "Callbacks da agenda sem saída obrigatória para modal de outra página", "Histórico de sete dias decrescente e mock opt-in", "Dependência requests declarada e múltiplos cookies preservados no proxy"],
+    "checks": {"frontend_unittest": "49 aprovados", "backend_pytest_isolado": "62 aprovados", "poetry": "ambos aprovados", "diff_check": "ambos aprovados", "graphify": "atualizado", "tablet_health": "HTTP 200"},
+    "pendencias_gate": ["Teste autenticado real de login, logout e navegação", "Diagnóstico do 500 remoto com traceback", "Homologação visual e dos perfis"],
+    "nao_implementado": ["Capacidade e encaixes", "Turmas coletivas", "Revisão completa de RENACH, usuários e financeiro"],
+    "deploy": false,
+    "commit_push": false
+  },
+  "atualizado_em": "2026-11-17T11:18:39-03:00",
+  "relatorio": {
+    "titulo": "Relatório da análise funcional remota",
+    "origem": "Relatório apresentado na conversa e solicitado integralmente pelo usuário para registro neste JSON.",
+    "natureza": "Registro da análise anterior; esta inclusão documental não representa novo teste remoto.",
+    "introducao": "Analisei a versão remota no Chrome com a conta Leandro Martins (Auditoria). Há funções úteis funcionando, mas a agenda e a consistência da sessão precisam de correção antes de acrescentarmos encaixes.",
+    "preservacao": "Não gravei pagamentos, cadastros ou alterações de permissões.",
+    "quadro_por_area": [
+      {
+        "area": "Visão Geral",
+        "observacao": "Últimos 7 dias retorna erro 500; a mensagem ainda menciona 30 dias. A agenda de hoje mostra nomes de exemplo.",
+        "necessidade": "Remover a mistura de mock com dados reais e corrigir a consulta histórica."
+      },
+      {
+        "area": "Agenda",
+        "observacao": "Os quatro indicadores aparecem, mas não consegui obter a lista histórica nem abrir Nova Consulta.",
+        "necessidade": "Corrigir os callbacks antes de considerar o fluxo funcional."
+      },
+      {
+        "area": "Profissionais",
+        "observacao": "O filtro ainda diz Todos os médicos e inclui ESCOLHE MED e ESCOLHE PSIC.",
+        "necessidade": "Mostrar Todos os profissionais e retirar registros de seleção usados pelo legado."
+      },
+      {
+        "area": "Usuários",
+        "observacao": "A listagem carregou. Novo usuário abriu os campos de CRM, porém o formulário exibido não tinha botão de salvar. Editar não abriu no teste.",
+        "necessidade": "Completar e verificar criação e edição. Regiane aparece somente como gerente na listagem."
+      },
+      {
+        "area": "RENACH",
+        "observacao": "Mostrou prévia mock e pediu login, embora o menu identificasse o usuário. O texto restringe envio a médico.",
+        "necessidade": "Unificar reconhecimento da sessão e conferir a participação do psicólogo."
+      },
+      {
+        "area": "Financeiro",
+        "observacao": "O histórico individual do paciente carregou. O recebimento oferece Dinheiro, Pix e Híbrido, com campos separados e totalizador.",
+        "necessidade": "Validar a gravação em teste controlado; ainda existem despesas e cobranças na interface."
+      },
+      {
+        "area": "Relatórios",
+        "observacao": "Os filtros aparecem, mas não obtive relatório após Atualizar.",
+        "necessidade": "Verificar carregamento, erros e feedback da operação."
+      }
+    ],
+    "cadastro": "O cadastro de pacientes carregou 3.808 registros, com paginação, abertura do paciente e histórico financeiro. O bloco de importação de PDF continua também em Cadastro, apesar da solicitação anterior de centralizá-lo.",
+    "diagnostico_agenda": "Encontrei uma causa concreta na agenda: o navegador registra erros do Dash por depender de componentes que não estão naquela página, especialmente cadastro-paciente-selecionado e cadastro-modal-paciente. A cópia local também contém essa dependência. Isso ajuda a explicar botões sem resposta e a lista ausente.",
+    "diagnostico_navegacao": "Também há um problema de navegação: abrir diretamente /financeiro chegou a carregar uma página vazia com título FISIA; /abel-front/ mostrou um 404 dentro do ABEL. Depois a sessão voltou a ser reconhecida. Portanto, há inconsistência entre entrada, rotas e carregamento da autenticação; não confirmei perda definitiva da sessão.",
+    "plano_existente": "Para os encaixes, sugiro aproveitar o plano existente em instrucoes_agenda_encaixes.json, que continua marcado como planejado sem implementação, com os ajustes abaixo.",
+    "ajustes_encaixes": [
+      {"ordem": 1, "titulo": "Separar agenda oficial, encaixes e turmas", "descricao": "A agenda do Detran mantém origem e horário; retorno ou recuperação de falta entra como encaixe identificado."},
+      {"ordem": 2, "titulo": "Botão Adicionar encaixe", "descricao": "Buscar paciente existente, selecionar exame, profissional, data, motivo e faixa de chegada; mostrar a disponibilidade antes de confirmar."},
+      {"ordem": 3, "titulo": "Capacidade por profissional", "descricao": "Limite por dia da semana, exceção por data, dia fechado e opção explícita sem limite."},
+      {"ordem": 4, "titulo": "Controlar a última vaga no backend", "descricao": "Duas recepcionistas não podem reservar simultaneamente a mesma vaga."},
+      {"ordem": 5, "titulo": "Não liberar capacidade ao concluir um exame", "descricao": "Se o limite é diário, os encaixes concluídos também devem contar no total utilizado. O plano atual precisa explicitar essa regra."},
+      {"ordem": 6, "titulo": "Tratar psicotécnico coletivo como turma", "descricao": "Vários pacientes podem compartilhar o horário sem gerar falso conflito."},
+      {"ordem": 7, "titulo": "Painel operacional", "descricao": "Exibir oficial, encaixes utilizados/disponíveis, presentes, aguardando, em atendimento, concluídos e faltantes."},
+      {"ordem": 8, "titulo": "Reagendamento rastreável", "descricao": "Preservar a falta anterior e vincular o novo encaixe, sem apagar o histórico."}
+    ],
+    "prioridade_recomendada": ["Corrigir sessão/rotas e callbacks", "Restaurar consultas reais e feedback", "Implementar capacidade e encaixes", "Completar turmas e relatórios"],
+    "limites_dos_testes": "Os testes desta análise verificaram navegação e formulários; gravação, autorização entre perfis e concorrência ainda precisam de validação específica."
+  },
+  "ambiente_observado": {
+    "entrada": "https://walk-gaming-magazine.ngrok-free.dev/abel-front/",
+    "navegador": "Chrome",
+    "perfil": "Gestor, conta de auditoria",
+    "metodo": "Navegação autenticada, abertura de formulários, consultas por filtros e leitura de erros do console.",
+    "limites": [
+      "Nenhum cadastro, pagamento, documento ou alteração de permissão foi gravado.",
+      "Não foram validadas gravações, concorrência, isolamento entre workspaces ou autorização com contas de todos os perfis.",
+      "Algumas respostas chegaram com atraso; ausência de resposta no teste não prova falha permanente de todos os botões.",
+      "A causa interna dos erros HTTP 500 depende de inspeção dos logs do backend.",
+      "A cópia local e o runtime remoto não foram comparados integralmente."
+    ]
+  },
+  "referencia_existente": {
+    "arquivo": "instrucoes_agenda_encaixes.json",
+    "status_lido": "PLANEJADO_SEM_IMPLEMENTACAO",
+    "orientacao": "Complementar o plano existente; verificar código, migrations e versão em execução antes de implementar."
+  },
+  "achados": [
+    {
+      "id": "OBS-01",
+      "prioridade": "P0",
+      "area": "Sessão e rotas",
+      "observado": "Abertura direta de /financeiro mostrou página vazia com título FISIA; /abel-front/ mostrou 404 no layout ABEL e login. Depois o nome da conta voltou a aparecer.",
+      "impacto": "Entrada direta, atualização da página e navegação podem produzir comportamentos diferentes.",
+      "recomendacao": "Alinhar prefixo do proxy, rotas do frontend e reconhecimento da sessão.",
+      "aceite": ["Entrada e atualização de cada rota abrem o módulo correto.", "Sessão válida é reconhecida por todos os módulos.", "Sessão inválida conduz ao login sem ciclos ou 404."]
+    },
+    {
+      "id": "OBS-02",
+      "prioridade": "P0",
+      "area": "Agenda",
+      "observado": "Nova Consulta não abriu no reteste. Console registrou callbacks Dash referenciando cadastro-paciente-selecionado e cadastro-modal-paciente, ausentes no layout da agenda. A lista histórica não foi obtida.",
+      "evidencia_local": "regianefront/pages/agendamento.py também contém dependências de cadastro-paciente-selecionado.",
+      "recomendacao": "Eliminar dependências obrigatórias entre componentes de páginas distintas e revisar callbacks dos filtros e modais.",
+      "aceite": ["Nova Consulta e Visualizar Agenda respondem.", "Filtrar atualiza lista e indicadores com os mesmos critérios.", "Nenhum callback da agenda depende de componente ausente.", "Erro de consulta é exibido como erro e não como total zero."]
+    },
+    {
+      "id": "OBS-03",
+      "prioridade": "P0",
+      "area": "Visão Geral",
+      "observado": "Últimos 7 dias retorna HTTP 500, com mensagem mencionando 30 dias. Agenda de hoje mostra nomes de exemplo.",
+      "recomendacao": "Corrigir consulta histórica e distinguir explicitamente dados reais, modo demonstrativo, vazio e erro.",
+      "aceite": ["Resumo usa sete dias e ordenação do mais recente ao mais antigo.", "Mock só aparece em modo demonstrativo identificado.", "Consultas sem resultado não são confundidas com indisponibilidade."]
+    },
+    {
+      "id": "OBS-04",
+      "prioridade": "P1",
+      "area": "Filtro de profissionais",
+      "observado": "Filtro ainda usa Todos os médicos e inclui ESCOLHE MED e ESCOLHE PSIC.",
+      "recomendacao": "Usar Todos os profissionais, incluindo médicos e psicólogos com vínculo válido e excluindo marcadores do legado.",
+      "aceite": ["Selecionar todos remove apenas o filtro profissional, respeitando a autorização.", "Registros marcadores não aparecem.", "Profissional é identificado por vínculo e conselho, não apenas pelo nome do usuário."]
+    },
+    {
+      "id": "OBS-05",
+      "prioridade": "P1",
+      "area": "Usuários",
+      "observado": "Listagem carregou. Novo usuário exibiu campos condicionais de CRM, porém não mostrou botão salvar. Editar não abriu durante o teste. Regiane apareceu somente como gerente na listagem.",
+      "recomendacao": "Concluir criação e edição, verificar atraso de callbacks e conferir papéis efetivos e vínculo profissional de usuários com funções acumuladas.",
+      "aceite": ["Formulário possui ação de salvar acessível e feedback de processamento.", "Editar abre somente após ação explícita.", "Papéis múltiplos e estado ativo são lidos e persistidos corretamente.", "Mudanças respeitam workspace e auditoria."]
+    },
+    {
+      "id": "OBS-06",
+      "prioridade": "P1",
+      "area": "RENACH",
+      "observado": "Módulo exibiu prévia mock e pediu login enquanto o menu identificava a conta. Texto e controles descrevem envio exclusivo para Médico.",
+      "recomendacao": "Unificar a sessão e conferir a regra de atuação de médicos e psicólogos, conforme o exame e a atribuição.",
+      "aceite": ["Sessão reconhecida consistentemente.", "Fila real não é substituída silenciosamente por mock.", "Upload e justificativa respeitam perfil, exame, paciente e atendimento atribuídos."]
+    },
+    {
+      "id": "OBS-07",
+      "prioridade": "P1",
+      "area": "Financeiro e recebimentos",
+      "observado": "Histórico financeiro individual carregou. Formulário oferece Dinheiro, Pix e Híbrido, campos separados e totalizador. Ainda há receitas, despesas e cobranças na interface; recebimento exige atendimento vinculado.",
+      "recomendacao": "Reconciliar a interface com as regras aprovadas e validar gravação híbrida em ambiente controlado. Confirmar o fluxo de criação ou seleção de atendimento quando necessário.",
+      "aceite": ["Soma de Dinheiro e Pix coincide com o total, validada no backend.", "Recebimento tem vínculo correto com paciente, exame e profissional.", "Valor aplicado vem da regra de serviço aprovada, sem presumir que o PDF contém preço.", "Financeiro coletivo permanece restrito ao gestor.", "Gravação e estorno são auditáveis."]
+    },
+    {
+      "id": "OBS-08",
+      "prioridade": "P1",
+      "area": "Relatórios",
+      "observado": "Filtros aparecem, mas não foi obtido relatório após Atualizar.",
+      "recomendacao": "Verificar execução dos callbacks, retorno da API e estados visíveis de carregamento, vazio e falha.",
+      "aceite": ["Relatório responde aos filtros.", "Totais conciliam com a lista de origem.", "Falhas têm mensagem e opção de tentar novamente."]
+    },
+    {
+      "id": "OBS-09",
+      "prioridade": "P2",
+      "area": "Cadastro",
+      "observado": "Listagem informou 3808 pacientes com paginação; abertura do paciente e histórico financeiro funcionaram. Importação PDF continua duplicada em Cadastro.",
+      "recomendacao": "Centralizar importação na Visão Geral e manter um único fluxo de conferência.",
+      "aceite": ["Cadastro mantém busca, paginação e abertura de pacientes.", "Remoção do bloco duplicado não remove callbacks necessários à importação central."]
+    }
+  ],
+  "agenda_encaixes": {
+    "status": "IMPLEMENTADO_LOCALMENTE_HOMOLOGACAO_PENDENTE",
+    "regimes": [
+      {"codigo": "DETRAN_OFICIAL", "regra": "Preservar origem, profissional, exame, data e horário oficiais."},
+      {"codigo": "AGENDA_EXTRA", "regra": "Encaixes para retorno, recuperação de falta ou exceção autorizada; reservar capacidade diária e permitir faixa orientativa de chegada."},
+      {"codigo": "PSICOTECNICO_GRUPO", "regra": "Turma coletiva com horário e capacidade próprios; participantes não geram falso conflito individual."}
+    ],
+    "formulario": ["Paciente existente", "Tipo de exame", "Profissional habilitado", "Data", "Motivo do encaixe", "Horário ou faixa de chegada opcional", "Observação", "Capacidade restante"],
+    "capacidade": {
+      "precedencia": ["Exceção da data", "Regra semanal do profissional", "Padrão da clínica"],
+      "modos": ["LIMITED", "UNLIMITED"],
+      "regras": [
+        "Contar e reservar a vaga atomicamente no backend.",
+        "Se o limite é diário, encaixes concluídos também contam no total utilizado; conclusão não reabre automaticamente uma vaga.",
+        "Cancelamento pode liberar vaga conforme política explícita, sem apagar o histórico.",
+        "Não converter silenciosamente evento oficial em encaixe.",
+        "Impedir duplicação de envio da mesma solicitação.",
+        "Separar capacidade de encaixes da capacidade da turma coletiva.",
+        "Auditar autor, motivo, regra aplicada e alterações de limite."
+      ]
+    },
+    "painel_operacional": ["Agenda oficial", "Encaixes utilizados e disponíveis", "Presentes", "Aguardando", "Em atendimento", "Concluídos", "Faltantes", "Turmas e participantes"],
+    "reagendamento": "Preservar a ocorrência anterior e vincular o novo encaixe ao histórico de falta ou retorno.",
+    "permissoes_propostas": {
+      "gestor": ["Consultar agendas autorizadas", "Adicionar encaixe", "Alterar capacidade", "Definir exceção por data", "Fechar data"],
+      "recepcao": ["Consultar agenda operacional autorizada", "Adicionar encaixe dentro da capacidade", "Editar encaixe conforme estado permitido"],
+      "profissional": ["Consultar agenda autorizada", "Registrar atendimento atribuído"],
+      "regra": "Disponibilidade do menu não concede automaticamente autorização para cada ação; backend valida perfil e workspace."
+    },
+    "decisoes_pendentes": ["Quem pode editar encaixe após início do atendimento?", "Falta libera capacidade no mesmo dia?", "Capacidade padrão de cada turma", "Faixa de chegada livre ou calculada"]
+  },
+  "etapas": [
+    {"id": "F0", "objetivo": "Alinhar versão, sessão e rotas", "gate": "Entrada, navegação e atualização das rotas funcionam com sessão válida e inválida."},
+    {"id": "F1", "objetivo": "Corrigir callbacks e consultas reais", "gate": "Agenda lista resultados e indicadores coerentes; não há referências a componentes ausentes nem fallback mock silencioso."},
+    {"id": "F2", "objetivo": "Restaurar fluxos de gestão", "gate": "Usuários, RENACH, recebimentos e relatórios cumprem as regras aprovadas e exibem feedback de erro e sucesso."},
+    {"id": "F3", "objetivo": "Implementar capacidade e encaixes", "gate": "Reserva concorrente da última vaga, limites, exceções, cancelamento e contagem de concluídos passam nos testes."},
+    {"id": "F4", "objetivo": "Implementar turmas e painel operacional", "gate": "Sessões coletivas funcionam sem falso conflito; reagendamento preserva histórico."},
+    {"id": "F5", "objetivo": "Homologar integração", "gate": "Validar gestor, recepção e profissional; isolar workspaces; conciliar totais e preservar importação PDF antes de deploy autorizado."}
+  ],
+  "coordenacao": {
+    "arquivos_compartilhados_potenciais": ["regianefront/app.py", "Navegação e componentes de sessão", "Contratos de agenda e recebimentos", "Migrations de capacidade e turmas"],
+    "orientacao": "Inspecionar estado e diff antes de implementar, preservar alterações da outra pessoa e registrar decisões em docs/COORDINATION_LOG.md quando houver tarefa de implementação."
+  },
+  "alteracoes_desta_entrega": {
+    "somente_documentacao": true,
+    "codigo_alterado": false,
+    "banco_alterado": false,
+    "deploy_realizado": false,
+    "commit_push_realizados": false
+  }
+}

@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from datetime import date, datetime
+from datetime import date, datetime, time
 from decimal import Decimal
 from enum import StrEnum
 
@@ -17,11 +17,12 @@ from sqlalchemy import (
     Numeric,
     String,
     Text,
+    Time,
     UniqueConstraint,
 )
 from sqlalchemy.orm import Mapped, mapped_column
 
-from backend.app.db.base import Base, TimestampMixin
+from backend.app.db.base import Base, TimestampMixin, WorkspaceScoped
 
 
 class UserRoleName(StrEnum):
@@ -43,7 +44,7 @@ class PaymentStatus(StrEnum):
     REVERSED = "estornado"
 
 
-class Patient(TimestampMixin, Base):
+class Patient(WorkspaceScoped, TimestampMixin, Base):
     __tablename__ = "patients"
 
     id: Mapped[int] = mapped_column(BigInteger, primary_key=True, autoincrement=True)
@@ -63,7 +64,7 @@ class Patient(TimestampMixin, Base):
     __mapper_args__ = {"version_id_col": row_version}
 
 
-class Professional(TimestampMixin, Base):
+class Professional(WorkspaceScoped, TimestampMixin, Base):
     __tablename__ = "professionals"
     __table_args__ = (
         UniqueConstraint("council_type", "council_number"),
@@ -88,7 +89,7 @@ class Professional(TimestampMixin, Base):
     __mapper_args__ = {"version_id_col": row_version}
 
 
-class ServiceType(TimestampMixin, Base):
+class ServiceType(WorkspaceScoped, TimestampMixin, Base):
     __tablename__ = "service_types"
     __table_args__ = (
         CheckConstraint("code in ('MEDICAL_EXAM','PSYCHOTECHNICAL')", name="code_allowed"),
@@ -178,7 +179,6 @@ class Role(Base):
 
 class UserRole(Base):
     __tablename__ = "user_roles"
-    __table_args__ = (UniqueConstraint("user_id"),)
 
     user_id: Mapped[int] = mapped_column(
         ForeignKey("users.id", ondelete="CASCADE"), primary_key=True
@@ -314,7 +314,7 @@ class EventType(Base):
     active: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
 
 
-class Appointment(TimestampMixin, Base):
+class Appointment(WorkspaceScoped, TimestampMixin, Base):
     __tablename__ = "appointments"
     __table_args__ = (
         CheckConstraint("status in ('aberto','concluido','cancelado')", name="status_allowed"),
@@ -360,11 +360,48 @@ class Appointment(TimestampMixin, Base):
     )
     finalized_by_id: Mapped[int | None] = mapped_column(ForeignKey("users.id"))
     completed_at: Mapped[datetime | None] = mapped_column(DateTime)
+    booking_kind: Mapped[str] = mapped_column(String(30), default='DETRAN_OFICIAL', server_default='DETRAN_OFICIAL')
+    schedule_session_id: Mapped[int | None] = mapped_column(ForeignKey('schedule_sessions.id'))
+    previous_appointment_id: Mapped[int | None] = mapped_column(ForeignKey('appointments.id'))
 
     __mapper_args__ = {"version_id_col": row_version}
 
 
-class Payment(TimestampMixin, Base):
+class ProfessionalScheduleRule(WorkspaceScoped, TimestampMixin, Base):
+    __tablename__ = 'professional_schedule_rules'
+    __table_args__ = (UniqueConstraint('workspace_id', 'professional_id', 'weekday'),)
+    id: Mapped[int] = mapped_column(BigInteger, primary_key=True, autoincrement=True)
+    professional_id: Mapped[int] = mapped_column(ForeignKey('professionals.id'))
+    weekday: Mapped[int] = mapped_column(Integer)
+    limit_mode: Mapped[str] = mapped_column(String(10), default='LIMITED')
+    extra_limit: Mapped[int | None] = mapped_column(Integer)
+    closed: Mapped[bool] = mapped_column(Boolean, default=False)
+    start_time: Mapped[time | None] = mapped_column(Time)
+    end_time: Mapped[time | None] = mapped_column(Time)
+
+
+class ProfessionalDayOverride(WorkspaceScoped, TimestampMixin, Base):
+    __tablename__ = 'professional_day_overrides'
+    __table_args__ = (UniqueConstraint('workspace_id', 'professional_id', 'day'),)
+    id: Mapped[int] = mapped_column(BigInteger, primary_key=True, autoincrement=True)
+    professional_id: Mapped[int] = mapped_column(ForeignKey('professionals.id'))
+    day: Mapped[date] = mapped_column(Date)
+    limit_mode: Mapped[str] = mapped_column(String(10), default='LIMITED')
+    extra_limit: Mapped[int | None] = mapped_column(Integer)
+    closed: Mapped[bool] = mapped_column(Boolean, default=False)
+    reason: Mapped[str] = mapped_column(String(255))
+
+
+class ScheduleSession(WorkspaceScoped, TimestampMixin, Base):
+    __tablename__ = 'schedule_sessions'
+    id: Mapped[int] = mapped_column(BigInteger, primary_key=True, autoincrement=True)
+    professional_id: Mapped[int] = mapped_column(ForeignKey('professionals.id'))
+    starts_at: Mapped[datetime] = mapped_column(DateTime)
+    capacity: Mapped[int] = mapped_column(Integer)
+    status: Mapped[str] = mapped_column(String(20), default='OPEN')
+
+
+class Payment(WorkspaceScoped, TimestampMixin, Base):
     __tablename__ = "payments"
     __table_args__ = (
         CheckConstraint("total_amount >= 0", name="total_nonnegative"),
@@ -388,7 +425,7 @@ class Payment(TimestampMixin, Base):
     __mapper_args__ = {"version_id_col": row_version}
 
 
-class PaymentItem(TimestampMixin, Base):
+class PaymentItem(WorkspaceScoped, TimestampMixin, Base):
     __tablename__ = "payment_items"
     __table_args__ = (CheckConstraint("amount > 0", name="amount_positive"),)
 
@@ -402,7 +439,7 @@ class PaymentItem(TimestampMixin, Base):
     metadata_json: Mapped[dict | None] = mapped_column(JSON)
 
 
-class FinancialAccount(TimestampMixin, Base):
+class FinancialAccount(WorkspaceScoped, TimestampMixin, Base):
     __tablename__ = "financial_accounts"
 
     id: Mapped[int] = mapped_column(BigInteger, primary_key=True, autoincrement=True)
@@ -411,7 +448,7 @@ class FinancialAccount(TimestampMixin, Base):
     active: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
 
 
-class FinancialMovement(TimestampMixin, Base):
+class FinancialMovement(WorkspaceScoped, TimestampMixin, Base):
     __tablename__ = "financial_movements"
     __table_args__ = (
         CheckConstraint("debit_amount >= 0", name="debit_nonnegative"),
@@ -428,7 +465,7 @@ class FinancialMovement(TimestampMixin, Base):
     appointment_id: Mapped[int | None] = mapped_column(ForeignKey("appointments.id"))
 
 
-class Receipt(TimestampMixin, Base):
+class Receipt(WorkspaceScoped, TimestampMixin, Base):
     __tablename__ = "receipts"
 
     id: Mapped[int] = mapped_column(BigInteger, primary_key=True, autoincrement=True)
@@ -440,7 +477,7 @@ class Receipt(TimestampMixin, Base):
     recipient_name: Mapped[str | None] = mapped_column(String(150))
 
 
-class ClinicalDocument(TimestampMixin, Base):
+class ClinicalDocument(WorkspaceScoped, TimestampMixin, Base):
     __tablename__ = "clinical_documents"
     __table_args__ = (UniqueConstraint("appointment_id", "document_type", "version"),)
 
@@ -462,7 +499,7 @@ class ClinicalDocument(TimestampMixin, Base):
     authenticated_by_id: Mapped[int | None] = mapped_column(ForeignKey("users.id"))
 
 
-class DocumentDelivery(TimestampMixin, Base):
+class DocumentDelivery(WorkspaceScoped, TimestampMixin, Base):
     __tablename__ = "document_deliveries"
     __table_args__ = (
         CheckConstraint(
@@ -498,7 +535,7 @@ class AuditLog(Base):
     request_id: Mapped[str | None] = mapped_column(String(64), index=True)
 
 
-class AgendaImportBatch(TimestampMixin, Base):
+class AgendaImportBatch(WorkspaceScoped, TimestampMixin, Base):
     __tablename__ = "agenda_import_batches"
 
     id: Mapped[int] = mapped_column(BigInteger, primary_key=True, autoincrement=True)
@@ -512,7 +549,7 @@ class AgendaImportBatch(TimestampMixin, Base):
     rolled_back_by_id: Mapped[int | None] = mapped_column(ForeignKey("users.id"))
 
 
-class AgendaImportRow(TimestampMixin, Base):
+class AgendaImportRow(WorkspaceScoped, TimestampMixin, Base):
     __tablename__ = "agenda_import_rows"
     __table_args__ = (UniqueConstraint("batch_id", "source_row"),)
 

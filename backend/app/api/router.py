@@ -7,6 +7,7 @@ from backend.app.api.routes.documents import router as documents_router
 from backend.app.api.routes.finance import router as finance_router
 from backend.app.api.routes.health import router as health_router
 from backend.app.api.routes.operations import router as operations_router
+from backend.app.api.routes.schedule import router as schedule_router
 
 api_router = APIRouter()
 api_router.include_router(health_router)
@@ -16,3 +17,4 @@ api_router.include_router(clinical_router)
 api_router.include_router(documents_router)
 api_router.include_router(finance_router)
 api_router.include_router(operations_router)
+api_router.include_router(schedule_router)
