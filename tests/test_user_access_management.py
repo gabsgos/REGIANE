@@ -5,7 +5,7 @@ from backend.app.api.dependencies import AuthContext
 from backend.app.api.routes import admin_reports
 from backend.app.api.routes.admin_reports import UserUpdate, update_user
 from backend.app.db.base import Base
-from backend.app.db.models import AuthSession, Role, User, UserRole
+from backend.app.db.models import AuthSession, Professional, Role, User, UserRole
 from fastapi import HTTPException
 from sqlalchemy import create_engine, select
 from sqlalchemy.orm import Session
@@ -115,4 +115,28 @@ def test_last_active_manager_is_protected(monkeypatch) -> None:
         select(Role.name).join(UserRole).where(UserRole.user_id == target.id)
     )
     assert current_role == "gerente"
+    db.close()
+
+
+def test_user_can_accumulate_management_and_reception(monkeypatch) -> None:
+    db, actor, target = setup_db()
+    monkeypatch.setattr(admin_reports, 'audit', lambda *args, **kwargs: None)
+    result = update_user(target.id, payload(roles=['gerente', 'atendente']), context(actor), db)
+    assert set(result['roles']) == {'gerente', 'atendente'}
+    assert result['access_version'] == 2
+    db.close()
+
+
+def test_edit_preserves_clinical_link_when_not_resubmitted(monkeypatch):
+    db, actor, target = setup_db()
+    monkeypatch.setattr(admin_reports, 'audit', lambda *args, **kwargs: None)
+    db.add(Role(id=4, name='psicologo'))
+    db.add(Professional(id=10, name='Psicologa', council_type='CRP', council_number='12345', active=True))
+    db.flush()
+    target.professional_id = 10
+    db.commit()
+    values = payload(roles=['gerente', 'psicologo'], expected_version=target.row_version).model_dump(exclude={'professional_id'})
+    result = update_user(target.id, UserUpdate(**values), context(actor), db)
+    assert set(result['roles']) == {'gerente', 'psicologo'}
+    assert result['professional_id'] == 10
     db.close()

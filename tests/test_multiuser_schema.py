@@ -50,13 +50,14 @@ def test_multiuser_tables_and_access_version_are_in_metadata() -> None:
     assert {"birth_date", "email", "address"}.issubset(User.__table__.c.keys())
 
 
-def test_user_has_exactly_one_role_constraint() -> None:
+def test_user_can_accumulate_roles_without_duplicate_assignment() -> None:
     unique_columns = {
         tuple(constraint.columns.keys())
         for constraint in UserRole.__table__.constraints
         if isinstance(constraint, UniqueConstraint)
     }
-    assert ("user_id",) in unique_columns
+    assert ("user_id",) not in unique_columns
+    assert tuple(UserRole.__table__.primary_key.columns.keys()) == ('user_id', 'role_id')
 
 
 def test_seed_has_three_profiles_and_42_unique_permissions() -> None:

@@ -1,6 +1,6 @@
 from datetime import UTC, datetime
 
-from sqlalchemy import MetaData
+from sqlalchemy import BigInteger, MetaData
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 
 NAMING_CONVENTION = {
@@ -14,6 +14,14 @@ NAMING_CONVENTION = {
 
 class Base(DeclarativeBase):
     metadata = MetaData(naming_convention=NAMING_CONVENTION)
+
+
+class WorkspaceScoped:
+    # Legacy migration f1a2b3c4d5e6 assigned the existing HRP dataset to workspace 1.
+    # Authenticated writes replace this default with the session's workspace.
+    workspace_id: Mapped[int | None] = mapped_column(
+        BigInteger, index=True, default=1, server_default='1', nullable=True
+    )
 
 
 class TimestampMixin:

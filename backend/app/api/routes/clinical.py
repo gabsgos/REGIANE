@@ -164,7 +164,7 @@ def audit(
 
 
 def appointment_scope(statement, context: AuthContext):
-    if "medico" in context.roles and "gerente" not in context.roles:
+    if context.roles.intersection({"medico", "psicologo"}) and "gerente" not in context.roles:
         if not context.user.professional_id:
             return statement.where(False)
         return statement.where(
@@ -226,7 +226,7 @@ def professional_can_act(db: Session, context: AuthContext, appointment: Appoint
 def list_patients(
     context: Annotated[
         AuthContext,
-        Depends(require_permission("demographic.read", "gerente", "atendente", "medico")),
+        Depends(require_permission("demographic.read", "gerente", "atendente", "medico", "psicologo")),
     ],
     db: Annotated[Session, Depends(get_db_session)],
     search: str | None = Query(default=None, max_length=120),
@@ -237,7 +237,7 @@ def list_patients(
     if search:
         term = f"%{search.strip()}%"
         statement = statement.where(or_(Patient.name.ilike(term), Patient.cpf.like(term)))
-    if "medico" in context.roles and "gerente" not in context.roles:
+    if context.roles.intersection({"medico", "psicologo"}) and "gerente" not in context.roles:
         appointment_ids = appointment_scope(select(Appointment.patient_id), context)
         statement = statement.where(Patient.id.in_(appointment_ids))
     total = db.scalar(select(func.count()).select_from(statement.subquery())) or 0
@@ -252,12 +252,12 @@ def get_patient(
     patient_id: int,
     context: Annotated[
         AuthContext,
-        Depends(require_permission("demographic.read", "gerente", "atendente", "medico")),
+        Depends(require_permission("demographic.read", "gerente", "atendente", "medico", "psicologo")),
     ],
     db: Annotated[Session, Depends(get_db_session)],
 ) -> Patient:
     statement = select(Patient).where(Patient.id == patient_id)
-    if "medico" in context.roles and "gerente" not in context.roles:
+    if context.roles.intersection({"medico", "psicologo"}) and "gerente" not in context.roles:
         statement = statement.where(
             Patient.id.in_(appointment_scope(select(Appointment.patient_id), context))
         )
@@ -343,7 +343,7 @@ def update_patient(
 def list_appointments(
     context: Annotated[
         AuthContext,
-        Depends(require_permission("schedule.read", "gerente", "atendente", "medico")),
+        Depends(require_permission("schedule.read", "gerente", "atendente", "medico", "psicologo")),
     ],
     db: Annotated[Session, Depends(get_db_session)],
     search: str | None = Query(default=None, max_length=120),
@@ -376,7 +376,22 @@ def list_appointments(
             .limit(page_size)
         )
     )
-    return {"items": [AppointmentOut.model_validate(item) for item in items], "total": total}
+    patient_ids = {item.patient_id for item in items}
+    professional_ids = {value for item in items for value in (item.doctor_id, item.psychologist_id) if value}
+    patients = {row.id: row for row in db.scalars(select(Patient).where(Patient.id.in_(patient_ids)))}
+    professionals = {row.id: row for row in db.scalars(select(Professional).where(Professional.id.in_(professional_ids)))}
+    rows = []
+    for item in items:
+        patient = patients.get(item.patient_id)
+        professional = professionals.get(item.doctor_id or item.psychologist_id)
+        rows.append({**AppointmentOut.model_validate(item).model_dump(mode='json'),
+            'paciente_nome': patient.name if patient else None,
+            'paciente_telefone': patient.phone if patient else None,
+            'medico_nome': professional.name if professional else None,
+            'especialidade': professional.specialty if professional else None,
+            'booking_kind': item.booking_kind, 'schedule_session_id': item.schedule_session_id,
+            'previous_appointment_id': item.previous_appointment_id})
+    return {'items': rows, 'total': total}
 
 
 @router.get("/appointments/{appointment_id}", response_model=AppointmentOut)
@@ -384,7 +399,7 @@ def get_appointment(
     appointment_id: int,
     context: Annotated[
         AuthContext,
-        Depends(require_permission("schedule.read", "gerente", "atendente", "medico")),
+        Depends(require_permission("schedule.read", "gerente", "atendente", "medico", "psicologo")),
     ],
     db: Annotated[Session, Depends(get_db_session)],
 ) -> Appointment:
@@ -405,27 +420,19 @@ def create_appointment(
     ],
     db: Annotated[Session, Depends(get_db_session)],
 ) -> Appointment:
-    if not db.get(Patient, payload.patient_id):
-        raise HTTPException(status_code=422, detail="Paciente inexistente")
-    item = Appointment(
-        **payload.model_dump(),
-        created_by_id=context.user.id,
-        workflow_status="PAGAMENTO_PENDENTE",
-    )
-    db.add(item)
-    db.flush()
-    audit(
-        db,
-        context,
-        "create",
-        "appointments",
-        item.id,
-        None,
-        AppointmentOut.model_validate(item).model_dump(mode="json"),
-    )
-    db.commit()
-    db.refresh(item)
-    return item
+    from uuid import uuid4
+    from backend.app.api.routes.schedule import ExtraIn, create_extra
+    if bool(payload.doctor_id) == bool(payload.psychologist_id):
+        raise HTTPException(422, 'Selecione um profissional por atendimento')
+    if payload.status != 'aberto':
+        raise HTTPException(422, 'Novo encaixe inicia como agendado')
+    result = create_extra(ExtraIn(patient_id=payload.patient_id,
+        professional_id=payload.doctor_id or payload.psychologist_id,
+        day=payload.exam_date, arrival_time=payload.scheduled_at.time() if payload.scheduled_at else None,
+        service_code='MEDICAL_EXAM' if payload.doctor_id else 'PSYCHOTECHNICAL',
+        reason='EXTRA_AUTORIZADO', notes=payload.notes, renach=payload.renach,
+        idempotency_key=uuid4()), context, db)
+    return db.get(Appointment, result['id'])
 
 
 @router.put("/appointments/{appointment_id}", response_model=AppointmentOut)
@@ -441,6 +448,13 @@ def update_appointment(
     current = db.get(Appointment, appointment_id)
     if not current:
         raise HTTPException(status_code=404, detail="Atendimento nao encontrado")
+    if current.source_kind == 'EXTRA':
+        raise HTTPException(409, 'Use cancelamento e nova reserva para alterar um encaixe')
+    if not db.get(Patient, payload.patient_id):
+        raise HTTPException(404, 'Paciente nao encontrado')
+    for professional_id in (payload.doctor_id, payload.psychologist_id):
+        if professional_id and not db.get(Professional, professional_id):
+            raise HTTPException(404, 'Profissional nao encontrado')
     before = AppointmentOut.model_validate(current).model_dump(mode="json")
     values = payload.model_dump(exclude={"expected_version"})
     result = db.execute(
@@ -506,7 +520,7 @@ def cancel_for_professional_absence(
 def clinical_worklist(
     context: Annotated[
         AuthContext,
-        Depends(require_permission("clinical_queue.read", "gerente", "medico")),
+        Depends(require_permission("clinical_queue.read", "gerente", "medico", "psicologo")),
     ],
     db: Annotated[Session, Depends(get_db_session)],
 ) -> dict:
@@ -528,7 +542,6 @@ def clinical_worklist(
                 Appointment.doctor_id == context.user.professional_id,
                 Appointment.psychologist_id == context.user.professional_id,
             ),
-            Appointment.id.in_(select(Payment.appointment_id).where(Payment.status == "pago")),
         )
         .order_by(Appointment.exam_date, Appointment.id)
     )
@@ -557,7 +570,7 @@ def mark_reanalysis(
     payload: ReanalysisRequest,
     context: Annotated[
         AuthContext,
-        Depends(require_csrf_permission("document.authenticate", "gerente", "medico")),
+        Depends(require_csrf_permission("document.authenticate", "gerente", "medico", "psicologo")),
     ],
     db: Annotated[Session, Depends(get_db_session)],
 ) -> dict:

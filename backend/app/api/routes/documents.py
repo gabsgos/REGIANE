@@ -50,7 +50,7 @@ def validate_pdf(data: bytes) -> int:
 def can_access_appointment(context: AuthContext, appointment: Appointment) -> bool:
     if "gerente" in context.roles:
         return True
-    if "medico" in context.roles and context.user.professional_id:
+    if context.roles.intersection({"medico", "psicologo"}) and context.user.professional_id:
         return context.user.professional_id in {
             appointment.doctor_id,
             appointment.psychologist_id,
@@ -117,7 +117,7 @@ async def upload_document(
     appointment_id: int,
     context: Annotated[
         AuthContext,
-        Depends(require_csrf_permission("document.authenticate", "gerente", "medico")),
+        Depends(require_csrf_permission("document.authenticate", "gerente", "medico", "psicologo")),
     ],
     db: Annotated[Session, Depends(get_db_session)],
     document_type: Annotated[str, Form(min_length=2, max_length=50)],
@@ -206,7 +206,7 @@ async def upload_document(
 def list_documents(
     appointment_id: int,
     context: Annotated[
-        AuthContext, Depends(require_permission("document.read", "gerente", "medico"))
+        AuthContext, Depends(require_permission("document.read", "gerente", "medico", "psicologo"))
     ],
     db: Annotated[Session, Depends(get_db_session)],
 ) -> dict:
@@ -228,7 +228,7 @@ def download_document(
     document_id: int,
     context: Annotated[
         AuthContext,
-        Depends(require_permission("document.download", "gerente", "atendente", "medico")),
+        Depends(require_permission("document.download", "gerente", "atendente", "medico", "psicologo")),
     ],
     db: Annotated[Session, Depends(get_db_session)],
 ) -> FileResponse:

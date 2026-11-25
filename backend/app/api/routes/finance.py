@@ -317,10 +317,12 @@ def financial_summary(
     date_from: Annotated[date | None, Query()] = None,
     date_to: Annotated[date | None, Query()] = None,
 ) -> dict:
+    if 'gerente' not in context.roles:
+        raise HTTPException(403, 'Financeiro coletivo exclusivo do gestor')
     today = business_today()
     date_from = date_from or today
     date_to = date_to or today
-    if "atendente" in context.roles:
+    if "atendente" in context.roles and 'gerente' not in context.roles:
         date_from = date_to = today
     if date_to < date_from:
         raise HTTPException(status_code=422, detail="Periodo invalido")
@@ -330,7 +332,7 @@ def financial_summary(
         Payment.paid_at >= start,
         Payment.paid_at < end,
     ]
-    if "medico" in context.roles or "psicologo" in context.roles:
+    if ("medico" in context.roles or "psicologo" in context.roles) and 'gerente' not in context.roles:
         if not context.user.professional_id:
             return {"date_from": date_from.isoformat(), "date_to": date_to.isoformat(), "paid_count": 0, "paid_total": "0.00", "by_method": {}, "reversal_count": 0}
         professional_filter = (

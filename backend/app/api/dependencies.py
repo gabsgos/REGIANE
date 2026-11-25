@@ -77,6 +77,10 @@ def get_auth_context(
     user = db.get(User, auth_session.user_id)
     if not user or not user.active:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Usuario inativo")
+    if user.workspace_id is None:
+        raise HTTPException(status_code=403, detail='Usuario sem workspace')
+    from backend.app.db import workspace_scope  # noqa: F401
+    db.info['workspace_id'] = user.workspace_id
     if auth_session.access_version != user.access_version:
         auth_session.revoked_at = now
         db.commit()
@@ -146,6 +150,7 @@ def _authorization_mode(permission_key: str) -> str:
         "demographic": "clinical",
         "schedule": "clinical",
         "clinical": "clinical",
+        "clinical_queue": "clinical",
         "document": "documents",
         "report": "reports",
         "migration_issue": "reports",
