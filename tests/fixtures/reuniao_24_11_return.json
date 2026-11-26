@@ -1,0 +1,10 @@
+{
+  "patient_id": 20,
+  "professional_id": 10,
+  "day": "2026-11-27",
+  "service_code": "MEDICAL_EXAM",
+  "reason": "EXTRA_FALTA_ANTERIOR",
+  "arrival_time": "10:30:00",
+  "previous_appointment_id": 100,
+  "idempotency_key": "c922e6e0-9db5-49c2-98fc-089fd424aa4c"
+}

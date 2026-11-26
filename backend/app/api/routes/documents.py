@@ -74,9 +74,8 @@ def can_authenticate_document(db: Session, context: AuthContext, appointment: Ap
     }:
         return False
     return bool(
-        appointment.operational_status == "COMPLETED"
-        and appointment.status == "concluido"
-        and not appointment.reanalysis_required
+        appointment.status != "cancelado"
+        and appointment.operational_status != "NO_SHOW"
     )
 
 

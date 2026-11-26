@@ -1,0 +1,30 @@
+{
+  "source": "DETRAN_PDF",
+  "idempotency_key": "7b488b2e-2240-466f-a1f0-fd91230e8051",
+  "patient": {
+    "name": "Paciente Sintetico",
+    "cpf": "52998224725",
+    "birth_date": "1990-01-01",
+    "phone": "11999999999",
+    "email": "paciente@example.test",
+    "process_type": "PRIMEIRA_HABILITACAO"
+  },
+  "services": [
+    {
+      "service_code": "MEDICAL_EXAM",
+      "professional_id": 10,
+      "scheduled_at": "2026-11-25T08:00:00-03:00",
+      "renach": "SINTETICO001",
+      "process_type": "PRIMEIRA_HABILITACAO",
+      "license_category": "AB"
+    },
+    {
+      "service_code": "PSYCHOTECHNICAL",
+      "professional_id": 11,
+      "scheduled_at": "2026-11-25T08:30:00-03:00",
+      "renach": "SINTETICO001",
+      "process_type": "PRIMEIRA_HABILITACAO",
+      "license_category": "AB"
+    }
+  ]
+}

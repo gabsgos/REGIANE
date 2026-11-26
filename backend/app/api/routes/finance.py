@@ -29,6 +29,7 @@ from backend.app.db.models import (
     PaymentItem,
     Professional,
     Receipt,
+    ServiceType,
     User,
 )
 from backend.app.db.session import get_db_session
@@ -127,6 +128,19 @@ class PaymentCreate(BaseModel):
         return self
 
 
+class AppointmentCheckoutOut(BaseModel):
+    appointment_id: int
+    patient_id: int
+    patient_name: str
+    service_code: str
+    service_name: str
+    professional_id: int | None
+    professional_name: str | None
+    total_amount: str
+    payment_status: str
+    paid_at: datetime | None
+
+
 class ReversalRequest(BaseModel):
     reason: str = Field(min_length=5, max_length=255)
     expected_version: int = Field(ge=1)
@@ -172,6 +186,42 @@ def payment_json(db: Session, payment: Payment) -> dict:
     }
 
 
+@router.get("/appointments/{appointment_id}/checkout", response_model=AppointmentCheckoutOut)
+def appointment_checkout(
+    appointment_id: int,
+    _: Annotated[
+        AuthContext, Depends(require_permission("finance.receive", "gerente", "atendente"))
+    ],
+    db: Annotated[Session, Depends(get_db_session)],
+) -> AppointmentCheckoutOut:
+    appointment = db.get(Appointment, appointment_id)
+    if not appointment:
+        raise HTTPException(status_code=404, detail="Atendimento nao encontrado")
+    patient = db.get(Patient, appointment.patient_id)
+    service = db.get(ServiceType, appointment.service_type_id) if appointment.service_type_id else None
+    if not patient or not service or not service.active:
+        raise HTTPException(status_code=422, detail="Atendimento sem servico ativo configurado")
+    professional_id = appointment.doctor_id or appointment.psychologist_id
+    professional = db.get(Professional, professional_id) if professional_id else None
+    payment = db.scalar(
+        select(Payment)
+        .where(Payment.appointment_id == appointment.id, Payment.status == "pago")
+        .order_by(Payment.id.desc())
+    )
+    return AppointmentCheckoutOut(
+        appointment_id=appointment.id,
+        patient_id=patient.id,
+        patient_name=patient.name,
+        service_code=service.code,
+        service_name=service.name,
+        professional_id=professional_id,
+        professional_name=professional.name if professional else None,
+        total_amount=str(service.price),
+        payment_status=payment.status if payment else "pendente",
+        paid_at=payment.paid_at if payment else None,
+    )
+
+
 @router.post("/payments", status_code=status.HTTP_201_CREATED)
 def create_payment(
     payload: PaymentCreate,
@@ -184,6 +234,11 @@ def create_payment(
     appointment = db.get(Appointment, payload.appointment_id)
     if not appointment:
         raise HTTPException(status_code=422, detail="Atendimento inexistente")
+    service = db.get(ServiceType, appointment.service_type_id) if appointment.service_type_id else None
+    if not service or not service.active:
+        raise HTTPException(status_code=422, detail="Atendimento sem servico ativo configurado")
+    if payload.total_amount != service.price:
+        raise HTTPException(status_code=422, detail="Valor difere do preco configurado para o servico")
     if db.scalar(
         select(Payment.id).where(Payment.appointment_id == appointment.id, Payment.status == "pago")
     ):

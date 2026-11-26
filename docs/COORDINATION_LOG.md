@@ -2,6 +2,28 @@
 
 ## Entradas
 
+### 2026-11-25 — Início da Parte A da reunião de 24/11
+
+- Responsável: Pessoa B, back-end, banco e contratos. A outra pessoa pode trabalhar somente no repositório `regianefront` conforme divisão acordada.
+- Branch: `codex/reuniao-24-11-backend`; commit base `3a9cfdd`. Sem PR, commit, push, deploy ou restart neste início.
+- Estado Git: a entrada documental anterior em `LOG.log` foi preservada; diretórios locais `.serena`, `graphify-out`, `tmp` e o repositório aninhado `regianefront` permanecem fora do escopo.
+- Contrato compartilhado A0: intake com origem, chave idempotente, paciente e um ou dois serviços independentes. CPF existente será reutilizado; exame médico e psicotécnico no mesmo dia continuarão independentes.
+- Arquivos compartilhados previstos: rotas sob `/operations`, schemas OpenAPI e DTOs consumidos pelo adaptador do front. Mudanças de nome/formato devem ser coordenadas antes de a Pessoa A atualizar mocks ou adaptadores.
+- Front-end: nenhum arquivo será alterado nesta branch.
+- Verificações iniciais: Poetry 2.3.4 presente e `poetry check` aprovado. Implementação e checks por etapa ainda em andamento.
+
+### 2026-11-25 — Parte A concluída localmente, build 66
+
+- Responsável: Pessoa B, back-end, banco e contratos. Branch `codex/reuniao-24-11-backend`, base `3a9cfdd`; sem PR, commit, push, deploy ou restart.
+- Back-end/servidor alterado: `backend/app/api/routes/operations.py`, `finance.py`, `documents.py`, `schedule.py`, `backend/app/db/models.py` e `backend/app/core/config.py`.
+- Banco: migrations `b5c8e4a7d901_operation_intakes.py` e `c6d9f2b8e104_schedule_override_hours.py`. Nenhuma migration foi aplicada em banco real.
+- Contratos compartilhados: intake transacional, jornada agregada, checkout, disponibilidade e retorno elegível. O caminho congelado do checkout em `/operations/appointments/{id}/checkout` e o caminho financeiro `/finance/appointments/{id}/checkout` apontam para a mesma regra. O handoff para a Pessoa A está em `docs/REUNIAO_24_11_BACKEND_CONTRACT.md` e nas fixtures sanitizadas de `tests/fixtures`.
+- Decisões de integração: o servidor deriva `source_key`; o front envia `idempotency_key`. A permissão já existente `schedule.manage_availability` foi reutilizada no lugar de criar `schedule.manage`. `PSYCHOTECHNICAL` permanece o código de serviço já adotado pelo projeto.
+- Testes: 107 aprovados na suíte completa com SQLite efêmero; contrato HTTP autenticado confirmou sessão, permissão, CSRF e idempotência; migrations novas passaram upgrade/downgrade/upgrade desde `a4e75c1d902b`; Poetry e Ruff funcional aprovados.
+- Limite de homologação: o teste concorrente opt-in em MariaDB foi ignorado porque `ABEL_TEST_MYSQL_URL` não está configurado e não há serviço MySQL/MariaDB descartável local. O banco do tablet não foi usado para testes destrutivos. A cadeia histórica completa não roda em SQLite por uma migration legada anterior que usa `ALTER CONSTRAINT`; isso não pertence ao delta desta branch.
+- Front-end: repositório aninhado `regianefront` preservado sem alterações. A Pessoa A deve atualizar adaptadores somente pelos contratos documentados acima.
+- Sobreposições/conflitos: nenhuma edição feita no frontend. O arquivo compartilhado de coordenação foi atualizado após a implementação e deve ser integrado uma alteração por vez.
+
 ### 2026-11-17 — Conferência de versões e regressões de agenda
 
 - Responsável: Pessoa B, implementação autorizada pelo usuário nas duas áreas.

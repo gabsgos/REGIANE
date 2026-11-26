@@ -1,5 +1,5 @@
 """Workspace-scoped daily extras and psychotechnical groups."""
-from datetime import date, datetime, time
+from datetime import date, datetime, time, timedelta
 from typing import Annotated, Literal
 from uuid import UUID
 from zoneinfo import ZoneInfo
@@ -18,7 +18,8 @@ from backend.app.db.session import get_db_session
 router = APIRouter(prefix='/operations/schedule', tags=['agenda-capacidade'])
 Reader = Annotated[AuthContext, Depends(require_permission('schedule.read', 'gerente', 'atendente', 'medico', 'psicologo'))]
 Writer = Annotated[AuthContext, Depends(require_csrf_permission('schedule.write', 'gerente', 'atendente'))]
-Manager = Annotated[AuthContext, Depends(require_csrf_permission('user.manage', 'gerente'))]
+Manager = Annotated[AuthContext, Depends(require_csrf_permission(
+    'schedule.manage_availability', 'gerente', 'atendente'))]
 Database = Annotated[Session, Depends(get_db_session)]
 
 
@@ -61,6 +62,31 @@ class GroupIn(BaseModel):
     capacity: int = Field(ge=1, le=1000)
 
 
+class AvailabilitySlotOut(BaseModel):
+    time: time
+    available: bool
+
+
+class AvailabilityDayOut(BaseModel):
+    day: date
+    source: str
+    closed: bool
+    limit_mode: str
+    extra_limit: int | None
+    used: int
+    available: int | None
+    start_time: time | None
+    end_time: time | None
+    slots: list[AvailabilitySlotOut]
+
+
+class AvailabilityOut(BaseModel):
+    professional_id: int
+    date_from: date
+    date_to: date
+    days: list[AvailabilityDayOut]
+
+
 def local_datetime(value):
     return value.astimezone(ZoneInfo('America/Sao_Paulo')).replace(tzinfo=None) if value.tzinfo else value
 
@@ -76,19 +102,43 @@ def professional_for(db, professional_id, context, lock=False):
     return professional
 
 
+def policy_from(weekly, override):
+    rule = override or weekly
+    start_time = override.start_time if override and override.start_time else (
+        weekly.start_time if weekly else None)
+    end_time = override.end_time if override and override.end_time else (
+        weekly.end_time if weekly else None)
+    return {
+        'source': 'DATE' if override else ('WEEKDAY' if weekly else 'DEFAULT'),
+        'closed': rule.closed if rule else False,
+        'limit_mode': rule.limit_mode if rule else 'LIMITED',
+        'extra_limit': rule.extra_limit if rule else 0,
+        'start_time': start_time.isoformat() if start_time else None,
+        'end_time': end_time.isoformat() if end_time else None,
+    }
+
+
 def policy_for(db, professional_id, day):
     override = db.scalar(select(ProfessionalDayOverride).where(
         ProfessionalDayOverride.professional_id == professional_id, ProfessionalDayOverride.day == day))
     weekly = db.scalar(select(ProfessionalScheduleRule).where(
         ProfessionalScheduleRule.professional_id == professional_id,
         ProfessionalScheduleRule.weekday == day.weekday()))
-    rule = override or weekly
-    return {'source': 'DATE' if override else ('WEEKDAY' if rule else 'DEFAULT'),
-            'closed': rule.closed if rule else False,
-            'limit_mode': rule.limit_mode if rule else 'LIMITED',
-            'extra_limit': rule.extra_limit if rule else 0,
-            'start_time': weekly.start_time.isoformat() if weekly and weekly.start_time else None,
-            'end_time': weekly.end_time.isoformat() if weekly and weekly.end_time else None}
+    return policy_from(weekly, override)
+
+
+def slot_times(policy):
+    if policy['closed'] or not policy['start_time'] or not policy['end_time']:
+        return []
+    start = datetime.combine(date.min, time.fromisoformat(policy['start_time']))
+    end = datetime.combine(date.min, time.fromisoformat(policy['end_time']))
+    total_seconds = int((end - start).total_seconds())
+    count = policy['extra_limit'] if policy['limit_mode'] == 'LIMITED' else max(
+        1, total_seconds // (30 * 60))
+    if not count:
+        return []
+    return [(start + timedelta(seconds=(total_seconds * index) // count)).time()
+            for index in range(count)]
 
 
 def extra_count(db, professional_id, day, session_id=None):
@@ -102,6 +152,21 @@ def extra_count(db, professional_id, day, session_id=None):
     return db.scalar(select(func.count()).select_from(Appointment).where(*filters)) or 0
 
 
+def return_state_eligible(item: Appointment, as_of: date) -> bool:
+    if item.status in {'concluido', 'cancelado'}:
+        return False
+    if item.operational_status in {'NO_SHOW', 'TEMPORARILY_UNFIT'}:
+        return True
+    return item.exam_date <= as_of and item.operational_status in {
+        'SCHEDULED', 'WAITING', 'IN_PROGRESS'}
+
+
+def has_active_return(db: Session, appointment_id: int) -> bool:
+    return bool(db.scalar(select(Appointment.id).where(
+        Appointment.previous_appointment_id == appointment_id,
+        Appointment.status != 'cancelado')))
+
+
 @router.get('/capacity')
 def capacity(day: date, professional_id: int, context: Reader, db: Database):
     professional_for(db, professional_id, context)
@@ -109,6 +174,81 @@ def capacity(day: date, professional_id: int, context: Reader, db: Database):
     used = extra_count(db, professional_id, day)
     return {**policy, 'used': used, 'available': None if policy['limit_mode'] == 'UNLIMITED'
             else max(0, policy['extra_limit'] - used)}
+
+
+@router.get('/professionals/{professional_id}/availability', response_model=AvailabilityOut)
+def availability(
+    professional_id: int,
+    date_from: date,
+    date_to: date,
+    context: Reader,
+    db: Database,
+):
+    if date_to < date_from or (date_to - date_from).days > 92:
+        raise HTTPException(422, 'Periodo de disponibilidade invalido')
+    professional_for(db, professional_id, context)
+    weekly = {
+        item.weekday: item
+        for item in db.scalars(select(ProfessionalScheduleRule).where(
+            ProfessionalScheduleRule.professional_id == professional_id))
+    }
+    overrides = {
+        item.day: item
+        for item in db.scalars(select(ProfessionalDayOverride).where(
+            ProfessionalDayOverride.professional_id == professional_id,
+            ProfessionalDayOverride.day >= date_from,
+            ProfessionalDayOverride.day <= date_to))
+    }
+    scheduled = list(db.scalars(select(Appointment).where(
+        Appointment.exam_date >= date_from,
+        Appointment.exam_date <= date_to,
+        or_(Appointment.doctor_id == professional_id,
+            Appointment.psychologist_id == professional_id),
+        Appointment.schedule_session_id.is_(None),
+        Appointment.scheduled_at.is_not(None),
+        or_(Appointment.status != 'cancelado', Appointment.operational_status == 'NO_SHOW'))))
+    used_by_day: dict[date, int] = {}
+    occupied_by_day: dict[date, set[time]] = {}
+    for item in scheduled:
+        occupied_by_day.setdefault(item.exam_date, set()).add(item.scheduled_at.time())
+        if item.source_kind == 'EXTRA':
+            used_by_day[item.exam_date] = used_by_day.get(item.exam_date, 0) + 1
+
+    days = []
+    current = date_from
+    while current <= date_to:
+        policy = policy_from(weekly.get(current.weekday()), overrides.get(current))
+        used = used_by_day.get(current, 0)
+        available_count = None if policy['limit_mode'] == 'UNLIMITED' else max(
+            0, policy['extra_limit'] - used)
+        occupied = occupied_by_day.get(current, set())
+        slots = []
+        remaining = available_count
+        for slot in slot_times(policy):
+            free = slot not in occupied and (remaining is None or remaining > 0)
+            slots.append(AvailabilitySlotOut(time=slot, available=free))
+            if free and remaining is not None:
+                remaining -= 1
+        days.append(AvailabilityDayOut(
+            day=current,
+            source=policy['source'],
+            closed=policy['closed'],
+            limit_mode=policy['limit_mode'],
+            extra_limit=policy['extra_limit'],
+            used=used,
+            available=sum(1 for slot in slots if slot.available)
+            if available_count is not None else None,
+            start_time=time.fromisoformat(policy['start_time']) if policy['start_time'] else None,
+            end_time=time.fromisoformat(policy['end_time']) if policy['end_time'] else None,
+            slots=slots,
+        ))
+        current += timedelta(days=1)
+    return AvailabilityOut(
+        professional_id=professional_id,
+        date_from=date_from,
+        date_to=date_to,
+        days=days,
+    )
 
 
 @router.put('/professionals/{professional_id}/weekdays/{weekday}')
@@ -137,7 +277,7 @@ def set_date(professional_id: int, day: date, payload: PolicyIn, context: Manage
     if item is None:
         item = ProfessionalDayOverride(professional_id=professional_id, day=day)
         db.add(item)
-    for field in ('limit_mode', 'extra_limit', 'closed', 'reason'):
+    for field in ('limit_mode', 'extra_limit', 'closed', 'start_time', 'end_time', 'reason'):
         setattr(item, field, getattr(payload, field))
     db.flush()
     audit(db, context, 'set_date', 'schedule_overrides', item.id, None, payload.model_dump(mode='json'))
@@ -192,9 +332,22 @@ def create_extra(payload: ExtraIn, context: Writer, db: Database):
     if policy['closed']:
         raise HTTPException(409, 'Data fechada')
     starts_at = datetime.combine(payload.day, payload.arrival_time) if payload.arrival_time else None
-    if not payload.session_id and payload.arrival_time and policy['start_time']:
-        if not time.fromisoformat(policy['start_time']) <= payload.arrival_time < time.fromisoformat(policy['end_time']):
-            raise HTTPException(422, 'Horário orientativo fora da jornada do profissional')
+    if not payload.session_id and policy['start_time']:
+        if not payload.arrival_time:
+            raise HTTPException(422, detail={
+                'code': 'SLOT_REQUIRED', 'message': 'Selecione um horario disponivel'})
+        if payload.arrival_time not in slot_times(policy):
+            raise HTTPException(422, detail={
+                'code': 'SLOT_OUTSIDE_AVAILABILITY',
+                'message': 'Horario fora dos slots do profissional'})
+    if not payload.session_id and starts_at and db.scalar(select(Appointment.id).where(
+        Appointment.scheduled_at == starts_at,
+        or_(Appointment.doctor_id == professional.id,
+            Appointment.psychologist_id == professional.id),
+        Appointment.schedule_session_id.is_(None),
+        or_(Appointment.status != 'cancelado', Appointment.operational_status == 'NO_SHOW'))):
+        raise HTTPException(409, detail={
+            'code': 'SLOT_UNAVAILABLE', 'message': 'Horario ja ocupado'})
     if payload.session_id:
         group = db.get(ScheduleSession, payload.session_id)
         if not group or group.status != 'OPEN' or group.professional_id != professional.id or group.starts_at.date() != payload.day or expected != 'PSYCHOTECHNICAL':
@@ -203,11 +356,18 @@ def create_extra(payload: ExtraIn, context: Writer, db: Database):
             raise HTTPException(409, 'Turma lotada')
         starts_at = group.starts_at
     elif policy['limit_mode'] == 'LIMITED' and extra_count(db, professional.id, payload.day) >= policy['extra_limit']:
-        raise HTTPException(409, 'Limite de encaixes atingido; solicite configuracao ao gestor')
+        raise HTTPException(409, detail={
+            'code': 'CAPACITY_EXHAUSTED',
+            'message': 'Limite de encaixes atingido; solicite configuracao ao gestor'})
     if payload.previous_appointment_id:
         previous = db.get(Appointment, payload.previous_appointment_id)
-        if not previous or previous.patient_id != payload.patient_id:
-            raise HTTPException(422, 'Atendimento anterior incompativel')
+        if (not previous or previous.patient_id != payload.patient_id
+                or previous.service_type_id != service.id
+                or not return_state_eligible(previous, payload.day)
+                or has_active_return(db, previous.id)):
+            raise HTTPException(422, detail={
+                'code': 'PREVIOUS_APPOINTMENT_NOT_ELIGIBLE',
+                'message': 'Atendimento anterior nao e elegivel para retorno'})
     item = Appointment(patient_id=payload.patient_id, exam_date=payload.day, scheduled_at=starts_at,
         doctor_id=professional.id if expected == 'MEDICAL_EXAM' else None,
         psychologist_id=professional.id if expected == 'PSYCHOTECHNICAL' else None,

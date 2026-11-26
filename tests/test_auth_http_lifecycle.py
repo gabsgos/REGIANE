@@ -10,7 +10,7 @@ from sqlalchemy.pool import StaticPool
 
 from backend.app.core.security import hash_password, token_digest
 from backend.app.db.base import Base
-from backend.app.db.models import Appointment, AuthSession, Patient, Permission, Professional, Role, RolePermission, User, UserRole, Workspace
+from backend.app.db.models import Appointment, AuthSession, ClinicalDocument, Patient, Permission, Professional, Role, RolePermission, ServiceType, User, UserRole, Workspace
 from backend.app.db.session import get_db_session
 from backend.app.main import create_app
 
@@ -73,6 +73,10 @@ def test_agenda_queue_requires_correct_role_csrf_and_workspace(auth_http):
                                 doctor_id=doctor, exam_date=today, status='aberto')
                     for n, workspace, doctor in ((1, 1, 1), (2, 2, None), (3, 1, None))])
         db.flush()
+        db.add(ClinicalDocument(id=1, workspace_id=1, appointment_id=1,
+            document_type='RENACH', storage_key='renach-http.pdf', original_name='renach.pdf',
+            media_type='application/pdf', size_bytes=100, sha256='0' * 64, version=1,
+            uploaded_by_id=3, active=True, workflow_status='PDF_AUTENTICADO'))
         db.add_all([UserRole(user_id=n, role_id=n) for n in (2, 3)])
         db.add_all([RolePermission(role_id=2, permission_id=1), RolePermission(role_id=3, permission_id=2)])
         db.commit()
@@ -169,3 +173,38 @@ def test_create_psychologist_creates_and_links_crp_atomically(auth_http):
         assert professional.council_number == '12345'
         assert user.workspace_id == 1
         assert user.manager_id == 1
+
+
+def test_intake_http_requires_session_and_csrf(auth_http):
+    client, engine = auth_http
+    payload = {
+        'source': 'DETRAN_PDF',
+        'idempotency_key': '7b488b2e-2240-466f-a1f0-fd91230e8051',
+        'patient': {'name': 'Paciente Contrato', 'cpf': '52998224725'},
+        'services': [{
+            'service_code': 'MEDICAL_EXAM',
+            'professional_id': 1,
+            'scheduled_at': '2026-11-25T08:00:00-03:00',
+        }],
+    }
+    with Session(engine) as db:
+        db.add(Permission(id=1, key='schedule.write', resource='schedule', action='write',
+                          sensitivity='NORMAL'))
+        db.add(RolePermission(role_id=1, permission_id=1))
+        db.add(ServiceType(id=1, workspace_id=1, code='MEDICAL_EXAM',
+                           name='Exame medico', price=100))
+        db.add(Professional(id=1, workspace_id=1, name='Teste CRM',
+                            council_type='CRM', council_number='123'))
+        db.commit()
+
+    url = '/abel/api/operations/intakes'
+    assert client.post(url, json=payload).status_code == 401
+    assert login(client).status_code == 200
+    assert client.post(url, json=payload).status_code == 403
+    headers = {'X-CSRF-Token': client.cookies.get('abel_csrf')}
+    created = client.post(url, headers=headers, json=payload)
+    assert created.status_code == 201, created.text
+    assert created.json()['patient_created'] is True
+    repeated = client.post(url, headers=headers, json=payload)
+    assert repeated.status_code == 201
+    assert repeated.json()['idempotent'] is True

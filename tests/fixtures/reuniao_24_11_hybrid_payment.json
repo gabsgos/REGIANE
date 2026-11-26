@@ -1,0 +1,15 @@
+{
+  "appointment_id": 100,
+  "total_amount": "150.00",
+  "items": [
+    {
+      "method": "pix",
+      "amount": "100.00",
+      "reference": "PIX-SINTETICO"
+    },
+    {
+      "method": "dinheiro",
+      "amount": "50.00"
+    }
+  ]
+}

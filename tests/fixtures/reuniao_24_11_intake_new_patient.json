@@ -1,0 +1,17 @@
+{
+  "source": "MANUAL",
+  "idempotency_key": "f44c4c9f-7507-4e46-8571-09c8184fe62d",
+  "patient": {
+    "name": "Paciente Novo Sintetico",
+    "phone": "11988888888"
+  },
+  "services": [
+    {
+      "service_code": "MEDICAL_EXAM",
+      "professional_id": 10,
+      "scheduled_at": "2026-11-26T09:00:00-03:00",
+      "process_type": "RENOVACAO",
+      "license_category": "B"
+    }
+  ]
+}

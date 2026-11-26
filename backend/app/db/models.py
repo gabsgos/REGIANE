@@ -389,6 +389,8 @@ class ProfessionalDayOverride(WorkspaceScoped, TimestampMixin, Base):
     limit_mode: Mapped[str] = mapped_column(String(10), default='LIMITED')
     extra_limit: Mapped[int | None] = mapped_column(Integer)
     closed: Mapped[bool] = mapped_column(Boolean, default=False)
+    start_time: Mapped[time | None] = mapped_column(Time)
+    end_time: Mapped[time | None] = mapped_column(Time)
     reason: Mapped[str] = mapped_column(String(255))
 
 
@@ -563,6 +565,17 @@ class AgendaImportRow(WorkspaceScoped, TimestampMixin, Base):
     patient_id: Mapped[int | None] = mapped_column(ForeignKey("patients.id"))
     appointment_id: Mapped[int | None] = mapped_column(ForeignKey("appointments.id"))
     status: Mapped[str] = mapped_column(String(30), default="IMPORTED")
+
+
+class OperationIntake(WorkspaceScoped, TimestampMixin, Base):
+    __tablename__ = "operation_intakes"
+    __table_args__ = (UniqueConstraint("workspace_id", "idempotency_key"),)
+
+    id: Mapped[int] = mapped_column(BigInteger, primary_key=True, autoincrement=True)
+    idempotency_key: Mapped[str] = mapped_column(String(36), index=True)
+    payload_hash: Mapped[str] = mapped_column(String(64))
+    source: Mapped[str] = mapped_column(String(20))
+    patient_id: Mapped[int | None] = mapped_column(ForeignKey("patients.id"), index=True)
 
 
 class LegacyRawRecord(Base):

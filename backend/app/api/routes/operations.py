@@ -1,23 +1,30 @@
 from __future__ import annotations
 
 import hashlib
+import json
 from datetime import UTC, date, datetime
 from decimal import Decimal
 from typing import Annotated, Literal
+from uuid import UUID
+from zoneinfo import ZoneInfo
 
 from fastapi import APIRouter, Depends, HTTPException, Query, status
 from pydantic import BaseModel, Field, field_validator, model_validator
 from sqlalchemy import delete, func, or_, select
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
 from backend.app.api.dependencies import AuthContext, require_csrf_permission, require_permission
-from backend.app.api.routes.clinical import audit, cpf_digits, valid_cpf
+from backend.app.api.routes.clinical import appointment_scope, audit, cpf_digits, valid_cpf
+from backend.app.api.routes.finance import AppointmentCheckoutOut, appointment_checkout
 from backend.app.db.models import (
     AgendaImportBatch,
     AgendaImportRow,
     Appointment,
     ClinicalDocument,
+    OperationIntake,
     Patient,
+    Payment,
     Professional,
     ServiceType,
 )
@@ -99,6 +106,168 @@ class AgendaImportIn(BaseModel):
     original_name: str = Field(min_length=1, max_length=255)
     agenda_date: date
     rows: list[AgendaRowIn] = Field(min_length=1, max_length=2000)
+
+
+class IntakePatientIn(BaseModel):
+    name: str = Field(min_length=2, max_length=120)
+    cpf: str | None = None
+    birth_date: date | None = None
+    phone: str | None = Field(default=None, max_length=20)
+    email: str | None = Field(default=None, max_length=254)
+    address_json: dict | None = None
+    gender: str | None = Field(default=None, max_length=20)
+    marital_status: str | None = Field(default=None, max_length=30)
+    process_type: str | None = Field(default=None, max_length=80)
+    observations: str | None = None
+
+    @field_validator("cpf")
+    @classmethod
+    def normalize_optional_cpf(cls, value: str | None) -> str | None:
+        if not value:
+            return None
+        normalized = cpf_digits(value) or ""
+        if not valid_cpf(normalized):
+            raise ValueError("CPF invalido")
+        return normalized
+
+
+class IntakeServiceIn(BaseModel):
+    service_code: Literal["MEDICAL_EXAM", "PSYCHOTECHNICAL"]
+    professional_id: int = Field(gt=0)
+    scheduled_at: datetime
+    renach: str | None = Field(default=None, max_length=20)
+    process_type: str | None = Field(default=None, max_length=80)
+    license_category: str | None = Field(default=None, max_length=10)
+
+
+class IntakeIn(BaseModel):
+    source: Literal["DETRAN_PDF", "MANUAL"]
+    idempotency_key: UUID
+    patient: IntakePatientIn
+    services: list[IntakeServiceIn] = Field(min_length=1, max_length=2)
+
+    @model_validator(mode="after")
+    def unique_service_codes(self):
+        codes = [service.service_code for service in self.services]
+        if len(codes) != len(set(codes)):
+            raise ValueError("Cada tipo de exame pode aparecer apenas uma vez")
+        return self
+
+
+class IntakeAppointmentOut(BaseModel):
+    id: int
+    service_code: Literal["MEDICAL_EXAM", "PSYCHOTECHNICAL"]
+    professional_id: int
+    scheduled_at: datetime
+    created: bool
+
+
+class IntakeOut(BaseModel):
+    patient_id: int
+    patient_created: bool
+    appointments: list[IntakeAppointmentOut]
+    idempotent: bool
+
+
+class JourneyPaymentOut(BaseModel):
+    id: int
+    status: str
+    total_amount: str
+    paid_at: datetime | None
+
+
+class JourneyDocumentOut(BaseModel):
+    id: int
+    document_type: str
+    original_name: str
+    workflow_status: str
+    version: int
+    authenticated_at: datetime | None
+
+
+class JourneyAppointmentOut(BaseModel):
+    id: int
+    service_code: str | None
+    professional_id: int | None
+    professional_name: str | None
+    scheduled_at: datetime | None
+    exam_date: date
+    source_kind: str
+    status: str
+    operational_status: str
+    workflow_status: str
+    booking_kind: str
+    previous_appointment_id: int | None
+    payment: JourneyPaymentOut | None
+    documents: list[JourneyDocumentOut]
+
+
+class PatientJourneyOut(BaseModel):
+    patient: dict
+    appointments: list[JourneyAppointmentOut]
+    future_bookings: list[JourneyAppointmentOut]
+    total_appointments: int
+    total_future_bookings: int
+
+
+class ReturnEligibleOut(BaseModel):
+    id: int
+    service_code: str | None
+    professional_id: int | None
+    professional_name: str | None
+    exam_date: date
+    scheduled_at: datetime | None
+    operational_status: str
+
+
+def _intake_payload_hash(payload: IntakeIn) -> str:
+    canonical = json.dumps(
+        payload.model_dump(mode="json"), sort_keys=True, separators=(",", ":")
+    ).encode("utf-8")
+    return hashlib.sha256(canonical).hexdigest()
+
+
+def _intake_source_key(workspace_id: int, idempotency_key: UUID, service_code: str) -> str:
+    return f"intake:{workspace_id}:{idempotency_key}:{service_code}"
+
+
+def _intake_response(
+    db: Session,
+    intake: OperationIntake,
+    *,
+    idempotent: bool,
+    patient_created: bool = False,
+) -> IntakeOut:
+    if intake.patient_id is None:
+        raise HTTPException(409, "Intake ainda nao concluido")
+    prefix = f"intake:{intake.workspace_id}:{intake.idempotency_key}:"
+    appointments = list(
+        db.scalars(
+            select(Appointment)
+            .where(Appointment.source_key.like(f"{prefix}%"))
+            .order_by(Appointment.id)
+        )
+    )
+    service_ids = {item.service_type_id for item in appointments if item.service_type_id}
+    services = {
+        service.id: service
+        for service in db.scalars(select(ServiceType).where(ServiceType.id.in_(service_ids)))
+    }
+    return IntakeOut(
+        patient_id=intake.patient_id,
+        patient_created=patient_created,
+        appointments=[
+            IntakeAppointmentOut(
+                id=item.id,
+                service_code=services[item.service_type_id].code,
+                professional_id=item.doctor_id or item.psychologist_id,
+                scheduled_at=item.scheduled_at,
+                created=not idempotent,
+            )
+            for item in appointments
+        ],
+        idempotent=idempotent,
+    )
 
 
 class ManualAppointmentIn(BaseModel):
@@ -355,6 +524,245 @@ def get_operation_patient(
     return patient_operation_json(item)
 
 
+@router.get("/patients/{patient_id}/journey", response_model=PatientJourneyOut)
+def get_patient_journey(
+    patient_id: int,
+    context: Annotated[
+        AuthContext,
+        Depends(require_permission("demographic.read", "gerente", "atendente", "medico", "psicologo")),
+    ],
+    db: Annotated[Session, Depends(get_db_session)],
+    limit: int = Query(default=50, ge=1, le=200),
+) -> PatientJourneyOut:
+    patient = db.get(Patient, patient_id)
+    if not patient:
+        raise HTTPException(status_code=404, detail="Paciente nao encontrado")
+
+    now = datetime.now(ZoneInfo("America/Sao_Paulo")).replace(tzinfo=None)
+    base = appointment_scope(
+        select(Appointment).where(Appointment.patient_id == patient_id), context
+    )
+    future_filter = (
+        Appointment.scheduled_at > now,
+        Appointment.operational_status == "SCHEDULED",
+    )
+    total_future = db.scalar(
+        select(func.count()).select_from(base.where(*future_filter).subquery())
+    ) or 0
+    total_appointments = db.scalar(
+        select(func.count()).select_from(
+            base.where(
+                or_(
+                    Appointment.scheduled_at.is_(None),
+                    Appointment.scheduled_at <= now,
+                    Appointment.operational_status != "SCHEDULED",
+                )
+            ).subquery()
+        )
+    ) or 0
+    future = list(
+        db.scalars(base.where(*future_filter).order_by(Appointment.scheduled_at).limit(limit))
+    )
+    appointments = list(
+        db.scalars(
+            base.where(
+                or_(
+                    Appointment.scheduled_at.is_(None),
+                    Appointment.scheduled_at <= now,
+                    Appointment.operational_status != "SCHEDULED",
+                )
+            )
+            .order_by(Appointment.exam_date.desc(), Appointment.id.desc())
+            .limit(limit)
+        )
+    )
+    if (
+        context.roles.intersection({"medico", "psicologo"})
+        and "gerente" not in context.roles
+        and not appointments
+        and not future
+    ):
+        raise HTTPException(status_code=404, detail="Paciente nao encontrado")
+
+    items = appointments + future
+    appointment_ids = [item.id for item in items]
+    service_ids = {item.service_type_id for item in items if item.service_type_id}
+    professional_ids = {
+        professional_id
+        for item in items
+        for professional_id in (item.doctor_id, item.psychologist_id)
+        if professional_id
+    }
+    services = {
+        item.id: item
+        for item in db.scalars(select(ServiceType).where(ServiceType.id.in_(service_ids)))
+    }
+    professionals = {
+        item.id: item
+        for item in db.scalars(select(Professional).where(Professional.id.in_(professional_ids)))
+    }
+    payments = {}
+    for item in db.scalars(
+        select(Payment)
+        .where(Payment.appointment_id.in_(appointment_ids))
+        .order_by(Payment.id.desc())
+    ):
+        payments.setdefault(item.appointment_id, item)
+    documents: dict[int, list[ClinicalDocument]] = {}
+    for item in db.scalars(
+        select(ClinicalDocument)
+        .where(
+            ClinicalDocument.appointment_id.in_(appointment_ids),
+            ClinicalDocument.active.is_(True),
+        )
+        .order_by(ClinicalDocument.appointment_id, ClinicalDocument.version.desc())
+    ):
+        documents.setdefault(item.appointment_id, []).append(item)
+
+    def serialize(item: Appointment) -> JourneyAppointmentOut:
+        professional_id = item.doctor_id or item.psychologist_id
+        professional = professionals.get(professional_id)
+        payment = payments.get(item.id)
+        return JourneyAppointmentOut(
+            id=item.id,
+            service_code=services[item.service_type_id].code if item.service_type_id in services else None,
+            professional_id=professional_id,
+            professional_name=professional.name if professional else None,
+            scheduled_at=item.scheduled_at,
+            exam_date=item.exam_date,
+            source_kind=item.source_kind,
+            status=item.status,
+            operational_status=item.operational_status,
+            workflow_status=item.workflow_status,
+            booking_kind=item.booking_kind,
+            previous_appointment_id=item.previous_appointment_id,
+            payment=(
+                JourneyPaymentOut(
+                    id=payment.id,
+                    status=payment.status,
+                    total_amount=str(payment.total_amount),
+                    paid_at=payment.paid_at,
+                )
+                if payment
+                else None
+            ),
+            documents=[
+                JourneyDocumentOut(
+                    id=document.id,
+                    document_type=document.document_type,
+                    original_name=document.original_name,
+                    workflow_status=document.workflow_status,
+                    version=document.version,
+                    authenticated_at=document.authenticated_at,
+                )
+                for document in documents.get(item.id, [])
+            ],
+        )
+
+    return PatientJourneyOut(
+        patient=patient_operation_json(patient),
+        appointments=[serialize(item) for item in appointments],
+        future_bookings=[serialize(item) for item in future],
+        total_appointments=total_appointments,
+        total_future_bookings=total_future,
+    )
+
+
+@router.get(
+    "/appointments/{appointment_id}/checkout",
+    response_model=AppointmentCheckoutOut,
+)
+def operations_appointment_checkout(
+    appointment_id: int,
+    context: Annotated[
+        AuthContext, Depends(require_permission("finance.receive", "gerente", "atendente"))
+    ],
+    db: Annotated[Session, Depends(get_db_session)],
+) -> AppointmentCheckoutOut:
+    """Compatibility route kept at the path frozen for the parallel frontend."""
+    return appointment_checkout(appointment_id, context, db)
+
+
+@router.get(
+    "/patients/{patient_id}/appointments/return-eligible",
+    response_model=list[ReturnEligibleOut],
+)
+def return_eligible_appointments(
+    patient_id: int,
+    context: Annotated[
+        AuthContext,
+        Depends(require_permission("schedule.read", "gerente", "atendente", "medico", "psicologo")),
+    ],
+    db: Annotated[Session, Depends(get_db_session)],
+    service_code: Literal["MEDICAL_EXAM", "PSYCHOTECHNICAL"] | None = None,
+    professional_id: int | None = Query(default=None, gt=0),
+) -> list[ReturnEligibleOut]:
+    from backend.app.api.routes.schedule import return_state_eligible
+
+    patient = db.get(Patient, patient_id)
+    if not patient:
+        raise HTTPException(status_code=404, detail="Paciente nao encontrado")
+    base = appointment_scope(
+        select(Appointment).where(Appointment.patient_id == patient_id), context
+    )
+    if (
+        context.roles.intersection({"medico", "psicologo"})
+        and "gerente" not in context.roles
+        and not db.scalar(select(func.count()).select_from(base.subquery()))
+    ):
+        raise HTTPException(status_code=404, detail="Paciente nao encontrado")
+    if professional_id:
+        base = base.where(or_(
+            Appointment.doctor_id == professional_id,
+            Appointment.psychologist_id == professional_id,
+        ))
+    if service_code:
+        base = base.join(ServiceType, ServiceType.id == Appointment.service_type_id).where(
+            ServiceType.code == service_code
+        )
+    candidates = list(db.scalars(
+        base.order_by(Appointment.exam_date.desc(), Appointment.id.desc()).limit(200)
+    ))
+    candidate_ids = [item.id for item in candidates]
+    already_linked = set(db.scalars(select(Appointment.previous_appointment_id).where(
+        Appointment.previous_appointment_id.in_(candidate_ids),
+        Appointment.status != "cancelado",
+    )))
+    eligible = [
+        item for item in candidates
+        if return_state_eligible(
+            item, datetime.now(ZoneInfo("America/Sao_Paulo")).date()
+        ) and item.id not in already_linked
+    ]
+    service_ids = {item.service_type_id for item in eligible if item.service_type_id}
+    professional_ids = {
+        item.doctor_id or item.psychologist_id for item in eligible
+        if item.doctor_id or item.psychologist_id
+    }
+    services = {
+        item.id: item for item in db.scalars(
+            select(ServiceType).where(ServiceType.id.in_(service_ids)))
+    }
+    professionals = {
+        item.id: item for item in db.scalars(
+            select(Professional).where(Professional.id.in_(professional_ids)))
+    }
+    return [
+        ReturnEligibleOut(
+            id=item.id,
+            service_code=services[item.service_type_id].code
+            if item.service_type_id in services else None,
+            professional_id=item.doctor_id or item.psychologist_id,
+            professional_name=professionals[item.doctor_id or item.psychologist_id].name
+            if (item.doctor_id or item.psychologist_id) in professionals else None,
+            exam_date=item.exam_date,
+            scheduled_at=item.scheduled_at,
+            operational_status=item.operational_status,
+        )
+        for item in eligible
+    ]
+
+
 @router.put("/patients/{patient_id}")
 def update_operation_patient(
     patient_id: int,
@@ -502,6 +910,129 @@ def import_agenda(
     return result
 
 
+@router.post("/intakes", response_model=IntakeOut, status_code=status.HTTP_201_CREATED)
+def create_intake(
+    payload: IntakeIn,
+    context: Annotated[
+        AuthContext, Depends(require_csrf_permission("schedule.write", "gerente", "atendente"))
+    ],
+    db: Annotated[Session, Depends(get_db_session)],
+) -> IntakeOut:
+    payload_hash = _intake_payload_hash(payload)
+    key = str(payload.idempotency_key)
+    existing = db.scalar(
+        select(OperationIntake).where(OperationIntake.idempotency_key == key)
+    )
+    if existing:
+        if existing.payload_hash != payload_hash:
+            raise HTTPException(
+                409, "Chave de idempotencia reutilizada com outros dados"
+            ) from None
+        return _intake_response(db, existing, idempotent=True)
+
+    intake = OperationIntake(
+        idempotency_key=key,
+        payload_hash=payload_hash,
+        source=payload.source,
+    )
+    db.add(intake)
+    try:
+        db.flush()
+    except IntegrityError:
+        db.rollback()
+        existing = db.scalar(
+            select(OperationIntake).where(OperationIntake.idempotency_key == key)
+        )
+        if not existing or existing.payload_hash != payload_hash:
+            raise HTTPException(
+                409, "Chave de idempotencia reutilizada com outros dados"
+            ) from None
+        return _intake_response(db, existing, idempotent=True)
+
+    patient = (
+        db.scalar(select(Patient).where(Patient.cpf == payload.patient.cpf))
+        if payload.patient.cpf
+        else None
+    )
+    patient_created = patient is None
+    if patient is None:
+        patient = Patient(**payload.patient.model_dump(), active=True)
+        db.add(patient)
+        db.flush()
+    else:
+        for field, value in payload.patient.model_dump().items():
+            if value not in (None, "") and getattr(patient, field) in (None, ""):
+                setattr(patient, field, value)
+
+    intake.patient_id = patient.id
+    created_appointments = []
+    for requested in payload.services:
+        service = db.scalar(
+            select(ServiceType).where(
+                ServiceType.code == requested.service_code,
+                ServiceType.active.is_(True),
+            )
+        )
+        professional = db.scalar(
+            select(Professional).where(
+                Professional.id == requested.professional_id,
+                Professional.active.is_(True),
+            )
+        )
+        expected_council = "CRM" if requested.service_code == "MEDICAL_EXAM" else "CRP"
+        if not service or not professional or professional.council_type != expected_council:
+            raise HTTPException(422, "Exame ou profissional incompativel")
+        scheduled_at = (
+            requested.scheduled_at.astimezone(ZoneInfo("America/Sao_Paulo")).replace(tzinfo=None)
+            if requested.scheduled_at.tzinfo
+            else requested.scheduled_at
+        )
+        appointment = Appointment(
+            patient_id=patient.id,
+            exam_date=scheduled_at.date(),
+            scheduled_at=scheduled_at,
+            service_type_id=service.id,
+            doctor_id=professional.id if expected_council == "CRM" else None,
+            psychologist_id=professional.id if expected_council == "CRP" else None,
+            renach=requested.renach,
+            process_type=requested.process_type or payload.patient.process_type,
+            license_category=requested.license_category,
+            status="aberto",
+            operational_status="SCHEDULED",
+            source_kind=payload.source,
+            source_key=_intake_source_key(
+                context.user.workspace_id, payload.idempotency_key, requested.service_code
+            ),
+            booking_kind="DETRAN_OFICIAL" if payload.source == "DETRAN_PDF" else "MANUAL",
+            created_by_id=context.user.id,
+        )
+        db.add(appointment)
+        db.flush()
+        created_appointments.append(appointment.id)
+
+    audit(
+        db,
+        context,
+        "create_intake",
+        "operation_intakes",
+        intake.id,
+        None,
+        {
+            "patient_id": patient.id,
+            "patient_created": patient_created,
+            "appointment_ids": created_appointments,
+            "source": payload.source,
+        },
+    )
+    db.commit()
+    return _intake_response(
+        db,
+        intake,
+        idempotent=False,
+        patient_created=patient_created,
+    )
+
+
 @router.post("/agenda/{batch_id}/rollback")
 def rollback_agenda(
     batch_id: int,
@@ -591,6 +1122,24 @@ def finalize_appointment(
         raise HTTPException(403, 'Atendimento nao atribuido ao profissional')
     if item.operational_status not in {"SCHEDULED", "WAITING", "IN_PROGRESS", "NO_SHOW", "TEMPORARILY_UNFIT"}:
         raise HTTPException(status_code=409, detail="Transicao de atendimento invalida")
+    renach_authenticated = bool(
+        db.scalar(
+            select(ClinicalDocument.id).where(
+                ClinicalDocument.appointment_id == item.id,
+                ClinicalDocument.document_type == "RENACH",
+                ClinicalDocument.active.is_(True),
+                ClinicalDocument.workflow_status == "PDF_AUTENTICADO",
+            )
+        )
+    )
+    if payload.outcome == "COMPLETED" and not renach_authenticated:
+        raise HTTPException(
+            status_code=409,
+            detail={
+                "code": "RENACH_REQUIRED",
+                "message": "Envie e autentique o PDF RENACH antes de concluir o atendimento",
+            },
+        )
     before = {"operational_status": item.operational_status}
     item.operational_status = payload.outcome
     item.rejection_reason = payload.rejection_reason
@@ -621,5 +1170,6 @@ def finalize_appointment(
         "id": item.id,
         "status": item.operational_status,
         "payment_status": "INDEPENDENT",
-        "document_allowed": payload.outcome == "COMPLETED",
+        "document_allowed": False,
+        "renach_authenticated": renach_authenticated,
     }
